@@ -110,7 +110,11 @@
 
 						<div class="row form-group">
 							<div class="col-12">
-								<input class="form-control" type="text" name="other_number" placeholder="DROPDOWN NUMBER" required>
+								<select class="form-select" aria-label="select number" name="other_number">
+									@foreach($messaging_numbers as $messaging_number)
+								  	<option value="{{ $messaging_number->id }}">{{ $messaging_number->name }}</option>
+									@endforeach
+								</select>
 								<small class="primary-text-color float-end pt-1">Add Instant Messaging Number</small>
 							</div>
 						</div>
@@ -118,9 +122,9 @@
 						<div class="row form-group">
 							<div class="col-6">
 								<select class="form-select" aria-label="select gender" name="gender">
-								  <option value="" selected>GENDER</option>
-								  <option value="MALE">MALE</option>
-								  <option value="FEMALE">FEMALE</option>
+									@foreach($genders as $gender)
+								  	<option value="{{ $gender->id }}">{{ $gender->name }}</option>
+									@endforeach
 								</select>
 							</div>
 							<div class="col-6">
@@ -150,7 +154,11 @@
 
 						<div class="row form-group">
 							<div class="col-12">
-								<input class="form-control" type="text" name="designation" placeholder="DESIGNATION" required autocomplete="off">
+								<select class="form-select" aria-label="select designation" name="designation">
+									@foreach($designations as $designation)
+								  	<option value="{{ $designation->id }}">{{ $designation->name }}</option>
+									@endforeach
+								</select>
 							</div>
 						</div>
 
@@ -170,9 +178,9 @@
 
 								<input type="text" class="form-control" name="agency_logo_holder" id="agency_logo_holder" placeholder="UPLOAD GOVERNMENT AGENCY LOGO" style="cursor: pointer;">
 
-								<div class="form-control" id="file_container" style="display: none;">
-									<span id="file_holder_name">No File.</span>
-									<span id="close_file" class="close-file" style="float: right; cursor: pointer;">
+								<div class="form-control" id="agency_logo_file_container" style="display: none;">
+									<span id="agency_logo_file_holder_name">No File.</span>
+									<span id="close_agency_logo_file" class="close-file" style="float: right; cursor: pointer;">
 										<i class="uil uil-x"></i>
 									</span>
 								</div>
@@ -187,9 +195,9 @@
 
 								<input type="text" class="form-control" name="office_id_holder" id="office_id_holder" placeholder="UPLOAD OFFICE ID" style="cursor: pointer;">
 
-								<div class="form-control" id="file_container" style="display: none;">
-									<span id="file_holder_name">No File.</span>
-									<span id="close_file" class="close-file" style="float: right; cursor: pointer;">
+								<div class="form-control" id="office_id_file_container" style="display: none;">
+									<span id="office_id_file_holder_name">No File.</span>
+									<span id="close_office_id_file" class="close-file" style="float: right; cursor: pointer;">
 										<i class="uil uil-x"></i>
 									</span>
 								</div>
@@ -199,7 +207,7 @@
 							</div>
 						</div>
 
-						<small>By clicking "Register", you agree to the <span class="primary-text-color">Terms and Privacy Policy.</span></small>
+						<small>By clicking "Register", you agree to the <span class="primary-text-color" style="cursor: pointer;">Terms and Privacy Policy.</span></small>
 
 						<button type="submit" class="form-control primary-button-color text-white my-3" id="register-submit">REGISTER</button>
 						<a href="#" class="btn form-control bg-secondary text-white">LOGIN</a>
@@ -237,21 +245,36 @@
 
 	$(document).ready( function() {
 
-	  $('#file_holder').click(function(){
-	    $("#photo").click();
+	  $('#office_id_holder').click(function(){
+	    $("#office_id").click();
+	  });
+
+	  $('#agency_logo_holder').click(function(){
+	    $("#agency_logo").click();
 	  });
 
 	});
 
-	$('#photo').change(function() {
-	  $('#file_container').show();
-	  $('#file_holder_name').text($('#photo')[0].files[0].name);
-	  $('#file_holder').hide();
+	$('#office_id').change(function() {
+	  $('#office_id_file_container').show();
+	  $('#office_id_file_holder_name').text($('#office_id')[0].files[0].name);
+	  $('#office_id_holder').hide();
 	});
 
-	$('#close_file').click(function(){
-	 	$('#file_container').hide();
-	  	$('#file_holder').show();
+	$('#close_office_id_file').click(function(){
+	 	$('#office_id_file_container').hide();
+	  	$('#office_id_holder').show();
+	});
+
+	$('#agency_logo').change(function() {
+	  $('#agency_logo_file_container').show();
+	  $('#agency_logo_file_holder_name').text($('#agency_logo')[0].files[0].name);
+	  $('#agency_logo_holder').hide();
+	});
+
+	$('#close_agency_logo_file').click(function(){
+	 	$('#agency_logo_file_container').hide();
+	  	$('#agency_logo_holder').show();
 	});
 
 	$('#exit-custom-alert').click(function(){

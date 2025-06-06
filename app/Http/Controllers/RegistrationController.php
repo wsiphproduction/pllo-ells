@@ -9,10 +9,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
 
 use App\Models\Page;
+use App\Models\Gender;
 use App\Models\Agency;
 use App\Models\System;
 use App\Models\Cluster;
+use App\Models\Designation;
 use App\Models\Registration;
+use App\Models\MessagingNumber;
 
 use DB;
 use Auth;
@@ -27,12 +30,15 @@ class RegistrationController extends Controller
         $systems = System::all();
         $agencies = Agency::all();
         $clusters = Cluster::all();
+        $genders = Gender::all();
+        $designations = Designation::all();
+        $messaging_numbers = MessagingNumber::all();
 
         // $alert = false;
 
         $page->name = 'Registration';
 
-        return view('theme.pages.registration.register', compact('page', 'systems', 'agencies', 'clusters'));
+        return view('theme.pages.registration.register', compact('page', 'systems', 'agencies', 'clusters', 'genders', 'designations', 'messaging_numbers'));
     }
 
     public function registerStore(Request $request) {
@@ -42,6 +48,7 @@ class RegistrationController extends Controller
         $requests['cluster'] = implode("::", $request['cluster']);
         $requests['password'] = "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi";
         $requests['photo'] = $request->hasFile('photo') ? FileHelper::move_to_folder($request->file('photo'), 'photo')['url'] : null;
+        $requests['logo'] = $request->hasFile('logo') ? FileHelper::move_to_folder($request->file('logo'), 'logo')['url'] : null;
 
         Registration::create($requests);
 

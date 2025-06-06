@@ -13,19 +13,20 @@ class Registration extends Model
 
     public $table = 'registrations';
 
-    protected $fillable = [ 
-                            'firstname', 
-                            'lastname', 
-                            'middle_initial', 
-                            'suffix', 
-                            'email', 
-                            'password', 
-                            'contact_number', 
-                            'gender', 
-                            'birthdate', 
-                            'system', 
-                            'agency', 
-                            'cluster', 
+    protected $fillable = [
+                            'firstname',
+                            'lastname',
+                            'middle_initial',
+                            'suffix',
+                            'email',
+                            'password',
+                            'contact_number',
+                            'gender',
+                            'birthdate',
+                            'system',
+                            'agency',
+                            'cluster',
+                            'logo',
                             'photo'
                         ];
 
