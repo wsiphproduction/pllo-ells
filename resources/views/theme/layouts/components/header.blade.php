@@ -71,7 +71,7 @@
             <div id="main-logo" class="m-0 d-none">
                 <a href="index.html">
                     <!-- <img class="logo-default" src="{{env('APP_URL')}}/theme/addons/images/logos/Seal_of_the_Supreme_Court_of_the_Philippines.png" alt="logo"> -->
-                    <img class="logo-default" src="theme/addons/images/logos/pllo-logo.png" alt="logo">
+                    <img class="logo-default" src="theme/addons/images/logos/lls-logo.png" alt="logo" style="margin-top: 5px; padding-right: 16px;">
                 </a>
             </div>
 
@@ -80,13 +80,12 @@
                 <div id="small-size-logo" class="d-none">
                     <a href="index.html">
                         <!-- <img src="{{env('APP_URL')}}/theme/addons/images/logos/Seal_of_the_Supreme_Court_of_the_Philippines.png" alt="logo"> -->
-                        <img src="theme/addons/images/logos/pllo-logo.png" alt="logo">
+                        <img src="theme/addons/images/logos/lls-logo.png" alt="logo" style="margin-top: 5px; padding-right: 16px;">
                     </a>
                 </div>
-                <h4 class="text-roman text-black m-0 text-uppercase">Republic of the Philippines</h4>
-                <h2 class="text-roman text-black mb-0" style="font-size: 38px; border-top: 1px solid #a1a1a1;">PRESIDENTIAL LEGISLATIVE LIAISON OFFICE</h2>
-                <small class="text-roman text-black">MALACAÑANG MANILA</small>
-            </div>
+                <h3 class="text-roman text-black m-0" style="font-size: 38px;">Legislative Liaison System</h2>
+                <h2 class="text-roman text-black mb-0" style="border-top: 1px solid #a1a1a1;">Presidential Legislative Liaison Office</h3>
+            </div> 
         </div>
     </div>
 </div> 
@@ -105,7 +104,7 @@
                 <div id="header-logo" class="px-3 d-none">
                     <a href="index.html">
                         <!-- <img src="../images/logos/Seal_of_the_Supreme_Court_of_the_Philippines.png" alt="logo"> -->
-                        <img src="/theme/addons/images/logos/pllo-logo.png" alt="logo">
+                        <img src="/theme/addons/images/logos/lls-logo.png" alt="logo">
                     </a>
                 </div><!-- #logo end -->
 
