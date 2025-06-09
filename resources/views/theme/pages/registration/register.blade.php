@@ -104,7 +104,7 @@
 
 						<div class="row form-group">
 							<div class="col-12">
-								<input class="form-control" type="text" name="mobile_number" placeholder="MOBILE NUMBER" required>
+								<input class="form-control" type="text" name="contact_number" placeholder="MOBILE NUMBER" required>
 							</div>
 						</div>
 

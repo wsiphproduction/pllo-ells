@@ -7,11 +7,11 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\ActivityLog;
 
-class Registration extends Model
+class Member extends Model
 {
     use SoftDeletes;
 
-    public $table = 'registrations';
+    public $table = 'members';
 
     protected $fillable = [
                             'firstname',
@@ -21,6 +21,7 @@ class Registration extends Model
                             'email',
                             'password',
                             'contact_number',
+                            'other_number',
                             'gender',
                             'birthdate',
                             'system',

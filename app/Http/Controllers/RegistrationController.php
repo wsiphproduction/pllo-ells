@@ -14,7 +14,7 @@ use App\Models\Agency;
 use App\Models\System;
 use App\Models\Cluster;
 use App\Models\Designation;
-use App\Models\Registration;
+use App\Models\Member;
 use App\Models\MessagingNumber;
 
 use DB;
@@ -47,10 +47,10 @@ class RegistrationController extends Controller
 
         $requests['cluster'] = implode("::", $request['cluster']);
         $requests['password'] = "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi";
-        $requests['photo'] = $request->hasFile('photo') ? FileHelper::move_to_folder($request->file('photo'), 'photo')['url'] : null;
-        $requests['logo'] = $request->hasFile('logo') ? FileHelper::move_to_folder($request->file('logo'), 'logo')['url'] : null;
+        $requests['photo'] = $request->hasFile('office_id') ? FileHelper::move_to_folder($request->file('office_id'), 'photo')['url'] : null;
+        $requests['logo'] = $request->hasFile('agency_logo') ? FileHelper::move_to_folder($request->file('agency_logo'), 'logo')['url'] : null;
 
-        Registration::create($requests);
+        Member::create($requests);
 
         // $alert = true;
 
