@@ -70,8 +70,7 @@
             <!-- Logo -->
             <div id="main-logo" class="m-0 d-none">
                 <a href="index.html">
-                    <!-- <img class="logo-default" src="{{env('APP_URL')}}/theme/addons/images/logos/Seal_of_the_Supreme_Court_of_the_Philippines.png" alt="logo"> -->
-                    <img class="logo-default" src="theme/addons/images/logos/lls-logo.png" alt="logo" style="margin-top: 5px; padding-right: 16px;">
+                    <img class="logo-default" src="{{ Setting::get_company_logo_storage_path() }}" alt="logo" style="margin-top: 5px; padding-right: 16px;">
                 </a>
             </div>
 
@@ -79,7 +78,6 @@
             <div class="header-title text-start">
                 <div id="small-size-logo" class="d-none">
                     <a href="index.html">
-                        <!-- <img src="{{env('APP_URL')}}/theme/addons/images/logos/Seal_of_the_Supreme_Court_of_the_Philippines.png" alt="logo"> -->
                         <img src="theme/addons/images/logos/lls-logo.png" alt="logo" style="margin-top: 5px; padding-right: 16px;">
                     </a>
                 </div>
@@ -103,8 +101,7 @@
 				============================================= -->
                 <div id="header-logo" class="px-3 d-none">
                     <a href="index.html">
-                        <!-- <img src="../images/logos/Seal_of_the_Supreme_Court_of_the_Philippines.png" alt="logo"> -->
-                        <img src="/theme/addons/images/logos/lls-logo.png" alt="logo">
+                        <img src="{{ Setting::get_company_logo_storage_path() }}" alt="logo">
                     </a>
                 </div><!-- #logo end -->
 
