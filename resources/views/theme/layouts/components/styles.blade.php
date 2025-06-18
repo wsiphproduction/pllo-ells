@@ -449,6 +449,14 @@
         #footer #copyrights .text-center {
             color: #979797;
         }
+
+        .text-fade {
+            color: rgb(97 97 97) !important;
+        }
+
+        .padb-4 {
+            padding-bottom: .5rem;
+        }
         
     </style>
 

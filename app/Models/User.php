@@ -23,7 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'email_verified_at', 'password', 'role_id', 'is_active', 'remember_token', 'firstname', 'lastname', 'avatar', 'user_id', 'isDeleted','mobile','phone','address_street','address_city','address_municipality', 'address_province', 'address_zip', 'department_id', 'company', 'ecredits', 'provider', 'provider_id', 
+        'name', 'email', 'verification_code', 'email_verified_at', 'password', 'role_id', 'is_active', 'remember_token', 'firstname', 'lastname', 'avatar', 'user_id', 'isDeleted','mobile','phone','address_street','address_city','address_municipality', 'address_province', 'address_zip', 'department_id', 'company', 'ecredits', 'provider', 'provider_id', 
     ];
 
     /**
@@ -361,7 +361,7 @@ class User extends Authenticatable implements MustVerifyEmail
     static $oldModel;
     static $tableTitle = 'user';
     static $name = 'name';
-    static $unrelatedFields = ['id', 'email_verified_at', 'created_at', 'updated_at', 'deleted_at'];
+    static $unrelatedFields = ['id', 'verification_code', 'email_verified_at', 'created_at', 'updated_at', 'deleted_at'];
     static $logName = [
         'name' => 'name',
         'email' => 'email',
@@ -374,7 +374,6 @@ class User extends Authenticatable implements MustVerifyEmail
         'department_id' => 'department',
         'provider' => 'provider',
         'provider_id' => 'provider_id',
-
     ];
     // END Need to change every model
 
