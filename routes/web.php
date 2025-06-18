@@ -597,5 +597,8 @@ Route::post('/register/register-store', [RegistrationController::class, 'registe
         Route::post('/registration/agency-delete/{id}', [RegistrationController::class, 'agencyDelete'])->name('registration.agency-delete');
     //
 
+    // MAIL REGISTRATION
+        Route::get('/confirm-email', [RegistrationController::class, 'confirmEmail'])->name('confirm.email');
+
 // Pages Frontend
 Route::get('/{any}', [FrontController::class, 'page'])->where('any', '.*');

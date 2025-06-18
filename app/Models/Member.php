@@ -28,7 +28,8 @@ class Member extends Model
                             'agency',
                             'cluster',
                             'logo',
-                            'photo'
+                            'photo',
+                            'is_verified'
                         ];
 
 }
