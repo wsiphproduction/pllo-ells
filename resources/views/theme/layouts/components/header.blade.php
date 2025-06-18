@@ -6,7 +6,7 @@
             <ul class="navbar-nav d-flex flex-row">
                 <li class="nav-item">
                     <a class="nav-link py-1 px-4 mini-logo text-white" href="#">
-                       <img src="theme/addons/images/logos/ph-logo.png" alt="logo" style="width: 40px;filter: grayscale(1);">
+                       <img src="{{ asset('theme/addons/images/logos/ph-logo.png') }}" alt="logo" style="width: 40px;filter: grayscale(1);">
                     </a>
                 </li>
                 <li class="nav-item">
