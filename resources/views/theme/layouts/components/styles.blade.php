@@ -457,6 +457,17 @@
         .padb-4 {
             padding-bottom: .5rem;
         }
+
+        .form-title {
+            margin-bottom: 10px;
+            color: #3c5d90;
+        }
+        .primary-text-color {
+            color: #3c5d90;
+        }
+        .primary-button-color {
+            background-color: #3c5d90 !important;
+        }
         
     </style>
 

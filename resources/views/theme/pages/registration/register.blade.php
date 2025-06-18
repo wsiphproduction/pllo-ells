@@ -2,16 +2,6 @@
 
 @section('pagecss')
 <style>
-	.form-title {
-		margin-bottom: 10px;
-		color: #3c5d90;
-	}
-	.primary-text-color {
-		color: #3c5d90;
-	}
-	.primary-button-color {
-		background-color: #3c5d90 !important;
-	}
 	div#custom-alert {
 		width: 99%;
 	    height: 100%;

@@ -174,4 +174,60 @@ class RegistrationController extends Controller
         return view('theme.pages.registration.register-confirm', compact('page'));
     }
 
+    public function login() {
+
+        $page = new Page();
+        $page->name = "Member Login";
+
+        return view('theme.pages.login', compact('page'));
+    }
+
+    public function online(Request $request) {
+
+        $userCredentials = [
+            'email'    => $request->email,
+            'password' => $request->password
+        ];
+
+        if (filter_var($request->email, FILTER_VALIDATE_EMAIL)) {
+            unset($userCredentials['username']);
+            $userCredentials['email'] = $request->email;
+        }
+        
+        if (Auth::attempt($userCredentials)) {
+
+            if(Auth::user()->role_id <> '2'){ // block cms users from using this login form
+                Auth::logout();
+                return back()->with('error', 'Administrative accounts are not allowed to login as customer.'); 
+            }
+
+            if(Auth::user()->is_active <> 1){ // block inactive users from using this login form
+                Auth::logout();
+                return back()->with('error', 'Account is not active.'); 
+            }
+
+            $page = new Page();
+            $page->name = 'Member Dashboard';
+
+            return redirect(route('member.dashboard'));
+
+        } else {
+            Auth::logout();
+            return back()->with('error', __('auth.login.incorrect_input'));    
+        }
+    }
+
+    public function dashboard() {
+
+        $page = new Page();
+        $page->name = 'Member Dashboard';
+
+        return view('theme.pages.member.dashboard', compact('page'));
+    }
+
+    public function logout() {
+        Auth::logout();
+        return redirect(route('member.login'));   
+    }
+
 }

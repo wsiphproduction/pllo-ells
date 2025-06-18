@@ -611,5 +611,11 @@ Route::post('/register/register-store', [RegistrationController::class, 'registe
     // MAIL REGISTRATION
         Route::get('/confirm-email', [RegistrationController::class, 'confirmEmail'])->name('confirm.email');
 
+// MEMBER LOGIN
+Route::get('/member-login', [RegistrationController::class, 'login'])->name('member.login');
+Route::post('/member-online', [RegistrationController::class, 'online'])->name('member.online');
+Route::get('/member-logout', [RegistrationController::class, 'logout'])->name('member.logout');
+Route::get('/member-dashboard', [RegistrationController::class, 'dashboard'])->name('member.dashboard');
+
 // Pages Frontend
 Route::get('/{any}', [FrontController::class, 'page'])->where('any', '.*');
