@@ -15,4 +15,9 @@ class Cluster extends Model
 
     protected $fillable = [ 'name', 'description'];
 
+
+    public function events(){
+        return $this->hasMany(\App\Models\Custom\Event::class, 'event_cluster_id')->withTrashed();
+    }
+
 }
