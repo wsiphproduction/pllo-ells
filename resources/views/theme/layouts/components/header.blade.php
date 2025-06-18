@@ -10,14 +10,26 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link py-3 px-4 border-start border-secondary text-white text-uppercase" href="#">
-                        <small>Login</small>
-                    </a>
+                    @if(auth()->user())
+                        <a class="nav-link py-3 px-4 border-start border-secondary text-white text-uppercase" href="{{ route('member.dashboard') }}">
+                            <small>PROFILE</small>
+                        </a>
+                    @else
+                        <a class="nav-link py-3 px-4 border-start border-secondary text-white text-uppercase" href="{{ route('member.login') }}">
+                            <small>LOGIN</small>
+                        </a>
+                    @endif
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link py-3 px-4 border-start border-secondary text-white text-uppercase" href="{{ route('register') }}">
-                        <small>Register</small>
-                    </a>
+                    @if(auth()->user())
+                        <a class="nav-link py-3 px-4 border-start border-secondary text-white text-uppercase" href="{{ route('member.logout') }}">
+                            <small>LOGOUT</small>
+                        </a>
+                    @else
+                        <a class="nav-link py-3 px-4 border-start border-secondary text-white text-uppercase" href="{{ route('register') }}">
+                            <small>REGISTER</small>
+                        </a>
+                    @endif
                 </li>
             </ul>
 
