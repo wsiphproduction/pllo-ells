@@ -37,14 +37,30 @@ class FileHelper
         }
 
         $path = Storage::disk('public')->putFileAs($folderPath, $file, $fileName);
-        $url = Storage::disk('public')->url($path);
 
         return [
             'path' => $folderPath.'/'.$fileName,
             'name' => $fileName,
-            'url' => $url
+            'url' => 'storage/'.$folderPath.'/'.$fileName
         ];
     }
+
+    // public function move_to_folder($file, $folderPath)
+    // {
+    //     $fileName = $file->getClientOriginalName();
+    //     if (Storage::disk('public')->exists($folderPath.'/'.$fileName)) {
+    //         $fileName = $this->make_unique_file_name($folderPath, $fileName);
+    //     }
+
+    //     $path = Storage::disk('public')->putFileAs($folderPath, $file, $fileName);
+    //     $url = Storage::disk('public')->url($path);
+
+    //     return [
+    //         'path' => $folderPath.'/'.$fileName,
+    //         'name' => $fileName,
+    //         'url' => $url
+    //     ];
+    // }
     
     public function move_to_product_file_folder($file, $folderPath)
     {

@@ -22,6 +22,12 @@ use App\Http\Controllers\Ecommerce\{
     CustomerController, CustomerFrontController, ProductCategoryController, ProductController, ProductFrontController, InventoryReceiverHeaderController, PromoController, DeliverablecitiesController, CouponController, CouponFrontController, CartController, MyAccountController, SalesController, ReportsController, BrandController, FormAttributeController, ProductReviewController, CustomerFavoriteController, CustomerWishlistController, BannerAdController, ProductCatalogHeaderController
 };
 
+
+// Ecommerce Controller
+use App\Http\Controllers\Custom\{
+    EventController
+};
+
 use App\Http\Controllers\MailingList\{SubscriberController, GroupController, CampaignController, SubscriberFrontController};
 
 
@@ -63,6 +69,11 @@ Route::get('/phpinfo', function () {
 
         Route::get('/albums/preview', [FrontController::class, 'test'])->name('albums.preview');
         Route::get('/search-result', [FrontController::class, 'seach_result'])->name('search.result');
+    //
+
+    // Events
+        Route::resource('/events', EventController::class);
+        Route::get('/events/view/{id}', [EventController::class, 'view'])->name('events.view');
     //
 
     // Sitemap

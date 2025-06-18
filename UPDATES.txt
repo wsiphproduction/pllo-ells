@@ -1,0 +1,77 @@
+UPDATES
+
+DATABASE:
+
+	TABLES
+
+		events
+		- id
+		- title
+		- description
+		- cluster_id
+		- date 
+		- time
+		- location
+		- attachments
+		- event_img
+		- created_by
+		- created_at
+		- updated_at
+		- deleted_at
+
+		event_invitations
+		- id
+		- event_id
+		- type (cluster, agency, email)
+		- invitation_letter_path
+		- invited
+		- invited_by
+		- participant_limit
+		- created_at
+		- updated_at
+
+		event_participants
+		- id
+		- event_invitation_id
+		- event_id
+		- member_id
+		- created_at
+		- updated_at
+
+
+		CREATE TABLE events (
+			id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+			title VARCHAR(255) NOT NULL,
+			description TEXT,
+			event_cluster_id INT UNSIGNED,
+			date DATE,
+			time VARCHAR(50),
+			location VARCHAR(255),
+			attachments TEXT,
+			event_img VARCHAR(255),
+			created_by INT UNSIGNED,
+			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			deleted_at TIMESTAMP NULL DEFAULT NULL
+		);
+
+		CREATE TABLE event_invites (
+			id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+			event_id INT UNSIGNED NOT NULL,
+			type VARCHAR(50) NOT NULL,
+			invitation_file TEXT,
+			invited INT UNSIGNED NOT NULL,
+			invited_by INT UNSIGNED,
+			participant_limit INT NOT NULL DEFAULT 0,
+			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+		);
+
+		CREATE TABLE event_participants (
+			id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+			event_invitation_id INT UNSIGNED NOT NULL,
+			event_id INT UNSIGNED NOT NULL,
+			member_id INT UNSIGNED NOT NULL,
+			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+		);
