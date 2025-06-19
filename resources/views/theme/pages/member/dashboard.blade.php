@@ -220,9 +220,39 @@
 
                         <!-- Events Tab -->
                         <div class="tab-pane fade" id="events-border" role="tabpanel" aria-labelledby="tab-events-border-tab" tabindex="0">
-                            <p class="mb-0">Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master
-                                cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party
-                                locavore wolf cliche high life echo park Austin.</p>
+                            <div class="col-12">
+                                <table class="table-dotted table-striped">
+                                    <tr>
+                                        <small>
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        </small>
+                                    </tr>
+                                    <tr>
+                                        <td><span><small>March 3, 2023</small></span></td>
+                                        <td><span class="primary-text-color"><small>Focus Group Discussion: Natural Gas Industry</small></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><small>March 3, 2023</small></span></td>
+                                        <td><span class="primary-text-color"><small>Focus Group Discussion: Natural Gas Industry</small></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><small>March 3, 2023</small></span></td>
+                                        <td><span class="primary-text-color"><small>Focus Group Discussion: Natural Gas Industry</small></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><small>March 3, 2023</small></span></td>
+                                        <td><span class="primary-text-color"><small>Focus Group Discussion: Natural Gas Industry</small></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><small>March 3, 2023</small></span></td>
+                                        <td><span class="primary-text-color"><small>Focus Group Discussion: Natural Gas Industry</small></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><small>March 3, 2023</small></span></td>
+                                        <td><span class="primary-text-color"><small>Focus Group Discussion: Natural Gas Industry</small></span></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                         <div class="tab-pane fade" id="reference-border" role="tabpanel" aria-labelledby="tab-reference-border-tab" tabindex="0">
                             <p class="mb-0">Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master

@@ -53,9 +53,13 @@ class RegistrationController extends Controller
     public function registerStore(Request $request) {
 
         // Validate email //
-        $request->validate([
+        $validator = $request->validate([
             'email' => 'required|email|unique:users',
         ]);
+
+        if($validator->fails()) {
+            return Redirect::back()->withErrors($validator);
+        }
 
         // Create new member //
         $requests = $request->all();

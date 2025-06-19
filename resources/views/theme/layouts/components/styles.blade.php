@@ -496,7 +496,7 @@
         }
         .pllo-body .container {
             max-width: 100% !important;
-            padding: 0 7%;
+            padding: 0 7% !important;
         }
         
     </style>

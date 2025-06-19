@@ -38,6 +38,11 @@
 				<div class="col-2"></div>
 				<div class="col-8">
 					<h3 class="form-title">REGISTRATION</h3>
+
+					@if($errors->any())
+					    <div class="text-danger mb-2">*{{ implode('', $errors->all(':message')) }}</div>
+					@endif
+
 					<form action="{{ route('register-store') }}" method="post" enctype="multipart/form-data">
 						
 						<div class="row form-group">
