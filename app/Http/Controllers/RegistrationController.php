@@ -57,7 +57,7 @@ class RegistrationController extends Controller
             'email' => 'required|email|unique:users',
         ]);
 
-        if($validator->fails()) {
+        if(!$validator) {
             return Redirect::back()->withErrors($validator);
         }
 
@@ -65,6 +65,7 @@ class RegistrationController extends Controller
         $requests = $request->all();
 
         $requests['cluster'] = implode("::", $request['cluster']);
+        $requests['birthdate'] = $requests['month'] ." ". $requests['day'];
         $requests['password'] = "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi";
         $requests['photo'] = $request->hasFile('office_id') ? FileHelper::move_to_folder($request->file('office_id'), 'photo')['url'] : null;
         $requests['logo'] = $request->hasFile('agency_logo') ? FileHelper::move_to_folder($request->file('agency_logo'), 'logo')['url'] : null;
@@ -78,7 +79,7 @@ class RegistrationController extends Controller
         $requests['mobile'] = $requests['contact_number'];
         $requests['birth_date'] = $requests['birthdate'];
         $requests['role_id'] = '2';
-        $requests['is_active'] = '1';
+        $requests['is_active'] = '0';
         $requests['user_id'] = $user_id->id;
 
         $user = User::create($requests);
@@ -174,8 +175,6 @@ class RegistrationController extends Controller
         $user->verification_code = $user_vr_code->verification_code;
         $user->save();
 
-        Mail::to($email)->send(new RegisterConfirmationMail(Setting::info(), $user));
-
         $page = new Page();
         $page->name = 'New Member Confirmation';
 
@@ -209,13 +208,16 @@ class RegistrationController extends Controller
         if (Auth::attempt($userCredentials)) {
 
             if(Auth::user()->role_id <> '2'){ // block cms users from using this login form
-                Auth::logout();
-                return back()->with('error', 'Administrative accounts are not allowed to login as customer.'); 
+
+                // Auth::logout();
+                // return back()->with('error', 'Administrative accounts are not allowed to login as customer.'); 
+
+                return redirect(route('admin.dashboard'));
             }
 
             if(Auth::user()->is_active <> 1){ // block inactive users from using this login form
                 Auth::logout();
-                return back()->with('error', 'Account is not active.'); 
+                return back()->with('error', 'Account needs approval.'); 
             }
 
             $page = new Page();
@@ -225,17 +227,20 @@ class RegistrationController extends Controller
 
         } else {
             Auth::logout();
-            return back()->with('error', __('auth.login.incorrect_input'));    
+            return back()->with('error', __('auth.login.incorrect_input'));
         }
     }
 
-    public function dashboard() {
+    public function memberDashboard() {
 
         $page = new Page();
         $page->name = 'Member Dashboard';
 
+        $clustersList = Cluster::all();
+        $memberDetails = Member::find(Auth::user()->user_id);
+
         if (auth()->user()) {
-            return view('theme.pages.member.dashboard', compact('page'));
+            return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList'));
         } else {
             return back()->with('error', ('Please login to your account.'));
         }
@@ -245,6 +250,40 @@ class RegistrationController extends Controller
     public function logout() {
         Auth::logout();
         return redirect(route('member.login'));   
+    }
+
+    public function adminDashboard() {
+
+        $page = new Page();
+        $page->name = 'Admin Dashboard';
+
+        $registrations = User::where('role_id', 2)->get();
+
+        return view('theme.pages.admin.dashboard', compact('page', 'registrations'));
+
+    }
+
+    public function adminRegistrationApprove(Request $request) {
+
+        $user = User::find($request->reg_id_approve);
+        $user->is_active = 1;
+        $user->save();
+
+        Mail::to($user->email)->send(new RegisterConfirmationMail(Setting::info(), $user));
+
+        return back()->with('success', 'Registration Approved!');
+    }
+
+    public function adminRegistrationDelete(Request $request) {
+
+        // user and member deletion //
+        $user = User::find($request->reg_id_delete);
+        $user->delete();
+
+        $member = Member::find($user->user_id);
+        $member->delete();
+
+        return back()->with('success', 'Registration Deleted!');
     }
 
 }

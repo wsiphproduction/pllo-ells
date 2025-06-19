@@ -5,7 +5,7 @@
     }
 @endphp
 
-<section id="slider" class="slick-wrapper clearfix home-slider-banner" style="min-height: 460px !important;"><!--.include-header-->
+<section id="slider" class="slick-wrapper clearfix home-slider-banner" style="min-height: 460px !important; display: none;"><!--.include-header-->
 	<div class="banner-wrapper">
 		<div class="container-fluid">
 			<div class="row">

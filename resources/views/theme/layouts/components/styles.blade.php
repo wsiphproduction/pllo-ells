@@ -498,6 +498,12 @@
             max-width: 100% !important;
             padding: 0 7% !important;
         }
+        .hide-password {
+            position: absolute;
+            top: 7px;
+            right: 22px;
+            opacity: .7;
+        }
         
     </style>
 
