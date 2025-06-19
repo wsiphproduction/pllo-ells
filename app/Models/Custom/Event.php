@@ -19,4 +19,13 @@ class Event extends Model
         return $this->belongsTo(\App\Models\Cluster::class, 'event_cluster_id');
     }
 
+    public function agency()
+    {
+        return $this->belongsTo(\App\Models\Agency::class, 'id');
+    }
+
+    public function invites(){
+        return $this->hasMany(\App\Models\Custom\EventInvite::class)->withTrashed();
+    }
+
 }

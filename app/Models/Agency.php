@@ -15,4 +15,8 @@ class Agency extends Model
 
     protected $fillable = [ 'name', 'description'];
 
+
+    public function events(){
+        return $this->hasMany(\App\Models\Custom\Event::class)->withTrashed();
+    }
 }
