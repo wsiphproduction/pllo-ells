@@ -3,7 +3,7 @@
 
 
 @include('theme.layouts.components.styles')
- <body class="stretched is-expanded-menu">
+ <body class="stretched is-expanded-menu pllo-body">
 	
 	<!-- Cart Panel Background
 	============================================= -->
