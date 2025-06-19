@@ -468,6 +468,36 @@
         .primary-button-color {
             background-color: #3c5d90 !important;
         }
+
+        /* profile */
+        .table-dotted tr {
+            border-top: 1px dotted #929292;
+            border-bottom: 1px dotted #929292;
+        }
+        .table-dotted tr td > span {
+            line-height: 2.5;
+            padding-left: 4px;
+        }
+        .table-dotted {
+            min-width: 100%;
+        }
+        .bottommargin-2xl {
+            margin-bottom: 10%;
+        }
+        p {
+            margin-bottom: 0px;
+        }
+        .profile-label {
+            opacity: .7;
+        }
+
+        .profile-label small {
+            white-space: nowrap;
+        }
+        .pllo-body .container {
+            max-width: 100% !important;
+            padding: 0 7%;
+        }
         
     </style>
 

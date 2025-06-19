@@ -43,7 +43,11 @@ class RegistrationController extends Controller
 
         $page->name = 'Registration';
 
-        return view('theme.pages.registration.register', compact('page', 'systems', 'agencies', 'clusters', 'genders', 'designations', 'messaging_numbers'));
+        if (auth()->user()) {
+            return back()->with('error', ('You are already logged in, please logout first to continue.'));
+        } else {
+            return view('theme.pages.registration.register', compact('page', 'systems', 'agencies', 'clusters', 'genders', 'designations', 'messaging_numbers'));
+        }
     }
 
     public function registerStore(Request $request) {
@@ -179,7 +183,11 @@ class RegistrationController extends Controller
         $page = new Page();
         $page->name = "Member Login";
 
-        return view('theme.pages.login', compact('page'));
+        if (auth()->user()) {
+            return back()->with('error', ('You are already logged in, please logout first to continue.'));
+        } else {
+            return view('theme.pages.login', compact('page'));
+        }
     }
 
     public function online(Request $request) {
@@ -222,7 +230,12 @@ class RegistrationController extends Controller
         $page = new Page();
         $page->name = 'Member Dashboard';
 
-        return view('theme.pages.member.dashboard', compact('page'));
+        if (auth()->user()) {
+            return view('theme.pages.member.dashboard', compact('page'));
+        } else {
+            return back()->with('error', ('Please login to your account.'));
+        }
+
     }
 
     public function logout() {
