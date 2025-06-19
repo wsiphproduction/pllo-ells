@@ -26,8 +26,35 @@
 	<section id="registration-form">
 		<div class="container">
 			<div class="row p-4 mb-4">
-				<div class="col-12 mb-5">
-					<h3 class="form-title">{{ $page->name }}</h3>
+				<div class="col-12 mb-5 d-flex justify-content-between align-items-center">
+					<h3 class="form-title m-0">{{ $page->name }}</h3>
+
+					<div class="btn-group">
+						<button type="button" class="btn btn-transparent dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Options
+						</button>
+						<div class="dropdown-menu">
+							<a class="dropdown-item" href="{{ route('events.edit', $event->id) }}">Update Details</a>
+							<a class="dropdown-item text-danger" href="#" onclick="$('#cancelModal').modal('show')">Cancel Event</a>
+							{{-- <a class="dropdown-item" href="javascript:void(0)" onclick="open modal and ask if confirm cancel">Cancel Event</a> --}}
+						</div>
+
+						<div class="modal fade" id="cancelModal" tabindex="-1">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-body">Are you sure you want to cancel this event?</div>
+									<div class="modal-footer">
+										<button class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+										<form method="POST" action="{{ route('events.cancel-event', $event->id) }}">
+										@csrf
+											<button class="btn btn-danger">Yes</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+
+					</div>
 				</div>
 
 				<div class="col-12 mt-5 text-center">
@@ -40,7 +67,7 @@
 					<h3 class="text-roman text-black m-0" style="font-size: 38px;">Legislative Liaison System</h2>
 					<h2 class="text-roman text-black mb-0" style="border-top: 1px solid #a1a1a1;">Presidential Legislative Liaison Office</h3>
 
-					<img src="{{ asset($event->event_img )}}" width="70%">
+					<img src="{{ asset($event->event_img)}}" width="70%" @if(!$event->event_img) hidden @endif>
 				</div>
 
 				<div class="col-8 offset-2 mt-5 mb-3">
@@ -63,7 +90,8 @@
 						</ul>
 					</div>
 
-					<p>You can download the Invitaঞon Leer and other Materials for the event.</p>
+					<br>
+					<p>You can download the Invitation Letter and other Materials for the event.</p>
 
 					<div style="padding-left: 0.5rem;">
 						<ul class="mb-0 ps-3">

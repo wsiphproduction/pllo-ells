@@ -57,7 +57,8 @@
 					<p>Create an event and invite members by cluster, by agency, or select members one by one.</p>
 				</div>
 
-				<form action="{{ route('events.store') }}" method="post" enctype="multipart/form-data">
+				<form action="{{ route('events.update', $event->id) }}" method="post" enctype="multipart/form-data">
+					@method('put')
 					@csrf
 					<div class="row p-4 mb-4">
 
@@ -67,12 +68,12 @@
 								
 							<div class="row form-group">
 								<div class="col-12">
-									<input class="form-control" type="text" name="title" placeholder="TITLE" required>
+									<input class="form-control" type="text" name="title" placeholder="TITLE" value="{{ $event->title }}" required>
 								</div>
 							</div>
 							<div class="row form-group">
 								<div class="col-12">
-									<input class="form-control" type="text" name="description" placeholder="DESCRIPTION" required>
+									<input class="form-control" type="text" name="description" placeholder="DESCRIPTION" value="{{ $event->description }}" required>
 								</div>
 							</div>
 							<div class="form-group row">
@@ -80,17 +81,17 @@
 									<select name="event_cluster_id" class="form-select" aria-hidden="true" style="width:100%;" required>
 										<option selected disabled>-- SELECT CLUSTER --</option>
 										@foreach($clusters as $cluster)
-											<option value="{{ $cluster->id }}" {{ old('cluster_id') == $cluster->id ? 'selected' : '' }}>{{ $cluster->name }}</option>
+											<option value="{{ $cluster->id }}" {{ in_array($cluster->id, (array) json_decode($event->event_cluster_id ?? '[]', true)) ? 'selected' : '' }}>{{ $cluster->name }}</option>
 										@endforeach
 									</select>
 								</div>
 							</div>
 							<div class="row form-group">
 								<div class="col-6">
-									<input class="form-control" type="date" name="date" value="{{ \Carbon\Carbon::now()->toDateString() }}" required>
+									<input class="form-control" type="date" name="date"  value="{{ $event->date }}" required>
 								</div>
 								<div class="col-6">
-									<input class="form-control @error('time') error @enderror" type="text" id="time_range" name="time" placeholder="SET TIME (8:00 - 12:00)" readonly>
+									<input class="form-control @error('time') error @enderror" type="text" id="time_range" name="time" placeholder="SET TIME (8:00 - 12:00)" value="{{ $event->time }}" readonly>
 									@error('time')
 										<small class="text-danger">{{ $message }}</small>
 									@enderror
@@ -103,7 +104,7 @@
 							</div>
 							<div class="row form-group">
 								<div class="col-12">
-									<input class="form-control" type="text" name="location" placeholder="LOCATION" required>
+									<input class="form-control" type="text" name="location" placeholder="LOCATION" value="{{ $event->location }}" required>
 								</div>
 							</div>
 							<div class="row form-group">
@@ -133,7 +134,9 @@
 										<div class="col-sm-12">
 											<select name="cluster_id[]" class="select-tags form-select" multiple aria-hidden="true" style="width:100%;">
 												@foreach($clusters as $cluster)
-													<option value="{{ $cluster->id }}" {{ old('cluster_id') == $cluster->id ? 'selected' : '' }}>{{ $cluster->name }}</option>
+													<option value="{{ $cluster->id }}" {{ in_array($cluster->id, old('cluster_id', $invitees->where('type', 'cluster')->pluck('invited')->toArray())) ? 'selected' : '' }}>
+														{{ $cluster->name }}
+													</option>
 												@endforeach
 											</select>
 										</div>
@@ -141,21 +144,45 @@
 
 									<div id="agency-container" class="form-group" style="margin-top: -57px;">
 										<small class="col-sm-12 text-uppercase">Agency</small> <span class="text-secondary" style="font-size:12px;">(0 value means no limit or free for all agency members)</span>
-										
-										{{-- <div class="row agency-row">
-											<div class="col-sm-12 agency-select">
+
+										@foreach($invitees->where('type', 'agency') as $invited_agency)
+										<div class="row agency-row" style="margin-top: 10px;">
+											<div class="col-sm-10 d-flex align-items-center gap-2">
+												<i class="text-secondary fa fa-times" style="cursor: pointer;" onclick="removeAgencyRow(this)"></i>
+												
 												<select name="agency_id[]" class="form-select">
 													@foreach($agencies as $agency)
-														<option value="{{ $agency->id }}" {{ old('agency_id') == $agency->id ? 'selected' : '' }}>
+														<option value="{{ $agency->id }}"
+															{{ in_array($agency->id, (array) json_decode($invited_agency->invited ?? '[]', true)) ? 'selected' : '' }}>
 															{{ $agency->name }}
 														</option>
 													@endforeach
 												</select>
 											</div>
-											<div class="col-sm-2 participant-limit" style="display: none;">
-												<input class="form-control" name="participant_limit[]" type="number" min="0" onclick="select()" oninput="this.value = this.value || 0;" value="0" placeholder="LIMIT">
+
+											<div class="col-sm-2 participant-limit">
+												<input class="form-control" name="participant_limit[]" type="number" min="0"
+													onclick="select()" oninput="this.value = this.value || 0;"
+													value="{{ $invited_agency->participant_limit }}" placeholder="LIMIT">
 											</div>
-										</div> --}}
+										</div>
+
+
+											{{-- <div class="row agency-row" style="margin-top: 10px;">
+												<div class="col-sm-10 agency-select">
+													<i class="text-danger fa fa-times"></i>
+													<select name="agency_id[]" class="form-select">
+														@foreach($agencies as $agency)
+															<option value="{{ $agency->id }}" {{ in_array($agency->id, (array) json_decode($invited_agency->invited ?? '[]', true)) ? 'selected' : '' }}>{{ $agency->name }}</option>
+														@endforeach
+													</select>
+												</div>
+												<div class="col-sm-2 participant-limit">
+													<input class="form-control" name="participant_limit[]" type="number" min="0" onclick="select()" oninput="this.value = this.value || 0;" value="{{ $invited_agency->participant_limit }}" placeholder="LIMIT">
+												</div>
+											</div> --}}
+										@endforeach
+
 									</div>
 
 
@@ -166,7 +193,7 @@
 										<div class="col-sm-5">
 											<select class="form-control" id="limit-mode">
 												<option value="all">SET LIMIT FOR ALL</option>
-												<option value="per">SET LIMIT PER AGENCY</option>
+												<option value="per" selected>SET LIMIT PER AGENCY</option>
 											</select>
 										</div>
 										<div class="col-sm-2" id="universal-limit-wrapper">
@@ -179,19 +206,22 @@
 										<div class="col-sm-12">
 											<select name="member_id[]" class="select-tags form-select" multiple aria-hidden="true" style="width:100%;">
 												@foreach($members as $member)
-													<option value="{{ $member->id }}" {{ old('member_id') == $member->id ? 'selected' : '' }}>{{ $member->email }}</option>
+													<option value="{{ $member->id }}" {{ in_array($member->id, old('member_id', $invitees->where('type', 'member')->pluck('invited')->toArray())) ? 'selected' : '' }}>
+														{{ $member->email }}
+													</option>
 												@endforeach
 											</select>
 										</div>
 									</div>
 									
 									<div class="form-group" style="margin-top: -57px;">
-										<small class="col-12 text-uppercase">UPLOAD INVITATION FILE <i class="text-danger">*</i></small>
+										<small class="col-12 text-uppercase">UPLOAD INVITATION FILE </small>
 										<div class="col-12">
 											<input class="form-control" type="file" name="invitation_file" required>
 										</div>
 										<small class="col-12" style="font-size:12px;"><span class="text-primary" style="cursor:pointer;" id="open-agency-modal">Click here</span> for different invitation letter per agency (Select first the participants before uploading invitation letter per agency)</small>
-										
+										<p class="text-danger mt-2" style="font-size:12px;">Note: You need to reupload the invitation file/s upon updating</p>
+
 										<div class="modal fade" id="agencyModal" tabindex="-1" aria-labelledby="agencyModalLabel" aria-hidden="true">
 											<div class="modal-dialog modal-lg">
 												<div class="modal-content">
@@ -325,66 +355,6 @@
 			if (row) row.remove();
 		}
 	</script>
-	{{-- <script>
-		$(document).ready(function () {
-			let agencies = @json($agencies);
-
-			$('#add-agency').on('click', function () {
-				let agencyOptions = agencies.map(agency => 
-					`<option value="${agency.id}">${agency.name}</option>`
-				).join('');
-
-				let newRow = `
-				<div class="row agency-row" style="margin-top: 10px;">
-					<div class="col-sm-12 agency-select">
-						<select name="agency_id[]" class="form-select" required>
-							${agencyOptions}
-						</select>
-					</div>
-					<div class="col-sm-2 participant-limit" style="display: none;">
-						<input class="form-control" name="participant_limit[]" type="number" min="0" onclick="select()" oninput="this.value = this.value || 0;" value="0" placeholder="LIMIT">
-					</div>
-				</div>`;
-
-				$('#agency-container').append(newRow);
-				applyLimitMode($('#limit-mode').val());
-			});
-
-			$('#limit-mode').on('change', function () {
-				applyLimitMode(this.value);
-			});
-
-			$('#universal-limit').on('input', function () {
-				let value = $(this).val();
-				$('.participant-limit input').val(value);
-			});
-
-			function applyLimitMode(mode) {
-				if (mode === 'per') {
-					$('#universal-limit-wrapper').hide();
-					$('.agency-row').each(function () {
-						$(this).find('.agency-select')
-							.removeClass('col-sm-12')
-							.addClass('col-sm-10');
-						$(this).find('.participant-limit').show();
-					});
-				} else {
-					$('#universal-limit-wrapper').show();
-					let value = $('#universal-limit').val();
-					$('.participant-limit input').val(value);
-					$('.agency-row').each(function () {
-						$(this).find('.agency-select')
-							.removeClass('col-sm-10')
-							.addClass('col-sm-12');
-						$(this).find('.participant-limit').hide();
-					});
-				}
-			}
-
-			// Apply current mode on load
-			applyLimitMode($('#limit-mode').val());
-		});
-	</script> --}}
 	<script>
 		document.getElementById('open-agency-modal').addEventListener('click', function () {
 			const selectedAgencies = [];

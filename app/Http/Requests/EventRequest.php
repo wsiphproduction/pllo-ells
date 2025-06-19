@@ -35,7 +35,7 @@ class EventRequest extends FormRequest
             'agency_id' => 'nullable',
             'member_id' => 'nullable',
             'participant_limit' => 'nullable',
-            'invitation_file' => 'required',
+            'invitation_file' => 'nullable',
             'individual_invitation_agency_ids' => 'nullable',
             'individual_invitation_file' => 'nullable'
         ];

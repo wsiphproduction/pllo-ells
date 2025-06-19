@@ -74,6 +74,7 @@ Route::get('/phpinfo', function () {
     // Events
         Route::resource('/events', EventController::class);
         Route::get('/events/view/{id}', [EventController::class, 'view'])->name('events.view');
+        Route::post('/events/cancel-event/{id}', [EventController::class, 'cancel_event'])->name('events.cancel-event');
     //
 
     // Sitemap
@@ -282,7 +283,7 @@ Route::group(['prefix' => 'admin-panel'], function (){
             Route::resource('/access', AccessController::class);
             Route::post('/roles_and_permissions/update', [AccessController::class, 'update_roles_and_permissions'])->name('role-permission.update');
 
-            if (env('APP_DEBUG') == "true") {
+            // if (env('APP_DEBUG') == "true") {
                 // Permission Routes
                 Route::resource('/permission', PermissionController::class)->except(['destroy']);
                 Route::get('/permission-search/', [PermissionController::class, 'search'])->name('permission.search');
@@ -290,7 +291,7 @@ Route::group(['prefix' => 'admin-panel'], function (){
                 Route::get('/permission/restore/{id}', [PermissionController::class, 'restore'])->name('permission.restore');
                 Route::post('permission/delete', [PermissionController::class, 'delete'])->name('permission.delete');
 
-            }
+            // }
         //
 
 
