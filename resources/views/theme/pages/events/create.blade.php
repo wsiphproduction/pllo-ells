@@ -67,18 +67,21 @@
 								
 							<div class="row form-group">
 								<div class="col-12">
-									<input class="form-control" type="text" name="title" placeholder="TITLE" required>
+									<small class="col-12 text-uppercase">TITLE <span class="text-danger">*</span></small>
+									<input class="form-control" type="text" name="title" required>
 								</div>
 							</div>
 							<div class="row form-group">
 								<div class="col-12">
-									<input class="form-control" type="text" name="description" placeholder="DESCRIPTION" required>
+									<small class="col-12 text-uppercase">DESCRIPTION <span class="text-danger">*</span></small>
+									<textarea class="form-control" name="description" style="width: 97%;"></textarea>
 								</div>
 							</div>
 							<div class="form-group row">
 								<div class="col-12">
+									<small class="col-12 text-uppercase">EVENT CLUSTER <span class="text-danger">*</span></small>
 									<select name="event_cluster_id" class="form-select" aria-hidden="true" style="width:100%;" required>
-										<option selected disabled>-- SELECT CLUSTER --</option>
+										<option selected disabled>SELECT CLUSTER</option>
 										@foreach($clusters as $cluster)
 											<option value="{{ $cluster->id }}" {{ old('cluster_id') == $cluster->id ? 'selected' : '' }}>{{ $cluster->name }}</option>
 										@endforeach
@@ -87,38 +90,54 @@
 							</div>
 							<div class="row form-group">
 								<div class="col-6">
-									<input class="form-control" type="date" name="date" value="{{ \Carbon\Carbon::now()->toDateString() }}" required>
+									<small class="col-12 text-uppercase">EVENT DATE <span class="text-danger">*</span></small>
+									<input class="form-control" type="date" name="date" min="{{ \Carbon\Carbon::now()->toDateString() }}" value="{{ \Carbon\Carbon::now()->toDateString() }}" required>
 								</div>
-								<div class="col-6">
+								<div class="col-3">
+									<small class="col-12 text-uppercase">START TIME <span class="text-danger">*</span></small>
+									<input class="form-control" type="time" name="start_time" value="08:00" required>
+								</div>
+								<div class="col-3">
+									<small class="col-12 text-uppercase">END TIME <span class="text-danger">*</span></small>
+									<input class="form-control" type="time" name="end_time" value="12:00" required>
+								</div>
+								
+								{{-- <div class="col-6">
+									<small class="col-12 text-uppercase">START TIME</small>
 									<input class="form-control @error('time') error @enderror" type="text" id="time_range" name="time" placeholder="SET TIME (8:00 - 12:00)" readonly>
 									@error('time')
 										<small class="text-danger">{{ $message }}</small>
 									@enderror
-
-								</div>
+								</div> 
 
 								<!-- Hidden native time inputs -->
 								<input type="time" id="time_start" value="08:00" hidden>
-								<input type="time" id="time_end" value="12:00" hidden>
+								<input type="time" id="time_end" value="12:00" hidden> --}}
 							</div>
 							<div class="row form-group">
 								<div class="col-12">
-									<input class="form-control" type="text" name="location" placeholder="LOCATION" required>
+									<small class="col-12 text-uppercase">LOCATION <span class="text-danger">*</span></small>
+									<input class="form-control" type="text" name="location" required>
 								</div>
 							</div>
 							<div class="row form-group">
-								<small class="col-12 text-uppercase">UPLOAD OTHER FILES</small>
+								<small class="col-12 text-uppercase">UPLOAD OTHER MATERIALS</small>
 								<div class="col-12">
 									<input class="form-control" type="file" name="attachments[]" multiple>
 								</div>
 							</div>
-							<div class="row form-group">
+							<div class="form-group row">
+								<small class="col-sm-12 text-uppercase">LINK FOR OTHER MATERIALS</small>
+								<div class="col-sm-12">
+									<select class="select-tags form-select" name="other_links[]" multiple="" tabindex="-1" aria-hidden="true" style="width:100%;"></select>
+								</div>
+							</div>
+							<div class="row form-group" style="margin-top: -57px;">
 								<small class="col-12 text-uppercase">UPLOAD IMAGE</small>
 								<div class="col-12">
 									<input class="form-control" type="file" name="event_img">
 								</div>
 							</div>
-
 						</div>
 
 						<div class="col-6">
@@ -141,51 +160,52 @@
 
 									<div id="agency-container" class="form-group" style="margin-top: -57px;">
 										<small class="col-sm-12 text-uppercase">Agency</small> <span class="text-secondary" style="font-size:12px;">(0 value means no limit or free for all agency members)</span>
-										
-										{{-- <div class="row agency-row">
-											<div class="col-sm-12 agency-select">
+
+										<div class="row agency-row">
+											<div class="col-sm-12 agency-select d-flex align-items-center gap-2">
+												<i class="text-secondary fa fa-times" style="cursor: pointer;" onclick="removeAgencyRow(this)"></i>
 												<select name="agency_id[]" class="form-select">
+													<option selected disabled>SELECT AGENCY</option>
 													@foreach($agencies as $agency)
-														<option value="{{ $agency->id }}" {{ old('agency_id') == $agency->id ? 'selected' : '' }}>
-															{{ $agency->name }}
-														</option>
+														<option value="{{ $agency->id }}" {{ old('agency_id') == $agency->id ? 'selected' : '' }}>{{ $agency->name }}</option>
 													@endforeach
 												</select>
 											</div>
-											<div class="col-sm-2 participant-limit" style="display: none;">
+
+											<div class="col-sm-2 participant-limit">
 												<input class="form-control" name="participant_limit[]" type="number" min="0" onclick="select()" oninput="this.value = this.value || 0;" value="0" placeholder="LIMIT">
 											</div>
-										</div> --}}
+										</div>
+										
 									</div>
-
 
 									<div class="form-group row" style="margin-top: -7px;">
-										<div class="col-5 text-end">
-											<button class="form-control bg-dark text-white" type="button" id="add-agency">ADD AGENCY SELECTION</button>
+										<div class="row mb-2 ml-2">
+											<span class="text-primary" style="font-size:12px; cursor: pointer;" id="add-agency">Add agency selection <i class="fa fa-plus"></i></span>
 										</div>
-										<div class="col-sm-5">
-											<select class="form-control" id="limit-mode">
-												<option value="all">SET LIMIT FOR ALL</option>
-												<option value="per">SET LIMIT PER AGENCY</option>
-											</select>
+										<div class="col-sm-1" id="universal-limit-wrapper">
+											<div class="col-sm-12 agency-select d-flex align-items-center gap-2">
+												<input class="" type="number" id="universal-limit" title="Set limit for all" min="0" onclick="select()" oninput="this.value = this.value || 0;" value="0" placeholder="SET LIMIT FOR ALL" style="width:60px;">
+											</div>
 										</div>
-										<div class="col-sm-2" id="universal-limit-wrapper">
-											<input class="form-control" type="number" id="universal-limit" title="Set limit for all" min="0" onclick="select()" oninput="this.value = this.value || 0;" value="0" placeholder="SET LIMIT FOR ALL">
+										<div class="col-sm-11">
+											<div class="d-inline-flex align-items-center">
+												<span class="" style="font-size:12px; cursor: pointer;" id="add-agency">Limit for all Agency or select option for different limit per agency </span>
+												<select id="limit-mode" class="border-0 bg-transparent p-0 text-primary" style="appearance: none; -webkit-appearance: none; box-shadow: none; font-size: 12px; margin-left: 10px;">
+													<option class="text-dark" value="all">Set limit for all</option>
+													<option class="text-dark" value="per">Set limit per agency</option>
+												</select>
+											</div>
+
+											{{-- <span class="" style="font-size:12px; cursor: pointer;" id="add-agency">Limit for all Agency or select option below for different limit per agency</span>
+											<select id="limit-mode" name="limit_mode" class="border-0 bg-transparent p-0 text-primary" style="appearance: none; -webkit-appearance: none; box-shadow: none; font-size: 12px;">
+												<option class="text-dark" value="all">Set limit for all</option>
+												<option class="text-dark" value="per">Set limit per agency</option>
+											</select> --}}
 										</div>
 									</div>
 									
-									<div class="form-group row">
-										<small class="col-sm-12 text-uppercase">BY MEMBER</small>
-										<div class="col-sm-12">
-											<select name="member_id[]" class="select-tags form-select" multiple aria-hidden="true" style="width:100%;">
-												@foreach($members as $member)
-													<option value="{{ $member->id }}" {{ old('member_id') == $member->id ? 'selected' : '' }}>{{ $member->email }}</option>
-												@endforeach
-											</select>
-										</div>
-									</div>
-									
-									<div class="form-group" style="margin-top: -57px;">
+									<div class="form-group">
 										<small class="col-12 text-uppercase">UPLOAD INVITATION FILE <i class="text-danger">*</i></small>
 										<div class="col-12">
 											<input class="form-control" type="file" name="invitation_file" required>
@@ -204,6 +224,17 @@
 													</div>
 												</div>
 											</div>
+										</div>
+									</div>
+									
+									<div class="form-group row">
+										<small class="col-sm-12 text-uppercase">BY MEMBER</small>
+										<div class="col-sm-12">
+											<select name="member_id[]" class="select-tags form-select" multiple aria-hidden="true" style="width:100%;">
+												@foreach($members as $member)
+													<option value="{{ $member->id }}" {{ old('member_id') == $member->id ? 'selected' : '' }}>{{ $member->email }}</option>
+												@endforeach
+											</select>
 										</div>
 									</div>
 
@@ -269,7 +300,7 @@
 
 				let newRow = `
 				<div class="row agency-row" style="margin-top: 10px;">
-					<div class="col-sm-10 d-flex align-items-center gap-2">
+					<div class="col-sm-12 agency-select d-flex align-items-center gap-2">
 						<i class="text-secondary fa fa-times" style="cursor: pointer;" onclick="removeAgencyRow(this)"></i>
 						<select name="agency_id[]" class="form-select" required>
 							${agencyOptions}

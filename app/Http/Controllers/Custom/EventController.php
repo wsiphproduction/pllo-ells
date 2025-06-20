@@ -9,7 +9,7 @@ use Facades\App\Helpers\FileHelper;
 
 use App\Models\{Page, Cluster, Agency, Member};
 use App\Models\Custom\{Event, EventInvite, EventParticipant};
-
+use Auth;
 
 class EventController extends Controller
 {
@@ -26,6 +26,10 @@ class EventController extends Controller
 
     public function create(){
 
+        if(!Auth::user()){
+            abort(403, 'Unauthorized action.');
+        }
+
         $page = new Page();
         $page->name = 'Add Event';
 
@@ -40,7 +44,7 @@ class EventController extends Controller
         $data = $request->validated();
 
         //EVENT
-        $data['created_by'] = 1; //auth()->id();
+        $data['created_by'] = Auth::user()->id;
         $event = Event::create($data);
 
        if ($request->hasFile('attachments')) {
@@ -55,7 +59,15 @@ class EventController extends Controller
 
             $data['attachments'] = json_encode($attachments);
         }
-        
+
+       if ($request->other_links) {
+            $other_links = [];
+            foreach ($request->other_links as $link) {
+                $other_links[] = $link;
+            }
+            $data['other_links'] = json_encode($other_links);
+        }
+
         $data['event_img'] = $request->hasFile('event_img') ? FileHelper::move_to_folder($request->file('event_img'), 'events/'. $event->id .'/cover')['url'] : null;
         
         $event->update($data);
@@ -101,7 +113,7 @@ class EventController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'You successfully added an event');
+        return redirect()->route('events.index')->with('success', 'You successfully added an event');
     }
 
     public function view($id){
@@ -115,6 +127,11 @@ class EventController extends Controller
     }
 
     public function edit(Event $event){
+
+        if(!Auth::user()){
+            abort(403, 'Unauthorized action.');
+        }
+        
         $page = new Page();
         $page->name = 'Edit Event';
 
@@ -143,6 +160,14 @@ class EventController extends Controller
             }
 
             $data['attachments'] = json_encode($attachments);
+        }
+
+       if ($request->other_links) {
+            $other_links = [];
+            foreach ($request->other_links as $link) {
+                $other_links[] = $link;
+            }
+            $data['other_links'] = json_encode($other_links);
         }
 
         if ($request->hasFile('event_img')) {
@@ -180,6 +205,7 @@ class EventController extends Controller
                         }
 
                         $invite->update([
+                            'invited_by' => $event->created_by,
                             'invitation_file' => $invitation_file,
                         ]);
                     }
@@ -213,6 +239,7 @@ class EventController extends Controller
                         }
 
                         $invite->update([
+                            'invited_by' => $event->created_by,
                             'invitation_file' => $invitation_file,
                         ]);
                     }
@@ -249,6 +276,7 @@ class EventController extends Controller
 
                         $invite->update([
                             'invitation_file' => $invitation_file,
+                            'invited_by' => $event->created_by,
                         ]);
                     }
                 }
