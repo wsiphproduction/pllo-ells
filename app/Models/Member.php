@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\ActivityLog;
+use App\Models\Cluster;
 
 class Member extends Model
 {
@@ -31,5 +32,17 @@ class Member extends Model
                             'photo',
                             'is_verified'
                         ];
+
+    public function getClusterDetailsAttribute() {
+
+        return $this->belongsTo(Cluster::class,'cluster_id', 'id');
+    }
+
+    public function getClusterName($value) {
+
+        $name = Cluster::find($value);
+
+        return $name;
+    }
 
 }

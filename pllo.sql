@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 18, 2025 at 03:23 AM
+-- Generation Time: Jun 19, 2025 at 08:24 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -1536,7 +1536,11 @@ INSERT INTO `cms_activity_logs` (`id`, `log_by`, `activity_type`, `dashboard_act
 (1103, '1', 'delete', 'deleted a page', 'deleted the page Mission', '2025-06-16 06:37:41', 'pages', '', '', '7'),
 (1104, '1', 'update', 'updated the page contents', 'updated the page contents of Contact Us from <h3>Contact Details</h3><div class=\"row\"><div class=\"col-md-6\"><fieldset id=\"i93j\"><p id=\"icio\"><strong>Mailing Address:</strong><br />\r\nRoom G-101-D, Mabini Hall, Malacanang Complex, San Miguel, Manila</p></fieldset><fieldset id=\"i1qd7\"><p id=\"i01a4\"><strong>E-mail:</strong><br />\r\n<a href=\"mailto:pllo.osec@pllo.gov.ph\">pllo.osec@pllo.gov.ph</a></p></fieldset></div><div class=\"col-md-3\"><fieldset id=\"iu40y\"><p><strong>Telephone:</strong><br/>\r\n+63 (2) 518-7610</p></fieldset></div><div id=\"i3xxk\" class=\"col-md-3\"><fieldset id=\"ixike\"><p id=\"iu8ff\"><strong>Mobile:</strong><br />\r\n8736-1116</p></fieldset></div></div><iframe frameborder=\"0\" src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1591.1777830453796!2d120.99244408835662!3d14.59582844212264!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c9f0ef1b257f%3A0xa4f2cbffe267bee9!2sMabini%20Hall!5e1!3m2!1sen!2sph!4v1750027302249!5m2!1sen!2sph\" width=\"100%\" height=\"55\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" id=\"in1yz\"></iframe><div class=\"row topmargin d-none\"><div class=\"col-lg-6\"><address id=\"iibp3\"><p>Address:Malaca&ntilde;ang Palace Grounds Arlegui St, San Miguel, City Of Manila, 1008 Metro Manila</p>\r\n</address></div><div class=\"col-lg-6\"><p id=\"izlhk\">Email:<br />\r\n<a href=\"mailto:pllo.osec@pllo.gov.ph\">pllo.osec@pllo.gov.ph</a></p></div><div class=\"col-lg-6\"><p class=\"nomargin\" id=\"i27n1\">Phone:<br />\r\n8736-1116</p></div><div class=\"col-lg-6\"><p class=\"nomargin\" id=\"idvdj\">Fax:<br />\r\n8736-1116</p></div></div> to <h3>Contact Details</h3><div class=\"row\"><div class=\"col-md-6\"><fieldset id=\"i93j\"><p><strong>Mailing Address:</strong><br/>\r\n16 JRich Building, Santo Domingo Avenue cor. P. Florentino Avenue, Quezon City, Philippines</p></fieldset><fieldset id=\"i1qd7\"><p id=\"i01a4\"><strong>E-mail:</strong><br/>\r\nSales: sales@preciouspages.com.ph<br/>\r\nInformation: info@preciouspages.com.ph<br/>\r\nRetail: retail@preciouspages.com.ph<br/>\r\nPromotion: promotions@preciouspages.com.ph<br/>\r\nSubmissions: submissions.phr@preciouspages.com.ph</p></fieldset></div><div class=\"col-md-3\"><fieldset id=\"iu40y\"><p><strong>Telephone:</strong><br/>\r\n+63 (2) 518-7610</p></fieldset></div><div id=\"i3xxk\" class=\"col-md-3\"><fieldset id=\"ixike\"><p><strong>Mobile:</strong><br/>\r\n+63 969 175 9337 (Smart)<br/>\r\n+63 922 868 4362 (Sun)</p></fieldset></div></div><iframe frameborder=\"0\" src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.4977139550824!2d121.00790307510674!3d14.62766558586192!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b7c32ad5e983%3A0x237ed6cb627de8e7!2sJRich%20Corporate%20Center!5e0!3m2!1sen!2sph!4v1712195661739!5m2!1sen!2sph\" width=\"100%\" height=\"55\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" id=\"ivend\"></iframe><div class=\"row topmargin d-none\"><div class=\"col-lg-6\"><address><abbr title=\"Address\">Address:</abbr><br/>\r\n                        444a EDSA, Guadalupe Viejo, Makati City, Philippines 1211\r\n                    </address></div><div class=\"col-lg-6\"><p><abbr title=\"Email Address\">Email:</abbr><br/>info@vanguard.edu.ph</p></div><div class=\"col-lg-6\"><p class=\"nomargin\"><abbr title=\"Phone Number\">Phone:</abbr><br/>(632) 8-1234-4567</p></div><div class=\"col-lg-6\"><p class=\"nomargin\"><abbr title=\"Phone Number\">Fax:</abbr><br/>(632) 8-1234-4567</p></div></div>', '2025-06-16 06:44:08', 'pages', '<h3>Contact Details</h3><div class=\"row\"><div class=\"col-md-6\"><fieldset id=\"i93j\"><p id=\"icio\"><strong>Mailing Address:</strong><br />\r\nRoom G-101-D, Mabini Hall, Malacanang Complex, San Miguel, Manila</p></fieldset><fieldset id=\"i1qd7\"><p id=\"i01a4\"><strong>E-mail:</strong><br />\r\n<a href=\"mailto:pllo.osec@pllo.gov.ph\">pllo.osec@pllo.gov.ph</a></p></fieldset></div><div class=\"col-md-3\"><fieldset id=\"iu40y\"><p><strong>Telephone:</strong><br/>\r\n+63 (2) 518-7610</p></fieldset></div><div id=\"i3xxk\" class=\"col-md-3\"><fieldset id=\"ixike\"><p id=\"iu8ff\"><strong>Mobile:</strong><br />\r\n8736-1116</p></fieldset></div></div><iframe frameborder=\"0\" src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1591.1777830453796!2d120.99244408835662!3d14.59582844212264!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397c9f0ef1b257f%3A0xa4f2cbffe267bee9!2sMabini%20Hall!5e1!3m2!1sen!2sph!4v1750027302249!5m2!1sen!2sph\" width=\"100%\" height=\"55\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" id=\"in1yz\"></iframe><div class=\"row topmargin d-none\"><div class=\"col-lg-6\"><address id=\"iibp3\"><p>Address:Malaca&ntilde;ang Palace Grounds Arlegui St, San Miguel, City Of Manila, 1008 Metro Manila</p>\r\n</address></div><div class=\"col-lg-6\"><p id=\"izlhk\">Email:<br />\r\n<a href=\"mailto:pllo.osec@pllo.gov.ph\">pllo.osec@pllo.gov.ph</a></p></div><div class=\"col-lg-6\"><p class=\"nomargin\" id=\"i27n1\">Phone:<br />\r\n8736-1116</p></div><div class=\"col-lg-6\"><p class=\"nomargin\" id=\"idvdj\">Fax:<br />\r\n8736-1116</p></div></div>', '<h3>Contact Details</h3><div class=\"row\"><div class=\"col-md-6\"><fieldset id=\"i93j\"><p><strong>Mailing Address:</strong><br/>\r\n16 JRich Building, Santo Domingo Avenue cor. P. Florentino Avenue, Quezon City, Philippines</p></fieldset><fieldset id=\"i1qd7\"><p id=\"i01a4\"><strong>E-mail:</strong><br/>\r\nSales: sales@preciouspages.com.ph<br/>\r\nInformation: info@preciouspages.com.ph<br/>\r\nRetail: retail@preciouspages.com.ph<br/>\r\nPromotion: promotions@preciouspages.com.ph<br/>\r\nSubmissions: submissions.phr@preciouspages.com.ph</p></fieldset></div><div class=\"col-md-3\"><fieldset id=\"iu40y\"><p><strong>Telephone:</strong><br/>\r\n+63 (2) 518-7610</p></fieldset></div><div id=\"i3xxk\" class=\"col-md-3\"><fieldset id=\"ixike\"><p><strong>Mobile:</strong><br/>\r\n+63 969 175 9337 (Smart)<br/>\r\n+63 922 868 4362 (Sun)</p></fieldset></div></div><iframe frameborder=\"0\" src=\"https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3860.4977139550824!2d121.00790307510674!3d14.62766558586192!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3397b7c32ad5e983%3A0x237ed6cb627de8e7!2sJRich%20Corporate%20Center!5e0!3m2!1sen!2sph!4v1712195661739!5m2!1sen!2sph\" width=\"100%\" height=\"55\" allowfullscreen=\"\" loading=\"lazy\" referrerpolicy=\"no-referrer-when-downgrade\" id=\"ivend\"></iframe><div class=\"row topmargin d-none\"><div class=\"col-lg-6\"><address><abbr title=\"Address\">Address:</abbr><br/>\r\n                        444a EDSA, Guadalupe Viejo, Makati City, Philippines 1211\r\n                    </address></div><div class=\"col-lg-6\"><p><abbr title=\"Email Address\">Email:</abbr><br/>info@vanguard.edu.ph</p></div><div class=\"col-lg-6\"><p class=\"nomargin\"><abbr title=\"Phone Number\">Phone:</abbr><br/>(632) 8-1234-4567</p></div><div class=\"col-lg-6\"><p class=\"nomargin\"><abbr title=\"Phone Number\">Fax:</abbr><br/>(632) 8-1234-4567</p></div></div>', '3'),
 (1105, '1', 'insert', 'created a new user', 'created the user Newly X. Created Sr', '2025-06-16 09:00:15', 'users', '', 'Newly X. Created Sr', '52231'),
-(1106, '1', 'update', 'updated the settings company logo', 'updated the settings company logo of  from 1750209029_lls-logo.png to 1748306721_pllo-logo-t.png', '2025-06-18 09:10:29', 'settings', '1750209029_lls-logo.png', '1748306721_pllo-logo-t.png', '1');
+(1106, '1', 'update', 'updated the settings company logo', 'updated the settings company logo of  from 1750209029_lls-logo.png to 1748306721_pllo-logo-t.png', '2025-06-18 09:10:29', 'settings', '1750209029_lls-logo.png', '1748306721_pllo-logo-t.png', '1'),
+(1107, '1', 'update', 'updated the menu menu order', 'updated the menu menu order of PLLO MENU from [{\"label\":\"Home\",\"type\":\"page\",\"page_id\":1,\"id\":31},{\"label\":\"Policy Reforms\",\"type\":\"page\",\"page_id\":35,\"id\":49},{\"label\":\"FAQ\",\"type\":\"page\",\"page_id\":20,\"id\":48},{\"label\":\"Contact Us\",\"type\":\"page\",\"page_id\":3,\"id\":35},{\"label\":\"Events\",\"uri\":\"events\",\"target\":\"\",\"type\":\"external\"}] to [{\"label\":\"Home\",\"type\":\"page\",\"page_id\":1,\"id\":31},{\"label\":\"Policy Reforms\",\"type\":\"page\",\"page_id\":35},{\"label\":\"FAQ\",\"type\":\"page\",\"page_id\":20,\"id\":48},{\"label\":\"Contact Us\",\"type\":\"page\",\"page_id\":3,\"id\":35}]', '2025-06-18 09:25:07', 'menus', '[{\"label\":\"Home\",\"type\":\"page\",\"page_id\":1,\"id\":31},{\"label\":\"Policy Reforms\",\"type\":\"page\",\"page_id\":35,\"id\":49},{\"label\":\"FAQ\",\"type\":\"page\",\"page_id\":20,\"id\":48},{\"label\":\"Contact Us\",\"type\":\"page\",\"page_id\":3,\"id\":35},{\"label\":\"Events\",\"uri\":\"events\",\"target\":\"\",\"type\":\"external\"}]', '[{\"label\":\"Home\",\"type\":\"page\",\"page_id\":1,\"id\":31},{\"label\":\"Policy Reforms\",\"type\":\"page\",\"page_id\":35},{\"label\":\"FAQ\",\"type\":\"page\",\"page_id\":20,\"id\":48},{\"label\":\"Contact Us\",\"type\":\"page\",\"page_id\":3,\"id\":35}]', '7'),
+(1108, '1', 'update', 'updated the menu menu order', 'updated the menu menu order of PLLO MENU from [{\"label\":\"Home\",\"type\":\"page\",\"page_id\":1,\"id\":31},{\"label\":\"Policy Reforms\",\"type\":\"page\",\"page_id\":35,\"id\":49},{\"label\":\"FAQ\",\"type\":\"page\",\"page_id\":20,\"id\":48},{\"label\":\"Contact Us\",\"type\":\"page\",\"page_id\":3,\"id\":35},{\"label\":\"Events\",\"uri\":\"events\",\"target\":\"\",\"type\":\"external\",\"page_id\":50,\"id\":50,\"children\":[{\"target\":\"\",\"uri\":\"events/create\",\"label\":\"Create Event\",\"type\":\"external\"}]}] to [{\"label\":\"Home\",\"type\":\"page\",\"page_id\":1,\"id\":31},{\"label\":\"Policy Reforms\",\"type\":\"page\",\"page_id\":35,\"id\":49},{\"label\":\"FAQ\",\"type\":\"page\",\"page_id\":20,\"id\":48},{\"label\":\"Contact Us\",\"type\":\"page\",\"page_id\":3,\"id\":35},{\"label\":\"Events\",\"uri\":\"events\",\"target\":\"\",\"type\":\"external\"}]', '2025-06-18 09:25:52', 'menus', '[{\"label\":\"Home\",\"type\":\"page\",\"page_id\":1,\"id\":31},{\"label\":\"Policy Reforms\",\"type\":\"page\",\"page_id\":35,\"id\":49},{\"label\":\"FAQ\",\"type\":\"page\",\"page_id\":20,\"id\":48},{\"label\":\"Contact Us\",\"type\":\"page\",\"page_id\":3,\"id\":35},{\"label\":\"Events\",\"uri\":\"events\",\"target\":\"\",\"type\":\"external\",\"page_id\":50,\"id\":50,\"children\":[{\"target\":\"\",\"uri\":\"events/create\",\"label\":\"Create Event\",\"type\":\"external\"}]}]', '[{\"label\":\"Home\",\"type\":\"page\",\"page_id\":1,\"id\":31},{\"label\":\"Policy Reforms\",\"type\":\"page\",\"page_id\":35,\"id\":49},{\"label\":\"FAQ\",\"type\":\"page\",\"page_id\":20,\"id\":48},{\"label\":\"Contact Us\",\"type\":\"page\",\"page_id\":3,\"id\":35},{\"label\":\"Events\",\"uri\":\"events\",\"target\":\"\",\"type\":\"external\"}]', '7'),
+(1109, '1', 'update', 'updated the menu menu order', 'updated the menu menu order of PLLO MENU from [{\"label\":\"Home\",\"type\":\"page\",\"page_id\":1,\"id\":31},{\"target\":\"\",\"type\":\"external\",\"label\":\"Events\",\"uri\":\"events\",\"page_id\":50,\"id\":50,\"children\":[{\"target\":\"\",\"type\":\"external\",\"label\":\"Create Event\",\"uri\":\"events/create\",\"page_id\":51,\"id\":51}]},{\"label\":\"Policy Reforms\",\"type\":\"page\",\"page_id\":35,\"id\":49},{\"label\":\"FAQ\",\"type\":\"page\",\"page_id\":20,\"id\":48},{\"label\":\"Contact Us\",\"type\":\"page\",\"page_id\":3,\"id\":35}] to [{\"label\":\"Home\",\"type\":\"page\",\"page_id\":1,\"id\":31},{\"label\":\"Policy Reforms\",\"type\":\"page\",\"page_id\":35,\"id\":49},{\"label\":\"FAQ\",\"type\":\"page\",\"page_id\":20,\"id\":48},{\"label\":\"Contact Us\",\"type\":\"page\",\"page_id\":3,\"id\":35},{\"label\":\"Events\",\"uri\":\"events\",\"target\":\"\",\"type\":\"external\",\"page_id\":50,\"id\":50,\"children\":[{\"target\":\"\",\"uri\":\"events/create\",\"label\":\"Create Event\",\"type\":\"external\"}]}]', '2025-06-18 09:25:58', 'menus', '[{\"label\":\"Home\",\"type\":\"page\",\"page_id\":1,\"id\":31},{\"target\":\"\",\"type\":\"external\",\"label\":\"Events\",\"uri\":\"events\",\"page_id\":50,\"id\":50,\"children\":[{\"target\":\"\",\"type\":\"external\",\"label\":\"Create Event\",\"uri\":\"events/create\",\"page_id\":51,\"id\":51}]},{\"label\":\"Policy Reforms\",\"type\":\"page\",\"page_id\":35,\"id\":49},{\"label\":\"FAQ\",\"type\":\"page\",\"page_id\":20,\"id\":48},{\"label\":\"Contact Us\",\"type\":\"page\",\"page_id\":3,\"id\":35}]', '[{\"label\":\"Home\",\"type\":\"page\",\"page_id\":1,\"id\":31},{\"label\":\"Policy Reforms\",\"type\":\"page\",\"page_id\":35,\"id\":49},{\"label\":\"FAQ\",\"type\":\"page\",\"page_id\":20,\"id\":48},{\"label\":\"Contact Us\",\"type\":\"page\",\"page_id\":3,\"id\":35},{\"label\":\"Events\",\"uri\":\"events\",\"target\":\"\",\"type\":\"external\",\"page_id\":50,\"id\":50,\"children\":[{\"target\":\"\",\"uri\":\"events/create\",\"label\":\"Create Event\",\"type\":\"external\"}]}]', '7'),
+(1110, NULL, 'insert', 'created a new user', 'created the user test K. test Jr', '2025-06-19 13:53:21', 'users', '', 'test K. test Jr', '52232');
 
 -- --------------------------------------------------------
 
@@ -1713,7 +1717,8 @@ CREATE TABLE `members` (
 
 INSERT INTO `members` (`id`, `firstname`, `lastname`, `middle_initial`, `suffix`, `email`, `password`, `contact_number`, `other_number`, `gender`, `birthdate`, `system`, `agency`, `cluster`, `logo`, `photo`, `is_verified`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (7, 'Xeno', 'Gintama', 'K', 'Sr', 'warren.arendain@webfocus.ph', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '1231231234', NULL, 0, '2009-06-05', 1, 1, '2::3::4::5', NULL, '127.0.0.1:8000/storage/photo/app (4).png', 0, '2025-05-26 01:53:00', '2025-05-26 01:53:00', NULL),
-(24, 'Newly', 'Created', 'X', 'Sr', 'newlycreated@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '1231231234', 3, 1, '1999-06-26', 1, 1, '1::2::3::4', '127.0.0.1:8000/storage/logo/bp (8).png', '127.0.0.1:8000/storage/photo/Untitled (6).png', 1, '2025-06-16 01:00:15', '2025-06-16 01:06:00', NULL);
+(24, 'Newly', 'Created', 'X', 'Sr', 'newlycreated@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '1231231234', 3, 1, '1999-06-26', 1, 1, '1::2::3::4', '127.0.0.1:8000/storage/logo/bp (8).png', '127.0.0.1:8000/storage/photo/Untitled (6).png', 1, '2025-06-16 01:00:15', '2025-06-16 01:06:00', NULL),
+(25, 'test', 'test', 'K', 'Jr', 'test@gmail.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '1231231234', 3, 2, '1890-06-21', 1, 1, '1::2', 'storage/logo/a2.jpg', 'storage/photo/e1.jpg', 0, '2025-06-19 05:53:21', '2025-06-19 05:53:21', NULL);
 
 -- --------------------------------------------------------
 
@@ -1737,7 +1742,7 @@ CREATE TABLE `menus` (
 --
 
 INSERT INTO `menus` (`id`, `name`, `is_active`, `pages_json`, `user_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(7, 'PLLO MENU', 1, '[{\"label\":\"Home\",\"type\":\"page\",\"page_id\":1,\"id\":31},{\"label\":\"Policy Reforms\",\"type\":\"page\",\"page_id\":35},{\"label\":\"FAQ\",\"type\":\"page\",\"page_id\":20,\"id\":48},{\"label\":\"Contact Us\",\"type\":\"page\",\"page_id\":3,\"id\":35}]', NULL, '2025-02-14 12:24:27', '2025-06-06 05:39:06', NULL);
+(7, 'PLLO MENU', 1, '[{\"label\":\"Home\",\"type\":\"page\",\"page_id\":1,\"id\":31},{\"target\":\"\",\"type\":\"external\",\"label\":\"Events\",\"uri\":\"events\",\"page_id\":50,\"id\":50,\"children\":[{\"target\":\"\",\"type\":\"external\",\"label\":\"Create Event\",\"uri\":\"events/create\",\"page_id\":51,\"id\":51}]},{\"label\":\"Policy Reforms\",\"type\":\"page\",\"page_id\":35,\"id\":49},{\"label\":\"FAQ\",\"type\":\"page\",\"page_id\":20,\"id\":48},{\"label\":\"Contact Us\",\"type\":\"page\",\"page_id\":3,\"id\":35}]', NULL, '2025-02-14 12:24:27', '2025-06-18 01:25:58', NULL);
 
 -- --------------------------------------------------------
 
@@ -1794,9 +1799,11 @@ INSERT INTO `menus_has_pages` (`id`, `menu_id`, `parent_id`, `page_id`, `page_or
 (29, 6, 0, 1, 1, 'Home', NULL, '', 'page', '2024-09-25 09:01:35', '2024-09-25 09:01:35', NULL),
 (30, 6, 0, 2, 2, 'About Us', NULL, '', 'page', '2024-09-25 09:01:35', '2024-09-25 09:01:35', NULL),
 (31, 7, 0, 1, 1, 'Home', NULL, '', 'page', '2025-02-14 12:24:27', '2025-02-14 12:24:27', NULL),
-(35, 7, 0, 3, 4, 'Contact Us', NULL, '', 'page', '2025-02-14 12:25:18', '2025-06-06 05:39:06', NULL),
-(49, 7, 0, 35, 2, 'Policy Reforms', NULL, '', 'page', '2025-06-06 05:39:06', '2025-06-06 05:39:06', NULL),
-(48, 7, 0, 20, 3, 'FAQ', NULL, '', 'page', '2025-05-22 00:42:19', '2025-06-06 05:39:06', NULL);
+(35, 7, 0, 3, 5, 'Contact Us', NULL, '', 'page', '2025-02-14 12:25:18', '2025-06-18 01:25:58', NULL),
+(50, 7, 0, 0, 2, 'Events', 'events', '', 'external', '2025-06-18 01:25:07', '2025-06-18 01:25:58', NULL),
+(51, 7, 50, 0, 1, 'Create Event', 'events/create', '', 'external', '2025-06-18 01:25:52', '2025-06-18 01:25:52', NULL),
+(49, 7, 0, 35, 3, 'Policy Reforms', NULL, '', 'page', '2025-06-06 05:39:06', '2025-06-18 01:25:58', NULL),
+(48, 7, 0, 20, 4, 'FAQ', NULL, '', 'page', '2025-05-22 00:42:19', '2025-06-18 01:25:58', NULL);
 
 -- --------------------------------------------------------
 
@@ -3379,9 +3386,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `firstname`, `lastname`, `avatar`, `verification_code`, `email_verified_at`, `password`, `role_id`, `is_active`, `user_id`, `mobile`, `phone`, `birth_date`, `address_street`, `address_city`, `address_municipality`, `address_province`, `address_zip`, `social_login`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Admin Istrator', 'wsiprod.demo@gmail.com', 'PLLO', 'Administrator', 'http://127.0.0.1:8000/storage/avatars/wsi-logo (2).png', NULL, '2024-01-30 06:25:03', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, 1, 1, '09456714321', '022646545', NULL, 'Maharlika St', 'Pasay', NULL, NULL, '1234', 0, 'GJjEA0FA6qsSmrm0KpiZc1xAu00xt0L94QwPrTsTeeaIO02m2XKjaGSC3iVG', '2024-01-30 06:25:03', '2025-05-21 07:20:36', NULL),
+(1, 'Admin Istrator', 'wsiprod.demo@gmail.com', 'PLLO', 'Administrator', 'http://127.0.0.1:8000/storage/avatars/wsi-logo (2).png', NULL, '2024-01-30 06:25:03', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, 1, 1, '09456714321', '022646545', NULL, 'Maharlika St', 'Pasay', NULL, NULL, '1234', 0, 'I1axxobBOCRv8M87EmAqhEOvLABJSDzBcAraAUMZx6qVZ9zfAqpbmhSNJelp', '2024-01-30 06:25:03', '2025-05-21 07:20:36', NULL),
 (9, 'Ryan Levin Lorenzo', 'wsi.lorenzo.ryan@gmail.com', 'Ryan Levin', 'Lorenzo', NULL, NULL, '2024-02-15 07:16:45', '$2y$10$P1yIDNSFrTQ0Ked0MSksSu0txXkT7L6hhSfF7adqMZZswRRE7dm5q', 6, 1, 1, '1', '123456789', '0000-00-00 00:00:00', '#1 Test Street, Brgy. Sample', 'Meycauayan', 'Barangay Test', 'Test Region', '1234', 0, '7bXUu3oelcZGFZz49vrxtSqnrZB7pqAtSIskRUQRtaPd0B04gA0WyDlw4gOm', '2024-02-15 07:16:45', '2024-04-17 04:21:21', NULL),
 (27, 'Myrna Glorioso', 'myrna@webfocus.ph', 'Myrna', 'Glorioso', NULL, '9152', '2024-03-07 01:38:32', '98896ec1a983cefb45fea33e2289ed3e', 6, 1, NULL, '09156041954', NULL, NULL, NULL, 'Cebu City', NULL, NULL, NULL, 0, NULL, '2024-03-07 01:37:56', NULL, NULL),
+(52232, 'test K. test Jr', 'test@gmail.com', 'test', 'test', NULL, NULL, NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, 1, 25, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-19 05:53:21', '2025-06-19 05:53:21', NULL),
 (52231, 'Newly X. Created Sr', 'newlycreated@gmail.com', 'Newly', 'Created', NULL, '9164', '2025-06-16 04:38:35', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, 1, 24, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-16 01:00:15', '2025-06-16 04:38:35', NULL);
 
 -- --------------------------------------------------------
@@ -3416,7 +3424,7 @@ CREATE TABLE `view_role_permission` (
 --
 DROP TABLE IF EXISTS `view_access_permission_per_role`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_access_permission_per_role`  AS SELECT `view_role_permission`.`user_id` AS `user_id`, `view_role_permission`.`role` AS `role`, group_concat(`view_role_permission`.`name` separator '|') AS `permissions` FROM `view_role_permission` GROUP BY `view_role_permission`.`user_id`, `view_role_permission`.`role` ;
+CREATE VIEW `view_access_permission_per_role`  AS SELECT `view_role_permission`.`user_id` AS `user_id`, `view_role_permission`.`role` AS `role`, group_concat(`view_role_permission`.`name` separator '|') AS `permissions` FROM `view_role_permission` GROUP BY `view_role_permission`.`user_id`, `view_role_permission`.`role` ;
 
 -- --------------------------------------------------------
 
@@ -3425,7 +3433,7 @@ CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW 
 --
 DROP TABLE IF EXISTS `view_role_permission`;
 
-CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `view_role_permission`  AS SELECT `role_permission`.`user_id` AS `user_id`, `role_permission`.`role_id` AS `role`, `permission`.`name` AS `name`, `permission`.`module` AS `permission_module` FROM (`role_permission` join `permission` on(`role_permission`.`permission_id` = `permission`.`id`)) WHERE `role_permission`.`isAllowed` = 1111 ;
+CREATE VIEW `view_role_permission`  AS SELECT `role_permission`.`user_id` AS `user_id`, `role_permission`.`role_id` AS `role`, `permission`.`name` AS `name`, `permission`.`module` AS `permission_module` FROM (`role_permission` join `permission` on(`role_permission`.`permission_id` = `permission`.`id`)) WHERE `role_permission`.`isAllowed` = 1111 ;
 
 --
 -- Indexes for dumped tables
@@ -3668,7 +3676,7 @@ ALTER TABLE `cluster`
 -- AUTO_INCREMENT for table `cms_activity_logs`
 --
 ALTER TABLE `cms_activity_logs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1107;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1111;
 
 --
 -- AUTO_INCREMENT for table `designation`
@@ -3716,7 +3724,7 @@ ALTER TABLE `gender`
 -- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT for table `menus`
@@ -3728,7 +3736,7 @@ ALTER TABLE `menus`
 -- AUTO_INCREMENT for table `menus_has_pages`
 --
 ALTER TABLE `menus_has_pages`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `message_notification`
@@ -3806,7 +3814,7 @@ ALTER TABLE `systems`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52232;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52233;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

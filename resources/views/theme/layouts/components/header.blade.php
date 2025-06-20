@@ -11,9 +11,15 @@
                 </li>
                 <li class="nav-item">
                     @if(auth()->user())
-                        <a class="nav-link py-3 px-4 border-start border-secondary text-white text-uppercase" href="{{ route('member.dashboard') }}">
-                            <small>PROFILE</small>
-                        </a>
+                        @if(auth()->user()->is_not_an_admin())
+                            <a class="nav-link py-3 px-4 border-start border-secondary text-white text-uppercase" href="{{ route('member.dashboard') }}">
+                                <small>PROFILE</small>
+                            </a>   
+                        @else
+                            <a class="nav-link py-3 px-4 border-start border-secondary text-white text-uppercase" href="{{ route('admin.dashboard') }}">
+                                <small>DASHBOARD</small>
+                            </a>
+                        @endif
                     @else
                         <a class="nav-link py-3 px-4 border-start border-secondary text-white text-uppercase" href="{{ route('member.login') }}">
                             <small>LOGIN</small>
@@ -50,7 +56,6 @@
                   </button>
                   <ul class="dropdown-menu">
                     <li>
-                        <a class="dropdown-item" href="#">Login</a>
                         <a class="dropdown-item" href="#">Help</a>
                     </li>
                   </ul>
@@ -82,7 +87,7 @@
             <!-- Logo -->
             <div id="main-logo" class="m-0 d-none">
                 <a href="index.html">
-                    <img class="logo-default" src="{{ Setting::get_company_logo_storage_path() }}" alt="logo" style="margin-top: 5px; padding-right: 16px;">
+                    <img class="logo-default" src="{{ asset('theme/addons/images/logos/lls-logo.png') }}" alt="logo" style="margin-top: 5px; padding-right: 16px;">
                 </a>
             </div>
 
@@ -90,7 +95,7 @@
             <div class="header-title text-start">
                 <div id="small-size-logo" class="d-none">
                     <a href="index.html">
-                        <img src="theme/addons/images/logos/lls-logo.png" alt="logo" style="margin-top: 5px; padding-right: 16px;">
+                        <img src="{{ asset('theme/addons/images/logos/lls-logo.png') }}" alt="logo" style="margin-top: 5px; padding-right: 16px;">
                     </a>
                 </div>
                 <h3 class="text-roman text-black m-0" style="font-size: 38px;">Legislative Liaison System</h2>
@@ -113,7 +118,7 @@
 				============================================= -->
                 <div id="header-logo" class="px-3 d-none">
                     <a href="index.html">
-                        <img src="{{ Setting::get_company_logo_storage_path() }}" alt="logo">
+                        <img src="{{ asset('theme/addons/images/logos/lls-logo.png') }}" alt="logo">
                     </a>
                 </div><!-- #logo end -->
 

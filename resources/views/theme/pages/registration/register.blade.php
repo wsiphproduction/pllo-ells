@@ -22,11 +22,12 @@
 		color: white;
 		float: right;
 	}
-	.hide-password {
+	#select_number {
 		position: absolute;
-		top: 7px;
-		right: 22px;
-		opacity: .7;
+	    width: fit-content;
+	    border: none;
+	    top: 1px;
+	    left: 14px;
 	}
 </style>
 @endsection
@@ -99,17 +100,18 @@
 
 						<div class="row form-group">
 							<div class="col-12">
-								<input class="form-control" type="number" name="contact_number" placeholder="MOBILE NUMBER" required>
+								<input class="form-control" type="text" name="contact_number" placeholder="MOBILE NUMBER" required>
 							</div>
 						</div>
 
 						<div class="row form-group">
-							<div class="col-12">
-								<select class="form-select" aria-label="select number" name="other_number">
+							<div class="col-12 relative">
+								<select id="select_number" class="form-select" aria-label="select type of number" name="type_number">
 									@foreach($messaging_numbers as $messaging_number)
 								  	<option value="{{ $messaging_number->id }}">{{ $messaging_number->name }}</option>
 									@endforeach
 								</select>
+								<input class="form-control" type="text" name="other_number" placeholder="" required style="padding-left: 140px;">
 								<small class="primary-text-color float-end pt-1">Add Instant Messaging Number</small>
 							</div>
 						</div>
@@ -117,13 +119,26 @@
 						<div class="row form-group">
 							<div class="col-6">
 								<select class="form-select" aria-label="select gender" name="gender">
+								  	<option value="0">GENDER</option>
 									@foreach($genders as $gender)
 								  	<option value="{{ $gender->id }}">{{ $gender->name }}</option>
 									@endforeach
 								</select>
 							</div>
-							<div class="col-6">
-								<input class="form-control" type="date" name="birthdate" placeholder="BIRTHDAY" required>
+							<div class="col-6 d-flex">
+								<select class="form-select" aria-label="select month" name="month" style="width: 75%">
+								  	<option value="0">BIRTHDAY</option>
+									@foreach(Config::get('months') as $month)
+								  	<option value="{{ $month }}">{{ $month }}</option>
+									@endforeach
+								</select>
+								&nbsp;
+								<select class="form-select" aria-label="select day" name="day" style="width: 25%">
+								  	<option value="0"></option>
+									@for($d = 1; $d <= 31; $d++)
+								  	<option value="{{ $d }}">{{ $d }}</option>
+									@endfor
+								</select>
 							</div>
 						</div>
 
@@ -140,6 +155,7 @@
 						<div class="row form-group">
 							<div class="col-12">
 								<select class="form-select" aria-label="select agency" name="agency">
+									<option value="0">GOVERNMENT AGENCY</option>
 									@foreach($agencies as $agency)
 								  	<option value="{{ $agency->id }}">{{ $agency->name }}</option>
 									@endforeach
@@ -150,6 +166,7 @@
 						<div class="row form-group">
 							<div class="col-12">
 								<select class="form-select" aria-label="select designation" name="designation">
+									<option value="0">DESIGNATION</option>
 									@foreach($designations as $designation)
 								  	<option value="{{ $designation->id }}">{{ $designation->name }}</option>
 									@endforeach

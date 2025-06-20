@@ -57,7 +57,7 @@
 
                         <!-- Profile Tab -->
                         <div class="tab-pane fade show active" id="profile-border" role="tabpanel" aria-labelledby="tab-profile-border-tab" tabindex="0">
-                            <div class="row">
+                            <div class="row" id="default_profile_panel">
                                 <div class="col-12 col-md-2">
                                     <small class="form-title"><b>MAIN ACCOUNT</b></small>
                                     <br />
@@ -68,7 +68,7 @@
                                         <tr>&nbsp;</tr>
                                         <tr>
                                             <td><span class="profile-label">Email Address:</span></td>
-                                            <td><span>lls@dict.gov.ph</span></td>
+                                            <td><span>{{ $memberDetails->email }}</span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label">Alt Email Address:</span></td>
@@ -83,20 +83,65 @@
                                 <div class="col-12 col-md-5">
                                     <table class="table-dotted table-striped">
                                         <tr><small class="form-title"><b>CLUSTER</b></small></tr>
-                                        <tr>
-                                            <td><span>EDC (Economic Development Cluster:</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><span>PGC (Participatory Governance Cluster)</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><span>SJPC (Security, Jusঞce and Peace Cluster)</span></td>
-                                        </tr>
+
+                                        @php
+                                            $cluster_arr = [];
+                                            $cluster_arr = explode('::', $memberDetails->cluster);
+                                        @endphp
+
+                                        @forelse($cluster_arr as $cluster)
+                                            <tr>
+                                                <td><span><small>{{ $memberDetails->getClusterName($cluster)->name }}</small></span></td>
+                                            </tr>
+                                        @empty
+                                            <tr><td><span>No Cluster Details.</span></td></tr>
+                                        @endforelse
+
                                     </table>
                                 </div>
                             </div>
 
-                            <div class="row mt-4">
+                            <div class="row" id="edit_profile_panel" style="display: none;">
+                                <div class="col-12 col-md-2">
+                                    <small class="form-title"><b>MAIN ACCOUNT</b></small>
+                                    <br />
+                                    <img class="mt-4" src="{{ asset('images/user.png') }}" width="120">
+                                </div>
+                                <div class="col-12 col-md-5">
+                                    <div>
+                                        <input class="form-control mb-3" type="text" name="email" value="{{ $memberDetails->email }}">
+                                        <input class="form-control mb-3" type="text" name="alt_email" value="{{ $memberDetails->alt_email }}" placeholder="ALT EMAIL ADDRESS">
+                                        
+                                        <div style="position: relative;">
+                                            <input class="form-control mb-3" type="password" name="alt_email" value="{{ $memberDetails->password }}" placeholder="PASSWORD">
+                                            <svg style="right: 7px;" class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                            </svg>
+                                        </div>
+
+                                        <div style="position: relative;">
+                                            <input class="form-control mb-3" type="password" name="confirm_password" value="" placeholder="CONFIRM PASSWORD">
+                                            <svg style="right: 7px;" class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                            </svg>
+                                        </div>
+
+                                    </div>
+                                    <small><i><span class="text-danger">Disclaimer:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</i></small>
+                                </div>
+                                <div class="col-12 col-md-5">
+                                    <div class="mb-2">
+                                        <select class="form-select" multiple aria-label="multiple select example" name="cluster[]">
+                                            @foreach($clustersList as $clusterItem)
+                                            <option value="{{ $clusterItem->id }}">{{ $clusterItem->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                    <small><i>Press Control in keyboard and Left Click Mouse for changes and Multi Select. Changes in cluster needs approval.</i></small>
+                                </div>
+                            </div>
+
+                            <!-- <div class="row mt-4">
                                 <small class="form-title my-0" style="transform: translate(0px, 16px);"><b>DLLS - HREP DEPARTMENT LEGISLATIVE LIAISON STAFF</b></small>
                                 <div class="col-12 col-md-2">
                                     <img class="mt-4" src="{{ asset('images/user.png') }}" width="120">
@@ -143,7 +188,8 @@
                                         </tr>
                                     </table>
                                 </div>
-                            </div>
+                            </div> -->
+
                         </div>
 
                         <!-- Agency Tab -->
@@ -277,9 +323,17 @@
 
                     <div class="row">
                         <div class="button-group d-flex justify-content-end mt-4">
-                            <button class="btn btn-secondary text-white"><small class="text-uppercase">edit profile</small></button>
+                            <button class="btn btn-secondary text-white" id="edit_profile_btn"><small class="text-uppercase">edit profile</small></button>
                             &nbsp;
                             &nbsp;
+                            <div id="save_cancel_pane" style="display: none;">
+                                <button class="btn btn-primary text-white" id="save_profile_btn"><small class="text-uppercase">SAVE</small></button>
+                                &nbsp;
+                                &nbsp;
+                                <button class="btn btn-secondary text-white" id="cancel_profile_btn"><small class="text-uppercase">CANCEL</small></button>
+                                &nbsp;
+                                &nbsp;
+                            </div>
                             <button class="btn btn-danger text-white"><small class="text-uppercase">delete account</small></button>
                         </div>
                     </div>
@@ -296,7 +350,19 @@
 
 @section('pagejs')
 	<script>
+        $('#edit_profile_btn').on('click', function() {
+            $('#edit_profile_panel').css("display", "flex");
+            $('#default_profile_panel').css("display", "none");
+            $('#save_cancel_pane').css("display", "flex");
+            $('#edit_profile_btn').css("display", "none");
+        });
 
+        $('#cancel_profile_btn').on('click', function() {
+            $('#edit_profile_panel').css("display", "none");
+            $('#default_profile_panel').css("display", "flex");
+            $('#save_cancel_pane').css("display", "none");
+            $('#edit_profile_btn').css("display", "flex");
+        });
 	</script>
 @endsection
 

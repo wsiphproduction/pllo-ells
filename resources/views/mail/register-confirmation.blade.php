@@ -74,7 +74,7 @@
             <br />
 
             <div style="text-align: center;">
-                <a href="{{ route('login') }}" target="_blank" style="padding: 10px 20px; background: #3b5d90; color: #fff;text-decoration: none;font-size: 14px; border-radius: 3px;">COMPLETE PROFILE </a>
+                <a href="{{ route('member.login') }}" target="_blank" style="padding: 10px 20px; background: #3b5d90; color: #fff;text-decoration: none;font-size: 14px; border-radius: 3px;">COMPLETE PROFILE </a>
             </div>
 
             <br />

@@ -616,7 +616,12 @@ Route::post('/register/register-store', [RegistrationController::class, 'registe
 Route::get('/member-login', [RegistrationController::class, 'login'])->name('member.login');
 Route::post('/member-online', [RegistrationController::class, 'online'])->name('member.online');
 Route::get('/member-logout', [RegistrationController::class, 'logout'])->name('member.logout');
-Route::get('/member-dashboard', [RegistrationController::class, 'dashboard'])->name('member.dashboard');
+Route::get('/member-dashboard', [RegistrationController::class, 'memberDashboard'])->name('member.dashboard');
+
+// ADMIN USER
+Route::get('/admin-dashboard', [RegistrationController::class, 'adminDashboard'])->name('admin.dashboard');
+Route::post('/admin-registration-approve', [RegistrationController::class, 'adminRegistrationApprove'])->name('admin.registration.approve');
+Route::post('/admin-registration-delete', [RegistrationController::class, 'adminRegistrationDelete'])->name('admin.registration.delete');
 
 // Pages Frontend
 Route::get('/{any}', [FrontController::class, 'page'])->where('any', '.*');
