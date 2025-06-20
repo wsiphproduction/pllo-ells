@@ -11,8 +11,8 @@ class EventRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        // return auth()->check();
-        return true;
+        return auth()->check();
+        // return true;
     }
 
     /**
@@ -27,9 +27,11 @@ class EventRequest extends FormRequest
             'description' => 'required',
             'event_cluster_id' => 'required',
             'date' => 'required',
-            'time' => 'required',
+            'start_time' => 'required',
+            'end_time' => 'required',
             'location' => 'required',
             // 'attachments' => 'nullable',
+            // 'other_links' => 'nullable',
             // 'event_img' => 'nullable',
             'cluster_id' => 'nullable',
             'agency_id' => 'nullable',

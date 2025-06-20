@@ -46,9 +46,11 @@ DATABASE:
 			description TEXT,
 			event_cluster_id INT UNSIGNED,
 			date DATE,
-			time VARCHAR(50),
+			start_time VARCHAR(50),
+			end_time VARCHAR(50),
 			location VARCHAR(255),
 			attachments TEXT,
+			other_links TEXT,
 			event_img VARCHAR(255),
 			created_by INT UNSIGNED,
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -65,8 +67,8 @@ DATABASE:
 			invited_by INT UNSIGNED,
 			participant_limit INT NOT NULL DEFAULT 0,
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
-			deleted_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			deleted_at TIMESTAMP DEFAULT NULL
 		);
 
 		CREATE TABLE event_participants (

@@ -29,7 +29,7 @@
 				<div class="col-12 mb-5 d-flex justify-content-between align-items-center">
 					<h3 class="form-title m-0">{{ $page->name }}</h3>
 
-					<div class="btn-group">
+					<div class="btn-group" {{ $event->created_by == Auth::user()->id ? '' : 'hidden' }}>
 						<button type="button" class="btn btn-transparent dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Options
 						</button>
@@ -85,7 +85,8 @@
 						<ul class="mb-0 ps-3">
 							<li><strong>Cluster</strong>: {{ $event->cluster->name }}</li>
 							<li><strong>Date</strong>: {{ \Carbon\Carbon::parse($event->date)->format('F d, Y') }}</li>
-							<li><strong>Time</strong>: {{ $event->time }}</li>
+							<li><strong>Time</strong>: {{ \Carbon\Carbon::parse($event->start_time)->format('h:i A') }} - {{ \Carbon\Carbon::parse($event->end_time)->format('h:i A') }}</li>
+
 							<li><strong>Location</strong>: {{ $event->location }}</li>
 						</ul>
 					</div>
