@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Http;
 use App\Helpers\Setting;
 
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Hash;
 use App\Mail\RegisterMail;
 use App\Mail\RegisterConfirmationMail;
 
@@ -61,14 +62,39 @@ class RegistrationController extends Controller
             return Redirect::back()->withErrors($validator);
         }
 
+        if ($request->month == 0) {
+            return back()->with('error', 'Invalid birthdate.');
+        }
+
+        if ($request->day == 0) {
+            return back()->with('error', 'Invalid birthdate.');
+        }
+
+        if ($request->gender == 0) {
+            return back()->with('error', 'Please select Gender.');
+        }
+
+        if ($request->agency == 0) {
+            return back()->with('error', 'Please select Agency.');
+        }
+
+        if ($request->designation == 0) {
+            return back()->with('error', 'Please select Designation.');
+        }
+
+        if ($request->password != $request->confrim_password) {
+            return back()->with('error', 'Password and Confirm Password do not match.');
+        }
+
         // Create new member //
         $requests = $request->all();
-
+        $requests['type_number'] = implode("::", $request['type_number']);
+        $requests['other_number'] = implode("::", $request['other_number']);
         $requests['cluster'] = implode("::", $request['cluster']);
         $requests['birthdate'] = $requests['month'] ." ". $requests['day'];
-        $requests['password'] = "$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi";
         $requests['photo'] = $request->hasFile('office_id') ? FileHelper::move_to_folder($request->file('office_id'), 'photo')['url'] : null;
         $requests['logo'] = $request->hasFile('agency_logo') ? FileHelper::move_to_folder($request->file('agency_logo'), 'logo')['url'] : null;
+        $requests['password'] = Hash::make($request->password);
 
         Member::create($requests);
 
@@ -257,15 +283,31 @@ class RegistrationController extends Controller
         $page = new Page();
         $page->name = 'Admin Dashboard';
 
-        $registrations = User::where('role_id', 2)->get();
+        $registrations_pending = User::where('role_id', 2)
+                        ->leftJoin('members', 'members.id', '=', 'users.user_id')
+                        ->where('members.is_verified', 1)
+                        ->where('users.is_active','<>', 1)
+                        ->get();
 
-        return view('theme.pages.admin.dashboard', compact('page', 'registrations'));
+        $registrations_approve = User::where('role_id', 2)
+                        ->leftJoin('members', 'members.id', '=', 'users.user_id')
+                        ->where('members.is_verified', 1)
+                        ->where('users.is_active', 1)
+                        ->get();
+
+        $registrations_process = User::where('role_id', 2)
+                        ->leftJoin('members', 'members.id', '=', 'users.user_id')
+                        ->where('members.is_verified', '<>', 1)
+                        ->where('users.is_active', '<>', 1)
+                        ->get();
+
+        return view('theme.pages.admin.dashboard', compact('page', 'registrations_pending', 'registrations_approve', 'registrations_process'));
 
     }
 
     public function adminRegistrationApprove(Request $request) {
 
-        $user = User::find($request->reg_id_approve);
+        $user = User::where('user_id', $request->reg_id_approve)->first();
         $user->is_active = 1;
         $user->save();
 

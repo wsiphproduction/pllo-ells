@@ -22,12 +22,16 @@
 		color: white;
 		float: right;
 	}
-	#select_number {
+	.select-type-number {
 		position: absolute;
 	    width: fit-content;
 	    border: none;
 	    top: 1px;
 	    left: 14px;
+	}
+	#add_messaging:hover {
+		color: #005ded;
+		text-decoration: underline;
 	}
 </style>
 @endsection
@@ -48,16 +52,16 @@
 						
 						<div class="row form-group">
 							<div class="col-10">
-								<input class="form-control" type="text" name="firstname" placeholder="FIRST NAME" required>
+								<input class="form-control" type="text" name="firstname" placeholder="FIRST NAME" value="{{ old('firstname') }}" required>
 							</div>
 							<div class="col-2">
-								<input class="form-control" type="text" name="middle_initial" placeholder="M.I." required>
+								<input class="form-control" type="text" name="middle_initial" placeholder="M.I." value="{{ old('middle_initial') }}" required>
 							</div>
 						</div>
 
 						<div class="row form-group">
 							<div class="col-10">
-								<input class="form-control" type="text" name="lastname" placeholder="LAST NAME" required>
+								<input class="form-control" type="text" name="lastname" placeholder="LAST NAME" value="{{ old('lastname') }}" required>
 							</div>
 							<div class="col-2">
 								<select class="form-select" aria-label="select suffix" name="suffix">
@@ -70,13 +74,13 @@
 
 						<div class="row form-group">
 							<div class="col-12">
-								<input class="form-control" type="email" name="email" placeholder="EMAIL ADDRESS" required autocomplete="off">
+								<input class="form-control" type="email" name="email" placeholder="EMAIL ADDRESS" value="{{ old('email') }}" required autocomplete="off">
 							</div>
 						</div>
 
 						<div class="row form-group">
 							<div class="col-12">
-								<input class="form-control" type="email" name="alt_email" placeholder="ALTERNATIVE EMAIL ADDRESS" required autocomplete="off">
+								<input class="form-control" type="email" name="alt_email" placeholder="ALTERNATIVE EMAIL ADDRESS" value="{{ old('alt_email') }}" required autocomplete="off">
 							</div>
 						</div>
 
@@ -100,19 +104,24 @@
 
 						<div class="row form-group">
 							<div class="col-12">
-								<input class="form-control" type="text" name="contact_number" placeholder="MOBILE NUMBER" required>
+								<input class="form-control" type="text" name="contact_number" placeholder="MOBILE NUMBER" value="{{ old('contact_number') }}" required>
 							</div>
 						</div>
 
 						<div class="row form-group">
 							<div class="col-12 relative">
-								<select id="select_number" class="form-select" aria-label="select type of number" name="type_number">
-									@foreach($messaging_numbers as $messaging_number)
-								  	<option value="{{ $messaging_number->id }}">{{ $messaging_number->name }}</option>
-									@endforeach
+								<select id="select_number_solo" class="form-select select-type-number" aria-label="select type of number" name="type_number[]">
+								  	<option value="1">Viber</option>
+								  	<option value="2">WhatsApp</option>
+								  	<option value="3">Telegram</option>
+								  	<option value="4">Signal</option>
+								  	<option value="5">WeChat</option>
 								</select>
-								<input class="form-control" type="text" name="other_number" placeholder="" required style="padding-left: 140px;">
-								<small class="primary-text-color float-end pt-1">Add Instant Messaging Number</small>
+								<input class="form-control" type="text" name="other_number[]" placeholder="" required style="padding-left: 140px;">
+								<div id="messaging_container">
+									<!-- area for additional fields -->
+								</div>
+								<small id="add_messaging" class="primary-text-color float-end pt-1 cursor-pointer">Add Instant Messaging Number</small>
 							</div>
 						</div>
 
@@ -257,13 +266,26 @@
 
 	$(document).ready( function() {
 
-	  $('#office_id_holder').click(function(){
-	    $("#office_id").click();
-	  });
+		$('#office_id_holder').click(function(){
+			$("#office_id").click();
+		});
 
-	  $('#agency_logo_holder').click(function(){
-	    $("#agency_logo").click();
-	  });
+		$('#agency_logo_holder').click(function(){
+			$("#agency_logo").click();
+		});
+
+	  	$("#add_messaging").click(function() {
+		    var newFieldHtml = `<div style="position: relative; margin-top: 4px;"><select id="select_number" class="form-select select-type-number" aria-label="select type of number" name="type_number[]" style="left: 0px;">
+									<option value="1">Viber</option>
+								  	<option value="2">WhatsApp</option>
+								  	<option value="3">Telegram</option>
+								  	<option value="4">Signal</option>
+								  	<option value="5">WeChat</option>
+								</select>
+								<input class="form-control" type="text" name="other_number[]" placeholder="" required style="padding-left: 140px;"></div>
+								`;
+		    $("#messaging_container").append(newFieldHtml);
+		});
 
 	});
 

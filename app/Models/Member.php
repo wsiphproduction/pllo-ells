@@ -20,6 +20,7 @@ class Member extends Model
                             'middle_initial',
                             'suffix',
                             'email',
+                            'alt_email',
                             'password',
                             'contact_number',
                             'other_number',
