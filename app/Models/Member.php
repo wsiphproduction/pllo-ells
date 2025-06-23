@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\ActivityLog;
 use App\Models\Cluster;
+use App\Models\User;
 
 class Member extends Model
 {
@@ -33,6 +34,10 @@ class Member extends Model
                             'photo',
                             'is_verified'
                         ];
+
+    public function user() {
+        return $this->belongsTo(User::class, 'user_id', 'id');
+    }
 
     public function getClusterDetailsAttribute() {
 
