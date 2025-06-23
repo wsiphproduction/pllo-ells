@@ -29,7 +29,7 @@
 				<div class="col-12 mb-5 d-flex justify-content-between align-items-center">
 					<h3 class="form-title m-0">{{ $page->name }}</h3>
 
-					<div class="btn-group" {{ $event->created_by == Auth::user()->id ? '' : 'hidden' }}>
+					<div class="btn-group {{ Auth::check() && $event->created_by == Auth::id() ? '' : 'd-none' }}">
 						<button type="button" class="btn btn-transparent dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Options
 						</button>
