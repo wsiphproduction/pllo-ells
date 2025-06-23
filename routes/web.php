@@ -623,5 +623,10 @@ Route::get('/admin-dashboard', [RegistrationController::class, 'adminDashboard']
 Route::post('/admin-registration-approve', [RegistrationController::class, 'adminRegistrationApprove'])->name('admin.registration.approve');
 Route::post('/admin-registration-delete', [RegistrationController::class, 'adminRegistrationDelete'])->name('admin.registration.delete');
 
+// MAINTENANCE
+Route::get('/maintenance-dashboard', [RegistrationController::class, 'maintenanceDashboard'])->name('maintenance.dashboard');
+Route::post('/maintenance-agency-store', [RegistrationController::class, 'maintenanceAgencyStore'])->name('maintenance.agency.store');
+
+
 // Pages Frontend
 Route::get('/{any}', [FrontController::class, 'page'])->where('any', '.*');

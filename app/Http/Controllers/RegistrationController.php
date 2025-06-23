@@ -264,9 +264,10 @@ class RegistrationController extends Controller
 
         $clustersList = Cluster::all();
         $memberDetails = Member::find(Auth::user()->user_id);
+        $memberAgency = Agency::find($memberDetails->agency);
 
         if (auth()->user()) {
-            return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList'));
+            return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency'));
         } else {
             return back()->with('error', ('Please login to your account.'));
         }
@@ -328,4 +329,22 @@ class RegistrationController extends Controller
         return back()->with('success', 'Registration Deleted!');
     }
 
+    public function maintenanceDashboard() {
+
+        $page = new Page;
+        $page->name = "Maintenance Dashboard";
+
+        $genders = Gender::all();
+        $agencies = Agency::all();
+
+        return view('theme.pages.maintenance.agency.index', compact('page', 'agencies', 'genders'));
+    }
+
+    public function maintenanceAgencyStore(Request $request) {
+
+        $requests = $request->all();
+        Agency::create($requests);
+
+        return back()->with('success', 'Agency added successfully.');
+    }
 }

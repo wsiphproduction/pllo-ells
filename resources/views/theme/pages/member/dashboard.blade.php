@@ -197,14 +197,14 @@
                             <div class="row">
                                 <div class="col-12 col-md-6">
                                     <table class="table-dotted table-striped">
-                                        <tr><small class="form-title"><b>GOVERNMENT AGENCY</b></small></tr>
+                                        <tr><small class="form-title"><b>{{ $memberAgency->agency_name }}</b></small></tr>
                                         <tr>
                                             <td colspan="2">
                                                 <span>
                                                     <small>
                                                         <span class="profile-label">Main Office Address:</span>
                                                         <p>
-                                                            Department of Information and Communications Technology C.P Garcia Ave., Diliman, Quezon City Philippines 1101
+                                                            {{ $memberAgency->agency_address }}
                                                         </p>
                                                     </small>
                                                 </span>
@@ -212,15 +212,15 @@
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Office Email Addres:</small></span></td>
-                                            <td><span><small>information@dict.gov.ph</small></span></td>
+                                            <td><span><small>{{ $memberAgency->agency_email }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Office Landline Number:</small></span></td>
-                                            <td><span><small>8920-0101</small></span></td>
+                                            <td><span><small>{{ $memberAgency->agency_landline }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Office Cellphone Number:</small></span></td>
-                                            <td><span><small>0917-8920-0101</small></span></td>
+                                            <td><span><small>{{ $memberAgency->agency_cellphone }}</small></span></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -229,35 +229,35 @@
                                         <tr><small class="form-title"><b>HEAD OF THE AGENCY</b></small></tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Name:</small></span></td>
-                                            <td><span><small>Sec. Ivan John E. Us</small></span></td>
+                                            <td><span><small>{{ $memberAgency->head_name }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Nickname:</small></span></td>
-                                            <td><span><small>Ivans</small></span></td>
+                                            <td><span><small>{{ $memberAgency->head_nickname }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Gender: </small></span></td>
-                                            <td><span><small>Males</small></span></td>
+                                            <td><span><small>{{ $memberAgency->getGenderName($memberAgency->head_gender) }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Office Address: </small></span></td>
-                                            <td><span><small>Office of the Assistant Secretary for Legal Affairs </small></span></td>
+                                            <td><span><small>{{ $memberAgency->head_address }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Alt. Office Addres: </small></span></td>
-                                            <td><span><small>Office of the Assistant Secretary for Management Information Systems Services</small></span></td>
+                                            <td><span><small>{{ $memberAgency->head_alt_address }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Email Addres: </small></span></td>
-                                            <td><span><small>sec@dict.gov.phs</small></span></td>
+                                            <td><span><small>{{ $memberAgency->head_email }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Office Email Addres: </small></span></td>
-                                            <td><span><small>osec@dict.gov.phs</small></span></td>
+                                            <td><span><small>{{ $memberAgency->head_office_email }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Office Cellphone Number: </small></span></td>
-                                            <td><span><small>0917-8920-010s</small></span></td>
+                                            <td><span><small>{{ $memberAgency->head_cellphone }}</small></span></td>
                                         </tr>
                                     </table>
                                 </div>
