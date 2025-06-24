@@ -47,11 +47,17 @@
 
 @elseif ($item->is_external_type())
     <li class="menu-item {{ Str::contains(url()->current(), $item->uri) ? 'current' : '' }}">
-        <a href="{{ url($item->uri) }}" class="menu-link" target="{{ $item->target }}"><div>{{ $item->label }}</div></a>
+
         {{-- <a href="{{ env('APP_URL')."/".$item->uri }}" class="menu-link" target="{{ $item->target }}"><div>{{ $item->label }}</div></a> --}}
 
+        @if(auth()->user())
+            <a href="{{ url($item->uri) }}" class="menu-link" target="{{ $item->target }}" @if( str_contains($item->uri, '/create') && auth()->user()->is_not_an_admin() ) style="display: none !important;" @endif><div>{{ $item->label }}</div></a>
+        @else
+            <a href="{{ url($item->uri) }}" class="menu-link" target="{{ $item->target }}" @if( str_contains($item->uri, '/create') ) style="display: none !important;" @endif><div>{{ $item->label }}</div></a>
+        @endif
+
         @if ($item->has_sub_menus())
-            <ul class="sub-menu-container">
+            <ul class="sub-menu-container" style="border: none !important;">
                 @foreach ($item->sub_pages as $subItem)
                     @include('theme.layouts.components.menu-item', ['item' => $subItem])
                 @endforeach

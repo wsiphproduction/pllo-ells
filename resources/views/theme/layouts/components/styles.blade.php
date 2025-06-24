@@ -504,6 +504,13 @@
             right: 22px;
             opacity: .7;
         }
+        body nav.primary-menu.with-arrows ul.menu-container li.menu-item.sub-menu ul.sub-menu-container {
+            background-color: rgb(223 223 223);
+        }
+        body div#header-wrap ul.sub-menu-container .menu-link:hover {
+            color: #ffffff !important;
+            background-color: #2b3649;
+        }
         
     </style>
 

@@ -16,9 +16,14 @@
                                 <small>PROFILE</small>
                             </a>   
                         @else
+                        <div class="d-flex align-items-center">
                             <a class="nav-link py-3 px-4 border-start border-secondary text-white text-uppercase" href="{{ route('admin.dashboard') }}">
                                 <small>DASHBOARD</small>
                             </a>
+                            <a class="nav-link py-3 px-4 border-start border-secondary text-white text-uppercase" href="{{ route('admin.dashboard') }}">
+                                <small>MAINTENANCE</small>
+                            </a>
+                        </div>
                         @endif
                     @else
                         <a class="nav-link py-3 px-4 border-start border-secondary text-white text-uppercase" href="{{ route('member.login') }}">
