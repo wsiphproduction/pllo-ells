@@ -14,6 +14,6 @@ class EventParticipant extends Model
 
 
     public static function hasRepliedInvitation($user_id){
-        return EventParticipant::where('member_id', \App\Models\Member::getMemberInfo($user_id)->id)->first();
+        return EventParticipant::where('member_id', $user_id)->first();
     }
 }

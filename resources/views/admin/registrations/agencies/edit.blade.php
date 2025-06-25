@@ -44,7 +44,7 @@
 
                 <div class="form-group">
                     <label class="d-block">Agency Name <span class="text-danger ">*</span></label>
-                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="{{ $agency->name }}" required>
+                    <input type="text" class="form-control @error('name') is-invalid @enderror" name="name" id="name" value="{{ $agency->agency_name }}" required>
                 </div>
 
                 <div class="form-group">

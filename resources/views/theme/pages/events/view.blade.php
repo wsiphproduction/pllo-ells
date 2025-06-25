@@ -34,17 +34,19 @@
 							Options
 						</button>
 						<div class="dropdown-menu">
+							<a class="dropdown-item" href="{{ route('events.invitees', $event->id) }}">List of Invitees</a>
+
 							@if(Auth::check() && $event->created_by == Auth::id())
 								<a class="dropdown-item" href="{{ route('events.edit', $event->id) }}">Update Details</a>
 								<a class="dropdown-item text-danger bg-transparent" href="#" onclick="$('#cancelModal').modal('show')">Cancel Event</a>
 							@endif
 
-							@if(!App\Models\Custom\EventParticipant::hasRepliedInvitation(Auth::check() ? Auth::user()->id : 0))
-								<a class="dropdown-item" href="#" @if(!App\Models\Custom\EventParticipant::hasRepliedInvitation(Auth::check() ? Auth::user()->id : 0)) onclick="$('#registerModal').modal('show')" @else onclick="$('#repliedModal').modal('show')" @endif>Register Now</a>
-								<a class="dropdown-item text-danger bg-transparent" href="#" @if(!App\Models\Custom\EventParticipant::hasRepliedInvitation(Auth::check() ? Auth::user()->id : 0)) onclick="$('#declineModal').modal('show')" @else onclick="$('#repliedModal').modal('show')" @endif>Decline Invitation</a>
+							@if(Auth::user()->role_id != 1)
+								@if(!App\Models\Custom\EventParticipant::hasRepliedInvitation(\App\Models\Member::getMemberInfo(Auth::check() ? Auth::user()->id : 0)->id))
+									<a class="dropdown-item" href="#" @if(Auth::user()->role_id == 1 || !App\Models\Custom\EventParticipant::hasRepliedInvitation(\App\Models\Member::getMemberInfo(Auth::check() ? Auth::user()->id : 0)->id)) onclick="$('#registerModal').modal('show')" @else onclick="$('#repliedModal').modal('show')" @endif>Register Now</a>
+									<a class="dropdown-item text-danger bg-transparent" href="#" @if(Auth::user()->role_id == 1 || !App\Models\Custom\EventParticipant::hasRepliedInvitation(\App\Models\Member::getMemberInfo(Auth::check() ? Auth::user()->id : 0)->id)) onclick="$('#declineModal').modal('show')" @else onclick="$('#repliedModal').modal('show')" @endif>Decline Invitation</a>
+								@endif
 							@endif
-
-							<a class="dropdown-item" href="{{ route('events.invitees', $event->id) }}">List of Invitees</a>
 
 						</div>
 
@@ -152,7 +154,7 @@
 						</ul>
 					</div>
 
-					@if(!App\Models\Custom\EventParticipant::hasRepliedInvitation(Auth::check() ? Auth::user()->id : 0))
+					@if(Auth::user()->role_id != 1 && !App\Models\Custom\EventParticipant::hasRepliedInvitation(\App\Models\Member::getMemberInfo(Auth::check() ? Auth::user()->id : 0)->id))
 						<button class="btn form-control mt-5 text-white bg-custom-primary" onclick="$('#registerModal').modal('show')">REGISTER NOW</button>
 					@endif
 

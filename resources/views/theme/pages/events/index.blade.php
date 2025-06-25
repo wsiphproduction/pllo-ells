@@ -30,7 +30,7 @@
 					
 					@php $show_event = 0; @endphp
 					@foreach($events as $event)
-						@if(App\Models\Custom\Event::isUserInvited(Auth::check() ? Auth::id() : 0, $event->id))
+						@if(Auth::user()->role_id == 1 || App\Models\Custom\Event::isUserInvited(App\Models\Member::where('user_id', Auth::check() ? Auth::id() : 0)->first()->id, $event->id))
 							@php $show_event = 1; @endphp
 							<div class="col-lg-12 mt-2">
 								<div class="p-0 card">

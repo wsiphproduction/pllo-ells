@@ -140,7 +140,7 @@
                                         </div>
                                     </th>
                                     <td style="overflow: hidden;text-overflow: ellipsis;">
-                                        <strong title="{{ $agency->name }}">{{ $agency->name }}</strong>
+                                        <strong title="{{ $agency->agency_name }}">{{ $agency->agency_name }}</strong>
                                     </td>
                                     <td>
                                         <span class="text-nowrap">{{ $agency->description }}</span>
@@ -154,7 +154,7 @@
                                                 <a class="nav-link text-info" title="Edit Agency" href="{{ route('registration.agency-edit', $agency->id) }}">
                                                     <i data-feather="edit"></i>
                                                 </a>
-                                                <a class="nav-link text-danger" title="Delete Agency" href="#" data-target="#prompt-delete-menu" data-toggle="modal" data-animation="effect-scale" data-id="{{ $agency->id }}" data-name="{{ $agency->name }}" data-is-active="{{ $agency->is_active }}" @if ($agency->is_active) disabled @endif>
+                                                <a class="nav-link text-danger" title="Delete Agency" href="#" data-target="#prompt-delete-menu" data-toggle="modal" data-animation="effect-scale" data-id="{{ $agency->id }}" data-name="{{ $agency->agency_name }}" data-is-active="{{ $agency->is_active }}" @if ($agency->is_active) disabled @endif>
                                                     <i data-feather="trash"></i>
                                                 </a>
                                                 @if (!$agency->is_active)
