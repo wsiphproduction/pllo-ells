@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 25, 2025 at 05:02 AM
+-- Generation Time: Jun 25, 2025 at 08:26 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -1583,7 +1583,9 @@ INSERT INTO `cms_activity_logs` (`id`, `log_by`, `activity_type`, `dashboard_act
 (1139, NULL, 'insert', 'created a new user', 'created the user test5 X. testset5 Sr', '2025-06-24 02:31:57', 'users', '', 'test5 X. testset5 Sr', '52240'),
 (1140, NULL, 'insert', 'created a new user', 'created the user Dino T. Cornel Sr', '2025-06-24 02:34:06', 'users', '', 'Dino T. Cornel Sr', '52241'),
 (1141, '1', 'update', 'updated the user status', 'updated the user status of Dino T. Cornel Sr from 1 to 0', '2025-06-24 02:34:49', 'users', '1', '0', '52241'),
-(1142, NULL, 'insert', 'created a new user', 'created the user Jose K. Rixal Sr', '2025-06-25 10:51:32', 'users', '', 'Jose K. Rixal Sr', '52242');
+(1142, NULL, 'insert', 'created a new user', 'created the user Jose K. Rixal Sr', '2025-06-25 10:51:32', 'users', '', 'Jose K. Rixal Sr', '52242'),
+(1143, NULL, 'insert', 'created a new user', 'created the user Raven H. Stark ', '2025-06-25 14:24:51', 'users', '', 'Raven H. Stark ', '52243'),
+(1144, '1', 'update', 'updated the user status', 'updated the user status of Raven H. Stark  from 1 to 0', '2025-06-25 14:25:52', 'users', '1', '0', '52243');
 
 -- --------------------------------------------------------
 
@@ -1769,7 +1771,8 @@ CREATE TABLE `members` (
 INSERT INTO `members` (`id`, `user_id`, `firstname`, `lastname`, `middle_initial`, `suffix`, `email`, `alt_email`, `password`, `contact_number`, `type_number`, `other_number`, `gender`, `birthdate`, `system`, `agency`, `designation`, `cluster`, `logo`, `photo`, `is_verified`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (24, 52231, 'Newly', 'Created', 'X', 'Sr', 'newlycreated@gmail.com', NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '1231231234', NULL, '3', 1, '1999-06-26', 1, 7, NULL, '1::2::3::4', '127.0.0.1:8000/storage/logo/bp (8).png', '127.0.0.1:8000/storage/photo/Untitled (6).png', 1, '2025-06-16 01:00:15', '2025-06-16 01:06:00', NULL),
 (32, 52241, 'Dino', 'Cornel', 'T', 'Sr', 'ef@gmail.com', 'ef2@gmail.com', '$2y$10$V7oKIKP/39i8gckyk70ZsOlmX3gQpJl0MbspGqYql8rcLReAS155C', '99999999999', NULL, '3333333333::444444444', 1, 'January 1', 1, 3, NULL, '4::5', 'storage/logo/f3.jpg', 'storage/photo/f1.jpg', 1, '2025-06-23 18:34:06', '2025-06-23 18:34:32', NULL),
-(33, 52242, 'Jose', 'Rixal', 'K', 'Sr', 'jose@mail.com', 'jose2@mail.com', '$2y$10$U.ROWwYaCn/SToXwaRo5QOTeFUpot0R6Bh2XMNMVHlakNYAhTUafG', '1231231234', NULL, '123123333::1231231231', 1, 'July 12', 1, 7, NULL, '2::3', NULL, NULL, 0, '2025-06-25 02:51:32', '2025-06-25 02:51:32', NULL);
+(33, 52242, 'Jose', 'Rixal', 'K', 'Sr', 'jose@mail.com', 'jose2@mail.com', '$2y$10$U.ROWwYaCn/SToXwaRo5QOTeFUpot0R6Bh2XMNMVHlakNYAhTUafG', '1231231234', NULL, '123123333::1231231231', 1, 'July 12', 1, 7, NULL, '2::3', NULL, NULL, 0, '2025-06-25 02:51:32', '2025-06-25 02:51:32', NULL),
+(34, 52243, 'Raven', 'Stark', 'H', NULL, '001ravenstark@gmail.com', '002ravenstark@gmail.com', '$2y$10$vcz.KPAnLvSFY6Mi56wIveDPmtki8mrLw247XnoUFeiNTjkNVPAme', '09876543321', NULL, '0988765167', 1, 'October 12', 1, 2, 2, '2::4', 'storage/logo/lls-logo (5).png', 'storage/photo/bp (4).png', 1, '2025-06-25 06:24:51', '2025-06-25 06:25:40', NULL);
 
 -- --------------------------------------------------------
 
@@ -3440,6 +3443,7 @@ INSERT INTO `users` (`id`, `name`, `email`, `firstname`, `lastname`, `avatar`, `
 (1, 'Admin Istrator', 'wsiprod.demo@gmail.com', 'PLLO', 'Administrator', 'http://127.0.0.1:8000/storage/avatars/wsi-logo (2).png', NULL, '2024-01-30 06:25:03', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, 1, 1, '09456714321', '022646545', NULL, 'Maharlika St', 'Pasay', NULL, NULL, '1234', 0, 'g5cyu7OOOyFNF2qC3F8yf6spcDIg6YGxdDBZZHUEj0H0clk9CNNhk14eTa1i', '2024-01-30 06:25:03', '2025-05-21 07:20:36', NULL),
 (52241, 'Dino T. Cornel Sr', 'ef@gmail.com', 'Dino', 'Cornel', NULL, '9165', '2025-06-23 18:34:32', '$2y$10$V7oKIKP/39i8gckyk70ZsOlmX3gQpJl0MbspGqYql8rcLReAS155C', 2, 1, NULL, '99999999999', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-23 18:34:06', '2025-06-23 18:34:49', NULL),
 (52242, 'Jose K. Rixal Sr', 'jose@mail.com', 'Jose', 'Rixal', NULL, NULL, NULL, '$2y$10$U.ROWwYaCn/SToXwaRo5QOTeFUpot0R6Bh2XMNMVHlakNYAhTUafG', 2, 0, NULL, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-25 02:51:32', '2025-06-25 02:51:32', NULL),
+(52243, 'Raven H. Stark ', '001ravenstark@gmail.com', 'Raven', 'Stark', NULL, '9166', '2025-06-25 06:25:40', '$2y$10$vcz.KPAnLvSFY6Mi56wIveDPmtki8mrLw247XnoUFeiNTjkNVPAme', 2, 1, NULL, '09876543321', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-25 06:24:51', '2025-06-25 06:25:52', NULL),
 (52231, 'Newly X. Created Sr', 'newlycreated@gmail.com', 'Newly', 'Created', NULL, '9164', '2025-06-16 04:38:35', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, 1, 24, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-16 01:00:15', '2025-06-16 04:38:35', NULL);
 
 -- --------------------------------------------------------
@@ -3726,7 +3730,7 @@ ALTER TABLE `cluster`
 -- AUTO_INCREMENT for table `cms_activity_logs`
 --
 ALTER TABLE `cms_activity_logs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1143;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1145;
 
 --
 -- AUTO_INCREMENT for table `designation`
@@ -3774,7 +3778,7 @@ ALTER TABLE `gender`
 -- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
 
 --
 -- AUTO_INCREMENT for table `menus`
@@ -3864,7 +3868,7 @@ ALTER TABLE `systems`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52243;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52244;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
