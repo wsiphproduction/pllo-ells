@@ -2,7 +2,74 @@
 
 @section('pagecss')
 <style>
-
+    .profile-pic-preview-container {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        overflow: hidden;
+        background-color: #e9ebee; /* Facebook-like light gray */
+        border: 3px solid #fff; /* White border */
+        box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1); /* Subtle shadow around border */
+        margin: 20px auto;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .profile-pic-preview {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+    .btn-upload {
+        background-color: #e5e5e5;
+        border-color: #d7d7d7;
+        border-radius: 8px;
+        padding: 8px 15px;
+        transition: background-color 0.2s ease;
+        font-size: 14px;
+    }
+    .btn-upload:hover {
+        background-color: #c3c3c3;
+        border-color: #a1a1a1;
+    }
+    .form-control-file {
+        border: 1px solid #ced4da;
+        border-radius: 8px;
+        padding: 8px 12px;
+    }
+    .file-input-wrapper {
+        position: absolute;
+        overflow: hidden;
+        display: inline-block;
+        cursor: pointer;
+        text-align: center;
+        transform: translate(25px, 75px);
+    }
+    .file-input-wrapper input[type=file] {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+    }
+    .file-input-label {
+        display: flex;
+        background-color: #e4e6eb;
+        color: #333;
+        padding: 0px 0px;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+        width: 40px;
+        height: 40px;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50px;
+    }
+    .file-input-label:hover {
+        background-color: #d8dade;
+    }
+    .file-input-wrapper.photo {
+        transform: translate(25px, 108px);
+    }
 </style>
 @endsection
 
@@ -24,11 +91,42 @@
 
                 <div class="col-12 col-md-2">
                     <h4 class="form-title">USER PROFILE</h4>
-                    @if(auth()->user()->avatar === null)
-                        <img src="{{ asset('images/user.png') }}">
-                    @else
-                        <img src="">Profile Picture here..
-                    @endif
+
+                    <form action="{{ route('member.upload.logo') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+
+                        <div class="text-center mb-4 position-relative">
+                            <div class="file-input-wrapper">
+                                <input type="file" class="form-control" id="logo" name="logo" accept="image/*">
+                                <label for="logo" class="file-input-label">
+                                    <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                      <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8a1 1 0 0 1 1-1h1.5l1.707-1.707A1 1 0 0 1 8.914 5h6.172a1 1 0 0 1 .707.293L17.5 7H19a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/>
+                                      <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                    </svg>
+                                </label>
+                            </div>
+                            <div class="profile-pic-preview-container">
+                                <img id="imagePreviewLogo"
+                                     src="{{ Auth::user()->logo ? asset('storage/' . Auth::user()->logo) : asset('images/user.png') }}"
+                                     class="profile-pic-preview" alt="Profile Picture Preview">
+
+                            </div>
+
+
+                            @error('logo')
+                                <div class="alert alert-danger mt-2">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button id="logo_upload_btn" type="submit" class="btn btn-upload" style="display: none;">
+                                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2M12 4v12m0-12 4 4m-4-4L8 8"/>
+                                </svg>
+                                Upload Logo
+                            </button>
+                        </div>
+                    </form>
                 </div>
 
                 <div class="col-12 col-md-10">
@@ -61,7 +159,7 @@
                                 <div class="col-12 col-md-2">
                                     <small class="form-title"><b>MAIN ACCOUNT</b></small>
                                     <br />
-                                    <img class="mt-4" src="{{ asset('images/user.png') }}" width="120">
+                                    <img class="mt-4" src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('images/user.png') }}" width="120">
                                 </div>
                                 <div class="col-12 col-md-5">
                                     <table class="table-dotted table-striped">
@@ -108,7 +206,28 @@
                                         <div class="col-12 col-md-2">
                                             <small class="form-title"><b>MAIN ACCOUNT</b></small>
                                             <br />
-                                            <img class="mt-4" src="{{ asset('images/user.png') }}" width="120">
+                                            <div class="text-center mb-4 position-relative">
+                                                <div class="file-input-wrapper photo">
+                                                    <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
+                                                    <label for="photo" class="file-input-label">
+                                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                          <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8a1 1 0 0 1 1-1h1.5l1.707-1.707A1 1 0 0 1 8.914 5h6.172a1 1 0 0 1 .707.293L17.5 7H19a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/>
+                                                          <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                        </svg>
+                                                    </label>
+                                                </div>
+                                                <div class="profile-pic-preview-container">
+                                                    <img id="imagePreviewPhoto"
+                                                         src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('images/user.png') }}"
+                                                         class="profile-pic-preview" alt="Profile Picture Preview">
+
+                                                </div>
+
+
+                                                @error('photo')
+                                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
+                                                @enderror
+                                            </div>
                                         </div>
                                         <div class="col-12 col-md-5">
                                             <div>
@@ -342,8 +461,31 @@
                                 &nbsp;
                                 &nbsp;
                             </div>
-                            <button class="btn btn-danger text-white"><small class="text-uppercase">delete account</small></button>
+                            <button class="btn btn-danger text-white" data-bs-toggle="modal" data-bs-target="#deleteAccountModal"><small class="text-uppercase">delete account</small></button>
                         </div>
+                    </div>
+
+                    <!-- Resend Email Confirmation Modal -->
+                    <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="regApproveModalLabel">Delete Email</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            Are you sure you want to delete your account?
+                          </div>
+                          <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <form method="post" action="#" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="user_id" value="{{ auth()->user() }}">
+                                <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
                     </div>
 
                 </div>
@@ -358,6 +500,62 @@
 
 @section('pagejs')
 	<script>
+        $(document).ready(function() {
+            // Get the image input and the preview image element
+            const logoInput = $('#logo');
+            const photoInput = $('#photo');
+            const imagePreviewLogo = $('#imagePreviewLogo');
+            const imagePreviewPhoto = $('#imagePreviewPhoto');
+
+            // Listen for changes on the file input on Logo
+            logoInput.on('change', function() {
+                // Get the selected file
+                const file = this.files[0];
+
+                $('#logo_upload_btn').show();
+
+                if (file) {
+                    // Create a FileReader object
+                    const reader = new FileReader();
+
+                    // Set the onload event handler for the FileReader
+                    reader.onload = function(e) {
+                        // Set the src attribute of the image preview to the data URL
+                        imagePreviewLogo.attr('src', e.target.result);
+                    };
+
+                    // Read the file as a Data URL (Base64 encoded string)
+                    reader.readAsDataURL(file);
+                } else {
+                    // If no file is selected, revert to default or placeholder image
+                    imagePreviewLogo.attr('src', '{{ Auth::user()->logo ? asset('storage/' . Auth::user()->logo) : 'https://placehold.co/150x150/e9ebee/333333?text=No+Image' }}');
+                }
+            });
+
+                    // Listen for changes on the file input on Logo
+            photoInput.on('change', function() {
+                // Get the selected file
+                const file = this.files[0];
+
+                if (file) {
+                    // Create a FileReader object
+                    const reader = new FileReader();
+
+                    // Set the onload event handler for the FileReader
+                    reader.onload = function(e) {
+                        // Set the src attribute of the image preview to the data URL
+                        imagePreviewPhoto.attr('src', e.target.result);
+                    };
+
+                    // Read the file as a Data URL (Base64 encoded string)
+                    reader.readAsDataURL(file);
+                } else {
+                    // If no file is selected, revert to default or placeholder image
+                    imagePreviewPhoto.attr('src', '{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : 'https://placehold.co/150x150/e9ebee/333333?text=No+Image' }}');
+                }
+            });
+        });
+
         $('#edit_profile_btn').on('click', function() {
             $('#edit_profile_panel').css("display", "flex");
             $('#default_profile_panel').css("display", "none");

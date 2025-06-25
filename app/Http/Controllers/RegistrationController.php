@@ -28,6 +28,8 @@ use App\Models\MessagingNumber;
 use DB;
 use Auth;
 use Session;
+use Storage;
+use Image;
 
 class RegistrationController extends Controller
 {
@@ -286,16 +288,29 @@ class RegistrationController extends Controller
             }
         }
 
+        if ($request->hasFile('photo')) {
+
+            $image = $request->file('photo');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $path = 'photo/' . $filename;
+
+            Storage::disk('public')->putFileAs('photo', $image, $filename);
+
+            $member->photo = $path;
+            $user->avatar = $path;
+
+        }
+
         $member->email = $request['email'];
         $member->alt_email = $request['alt_email'];
-        $user->email = $request['email'];
         $member->cluster = implode('::', $request['cluster']);
+
+        $user->email = $request['email'];
 
         $member->save();
         $user->save();
         
         return back()->with('success', ('Profile updated successfully.'));
-
     }
 
     public function logout() {
@@ -381,4 +396,31 @@ class RegistrationController extends Controller
 
         return back()->with('success', 'Email Confirmation Resent.');
     }
+
+    public function uploadMemberLogo(Request $request)
+        {
+            $request->validate([
+                'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Max 2MB
+            ]);
+
+            $member = Member::where('user_id', auth()->user()->id)->first();
+
+            if ($request->hasFile('logo')) {
+
+                $image = $request->file('logo');
+                $filename = time() . '.' . $image->getClientOriginalExtension();
+                $path = 'logo/' . $filename;
+
+                Storage::disk('public')->putFileAs('logo', $image, $filename);
+
+                $member->logo = $path;
+
+                $member->save();
+                
+            } else {
+                return back()->with('error', 'No logo selected.');
+            }
+            return back()->with('success', 'New logo uploaded.');
+        
+        }
 }

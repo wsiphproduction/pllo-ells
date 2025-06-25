@@ -619,6 +619,7 @@ Route::get('/member-logout', [RegistrationController::class, 'logout'])->name('m
 Route::get('/member-dashboard', [RegistrationController::class, 'memberDashboard'])->name('member.dashboard');
 Route::post('/member-profile-update', [RegistrationController::class, 'memberProfileUpdate'])->name('member.profile.update');
 Route::post('/member-resend-email', [RegistrationController::class, 'resendRegisterConfirmation'])->name('member.resend.email');
+Route::post('/member-upload-logo', [RegistrationController::class, 'uploadMemberLogo'])->name('member.upload.logo');
 
 // ADMIN USER
 Route::get('/admin-dashboard', [RegistrationController::class, 'adminDashboard'])->name('admin.dashboard');
