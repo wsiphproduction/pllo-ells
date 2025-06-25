@@ -30,31 +30,35 @@
 					
 					@forelse($events as $event)
 
-						<div class="col-lg-12 mt-2">
-							<div class="p-0 card">
-								<div id="oc-testi" class="" data-margin="0" data-pagi="false" data-items="1">
-									<div class="oc-item">
-										<div class="row g-0 align-items-center">
-											<div class="col-md-3 d-flex align-items-center justify-content-center overflow-hidden" style="height:210px;">
-												<img src="{{ asset($event->event_img ?? 'theme/addons/images/logos/pllo-logo.png')}}" class="rounded-start" alt="..." style="height: auto; width: auto; object-fit: cover;">
-											</div>
-											<div class="col-md-8 px-5 py-4 testi-content">
-												<h3 class="form-title">{{ $event->title }}</h3>
-												<span>{{ $event->description }}</span>
-												<br><br>
-												<span>{{ $event->location}}</span>
-												<br>
-												<small class="text-danger">{{ \Carbon\Carbon::parse($event->date)->format('Y M d') .' at '. $event->time}}</small>
-											</div>
-											<div class="col-md-1">
-												<a href="{{ route('events.view', $event->id) }}"><i class="fa fa-arrow-circle-right fa-2x"></i></a>
+						@if(App\Models\Custom\Event::isUserInvited(Auth::check() ? Auth::id() : 0, $event->id))
+
+							<div class="col-lg-12 mt-2">
+								<div class="p-0 card">
+									<div id="oc-testi" class="" data-margin="0" data-pagi="false" data-items="1">
+										<div class="oc-item">
+											<div class="row g-0 align-items-center">
+												<div class="col-md-3 d-flex align-items-center justify-content-center overflow-hidden" style="height:210px;">
+													<img src="{{ asset($event->event_img ?? 'theme/addons/images/logos/pllo-logo.png')}}" class="rounded-start" alt="..." style="height: auto; width: auto; object-fit: cover;">
+												</div>
+												<div class="col-md-8 px-5 py-4 testi-content">
+													<h3 class="form-title">{{ $event->title }}</h3>
+													<span>{{ $event->description }}</span>
+													<br><br>
+													<span>{{ $event->location}}</span>
+													<br>
+													<small class="text-danger">{{ \Carbon\Carbon::parse($event->date)->format('Y M d') .' at '. $event->time}}</small>
+												</div>
+												<div class="col-md-1">
+													<a href="{{ route('events.view', $event->id) }}"><i class="fa fa-arrow-circle-right fa-2x"></i></a>
+												</div>
 											</div>
 										</div>
-									</div>
 
+									</div>
 								</div>
 							</div>
-						</div>
+
+						@endif
 
 						{{-- <div class="promo promo-light p-4 p-md-5 mb-5">
 							<div class="row align-items-center">
