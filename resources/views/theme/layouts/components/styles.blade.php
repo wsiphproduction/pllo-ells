@@ -511,6 +511,27 @@
             color: #ffffff !important;
             background-color: #2b3649;
         }
+
+        .no-bullet {
+            list-style: none;
+        }
+
+        .btn-navs {
+            padding: 6px 12px;
+            border-radius: 6px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #2b3649;
+            color: white;
+            border: 1px solid #2b3649;
+            font-size: 14px;
+        }
+        .btn-navs:hover {
+            background-color: #405475;
+            border: 1px solid #405475;
+        }
         
     </style>
 

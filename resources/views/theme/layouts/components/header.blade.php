@@ -20,7 +20,7 @@
                             <a class="nav-link py-3 px-4 border-start border-secondary text-white text-uppercase" href="{{ route('admin.dashboard') }}">
                                 <small>DASHBOARD</small>
                             </a>
-                            <a class="nav-link py-3 px-4 border-start border-secondary text-white text-uppercase" href="{{ route('admin.dashboard') }}">
+                            <a class="nav-link py-3 px-4 border-start border-secondary text-white text-uppercase" href="{{ route('maintenance.dashboard') }}">
                                 <small>MAINTENANCE</small>
                             </a>
                         </div>
