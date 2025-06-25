@@ -40,15 +40,23 @@ class Member extends Model
     }
 
     public function getClusterDetailsAttribute() {
-
         return $this->belongsTo(Cluster::class,'cluster_id', 'id');
     }
 
     public function getClusterName($value) {
-
         $name = Cluster::find($value);
-
         return $name;
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->firstname . ' ' . $this->middle_initial . '. ' . $this->lastname;
+    }
+
+
+    public static function getMemberInfo($user_id) {
+        $member = Member::where('user_id', $user_id)->first();
+        return $member;
     }
 
 }

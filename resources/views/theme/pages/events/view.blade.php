@@ -29,14 +29,23 @@
 				<div class="col-12 mb-5 d-flex justify-content-between align-items-center">
 					<h3 class="form-title m-0">{{ $page->name }}</h3>
 
-					<div class="btn-group {{ Auth::check() && $event->created_by == Auth::id() ? '' : 'd-none' }}">
+					<div class="btn-group">
 						<button type="button" class="btn btn-transparent dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 							Options
 						</button>
 						<div class="dropdown-menu">
-							<a class="dropdown-item" href="{{ route('events.edit', $event->id) }}">Update Details</a>
-							<a class="dropdown-item text-danger" href="#" onclick="$('#cancelModal').modal('show')">Cancel Event</a>
-							{{-- <a class="dropdown-item" href="javascript:void(0)" onclick="open modal and ask if confirm cancel">Cancel Event</a> --}}
+							@if(Auth::check() && $event->created_by == Auth::id())
+								<a class="dropdown-item" href="{{ route('events.edit', $event->id) }}">Update Details</a>
+								<a class="dropdown-item text-danger bg-transparent" href="#" onclick="$('#cancelModal').modal('show')">Cancel Event</a>
+							@endif
+
+							@if(!App\Models\Custom\EventParticipant::hasRepliedInvitation(Auth::check() ? Auth::user()->id : 0))
+								<a class="dropdown-item" href="#" @if(!App\Models\Custom\EventParticipant::hasRepliedInvitation(Auth::check() ? Auth::user()->id : 0)) onclick="$('#registerModal').modal('show')" @else onclick="$('#repliedModal').modal('show')" @endif>Register Now</a>
+								<a class="dropdown-item text-danger bg-transparent" href="#" @if(!App\Models\Custom\EventParticipant::hasRepliedInvitation(Auth::check() ? Auth::user()->id : 0)) onclick="$('#declineModal').modal('show')" @else onclick="$('#repliedModal').modal('show')" @endif>Decline Invitation</a>
+							@endif
+
+							<a class="dropdown-item" href="{{ route('events.invitees', $event->id) }}">List of Invitees</a>
+
 						</div>
 
 						<div class="modal fade" id="cancelModal" tabindex="-1">
@@ -49,6 +58,47 @@
 										@csrf
 											<button class="btn btn-danger">Yes</button>
 										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="modal fade" id="registerModal" tabindex="-1">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-body">Are you sure you want to register in this event?</div>
+									<div class="modal-footer">
+										<button class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+										<form method="POST" action="{{ route('events.register-event', $event->id) }}">
+										@csrf
+											<button class="btn btn-primary">Yes</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="modal fade" id="declineModal" tabindex="-1">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-body">Are you sure you want to decline this event invitation?</div>
+									<div class="modal-footer">
+										<button class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+										<form method="POST" action="{{ route('events.decline-event', $event->id) }}">
+										@csrf
+											<button class="btn btn-danger">Yes</button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="modal fade" id="repliedModal" tabindex="-1">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-body">You already answered to this invitation</div>
+									<div class="modal-footer">
+										<button class="btn btn-secondary" data-bs-dismiss="modal">OK</button>
 									</div>
 								</div>
 							</div>
@@ -102,7 +152,9 @@
 						</ul>
 					</div>
 
-					<button class="btn form-control mt-5 text-white bg-custom-primary">REGISTER NOW</button>
+					@if(!App\Models\Custom\EventParticipant::hasRepliedInvitation(Auth::check() ? Auth::user()->id : 0))
+						<button class="btn form-control mt-5 text-white bg-custom-primary" onclick="$('#registerModal').modal('show')">REGISTER NOW</button>
+					@endif
 
 				</div>
 

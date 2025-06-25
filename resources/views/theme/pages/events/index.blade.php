@@ -28,10 +28,10 @@
 
 				<div class="col-12 mb-3">
 					
-					@forelse($events as $event)
-
+					@php $show_event = 0; @endphp
+					@foreach($events as $event)
 						@if(App\Models\Custom\Event::isUserInvited(Auth::check() ? Auth::id() : 0, $event->id))
-
+							@php $show_event = 1; @endphp
 							<div class="col-lg-12 mt-2">
 								<div class="p-0 card">
 									<div id="oc-testi" class="" data-margin="0" data-pagi="false" data-items="1">
@@ -59,23 +59,9 @@
 							</div>
 
 						@endif
+					@endforeach
 
-						{{-- <div class="promo promo-light p-4 p-md-5 mb-5">
-							<div class="row align-items-center">
-								<div class="col-12 col-lg">
-									<h3 class="form-title">{{ $event->title }}</h3>
-									<span>{{ $event->description }}</span>
-									<br>
-									<span>{{ $event->location}}</span>
-									<br>
-									<small class="text-danger">{{ \Carbon\Carbon::parse($event->date)->format('Y M d') .' at '. $event->time}}</small>
-								</div>
-								<div class="col-12 col-lg-auto mt-4 mt-lg-0">
-									<a href="{{ route('events.view', $event->id) }}" class="button button-large button-circle button-black m-0">VIEW</a>
-								</div>
-							</div>
-						</div> --}}
-					@empty
+					@if($show_event == 0)
 						<div class="promo promo-light p-4 p-md-5 mb-5">
 							<div class="row align-items-center">
 								<div class="col-12 col-lg">
@@ -83,7 +69,7 @@
 								</div>
 							</div>
 						</div>
-					@endforelse
+					@endif
 					
 				</div>
 			</div>
