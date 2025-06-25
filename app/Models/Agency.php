@@ -40,4 +40,8 @@ class Agency extends Model
 
         return $name->name;
     }
+
+    public static function getAgencyName($id){
+        return Agency::find($id);
+    }
 }

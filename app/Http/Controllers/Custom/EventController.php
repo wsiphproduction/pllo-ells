@@ -126,6 +126,17 @@ class EventController extends Controller
         return view('theme.pages.events.view', compact('page', 'event'));
     }
 
+    public function invitees($id){
+
+        $event = Event::find($id);
+        $members = Member::all();
+
+        $page = new Page();
+        $page->name = 'List of Invitees';
+
+        return view('theme.pages.events.invitees', compact('page', 'event', 'members'));
+    }
+
     public function edit(Event $event){
 
         if(!Auth::user()){
@@ -312,5 +323,26 @@ class EventController extends Controller
         Event::where('id', $id)->delete();
 
         return redirect()->route('events.index')->with('success', 'You successfully deleted an event');
+    }
+
+    public function register_event($event_id){
+
+        EventParticipant::create([
+            'event_id' => $event_id,
+            'member_id' => Member::getMemberInfo(Auth::user()->id)->id
+        ]);
+
+        return redirect()->back()->with('success', 'You successfully registered on this event');
+    }
+
+    public function decline_event($event_id){
+
+        EventParticipant::create([
+            'event_id' => $event_id,
+            'member_id' => Member::getMemberInfo(Auth::user()->id)->id,
+            'status' => 0
+        ]);
+
+        return redirect()->back()->with('success', 'You successfully declined to participate on this event');
     }
 }

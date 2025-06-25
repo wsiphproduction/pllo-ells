@@ -74,7 +74,10 @@ Route::get('/phpinfo', function () {
     // Events
         Route::resource('/events', EventController::class);
         Route::get('/events/view/{id}', [EventController::class, 'view'])->name('events.view');
+        Route::get('/events/invitees/{id}', [EventController::class, 'invitees'])->name('events.invitees');
         Route::post('/events/cancel-event/{id}', [EventController::class, 'cancel_event'])->name('events.cancel-event');
+        Route::post('/events/register-event/{id}', [EventController::class, 'register_event'])->name('events.register-event');
+        Route::post('/events/decline-event/{id}', [EventController::class, 'decline_event'])->name('events.decline-event');
     //
 
     // Sitemap
