@@ -19,7 +19,7 @@ class EventController extends Controller
         $page = new Page();
         $page->name = 'Events';
 
-        $events = Event::all();
+        $events = Event::orderBy('created_at', 'desc')->get();
 
         return view('theme.pages.events.index', compact('page', 'events'));
     }
