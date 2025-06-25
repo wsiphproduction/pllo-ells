@@ -86,29 +86,26 @@ class RegistrationController extends Controller
             return back()->with('error', 'Password and Confirm Password do not match.');
         }
 
-        // Create new member //
+        // Parallel saving users to members table //
         $requests = $request->all();
+        $requests['name'] = $request['firstname'] . " " . $request['middle_initial'] . ". " . $request['lastname'] . " " . $request['suffix'];
+        $requests['mobile'] = $requests['contact_number'];
+        $requests['role_id'] = '2';
+        $requests['is_active'] = '0';
+        $requests['password'] = Hash::make($request->password);
+
+        $user = User::create($requests);
+
+        // Create new member //
+        $requests['user_id'] = $user->id;
         $requests['type_number'] = implode("::", $request['type_number']);
         $requests['other_number'] = implode("::", $request['other_number']);
         $requests['cluster'] = implode("::", $request['cluster']);
         $requests['birthdate'] = $requests['month'] ." ". $requests['day'];
         $requests['photo'] = $request->hasFile('office_id') ? FileHelper::move_to_folder($request->file('office_id'), 'photo')['url'] : null;
         $requests['logo'] = $request->hasFile('agency_logo') ? FileHelper::move_to_folder($request->file('agency_logo'), 'logo')['url'] : null;
-        $requests['password'] = Hash::make($request->password);
 
         Member::create($requests);
-
-        // Parallel saving to users table //
-        $user_id = Member::where('email', $requests['email'])->first();
-
-        $requests['name'] = $request['firstname'] . " " . $request['middle_initial'] . ". " . $request['lastname'] . " " . $request['suffix'];
-        $requests['mobile'] = $requests['contact_number'];
-        $requests['birth_date'] = $requests['birthdate'];
-        $requests['role_id'] = '2';
-        $requests['is_active'] = '0';
-        $requests['user_id'] = $user_id->id;
-
-        $user = User::create($requests);
 
         // Email condition //
         Mail::to($requests['email'])->send(new RegisterMail(Setting::info(), $user));
@@ -263,7 +260,7 @@ class RegistrationController extends Controller
         $page->name = 'Member Dashboard';
 
         $clustersList = Cluster::all();
-        $memberDetails = Member::find(Auth::user()->user_id);
+        $memberDetails = Member::where('user_id', Auth::user()->id)->first();
         $memberAgency = Agency::find($memberDetails->agency);
 
         if (auth()->user()) {
@@ -285,19 +282,19 @@ class RegistrationController extends Controller
         $page->name = 'Admin Dashboard';
 
         $registrations_pending = User::where('role_id', 2)
-                        ->leftJoin('members', 'members.id', '=', 'users.user_id')
+                        ->leftJoin('members', 'members.user_id', '=', 'users.id')
                         ->where('members.is_verified', 1)
                         ->where('users.is_active','<>', 1)
                         ->get();
 
         $registrations_approve = User::where('role_id', 2)
-                        ->leftJoin('members', 'members.id', '=', 'users.user_id')
+                        ->leftJoin('members', 'members.user_id', '=', 'users.id')
                         ->where('members.is_verified', 1)
                         ->where('users.is_active', 1)
                         ->get();
 
         $registrations_process = User::where('role_id', 2)
-                        ->leftJoin('members', 'members.id', '=', 'users.user_id')
+                        ->leftJoin('members', 'members.user_id', '=', 'users.id')
                         ->where('members.is_verified', '<>', 1)
                         ->where('users.is_active', '<>', 1)
                         ->get();
@@ -308,7 +305,7 @@ class RegistrationController extends Controller
 
     public function adminRegistrationApprove(Request $request) {
 
-        $user = User::where('user_id', $request->reg_id_approve)->first();
+        $user = User::where('id', $request->reg_id_approve)->first();
         $user->is_active = 1;
         $user->save();
 
@@ -323,7 +320,7 @@ class RegistrationController extends Controller
         $user = User::find($request->reg_id_delete);
         $user->delete();
 
-        $member = Member::find($user->user_id);
+        $member = Member::where('user_id', $user->id)->first();
         $member->delete();
 
         return back()->with('success', 'Registration Deleted!');
@@ -346,5 +343,14 @@ class RegistrationController extends Controller
         Agency::create($requests);
 
         return back()->with('success', 'Agency added successfully.');
+    }
+
+    public function resendRegisterConfirmation(Request $request) {
+
+        $user = User::where('id', $request->reg_id)->first();
+
+        Mail::to($user->email)->send(new RegisterConfirmationMail(Setting::info(), $user));
+
+        return back()->with('success', 'Email Confirmation Resent.');
     }
 }

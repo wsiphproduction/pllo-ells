@@ -82,7 +82,7 @@
 								  	        <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 								  	        <form method="post" action="{{ route('admin.registration.approve') }}" enctype="multipart/form-data">
 								  	        	@csrf
-								  	        	<input type="hidden" name="reg_id_approve" value="{{ $registration_pending->id }}">
+								  	        	<input type="hidden" name="reg_id_approve" value="{{ $registration_pending->user_id }}">
 								  	        	<button type="submit" class="btn btn-success">APPROVE</button>
 								  	        </form>
 								  	      </div>
@@ -105,7 +105,7 @@
 								  	        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 								  	        <form method="post" action="{{ route('admin.registration.approve') }}" enctype="multipart/form-data">
 								  	        	@csrf
-								  	        	<input type="hidden" name="reg_id_delete" value="{{ $registration_pending->id }}">
+								  	        	<input type="hidden" name="reg_id_delete" value="{{ $registration_pending->user_id }}">
 								  	        	<button type="submit" class="btn btn-danger">DELETE</button>
 								  	        </form>
 								  	      </div>
