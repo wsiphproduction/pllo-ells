@@ -102,43 +102,51 @@
                             </div>
 
                             <div class="row" id="edit_profile_panel" style="display: none;">
-                                <div class="col-12 col-md-2">
-                                    <small class="form-title"><b>MAIN ACCOUNT</b></small>
-                                    <br />
-                                    <img class="mt-4" src="{{ asset('images/user.png') }}" width="120">
-                                </div>
-                                <div class="col-12 col-md-5">
-                                    <div>
-                                        <input class="form-control mb-3" type="text" name="email" value="{{ $memberDetails->email }}">
-                                        <input class="form-control mb-3" type="text" name="alt_email" value="{{ $memberDetails->alt_email }}" placeholder="ALT EMAIL ADDRESS">
-                                        
-                                        <div style="position: relative;">
-                                            <input class="form-control mb-3" type="password" name="alt_email" value="{{ $memberDetails->password }}" placeholder="PASSWORD">
-                                            <svg style="right: 7px;" class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                            </svg>
+                                <form id="profile_update_form" action="{{ route('member.profile.update') }}" method="post" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="row">
+                                        <div class="col-12 col-md-2">
+                                            <small class="form-title"><b>MAIN ACCOUNT</b></small>
+                                            <br />
+                                            <img class="mt-4" src="{{ asset('images/user.png') }}" width="120">
                                         </div>
+                                        <div class="col-12 col-md-5">
+                                            <div>
+                                                <input class="form-control mb-3" type="text" name="email" value="{{ $memberDetails->email }}">
+                                                <input class="form-control mb-3" type="text" name="alt_email" value="{{ $memberDetails->alt_email }}" placeholder="ALT EMAIL ADDRESS">
+                                                
+                                                <div style="position: relative;">
+                                                    <input class="form-control mb-3" type="password" name="password" value="{{ $memberDetails->password }}" placeholder="PASSWORD">
+                                                    <svg style="right: 7px;" class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                    </svg>
+                                                </div>
 
-                                        <div style="position: relative;">
-                                            <input class="form-control mb-3" type="password" name="confirm_password" value="" placeholder="CONFIRM PASSWORD">
-                                            <svg style="right: 7px;" class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                            </svg>
+                                                <div style="position: relative;">
+                                                    <input class="form-control mb-3" type="password" name="confirm_password" value="" placeholder="CONFIRM PASSWORD">
+                                                    <svg style="right: 7px;" class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                    </svg>
+                                                </div>
+
+                                            </div>
+                                            <small><i><span class="text-danger">Disclaimer:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</i></small>
                                         </div>
-
+                                        <div class="col-12 col-md-5">
+                                            <div class="mb-2">
+                                                @php
+                                                    $cluster_arr = explode('::', $memberDetails->cluster);
+                                                @endphp
+                                                <select class="form-select" multiple aria-label="multiple select example" name="cluster[]">
+                                                    @foreach($clustersList as $clusterItem)
+                                                    <option value="{{ $clusterItem->id }}" @if(in_array($clusterItem->id, $cluster_arr)) selected @endif>{{ $clusterItem->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                            <small><i>Press Control in keyboard and Left Click Mouse for changes and Multi Select. Changes in cluster needs approval.</i></small>
+                                        </div>
                                     </div>
-                                    <small><i><span class="text-danger">Disclaimer:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</i></small>
-                                </div>
-                                <div class="col-12 col-md-5">
-                                    <div class="mb-2">
-                                        <select class="form-select" multiple aria-label="multiple select example" name="cluster[]">
-                                            @foreach($clustersList as $clusterItem)
-                                            <option value="{{ $clusterItem->id }}">{{ $clusterItem->name }}</option>
-                                            @endforeach
-                                        </select>
-                                    </div>
-                                    <small><i>Press Control in keyboard and Left Click Mouse for changes and Multi Select. Changes in cluster needs approval.</i></small>
-                                </div>
+                                </form>
                             </div>
 
                             <!-- <div class="row mt-4">
@@ -237,7 +245,7 @@
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Gender: </small></span></td>
-                                            <td><span><small>{{ $memberAgency->getGenderName($memberAgency->head_gender) }}</small></span></td>
+                                            <td><span><small>{{ $memberAgency->getGenderName(1) }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Office Address: </small></span></td>
@@ -327,7 +335,7 @@
                             &nbsp;
                             &nbsp;
                             <div id="save_cancel_pane" style="display: none;">
-                                <button class="btn btn-primary text-white" id="save_profile_btn"><small class="text-uppercase">SAVE</small></button>
+                                <button class="btn btn-primary text-white" id="save_profile_btn" onclick="submitProfileUpdate()"><small class="text-uppercase">SAVE</small></button>
                                 &nbsp;
                                 &nbsp;
                                 <button class="btn btn-secondary text-white" id="cancel_profile_btn"><small class="text-uppercase">CANCEL</small></button>
@@ -363,6 +371,10 @@
             $('#save_cancel_pane').css("display", "none");
             $('#edit_profile_btn').css("display", "flex");
         });
+
+        function submitProfileUpdate() {
+            $('#profile_update_form').submit();
+        }
 	</script>
 @endsection
 

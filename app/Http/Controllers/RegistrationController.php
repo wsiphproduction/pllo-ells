@@ -271,6 +271,33 @@ class RegistrationController extends Controller
 
     }
 
+    public function memberProfileUpdate(Request $request) {
+
+        $member = Member::where('user_id', auth()->user()->id)->first();
+        $user = User::find(auth()->user()->id);
+        
+        if(auth()->user()->password == $request->password) {
+            $requests['password'] = auth()->user()->password;
+        } else {
+            $member->password = Hash::make($request->password);
+            $user->password = $member->password;
+            if($request->password != $request->alt_password) {
+                return back()->with('error', ('Password and Confirm Password do not match.'));
+            }
+        }
+
+        $member->email = $request['email'];
+        $member->alt_email = $request['alt_email'];
+        $user->email = $request['email'];
+        $member->cluster = implode('::', $request['cluster']);
+
+        $member->save();
+        $user->save();
+        
+        return back()->with('success', ('Profile updated successfully.'));
+
+    }
+
     public function logout() {
         Auth::logout();
         return redirect(route('member.login'));   
@@ -347,7 +374,8 @@ class RegistrationController extends Controller
 
     public function resendRegisterConfirmation(Request $request) {
 
-        $user = User::where('id', $request->reg_id)->first();
+        $member = Member::find($request->reg_id);
+        $user = User::find($member->user_id);
 
         Mail::to($user->email)->send(new RegisterConfirmationMail(Setting::info(), $user));
 

@@ -16,6 +16,7 @@ class Member extends Model
     public $table = 'members';
 
     protected $fillable = [
+                            'user_id',
                             'firstname',
                             'lastname',
                             'middle_initial',
@@ -29,6 +30,7 @@ class Member extends Model
                             'birthdate',
                             'system',
                             'agency',
+                            'designation',
                             'cluster',
                             'logo',
                             'photo',
