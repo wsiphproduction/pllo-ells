@@ -50,7 +50,7 @@
 						</thead>
 						<tbody>
 							@forelse($members as $member)
-								@if(App\Models\Custom\Event::isUserInvited(Auth::check() ? Auth::id() : 0, $event->id))
+								@if(App\Models\Custom\Event::isUserInvited($member->id, $event->id))
 									<tr>
 										<td><img src="{{ asset($member->photo) }}" height="70px" onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';"></td>
 										<td><strong class="text-custom-primary">{{ $member->fullName }}</strong></td>
@@ -64,7 +64,13 @@
 										<td>
 											<div class="d-flex align-items-center gap-1">
 												<span class="badge badge-sm bg-success p-1 text-white rounded">INVITED</span>
-												<span class="badge badge-sm bg-secondary p-1 text-white rounded">PENDING</span>
+												@if(App\Models\Custom\EventParticipant::hasRepliedInvitation($member->id) && App\Models\Custom\EventParticipant::hasRepliedInvitation($member->id)->status == 1)
+													<span class="badge badge-sm bg-success p-1 text-white rounded">CONFIRMED</span>
+												@elseif(App\Models\Custom\EventParticipant::hasRepliedInvitation($member->id) && App\Models\Custom\EventParticipant::hasRepliedInvitation($member->id)->status == 2)
+													<span class="badge badge-sm bg-danger p-1 text-white rounded">REGRETS</span>
+												@else
+													<span class="badge badge-sm bg-secondary p-1 text-white rounded">PENDING</span>
+												@endif
 											</div>
 										</td>
 									</tr>

@@ -183,7 +183,7 @@
 														@foreach($agencies as $agency)
 															<option value="{{ $agency->id }}"
 																{{ in_array($agency->id, (array) json_decode($invited_agency->invited ?? '[]', true)) ? 'selected' : '' }}>
-																{{ $agency->name }}
+																{{ $agency->agency_name }}
 															</option>
 														@endforeach
 													</select>
@@ -311,7 +311,7 @@
 
 			$('#add-agency').on('click', function () {
 				let agencyOptions = agencies.map(agency => 
-					`<option value="${agency.id}">${agency.name}</option>`
+					`<option value="${agency.id}">${agency.agency_name}</option>`
 				).join('');
 
 				let newRow = `
@@ -392,7 +392,7 @@
 					modalBody += `
 						<div class="row mb-3 align-items-center">
 							<div class="col-md-5">
-								<strong>${agency.name}</strong>
+								<strong>${agency.agency_name}</strong>
 								<input type="hidden" name="individual_invitation_agency_ids[]" value="${agency.id}">
 							</div>
 							<div class="col-md-7">

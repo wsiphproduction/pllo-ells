@@ -35,11 +35,11 @@ class Event extends Model
         }
 
         //TO BE REPLACED WITH THE QUERY BELOW
-        $user_member = \App\Models\User::find($user_id);
-        $member = \App\Models\Member::find($user_member->user_id);
+        // $user_member = \App\Models\User::find($user_id);
+        // $member = \App\Models\Member::find($user_member->user_id);
         //
 
-        // $member = \App\Models\Member::where('user_id', $user_id)->first();
+        $member = \App\Models\Member::where('id', $user_id)->first();
         if (!$member) {
             return false;
         }

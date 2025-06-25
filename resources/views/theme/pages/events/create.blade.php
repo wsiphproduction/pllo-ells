@@ -167,7 +167,7 @@
 												<select name="agency_id[]" class="form-select">
 													<option selected disabled>SELECT AGENCY</option>
 													@foreach($agencies as $agency)
-														<option value="{{ $agency->id }}" {{ old('agency_id') == $agency->id ? 'selected' : '' }}>{{ $agency->name }}</option>
+														<option value="{{ $agency->id }}" {{ old('agency_id') == $agency->id ? 'selected' : '' }}>{{ $agency->agency_name }}</option>
 													@endforeach
 												</select>
 											</div>
@@ -295,7 +295,7 @@
 
 			$('#add-agency').on('click', function () {
 				let agencyOptions = agencies.map(agency => 
-					`<option value="${agency.id}">${agency.name}</option>`
+					`<option value="${agency.id}">${agency.agency_name}</option>`
 				).join('');
 
 				let newRow = `
@@ -362,7 +362,7 @@
 
 			$('#add-agency').on('click', function () {
 				let agencyOptions = agencies.map(agency => 
-					`<option value="${agency.id}">${agency.name}</option>`
+					`<option value="${agency.id}">${agency.agency_name}</option>`
 				).join('');
 
 				let newRow = `
@@ -436,7 +436,7 @@
 					modalBody += `
 						<div class="row mb-3 align-items-center">
 							<div class="col-md-5">
-								<strong>${agency.name}</strong>
+								<strong>${agency.agency_name}</strong>
 								<input type="hidden" name="individual_invitation_agency_ids[]" value="${agency.id}">
 							</div>
 							<div class="col-md-7">
