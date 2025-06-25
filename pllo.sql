@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 23, 2025 at 10:59 AM
+-- Generation Time: Jun 25, 2025 at 05:02 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -29,8 +29,19 @@ SET time_zone = "+00:00";
 
 CREATE TABLE `agency` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
-  `description` text DEFAULT NULL,
+  `agency_name` varchar(255) DEFAULT NULL,
+  `agency_address` varchar(255) DEFAULT NULL,
+  `agency_email` varchar(255) DEFAULT NULL,
+  `agency_landline` varchar(255) DEFAULT NULL,
+  `agency_cellphone` varchar(255) DEFAULT NULL,
+  `head_name` varchar(255) DEFAULT NULL,
+  `head_nickname` varchar(255) DEFAULT NULL,
+  `head_gender` varchar(255) DEFAULT NULL,
+  `head_address` varchar(255) DEFAULT NULL,
+  `head_alt_address` varchar(255) DEFAULT NULL,
+  `head_email` varchar(255) DEFAULT NULL,
+  `head_office_email` varchar(255) DEFAULT NULL,
+  `head_cellphone` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -40,11 +51,12 @@ CREATE TABLE `agency` (
 -- Dumping data for table `agency`
 --
 
-INSERT INTO `agency` (`id`, `name`, `description`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(2, 'Test 1 GOVERNMENT AGENCY', 'description of Test 1 GOVERNMENT AGENCY', '2025-05-23 01:40:24', NULL, NULL),
-(3, 'Test 2 GOVERNMENT AGENCY', 'description of Test 2 GOVERNMENT AGENCY', '2025-05-23 01:41:06', NULL, NULL),
-(4, 'Test 3 GOVERNMENT AGENCY', 'description of Test 3 GOVERNMENT AGENCY', '2025-05-23 01:41:06', NULL, NULL),
-(5, 'Department of Agency III', NULL, '2025-05-29 01:59:02', '2025-05-29 02:02:13', '2025-05-29 02:02:13');
+INSERT INTO `agency` (`id`, `agency_name`, `agency_address`, `agency_email`, `agency_landline`, `agency_cellphone`, `head_name`, `head_nickname`, `head_gender`, `head_address`, `head_alt_address`, `head_email`, `head_office_email`, `head_cellphone`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(2, 'Department of Justice', '1810 Blumentritt Rd, Sampaloc, City Of Manila, 1008 Metro Manila', 'dj2025@mail.com', '224-2345', '09101222345', 'Manuel G. Roxas', 'Manny', '1', 'Sesami Street, Cavite, City Of Manila, 1008 Metro Manila', '102 Sesami Street, Cavite, City Of Manila, 1008 Metro Manila', 'headofdoj2025@mail.com.ph', 'officedoj2025@mail.com.ph', '0919 787 6654', '2025-05-23 01:40:24', NULL, NULL),
+(3, 'Department of Waters', '1810 Blumentritt Rd, Sampaloc, City Of Manila, 1008 Metro Manila', 'dw2025@mail.com', '224-2345', '09101222345', 'Edgardo L. Mulak', 'Edgar', '1', 'Sesami Street, Cavite, City Of Manila, 1008 Metro Manila', '104 Sesami Street, Cavite, City Of Manila, 1008 Metro Manila', 'headofdow2025@mail.com.ph', 'officedow2025@mail.com.ph', '0919 787 6654', '2025-05-23 01:41:06', NULL, NULL),
+(4, 'Department of Agriculture', '1810 Blumentritt Rd, Sampaloc, City Of Manila, 1008 Metro Manila', 'da2025@mail.com', '224-2345', '09101222345', 'Koko P. Martin', 'koko', '1', 'Sesami Street, Cavite, City Of Manila, 1008 Metro Manila', '199 Sesami Street, Cavite, City Of Manila, 1008 Metro Manila', 'headofda2025@mail.com.ph', 'officeda2025@mail.com.ph', '0919 787 6654', '2025-05-23 01:41:06', NULL, NULL),
+(5, 'Department of Health', '1810 Blumentritt Rd, Sampaloc, City Of Manila, 1008 Metro Manila', 'doh2025@mail.com', '224-2345', '09101222345', 'Gerald B. Upperson', 'Budoy', '3', 'Sesami Street, Cavite, City Of Manila, 1008 Metro Manila', '1001 Sesami Street, Cavite, City Of Manila, 1008 Metro Manila', 'headofdoh2025@mail.com.ph', 'officedoh2025@mail.com.ph', '0919 787 6654', '2025-05-29 01:59:02', '2025-05-29 02:02:13', '2025-05-29 02:02:13'),
+(7, 'Department of Fires', '1810 Blumentritt Rd, Sampaloc, City Of Manila, 1008 Metro Manila', 'df2025@mail.com', '224-2345', '09101222345', 'Fidel V. Ramos', 'Del', '1', 'Sesami Street, Cavite, City Of Manila, 1008 Metro Manila', '101 Sesami Street, Cavite, City Of Manila, 1008 Metro Manila', 'headdf2025@mail.com.ph', 'df2025@mail.com.ph', '0919 787 6654', '2025-06-23 15:38:59', '2025-06-23 15:38:59', NULL);
 
 -- --------------------------------------------------------
 
@@ -1564,7 +1576,14 @@ INSERT INTO `cms_activity_logs` (`id`, `log_by`, `activity_type`, `dashboard_act
 (1132, NULL, 'insert', 'created a new user', 'created the user Jose X. Rixal Sr', '2025-06-23 14:41:38', 'users', '', 'Jose X. Rixal Sr', '52235'),
 (1133, NULL, 'update', 'updated the user status', 'updated the user status of Jose X. Rixal Sr from 1 to 0', '2025-06-23 14:43:41', 'users', '1', '0', '52235'),
 (1134, NULL, 'insert', 'created a new user', 'created the user Pablo O. Lapu Jr', '2025-06-23 15:59:21', 'users', '', 'Pablo O. Lapu Jr', '52236'),
-(1135, '1', 'update', 'updated the user status', 'updated the user status of Pablo O. Lapu Jr from 1 to 0', '2025-06-23 16:00:32', 'users', '1', '0', '52236');
+(1135, '1', 'update', 'updated the user status', 'updated the user status of Pablo O. Lapu Jr from 1 to 0', '2025-06-23 16:00:32', 'users', '1', '0', '52236'),
+(1136, NULL, 'insert', 'created a new user', 'created the user Dino H. Cornel Jr', '2025-06-24 02:24:15', 'users', '', 'Dino H. Cornel Jr', '52237'),
+(1137, NULL, 'insert', 'created a new user', 'created the user test X. testset ', '2025-06-24 02:28:37', 'users', '', 'test X. testset ', '52238'),
+(1138, NULL, 'insert', 'created a new user', 'created the user test X. testset ', '2025-06-24 02:29:30', 'users', '', 'test X. testset ', '52239'),
+(1139, NULL, 'insert', 'created a new user', 'created the user test5 X. testset5 Sr', '2025-06-24 02:31:57', 'users', '', 'test5 X. testset5 Sr', '52240'),
+(1140, NULL, 'insert', 'created a new user', 'created the user Dino T. Cornel Sr', '2025-06-24 02:34:06', 'users', '', 'Dino T. Cornel Sr', '52241'),
+(1141, '1', 'update', 'updated the user status', 'updated the user status of Dino T. Cornel Sr from 1 to 0', '2025-06-24 02:34:49', 'users', '1', '0', '52241'),
+(1142, NULL, 'insert', 'created a new user', 'created the user Jose K. Rixal Sr', '2025-06-25 10:51:32', 'users', '', 'Jose K. Rixal Sr', '52242');
 
 -- --------------------------------------------------------
 
@@ -1718,6 +1737,7 @@ INSERT INTO `gender` (`id`, `name`, `created_at`, `updated_at`, `deleted_at`) VA
 
 CREATE TABLE `members` (
   `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
   `firstname` varchar(255) DEFAULT NULL,
   `lastname` varchar(255) DEFAULT NULL,
   `middle_initial` varchar(255) DEFAULT NULL,
@@ -1732,6 +1752,7 @@ CREATE TABLE `members` (
   `birthdate` varchar(255) DEFAULT NULL,
   `system` int(4) DEFAULT NULL,
   `agency` int(4) DEFAULT NULL,
+  `designation` int(11) DEFAULT NULL,
   `cluster` text DEFAULT NULL,
   `logo` varchar(255) DEFAULT NULL,
   `photo` varchar(255) DEFAULT NULL,
@@ -1745,14 +1766,10 @@ CREATE TABLE `members` (
 -- Dumping data for table `members`
 --
 
-INSERT INTO `members` (`id`, `firstname`, `lastname`, `middle_initial`, `suffix`, `email`, `alt_email`, `password`, `contact_number`, `type_number`, `other_number`, `gender`, `birthdate`, `system`, `agency`, `cluster`, `logo`, `photo`, `is_verified`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(7, 'Xeno', 'Gintama', 'K', 'Sr', 'warren.arendain@webfocus.ph', NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '1231231234', NULL, NULL, 0, '2009-06-05', 1, 1, '2::3::4::5', NULL, '127.0.0.1:8000/storage/photo/app (4).png', 1, '2025-05-26 01:53:00', '2025-06-19 09:45:49', NULL),
-(24, 'Newly', 'Created', 'X', 'Sr', 'newlycreated@gmail.com', NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '1231231234', NULL, '3', 1, '1999-06-26', 1, 1, '1::2::3::4', '127.0.0.1:8000/storage/logo/bp (8).png', '127.0.0.1:8000/storage/photo/Untitled (6).png', 1, '2025-06-16 01:00:15', '2025-06-16 01:06:00', NULL),
-(25, 'test', 'test', 'K', 'Jr', 'test@gmail.com', NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '1231231234', NULL, '3', 2, '1890-06-21', 1, 1, '1::2', 'storage/logo/a2.jpg', 'storage/photo/e1.jpg', 0, '2025-06-19 05:53:21', '2025-06-19 05:53:21', NULL),
-(26, 'new', 'user', 'T', 'Jr', 'newuser@gmail.com', NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '1231231234', NULL, '098283223', 1, 'November 15', 1, 0, '2::3::4', 'storage/logo/lls-logo (4).png', 'storage/photo/h1.jpg', 1, '2025-06-19 11:50:41', '2025-06-19 11:51:25', NULL),
-(27, 'newnew', 'new', 'B', NULL, 'new@gmail.com', NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '09098876531', NULL, '45454545::6111223', 1, 'February 14', 4, 4, '3::4::5', 'storage/logo/pllo-bp (2).png', 'storage/photo/e1 (3).jpg', 1, '2025-06-23 02:07:46', '2025-06-23 02:09:53', NULL),
-(28, 'Jose', 'Rixal', 'X', 'Sr', 'jose@mail.com', 'jose@mail.com', '123456', '1231231234', NULL, '67567567::999999', 1, 'November 1', 2, 3, '3::4::5', 'storage/logo/pllo-bp (3).png', 'storage/photo/bp (3).png', 1, '2025-06-23 06:41:38', '2025-06-23 06:43:10', NULL),
-(29, 'Pablo', 'Lapu', 'O', 'Jr', 'last@gmail.com', 'last2@gmail.com', '$2y$10$0.eJCPmbW3xbFDajDC.x7.y7/TLdHiAvNuaufM/q.sKcUrQSqsNXi', '8888888888', NULL, '676767::767676', 1, 'November 12', 4, 2, '3::4::5', 'storage/logo/bp (10).png', 'storage/photo/a2 (2).jpg', 1, '2025-06-23 07:59:21', '2025-06-23 08:00:17', NULL);
+INSERT INTO `members` (`id`, `user_id`, `firstname`, `lastname`, `middle_initial`, `suffix`, `email`, `alt_email`, `password`, `contact_number`, `type_number`, `other_number`, `gender`, `birthdate`, `system`, `agency`, `designation`, `cluster`, `logo`, `photo`, `is_verified`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(24, 52231, 'Newly', 'Created', 'X', 'Sr', 'newlycreated@gmail.com', NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '1231231234', NULL, '3', 1, '1999-06-26', 1, 7, NULL, '1::2::3::4', '127.0.0.1:8000/storage/logo/bp (8).png', '127.0.0.1:8000/storage/photo/Untitled (6).png', 1, '2025-06-16 01:00:15', '2025-06-16 01:06:00', NULL),
+(32, 52241, 'Dino', 'Cornel', 'T', 'Sr', 'ef@gmail.com', 'ef2@gmail.com', '$2y$10$V7oKIKP/39i8gckyk70ZsOlmX3gQpJl0MbspGqYql8rcLReAS155C', '99999999999', NULL, '3333333333::444444444', 1, 'January 1', 1, 3, NULL, '4::5', 'storage/logo/f3.jpg', 'storage/photo/f1.jpg', 1, '2025-06-23 18:34:06', '2025-06-23 18:34:32', NULL),
+(33, 52242, 'Jose', 'Rixal', 'K', 'Sr', 'jose@mail.com', 'jose2@mail.com', '$2y$10$U.ROWwYaCn/SToXwaRo5QOTeFUpot0R6Bh2XMNMVHlakNYAhTUafG', '1231231234', NULL, '123123333::1231231231', 1, 'July 12', 1, 7, NULL, '2::3', NULL, NULL, 0, '2025-06-25 02:51:32', '2025-06-25 02:51:32', NULL);
 
 -- --------------------------------------------------------
 
@@ -3420,14 +3437,9 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `firstname`, `lastname`, `avatar`, `verification_code`, `email_verified_at`, `password`, `role_id`, `is_active`, `user_id`, `mobile`, `phone`, `birth_date`, `address_street`, `address_city`, `address_municipality`, `address_province`, `address_zip`, `social_login`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Admin Istrator', 'wsiprod.demo@gmail.com', 'PLLO', 'Administrator', 'http://127.0.0.1:8000/storage/avatars/wsi-logo (2).png', NULL, '2024-01-30 06:25:03', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, 1, 1, '09456714321', '022646545', NULL, 'Maharlika St', 'Pasay', NULL, NULL, '1234', 0, 'zvtkLse63i8XHYbsUvmkNbcznd5gtBAK5zwQx2ByLzFxwpDCqhOH1O9QbVZO', '2024-01-30 06:25:03', '2025-05-21 07:20:36', NULL),
-(9, 'Ryan Levin Lorenzo', 'wsi.lorenzo.ryan@gmail.com', 'Ryan Levin', 'Lorenzo', NULL, NULL, '2024-02-15 07:16:45', '$2y$10$P1yIDNSFrTQ0Ked0MSksSu0txXkT7L6hhSfF7adqMZZswRRE7dm5q', 6, 1, 1, '1', '123456789', '0000-00-00 00:00:00', '#1 Test Street, Brgy. Sample', 'Meycauayan', 'Barangay Test', 'Test Region', '1234', 0, '7bXUu3oelcZGFZz49vrxtSqnrZB7pqAtSIskRUQRtaPd0B04gA0WyDlw4gOm', '2024-02-15 07:16:45', '2024-04-17 04:21:21', NULL),
-(27, 'Myrna Glorioso', 'myrna@webfocus.ph', 'Myrna', 'Glorioso', NULL, '9152', '2024-03-07 01:38:32', '98896ec1a983cefb45fea33e2289ed3e', 6, 1, NULL, '09156041954', NULL, NULL, NULL, 'Cebu City', NULL, NULL, NULL, 0, NULL, '2024-03-07 01:37:56', NULL, NULL),
-(52235, 'Jose X. Rixal Sr', 'jose@mail.com', 'Jose', 'Rixal', NULL, '9167', '2025-06-23 06:43:10', '123456', 2, 1, 28, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-23 06:41:38', '2025-06-23 06:43:41', NULL),
-(52236, 'Pablo O. Lapu Jr', 'last@gmail.com', 'Pablo', 'Lapu', NULL, '9168', '2025-06-23 08:00:17', '$2y$10$0.eJCPmbW3xbFDajDC.x7.y7/TLdHiAvNuaufM/q.sKcUrQSqsNXi', 2, 1, 29, '8888888888', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-23 07:59:21', '2025-06-23 08:00:32', NULL),
-(52234, 'newnew B. new ', 'new@gmail.com', 'newnew', 'new', NULL, '9166', '2025-06-23 02:09:53', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, 1, 27, '09098876531', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-23 02:07:46', '2025-06-23 02:39:37', NULL),
-(52233, 'new T. user Jr', 'newuser@gmail.com', 'new', 'user', NULL, '9165', '2025-06-19 11:51:25', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, 1, 26, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-19 11:50:41', '2025-06-19 11:51:59', NULL),
-(52232, 'test K. test Jr', 'test@gmail.com', 'test', 'test', NULL, NULL, NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, 1, 25, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-19 05:53:21', '2025-06-19 05:53:21', NULL),
+(1, 'Admin Istrator', 'wsiprod.demo@gmail.com', 'PLLO', 'Administrator', 'http://127.0.0.1:8000/storage/avatars/wsi-logo (2).png', NULL, '2024-01-30 06:25:03', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, 1, 1, '09456714321', '022646545', NULL, 'Maharlika St', 'Pasay', NULL, NULL, '1234', 0, 'g5cyu7OOOyFNF2qC3F8yf6spcDIg6YGxdDBZZHUEj0H0clk9CNNhk14eTa1i', '2024-01-30 06:25:03', '2025-05-21 07:20:36', NULL),
+(52241, 'Dino T. Cornel Sr', 'ef@gmail.com', 'Dino', 'Cornel', NULL, '9165', '2025-06-23 18:34:32', '$2y$10$V7oKIKP/39i8gckyk70ZsOlmX3gQpJl0MbspGqYql8rcLReAS155C', 2, 1, NULL, '99999999999', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-23 18:34:06', '2025-06-23 18:34:49', NULL),
+(52242, 'Jose K. Rixal Sr', 'jose@mail.com', 'Jose', 'Rixal', NULL, NULL, NULL, '$2y$10$U.ROWwYaCn/SToXwaRo5QOTeFUpot0R6Bh2XMNMVHlakNYAhTUafG', 2, 0, NULL, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-25 02:51:32', '2025-06-25 02:51:32', NULL),
 (52231, 'Newly X. Created Sr', 'newlycreated@gmail.com', 'Newly', 'Created', NULL, '9164', '2025-06-16 04:38:35', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, 1, 24, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-16 01:00:15', '2025-06-16 04:38:35', NULL);
 
 -- --------------------------------------------------------
@@ -3678,7 +3690,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT for table `agency`
 --
 ALTER TABLE `agency`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `albums`
@@ -3714,7 +3726,7 @@ ALTER TABLE `cluster`
 -- AUTO_INCREMENT for table `cms_activity_logs`
 --
 ALTER TABLE `cms_activity_logs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1136;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1143;
 
 --
 -- AUTO_INCREMENT for table `designation`
@@ -3762,7 +3774,7 @@ ALTER TABLE `gender`
 -- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT for table `menus`
@@ -3852,7 +3864,7 @@ ALTER TABLE `systems`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52237;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52243;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

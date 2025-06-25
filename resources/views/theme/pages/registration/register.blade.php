@@ -166,7 +166,7 @@
 								<select class="form-select" aria-label="select agency" name="agency">
 									<option value="0">GOVERNMENT AGENCY</option>
 									@foreach($agencies as $agency)
-								  	<option value="{{ $agency->id }}">{{ $agency->name }}</option>
+								  	<option value="{{ $agency->id }}">{{ $agency->agency_name }}</option>
 									@endforeach
 								</select>
 							</div>
