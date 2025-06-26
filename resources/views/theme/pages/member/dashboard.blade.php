@@ -107,8 +107,9 @@
                             </div>
                             <div class="profile-pic-preview-container">
                                 <img id="imagePreviewLogo"
-                                     src="{{ Auth::user()->logo ? asset('storage/' . Auth::user()->logo) : asset('images/user.png') }}"
-                                     class="profile-pic-preview" alt="Profile Picture Preview">
+                                     src="{{ $memberDetails->logo ? asset('storage/' . $memberDetails->logo) : asset('images/user.png') }}"
+                                     class="profile-pic-preview" alt="Profile Picture Preview"
+                                     style="border-radius: 100%;">
 
                             </div>
 
@@ -159,7 +160,7 @@
                                 <div class="col-12 col-md-2">
                                     <small class="form-title"><b>MAIN ACCOUNT</b></small>
                                     <br />
-                                    <img class="mt-4" src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('images/user.png') }}" width="120">
+                                    <img class="mt-4" src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('images/user.png') }}" width="120" style="border-radius: 100%;">
                                 </div>
                                 <div class="col-12 col-md-5">
                                     <table class="table-dotted table-striped">
@@ -219,7 +220,8 @@
                                                 <div class="profile-pic-preview-container">
                                                     <img id="imagePreviewPhoto"
                                                          src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('images/user.png') }}"
-                                                         class="profile-pic-preview" alt="Profile Picture Preview">
+                                                         class="profile-pic-preview" alt="Profile Picture Preview"
+                                                         style="border-radius: 100%;">
 
                                                 </div>
 

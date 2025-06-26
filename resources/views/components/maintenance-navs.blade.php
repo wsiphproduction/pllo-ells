@@ -1,7 +1,7 @@
-<div class="maintenance-nav">
+<div class="maintenance-nav" style="padding-right: 10px;">
     <ul>
         <li class="no-bullet mb-2">
-            <a href="{{ route('home') }}">
+            <a href="{{ route('maintenance.dashboard') }}">
                 <button class="btn-navs">  
                     Agency
                     <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -11,7 +11,7 @@
             </a>
         </li>
         <li class="no-bullet mb-2">
-            <a href="{{ route('home') }}">
+            <a href="#">
                 <button class="btn-navs">  
                     Designation
                     <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
@@ -21,7 +21,7 @@
             </a>
         </li>
         <li class="no-bullet mb-2">
-            <a href="{{ route('home') }}">
+            <a href="#">
                 <button class="btn-navs">  
                     Cluster
                     <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">

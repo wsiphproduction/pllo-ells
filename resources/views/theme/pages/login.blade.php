@@ -7,13 +7,13 @@
                 <div class="tab-container">
                     @if($message = Session::get('error'))
                         <div class="alert alert-danger d-flex align-items-center" role="alert">
-                            <i data-feather="alert-circle" class="mg-r-10"></i> {{ $message }}
+                            <i class="fa fa-alert-circle" class="mg-r-10"></i> {{ $message }}
                         </div>
                     @endif
 
                     @if($message = Session::get('success'))
                         <div class="alert alert-success d-flex align-items-center" role="alert">
-                            <i data-feather="alert-circle" class="mg-r-10"></i> {{ $message }}
+                            <i class="fa fa-alert-circle" class="mg-r-10"></i> {{ $message }}
                         </div>
                     @endif
 

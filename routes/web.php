@@ -623,6 +623,7 @@ Route::get('/member-dashboard', [RegistrationController::class, 'memberDashboard
 Route::post('/member-profile-update', [RegistrationController::class, 'memberProfileUpdate'])->name('member.profile.update');
 Route::post('/member-resend-email', [RegistrationController::class, 'resendRegisterConfirmation'])->name('member.resend.email');
 Route::post('/member-upload-logo', [RegistrationController::class, 'uploadMemberLogo'])->name('member.upload.logo');
+Route::get('/member-login-error', [RegistrationController::class, 'loginError'])->name('member.login.error');
 
 // ADMIN USER
 Route::get('/admin-dashboard', [RegistrationController::class, 'adminDashboard'])->name('admin.dashboard');
