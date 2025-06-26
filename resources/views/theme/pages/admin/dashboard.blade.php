@@ -34,8 +34,8 @@
 					</div>
 				</aside>
 
-				<main class="col-lg-10">
-					<div class="table-responsive mx-4">
+				<main class="col-lg-10 border rounded shadow pt-4">
+					<div class="table-responsive mx-4 pt-2">
 
 						<div class="d-flex align-items-center justify-content-between w-100">
 							<h5 class="mb-3 text-uppercase">

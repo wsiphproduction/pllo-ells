@@ -232,10 +232,10 @@ class RegistrationController extends Controller
         
         if (Auth::attempt($userCredentials)) {
 
-            if(Auth::user()->role_id <> '2'){ // block cms users from using this login form
+            if(Auth::user()->role_id <> 2){ // block users from using this login form
 
                 // Auth::logout();
-                // return back()->with('error', 'Administrative accounts are not allowed to login as customer.'); 
+                // return back()->with('error', 'Administrative accounts are not allowed to login as member.'); 
 
                 return redirect(route('admin.dashboard'));
             }
@@ -251,9 +251,17 @@ class RegistrationController extends Controller
             return redirect(route('member.dashboard'));
 
         } else {
-            Auth::logout();
-            return back()->with('error', __('auth.login.incorrect_input'));
+            
+            return redirect(route('member.login.error'));
+
         }
+    }
+
+    public function loginError() {
+         $page = new Page;
+         $page->name = 'Login Error';
+         
+         return view('theme.pages.login-error', compact('page'));
     }
 
     public function memberDashboard() {

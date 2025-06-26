@@ -22,7 +22,7 @@
                     <x-maintenance-navs></x-maintenance-navs>
                 </div>
 
-                <div class="col-12 col-md-10 border rounded" style="padding: 20px;">
+                <div class="col-12 col-md-10 border rounded shadow" style="padding: 20px;">
 
                     <div class="d-flex align-items-center justify-content-between">
                         <h5>Manage Agency</h5>
