@@ -399,6 +399,27 @@ class RegistrationController extends Controller
         return back()->with('success', 'Agency added successfully.');
     }
 
+    public function maintenanceAgencyEdit($id) {
+
+        $page = new Page;
+        $page->name = 'Edit Agency';
+        $agency = Agency::find($id);
+        $genders = Gender::all();
+
+        return view('theme.pages.maintenance.agency.edit', compact('page', 'agency', 'genders'));
+    }
+
+    public function maintenanceAgencyUpdate(Request $request, $id) {
+
+        $agency = Agency::find($id);
+
+        // $requests = $request->all();
+        
+        // $agency->save();
+
+        return back()->with('success', 'Agency added successfully.');
+    }
+
     public function resendRegisterConfirmation(Request $request) {
 
         $member = Member::find($request->reg_id);
@@ -410,29 +431,31 @@ class RegistrationController extends Controller
     }
 
     public function uploadMemberLogo(Request $request)
-        {
-            $request->validate([
-                'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Max 2MB
-            ]);
+    {
+        $request->validate([
+            'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Max 2MB
+        ]);
 
-            $member = Member::where('user_id', auth()->user()->id)->first();
+        $member = Member::where('user_id', auth()->user()->id)->first();
 
-            if ($request->hasFile('logo')) {
+        if ($request->hasFile('logo')) {
 
-                $image = $request->file('logo');
-                $filename = time() . '.' . $image->getClientOriginalExtension();
-                $path = 'logo/' . $filename;
+            $image = $request->file('logo');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $path = 'logo/' . $filename;
 
-                Storage::disk('public')->putFileAs('logo', $image, $filename);
+            Storage::disk('public')->putFileAs('logo', $image, $filename);
 
-                $member->logo = $path;
+            $member->logo = $path;
 
-                $member->save();
-                
-            } else {
-                return back()->with('error', 'No logo selected.');
-            }
-            return back()->with('success', 'New logo uploaded.');
-        
+            $member->save();
+            
+        } else {
+            return back()->with('error', 'No logo selected.');
         }
+        return back()->with('success', 'New logo uploaded.');
+    
+    }
+
+
 }
