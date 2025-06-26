@@ -24,6 +24,8 @@ use App\Models\Cluster;
 use App\Models\Designation;
 use App\Models\Member;
 use App\Models\MessagingNumber;
+use App\Models\Custom\EventParticipant;
+use App\Models\Custom\Event;
 
 use DB;
 use Auth;
@@ -273,8 +275,10 @@ class RegistrationController extends Controller
         $memberDetails = Member::where('user_id', Auth::user()->id)->first();
         $memberAgency = Agency::find($memberDetails->agency);
 
+        $events  = EventParticipant::where('member_id', $memberDetails->id)->get();
+        // dd($events);
         if (auth()->user()) {
-            return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency'));
+            return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency', 'events'));
         } else {
             return back()->with('error', ('Please login to your account.'));
         }

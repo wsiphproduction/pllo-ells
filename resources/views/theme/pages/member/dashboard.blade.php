@@ -402,33 +402,20 @@
                                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                                         </small>
                                     </tr>
+                                    @forelse($events as $event)
                                     <tr>
-                                        <td><span><small>March 3, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small>Focus Group Discussion: Natural Gas Industry</small></span></td>
+                                        <td><span><small>{{ $event->event->date }}</small></span></td>
+                                        <td><span class="primary-text-color"><small>{{ $event->event->title }}</small></span></td>
                                     </tr>
+                                    @empty
                                     <tr>
-                                        <td><span><small>March 3, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small>Focus Group Discussion: Natural Gas Industry</small></span></td>
+                                        <td>No events attended for now.</td>
                                     </tr>
-                                    <tr>
-                                        <td><span><small>March 3, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small>Focus Group Discussion: Natural Gas Industry</small></span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span><small>March 3, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small>Focus Group Discussion: Natural Gas Industry</small></span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span><small>March 3, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small>Focus Group Discussion: Natural Gas Industry</small></span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span><small>March 3, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small>Focus Group Discussion: Natural Gas Industry</small></span></td>
-                                    </tr>
+                                    @endforelse
                                 </table>
                             </div>
                         </div>
+
                         <div class="tab-pane fade" id="reference-border" role="tabpanel" aria-labelledby="tab-reference-border-tab" tabindex="0">
                             <p class="mb-0">Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master
                                 cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party
