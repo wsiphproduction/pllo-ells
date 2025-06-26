@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jun 25, 2025 at 08:26 AM
+-- Generation Time: Jun 26, 2025 at 08:28 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -1585,7 +1585,13 @@ INSERT INTO `cms_activity_logs` (`id`, `log_by`, `activity_type`, `dashboard_act
 (1141, '1', 'update', 'updated the user status', 'updated the user status of Dino T. Cornel Sr from 1 to 0', '2025-06-24 02:34:49', 'users', '1', '0', '52241'),
 (1142, NULL, 'insert', 'created a new user', 'created the user Jose K. Rixal Sr', '2025-06-25 10:51:32', 'users', '', 'Jose K. Rixal Sr', '52242'),
 (1143, NULL, 'insert', 'created a new user', 'created the user Raven H. Stark ', '2025-06-25 14:24:51', 'users', '', 'Raven H. Stark ', '52243'),
-(1144, '1', 'update', 'updated the user status', 'updated the user status of Raven H. Stark  from 1 to 0', '2025-06-25 14:25:52', 'users', '1', '0', '52243');
+(1144, '1', 'update', 'updated the user status', 'updated the user status of Raven H. Stark  from 1 to 0', '2025-06-25 14:25:52', 'users', '1', '0', '52243'),
+(1145, '52231', 'update', 'updated the user avatar', 'updated the user avatar of Newly X. Created Sr from C:\\xampp\\tmp\\php3212.tmp to ', '2025-06-25 15:27:22', 'users', 'C:\\xampp\\tmp\\php3212.tmp', NULL, '52231'),
+(1146, '52231', 'update', 'updated the user avatar', 'updated the user avatar of Newly X. Created Sr from photo/1750837136.png to C:\\xampp\\tmp\\php3212.tmp', '2025-06-25 15:38:56', 'users', 'photo/1750837136.png', 'C:\\xampp\\tmp\\php3212.tmp', '52231'),
+(1147, '52231', 'update', 'updated the user avatar', 'updated the user avatar of Newly X. Created Sr from photo/1750837420.png to photo/1750837136.png', '2025-06-25 15:43:40', 'users', 'photo/1750837420.png', 'photo/1750837136.png', '52231'),
+(1148, '52231', 'update', 'updated the user avatar', 'updated the user avatar of Newly X. Created Sr from photo/1750837443.png to photo/1750837420.png', '2025-06-25 15:44:03', 'users', 'photo/1750837443.png', 'photo/1750837420.png', '52231'),
+(1149, '52231', 'update', 'updated the user avatar', 'updated the user avatar of Newly X. Created Sr from photo/1750901959.jfif to photo/1750837443.png', '2025-06-26 09:39:19', 'users', 'photo/1750901959.jfif', 'photo/1750837443.png', '52231'),
+(1150, NULL, 'insert', 'created a new user', 'created the user Pablo X. Escobar Sr', '2025-06-26 14:19:13', 'users', '', 'Pablo X. Escobar Sr', '52244');
 
 -- --------------------------------------------------------
 
@@ -1656,6 +1662,14 @@ CREATE TABLE `events` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `events`
+--
+
+INSERT INTO `events` (`id`, `title`, `description`, `event_cluster_id`, `date`, `start_time`, `end_time`, `location`, `attachments`, `other_links`, `event_img`, `created_by`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'WSI Fun Run 2025', 'A fun runmade to wsi personnels for health improvement and physique.', 3, '2025-06-26', '08:00', '12:00', 'CDO, Misamis Oriental', '[\"storage\\/events\\/1\\/attachments\\/pllo-bp.png\"]', NULL, 'storage/events/1/cover/coms.jpg', 1, '2025-06-26 05:21:49', '2025-06-26 05:21:49', NULL),
+(2, 'High School Reunion 2025', 'A gathering for high school students.', 5, '2025-06-26', '08:00', '12:00', 'Manila, Philippines', '[\"storage\\/events\\/2\\/attachments\\/pllo-bp.png\"]', NULL, 'storage/events/2/cover/hero_bg.jpg', 1, '2025-06-26 05:26:57', '2025-06-26 05:26:57', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -1675,6 +1689,18 @@ CREATE TABLE `event_invites` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `event_invites`
+--
+
+INSERT INTO `event_invites` (`id`, `event_id`, `type`, `invitation_file`, `invited`, `invited_by`, `participant_limit`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 1, 'cluster', 'storage/events/1/invitation/a3.jpg', 2, 1, 0, '2025-06-26 05:21:49', '2025-06-26 05:21:49', NULL),
+(2, 1, 'agency', 'storage/events/1/invitation/a3.jpg', 2, 1, 0, '2025-06-26 05:21:49', '2025-06-26 05:21:49', NULL),
+(3, 1, 'member', 'storage/events/1/invitation/a3.jpg', 24, 1, 0, '2025-06-26 05:21:49', '2025-06-26 05:21:49', NULL),
+(4, 2, 'cluster', 'storage/events/2/invitation/app.png', 3, 1, 0, '2025-06-26 05:26:57', '2025-06-26 05:26:57', NULL),
+(5, 2, 'agency', 'storage/events/2/invitation/app.png', 2, 1, 0, '2025-06-26 05:26:57', '2025-06-26 05:26:57', NULL),
+(6, 2, 'member', 'storage/events/2/invitation/app.png', 24, 1, 0, '2025-06-26 05:26:57', '2025-06-26 05:26:57', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -1683,13 +1709,19 @@ CREATE TABLE `event_invites` (
 
 CREATE TABLE `event_participants` (
   `id` int(10) UNSIGNED NOT NULL,
-  `event_invitation_id` int(10) UNSIGNED NOT NULL,
   `event_id` int(10) UNSIGNED NOT NULL,
   `member_id` int(10) UNSIGNED NOT NULL,
+  `status` tinyint(4) DEFAULT 1,
   `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
-  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-  `deleted_at` timestamp NULL DEFAULT NULL
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `event_participants`
+--
+
+INSERT INTO `event_participants` (`id`, `event_id`, `member_id`, `status`, `created_at`, `updated_at`) VALUES
+(1, 2, 24, 1, '2025-06-26 05:31:43', '2025-06-26 05:31:43');
 
 -- --------------------------------------------------------
 
@@ -1769,10 +1801,11 @@ CREATE TABLE `members` (
 --
 
 INSERT INTO `members` (`id`, `user_id`, `firstname`, `lastname`, `middle_initial`, `suffix`, `email`, `alt_email`, `password`, `contact_number`, `type_number`, `other_number`, `gender`, `birthdate`, `system`, `agency`, `designation`, `cluster`, `logo`, `photo`, `is_verified`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(24, 52231, 'Newly', 'Created', 'X', 'Sr', 'newlycreated@gmail.com', NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '1231231234', NULL, '3', 1, '1999-06-26', 1, 7, NULL, '1::2::3::4', '127.0.0.1:8000/storage/logo/bp (8).png', '127.0.0.1:8000/storage/photo/Untitled (6).png', 1, '2025-06-16 01:00:15', '2025-06-16 01:06:00', NULL),
+(24, 52231, 'Newly', 'Created', 'X', 'Sr', 'newlycreated@gmail.com', NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '1231231234', NULL, '3', 1, '1999-06-26', 1, 7, NULL, '1::2', 'logo/1750902087.png', 'photo/1750901959.jfif', 1, '2025-06-16 01:00:15', '2025-06-26 01:43:57', NULL),
 (32, 52241, 'Dino', 'Cornel', 'T', 'Sr', 'ef@gmail.com', 'ef2@gmail.com', '$2y$10$V7oKIKP/39i8gckyk70ZsOlmX3gQpJl0MbspGqYql8rcLReAS155C', '99999999999', NULL, '3333333333::444444444', 1, 'January 1', 1, 3, NULL, '4::5', 'storage/logo/f3.jpg', 'storage/photo/f1.jpg', 1, '2025-06-23 18:34:06', '2025-06-23 18:34:32', NULL),
 (33, 52242, 'Jose', 'Rixal', 'K', 'Sr', 'jose@mail.com', 'jose2@mail.com', '$2y$10$U.ROWwYaCn/SToXwaRo5QOTeFUpot0R6Bh2XMNMVHlakNYAhTUafG', '1231231234', NULL, '123123333::1231231231', 1, 'July 12', 1, 7, NULL, '2::3', NULL, NULL, 0, '2025-06-25 02:51:32', '2025-06-25 02:51:32', NULL),
-(34, 52243, 'Raven', 'Stark', 'H', NULL, '001ravenstark@gmail.com', '002ravenstark@gmail.com', '$2y$10$vcz.KPAnLvSFY6Mi56wIveDPmtki8mrLw247XnoUFeiNTjkNVPAme', '09876543321', NULL, '0988765167', 1, 'October 12', 1, 2, 2, '2::4', 'storage/logo/lls-logo (5).png', 'storage/photo/bp (4).png', 1, '2025-06-25 06:24:51', '2025-06-25 06:25:40', NULL);
+(34, 52243, 'Raven', 'Stark', 'H', NULL, '001ravenstark@gmail.com', '002ravenstark@gmail.com', '$2y$10$vcz.KPAnLvSFY6Mi56wIveDPmtki8mrLw247XnoUFeiNTjkNVPAme', '09876543321', NULL, '0988765167', 1, 'October 12', 1, 2, 2, '2::4', 'storage/logo/lls-logo (5).png', 'storage/photo/bp (4).png', 1, '2025-06-25 06:24:51', '2025-06-25 06:25:40', NULL),
+(35, 52244, 'Pablo', 'Escobar', 'X', 'Sr', 'pabloes@gmail.com', 'pabloes2@gmail.com', '$2y$10$biTF/7V1hMMHPUTFY/f.zuTN9pAjLq7zG3rqbrAUkBSJrVLJuQhOe', '0982827362', NULL, '45454545::23232523', 1, 'November 2', 1, 2, 2, '3::4', 'storage/logo/dict-logo.png', 'storage/photo/2023-solidarity (2).png', 1, '2025-06-26 06:19:13', '2025-06-26 06:23:50', NULL);
 
 -- --------------------------------------------------------
 
@@ -3440,11 +3473,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `firstname`, `lastname`, `avatar`, `verification_code`, `email_verified_at`, `password`, `role_id`, `is_active`, `user_id`, `mobile`, `phone`, `birth_date`, `address_street`, `address_city`, `address_municipality`, `address_province`, `address_zip`, `social_login`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Admin Istrator', 'wsiprod.demo@gmail.com', 'PLLO', 'Administrator', 'http://127.0.0.1:8000/storage/avatars/wsi-logo (2).png', NULL, '2024-01-30 06:25:03', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, 1, 1, '09456714321', '022646545', NULL, 'Maharlika St', 'Pasay', NULL, NULL, '1234', 0, 'g5cyu7OOOyFNF2qC3F8yf6spcDIg6YGxdDBZZHUEj0H0clk9CNNhk14eTa1i', '2024-01-30 06:25:03', '2025-05-21 07:20:36', NULL),
+(1, 'Admin Istrator', 'wsiprod.demo@gmail.com', 'PLLO', 'Administrator', 'http://127.0.0.1:8000/storage/avatars/wsi-logo (2).png', NULL, '2024-01-30 06:25:03', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, 1, 1, '09456714321', '022646545', NULL, 'Maharlika St', 'Pasay', NULL, NULL, '1234', 0, 'jtkzThRsLzKyEL2gAtgLwQ0KjJMXPzUI7h6YV0BlOcxtdIynXXSRxvPsu8nR', '2024-01-30 06:25:03', '2025-05-21 07:20:36', NULL),
 (52241, 'Dino T. Cornel Sr', 'ef@gmail.com', 'Dino', 'Cornel', NULL, '9165', '2025-06-23 18:34:32', '$2y$10$V7oKIKP/39i8gckyk70ZsOlmX3gQpJl0MbspGqYql8rcLReAS155C', 2, 1, NULL, '99999999999', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-23 18:34:06', '2025-06-23 18:34:49', NULL),
 (52242, 'Jose K. Rixal Sr', 'jose@mail.com', 'Jose', 'Rixal', NULL, NULL, NULL, '$2y$10$U.ROWwYaCn/SToXwaRo5QOTeFUpot0R6Bh2XMNMVHlakNYAhTUafG', 2, 0, NULL, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-25 02:51:32', '2025-06-25 02:51:32', NULL),
 (52243, 'Raven H. Stark ', '001ravenstark@gmail.com', 'Raven', 'Stark', NULL, '9166', '2025-06-25 06:25:40', '$2y$10$vcz.KPAnLvSFY6Mi56wIveDPmtki8mrLw247XnoUFeiNTjkNVPAme', 2, 1, NULL, '09876543321', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-25 06:24:51', '2025-06-25 06:25:52', NULL),
-(52231, 'Newly X. Created Sr', 'newlycreated@gmail.com', 'Newly', 'Created', NULL, '9164', '2025-06-16 04:38:35', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, 1, 24, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-16 01:00:15', '2025-06-16 04:38:35', NULL);
+(52244, 'Pablo X. Escobar Sr', 'pabloes@gmail.com', 'Pablo', 'Escobar', NULL, '9167', '2025-06-26 06:23:50', '$2y$10$biTF/7V1hMMHPUTFY/f.zuTN9pAjLq7zG3rqbrAUkBSJrVLJuQhOe', 2, 0, NULL, '0982827362', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-26 06:19:13', '2025-06-26 06:23:50', NULL),
+(52231, 'Newly X. Created Sr', 'newlycreated@gmail.com', 'Newly', 'Created', 'photo/1750901959.jfif', '9164', '2025-06-16 04:38:35', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, 1, 24, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-16 01:00:15', '2025-06-26 01:39:19', NULL);
 
 -- --------------------------------------------------------
 
@@ -3730,7 +3764,7 @@ ALTER TABLE `cluster`
 -- AUTO_INCREMENT for table `cms_activity_logs`
 --
 ALTER TABLE `cms_activity_logs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1145;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1151;
 
 --
 -- AUTO_INCREMENT for table `designation`
@@ -3748,19 +3782,19 @@ ALTER TABLE `email_recipients`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `event_invites`
 --
 ALTER TABLE `event_invites`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `event_participants`
 --
 ALTER TABLE `event_participants`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -3778,7 +3812,7 @@ ALTER TABLE `gender`
 -- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=35;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT for table `menus`
@@ -3868,7 +3902,7 @@ ALTER TABLE `systems`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52244;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52245;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
