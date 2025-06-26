@@ -16,6 +16,10 @@ class EventController extends Controller
 
     public function index(){
 
+        if(!Auth::user()){
+            return redirect()->route('home')->with('error', 'Access Denied');
+        }
+
         $page = new Page();
         $page->name = 'Events';
 
@@ -27,7 +31,7 @@ class EventController extends Controller
     public function create(){
 
         if(!Auth::user()){
-            abort(403, 'Unauthorized action.');
+            return redirect()->route('home')->with('error', 'Access Denied');
         }
 
         $page = new Page();
@@ -140,7 +144,7 @@ class EventController extends Controller
     public function edit(Event $event){
 
         if(!Auth::user()){
-            abort(403, 'Unauthorized action.');
+            return redirect()->route('home')->with('error', 'Access Denied');
         }
         
         $page = new Page();

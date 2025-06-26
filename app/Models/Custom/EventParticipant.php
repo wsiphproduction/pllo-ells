@@ -13,7 +13,7 @@ class EventParticipant extends Model
     protected $fillable = ['event_id', 'member_id', 'status'];
 
 
-    public static function hasRepliedInvitation($user_id){
-        return EventParticipant::where('member_id', $user_id)->first();
+    public static function hasRepliedInvitation($event_id, $user_id){
+        return EventParticipant::where('event_id', $event_id)->where('member_id', $user_id)->first();
     }
 }
