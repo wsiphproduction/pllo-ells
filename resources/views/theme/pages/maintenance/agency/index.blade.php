@@ -2,7 +2,10 @@
 
 @section('pagecss')
 <style>
-
+    .table.table-hover.table-striped.table-bordered thead tr th {
+        background-color: #2b3649;
+        color: white;
+    }
 </style>
 @endsection
 
