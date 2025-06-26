@@ -59,14 +59,13 @@
 											{{ $member->contact_number }}<br>
 											{!! $member->other_number ? $member->other_number . '<br>' : '' !!}
 											<a href="javascript:void(0)" class="text-primary">{{ $member->email }}</a>
-
 										</td>
 										<td>
 											<div class="d-flex align-items-center gap-1">
 												<span class="badge badge-sm bg-success p-1 text-white rounded">INVITED</span>
-												@if(App\Models\Custom\EventParticipant::hasRepliedInvitation($member->id) && App\Models\Custom\EventParticipant::hasRepliedInvitation($member->id)->status == 1)
+												@if(App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, $member->id) && App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, $member->id)->status == 1)
 													<span class="badge badge-sm bg-success p-1 text-white rounded">CONFIRMED</span>
-												@elseif(App\Models\Custom\EventParticipant::hasRepliedInvitation($member->id) && App\Models\Custom\EventParticipant::hasRepliedInvitation($member->id)->status == 2)
+												@elseif(App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, $member->id) && App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, $member->id)->status == 0)
 													<span class="badge badge-sm bg-danger p-1 text-white rounded">REGRETS</span>
 												@else
 													<span class="badge badge-sm bg-secondary p-1 text-white rounded">PENDING</span>

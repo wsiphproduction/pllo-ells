@@ -47,6 +47,19 @@
 													<span>{{ $event->location}}</span>
 													<br>
 													<small class="text-danger">{{ \Carbon\Carbon::parse($event->date)->format('Y M d') .' at '. $event->time}}</small>
+													<br>
+													@if(Auth::user()->role_id != 1)
+														@php
+															$member = \App\Models\Member::getMemberInfo(Auth::check() ? Auth::user()->id : 0);
+														@endphp
+														@if(App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, $member->id) && App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, $member->id)->status == 1)
+															<span class="badge badge-sm bg-success p-1 text-white rounded">CONFIRMED TO JOIN</span>
+														@elseif(App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, $member->id) && App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, $member->id)->status == 0)
+															<span class="badge badge-sm bg-danger p-1 text-white rounded">INVITATION DECLINED</span>
+														@else
+															<span class="badge badge-sm bg-secondary p-1 text-white rounded">AWAITING CONFIRMATION</span>
+														@endif
+													@endif
 												</div>
 												<div class="col-md-1">
 													<a href="{{ route('events.view', $event->id) }}"><i class="fa fa-arrow-circle-right fa-2x"></i></a>
