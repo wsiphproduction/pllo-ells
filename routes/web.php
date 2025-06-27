@@ -635,6 +635,8 @@ Route::get('/maintenance-dashboard', [RegistrationController::class, 'maintenanc
 Route::post('/maintenance-agency-store', [RegistrationController::class, 'maintenanceAgencyStore'])->name('maintenance.agency.store');
 Route::get('/maintenance-agency-edit/{id}', [RegistrationController::class, 'maintenanceAgencyEdit'])->name('maintenance.agency.edit');
 Route::post('/maintenance-agency-update/{id}', [RegistrationController::class, 'maintenanceAgencyUpdate'])->name('maintenance.agency.update');
+Route::post('/maintenance-agency-delete', [RegistrationController::class, 'maintenanceAgencyDelete'])->name('maintenance.agency.delete');
+Route::get('/maintenance-agency-view/{id}', [RegistrationController::class, 'maintenanceAgencyView'])->name('maintenance.agency.view');
 
 
 // Pages Frontend

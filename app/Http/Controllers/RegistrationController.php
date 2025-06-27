@@ -63,31 +63,31 @@ class RegistrationController extends Controller
         ]);
 
         if(!$validator) {
-            return Redirect::back()->withErrors($validator);
+            return Redirect::back()->withInput()->withErrors($validator);
         }
 
         if ($request->month == 0) {
-            return back()->with('error', 'Invalid birthdate.');
+            return redirect()->back()->withInput()->with('error', 'Invalid birthdate.');
         }
 
         if ($request->day == 0) {
-            return back()->with('error', 'Invalid birthdate.');
+            return redirect()->back()->withInput()->with('error', 'Invalid birthdate.');
         }
 
         if ($request->gender == 0) {
-            return back()->with('error', 'Please select Gender.');
+            return redirect()->back()->withInput()->with('error', 'Please select Gender.');
         }
 
         if ($request->agency == 0) {
-            return back()->with('error', 'Please select Agency.');
+            return redirect()->back()->withInput()->with('error', 'Please select Agency.');
         }
 
         if ($request->designation == 0) {
-            return back()->with('error', 'Please select Designation.');
+            return redirect()->back()->withInput()->with('error', 'Please select Designation.');
         }
 
         if ($request->password != $request->confrim_password) {
-            return back()->with('error', 'Password and Confirm Password do not match.');
+            return redirect()->back()->withInput()->with('error', 'Password and Confirm Password do not match.');
         }
 
         // Parallel saving users to members table //
@@ -412,12 +412,39 @@ class RegistrationController extends Controller
     public function maintenanceAgencyUpdate(Request $request, $id) {
 
         $agency = Agency::find($id);
+        $agency->agency_name = $request['agency_name'];
+        $agency->agency_address = $request['agency_address'];
+        $agency->agency_email = $request['agency_email'];
+        $agency->agency_landline = $request['agency_landline'];
+        $agency->agency_cellphone = $request['agency_cellphone'];
+        $agency->head_name = $request['head_name'];
+        $agency->head_nickname = $request['head_nickname'];
+        $agency->head_gender = $request['head_gender'];
+        $agency->head_address = $request['head_address'];
+        $agency->head_alt_address = $request['head_alt_address'];
+        $agency->head_email = $request['head_email'];
+        $agency->head_office_email = $request['head_office_email'];
+        $agency->head_cellphone = $request['head_cellphone'];
+        $agency->save();
 
-        // $requests = $request->all();
-        
-        // $agency->save();
+        return redirect()->route('maintenance.dashboard')->with('success', 'Agency updated successfully.');
+    }
 
-        return back()->with('success', 'Agency added successfully.');
+    public function maintenanceAgencyDelete(Request $request) {
+
+        $agency = Agency::find($request->agency_id);
+        $agency->delete();
+
+        return redirect()->route('maintenance.dashboard')->with('success', 'Agency deleted.');
+    }
+
+    public function maintenanceAgencyView($id) {
+
+        $page = new Page;
+        $page->name = "View Agency Details";
+        $agency = Agency::find($id);
+
+        return view('theme.pages.maintenance.agency.view', compact('page', 'agency'));
     }
 
     public function resendRegisterConfirmation(Request $request) {

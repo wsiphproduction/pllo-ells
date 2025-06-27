@@ -35,7 +35,7 @@
                     <div class="agency-maintenance-add border-top">
 
                         <div class="create-agency-container mt-3">
-                            <form class="m-0" method="post" action="{{ route('maintenance.agency.update') }}" enctype="multipart/form-date">
+                            <form class="m-0" method="post" action="{{ route('maintenance.agency.update', $agency->id) }}" enctype="multipart/form-date">
                                 @csrf
                                 <div class="d-flex flex-column flex-md-row">
                                     <div class="col-12 col-md-6 px-4">
