@@ -197,8 +197,27 @@
 										@endforeach
 
 									</div>
-									
+
 									<div class="form-group row" style="margin-top: -7px;">
+										<div class="row mb-1">
+											<span class="text-primary text-end" style="font-size:12px; cursor: pointer;" id="add-agency">Add agency selection <i class="fa fa-plus"></i></span>
+										</div>
+										<div class="col-sm-12 d-flex align-items-center gap-2 flex-wrap">
+											<div id="universal-limit-wrapper">
+												<input class="form-control" type="number" id="universal-limit" title="Set limit for all" min="0" onclick="select()" oninput="this.value = this.value || 0;" value="0" placeholder="SET LIMIT FOR ALL" style="width:60px;">
+											</div>
+
+											<span style="font-size:12px; cursor: pointer;" id="add-agency">Limit for all Agency or select option for different limit per agency</span>
+
+											<select id="limit-mode" class="border-0 bg-transparent p-0 text-primary"
+												style="appearance: none; -webkit-appearance: none; box-shadow: none; font-size: 12px;">
+												<option class="text-dark" value="all">Set limit for all</option>
+												<option class="text-dark" value="per" selected>Set limit per agency</option>
+											</select>
+										</div>
+									</div>
+
+									{{-- <div class="form-group row" style="margin-top: -7px;">
 										<div class="row mb-2 ml-2">
 											<span class="text-primary" style="font-size:12px; cursor: pointer;" id="add-agency">Add agency selection <i class="fa fa-plus"></i></span>
 										</div>
@@ -216,7 +235,7 @@
 												</select>
 											</div>
 										</div>
-									</div>
+									</div> --}}
 
 									<div class="form-group row">
 										<small class="col-sm-12 text-uppercase">BY MEMBER</small>
@@ -319,6 +338,7 @@
 					<div class="col-sm-12 agency-select d-flex align-items-center gap-2">
 						<i class="text-secondary fa fa-times" style="cursor: pointer;" onclick="removeAgencyRow(this)"></i>
 						<select name="agency_id[]" class="form-select" required>
+							<option selected disabled>SELECT AGENCY</option>
 							${agencyOptions}
 						</select>
 					</div>
@@ -381,7 +401,7 @@
 				if (selectedOption && selectedOption.value) {
 					selectedAgencies.push({
 						id: selectedOption.value,
-						name: selectedOption.text
+						agency_name: selectedOption.text
 					});
 				}
 			});

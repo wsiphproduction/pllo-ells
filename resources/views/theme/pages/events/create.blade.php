@@ -219,12 +219,40 @@
 									</div>
 
 									<div class="form-group row" style="margin-top: -7px;">
+<<<<<<< HEAD
+										<div class="row mb-1">
+											<span class="text-primary text-end" style="font-size:12px; cursor: pointer;" id="add-agency">Add agency selection <i class="fa fa-plus"></i></span>
+										</div>
+										<div class="col-sm-12 d-flex align-items-center gap-2 flex-wrap">
+											<div id="universal-limit-wrapper">
+												<input class="form-control" type="number" id="universal-limit" title="Set limit for all" min="0" onclick="select()" oninput="this.value = this.value || 0;" value="0" placeholder="SET LIMIT FOR ALL" style="width:60px;">
+											</div>
+
+											<span style="font-size:12px; cursor: pointer;" id="add-agency">Limit for all Agency or select option for different limit per agency</span>
+
+											<select id="limit-mode" class="border-0 bg-transparent p-0 text-primary"
+												style="appearance: none; -webkit-appearance: none; box-shadow: none; font-size: 12px;">
+												<option class="text-dark" value="all">Set limit for all</option>
+												<option class="text-dark" value="per">Set limit per agency</option>
+											</select>
+										</div>
+									</div>
+
+									{{-- <div class="form-group row" style="margin-top: -7px;">
+										<div class="row mb-1">
+											<span class="text-primary text-end" style="font-size:12px; cursor: pointer;" id="add-agency">Add agency selection <i class="fa fa-plus"></i></span>
+										</div>
+										<div class="col-sm-1" id="universal-limit-wrapper">
+											<div class="col-sm-12 agency-select d-flex align-items-center gap-2">
+												<input class="form-control" type="number" id="universal-limit" title="Set limit for all" min="0" onclick="select()" oninput="this.value = this.value || 0;" value="0" placeholder="SET LIMIT FOR ALL" style="width:60px;">
+=======
 										<div class="mb-2 ml-2 d-flex justify-content-end">
 											<span class="text-primary" style="font-size:12px; cursor: pointer;" id="add-agency">Add agency selection <i class="fa fa-plus"></i></span>
 										</div>
 										<div class="col-sm-1" id="universal-limit-wrapper">
 											<div class="col-sm-12 agency-select d-flex align-items-center gap-2">
 												<input class="form-control" type="number" id="universal-limit" title="Set limit for all" min="0" onclick="select()" oninput="this.value = this.value || 0;" value="0" placeholder="SET LIMIT FOR ALL" style="width:60px;transform: translate(0px, -4px);">
+>>>>>>> 2c2988fe7b23cf0b08887d162d86a70076cc49c5
 											</div>
 										</div>
 										<div class="col-sm-11">
@@ -235,14 +263,8 @@
 													<option class="text-dark" value="per" style="padding: 8px !important;">Set limit per agency</option>
 												</select>
 											</div>
-
-											{{-- <span class="" style="font-size:12px; cursor: pointer;" id="add-agency">Limit for all Agency or select option below for different limit per agency</span>
-											<select id="limit-mode" name="limit_mode" class="border-0 bg-transparent p-0 text-primary" style="appearance: none; -webkit-appearance: none; box-shadow: none; font-size: 12px;">
-												<option class="text-dark" value="all">Set limit for all</option>
-												<option class="text-dark" value="per">Set limit per agency</option>
-											</select> --}}
 										</div>
-									</div>
+									</div> --}}
 									
 									<div class="form-group">
 										<small class="col-12 text-uppercase">UPLOAD INVITATION FILE <i class="text-danger">*</i></small>
@@ -342,6 +364,7 @@
 					<div class="col-sm-12 agency-select d-flex align-items-center gap-2">
 						<i class="text-secondary fa fa-times" style="cursor: pointer;" onclick="removeAgencyRow(this)"></i>
 						<select name="agency_id[]" class="form-select" required>
+							<option selected disabled>SELECT AGENCY</option>
 							${agencyOptions}
 						</select>
 					</div>
@@ -395,66 +418,6 @@
 			if (row) row.remove();
 		}
 	</script>
-	{{-- <script>
-		$(document).ready(function () {
-			let agencies = @json($agencies);
-
-			$('#add-agency').on('click', function () {
-				let agencyOptions = agencies.map(agency => 
-					`<option value="${agency.id}">${agency.agency_name}</option>`
-				).join('');
-
-				let newRow = `
-				<div class="row agency-row" style="margin-top: 10px;">
-					<div class="col-sm-12 agency-select">
-						<select name="agency_id[]" class="form-select" required>
-							${agencyOptions}
-						</select>
-					</div>
-					<div class="col-sm-2 participant-limit" style="display: none;">
-						<input class="form-control" name="participant_limit[]" type="number" min="0" onclick="select()" oninput="this.value = this.value || 0;" value="0" placeholder="LIMIT">
-					</div>
-				</div>`;
-
-				$('#agency-container').append(newRow);
-				applyLimitMode($('#limit-mode').val());
-			});
-
-			$('#limit-mode').on('change', function () {
-				applyLimitMode(this.value);
-			});
-
-			$('#universal-limit').on('input', function () {
-				let value = $(this).val();
-				$('.participant-limit input').val(value);
-			});
-
-			function applyLimitMode(mode) {
-				if (mode === 'per') {
-					$('#universal-limit-wrapper').hide();
-					$('.agency-row').each(function () {
-						$(this).find('.agency-select')
-							.removeClass('col-sm-12')
-							.addClass('col-sm-10');
-						$(this).find('.participant-limit').show();
-					});
-				} else {
-					$('#universal-limit-wrapper').show();
-					let value = $('#universal-limit').val();
-					$('.participant-limit input').val(value);
-					$('.agency-row').each(function () {
-						$(this).find('.agency-select')
-							.removeClass('col-sm-10')
-							.addClass('col-sm-12');
-						$(this).find('.participant-limit').hide();
-					});
-				}
-			}
-
-			// Apply current mode on load
-			applyLimitMode($('#limit-mode').val());
-		});
-	</script> --}}
 	<script>
 		document.getElementById('open-agency-modal').addEventListener('click', function () {
 			const selectedAgencies = [];
@@ -464,7 +427,7 @@
 				if (selectedOption && selectedOption.value) {
 					selectedAgencies.push({
 						id: selectedOption.value,
-						name: selectedOption.text
+						agency_name: selectedOption.text
 					});
 				}
 			});
