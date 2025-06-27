@@ -28,7 +28,7 @@
 		<div class="row">
 			<div class="col-12 col-md-6">
 				<div class="d-flex">
-					<img src="theme/addons/images/logos/pllo-bp.png" width="160" style="height: 100%; margin-right: 14px;">
+					<img src="{{ asset('theme/addons/images/logos/pllo-bp.png') }}" width="160" style="height: 100%; margin-right: 14px;">
 					<div>
 						<p class="text-fade">
 							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
@@ -141,7 +141,7 @@
 										<svg class="mb-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
 										  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 16 4-4-4-4m6 8 4-4-4-4"/>
 										</svg>
-										Terms adn Conditions
+										Terms and Conditions
 									</a>
 								</li>
 								<li class="text-fade list-unstyled d-flex align-items-center">

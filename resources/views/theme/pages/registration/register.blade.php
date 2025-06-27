@@ -55,7 +55,7 @@
 								<input class="form-control" type="text" name="firstname" placeholder="FIRST NAME" value="{{ old('firstname') }}" required>
 							</div>
 							<div class="col-2">
-								<input class="form-control" type="text" name="middle_initial" placeholder="M.I." value="{{ old('middle_initial') }}" required>
+								<input class="form-control" type="text" name="middle_initial" placeholder="M.I." value="{{ old('middle_initial') }}" maxlength="1" required>
 							</div>
 						</div>
 
@@ -85,20 +85,16 @@
 						</div>
 
 						<div class="row form-group">
-							<div class="col-12">
-								<input class="form-control" type="password" name="password" placeholder="PASSWORD" required>
-								<svg class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-								  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-								</svg>
+							<div class="col-12 show_hide_password" id="show_hide_password">
+								<input class="form-control" id="password" type="password" name="password" placeholder="PASSWORD" required>
+								<a id="togglePassword" class="hide-password" style="color: gray; cursor: pointer;"><i class="icon icon-eye-slash" aria-hidden="true"></i></a>
 							</div>
 						</div>
 
 						<div class="row form-group">
-							<div class="col-12">
-								<input class="form-control" type="password" name="confrim_password" placeholder="CONFIRM PASSWORD" required>
-								<svg class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-								  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-								</svg>
+							<div class="col-12 show_hide_confirm_password" id="show_hide_confirm_password">
+								<input class="form-control"  id="confirmPassword" type="password" name="confrim_password" placeholder="CONFIRM PASSWORD" required>
+								<a id="toggleConfirmPassword" class="hide-password" style="color: gray; cursor: pointer;"><i class="icon icon-eye-slash" aria-hidden="true"></i></a>
 							</div>
 						</div>
 
@@ -135,15 +131,15 @@
 								</select>
 							</div>
 							<div class="col-6 d-flex">
-								<select class="form-select" aria-label="select month" name="month" style="width: 75%">
-								  	<option value="0">BIRTHDAY</option>
+								<select class="form-select" aria-label="select month" name="month" style="width: 70%">
+								  	<option value="0">BIRTHMONTH</option>
 									@foreach(Config::get('months') as $month)
 								  	<option value="{{ $month }}">{{ $month }}</option>
 									@endforeach
 								</select>
 								&nbsp;
-								<select class="form-select" aria-label="select day" name="day" style="width: 25%">
-								  	<option value="0"></option>
+								<select class="form-select" aria-label="select day" name="day" style="width: 30%">
+								  	<option value="0">BIRTHDAY</option>
 									@for($d = 1; $d <= 31; $d++)
 								  	<option value="{{ $d }}">{{ $d }}</option>
 									@endfor
@@ -282,10 +278,49 @@
 								  	<option value="4">Signal</option>
 								  	<option value="5">WeChat</option>
 								</select>
-								<input class="form-control" type="text" name="other_number[]" placeholder="" required style="padding-left: 140px;"></div>
+								<input class="form-control" type="text" name="other_number[]" placeholder="" required style="padding-left: 140px;">
+		    					<svg id="remove_new_field" style="position: absolute;right: 12px; top: 12px; cursor: pointer;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24">
+		    					  <path stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+		    					</svg>
+								</div>
 								`;
 		    $("#messaging_container").append(newFieldHtml);
 		});
+
+		$('body').on('click', '#remove_new_field', function(e){
+			e.preventDefault();
+			$(this).parent('div').remove();
+		});
+
+		$('#togglePassword').click(function() {
+	        var passwordField = $('#password');
+	        var toggleButton = $('#togglePassword i');
+
+	        if (passwordField.attr('type') === 'password') {
+	            passwordField.attr('type', 'text');
+	            toggleButton.removeClass('icon-eye-slash');
+	            toggleButton.addClass('icon-eye');
+	        } else {
+	            passwordField.attr('type', 'password');
+	            toggleButton.addClass('icon-eye-slash');
+	            toggleButton.removeClass('icon-eye');
+	        }
+	    });
+
+    	$('#toggleConfirmPassword').click(function() {
+            var passwordField = $('#confirmPassword');
+            var toggleButton = $('#toggleConfirmPassword i');
+
+            if (passwordField.attr('type') === 'password') {
+                passwordField.attr('type', 'text');
+                toggleButton.removeClass('icon-eye-slash');
+                toggleButton.addClass('icon-eye');
+            } else {
+                passwordField.attr('type', 'password');
+                toggleButton.addClass('icon-eye-slash');
+                toggleButton.removeClass('icon-eye');
+            }
+        });
 
 	});
 
@@ -307,13 +342,13 @@
 	});
 
 	$('#close_agency_logo_file').click(function(){
-	 	$('#agency_logo_file_container').hide();
+	 	$('#agency_logo_file_container').hide(); 
 	  	$('#agency_logo_holder').show();
 	});
 
 	$('#exit-custom-alert').click(function(){
 	    $("#custom-alert").hide();
-	  });
+	});
 
 </script>
 @endsection

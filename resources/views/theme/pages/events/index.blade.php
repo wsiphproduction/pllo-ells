@@ -22,8 +22,9 @@
 	<section id="registration-form">
 		<div class="container">
 			<div class="row p-4 mb-4">
-				<div class="col-12 mb-3">
+				<div class="col-12 mb-3 d-flex justify-content-between align-items-center">
 					<h3 class="form-title text-uppercase">{{ $page->name }}</h3>
+					<a href="{{ route('events.create') }}" class="btn btn-success"><i class="fa fa-plus">&nbsp;</i> Create New Event</a>
 				</div>
 
 				<div class="col-12 mb-3">

@@ -2,7 +2,10 @@
 
 @section('pagecss')
 <style>
-
+	.table.table-hover.table-striped.table-bordered thead tr th {
+		background-color: #2b3649;
+		color: white;
+	}
 </style>
 @endsection
 
@@ -12,7 +15,7 @@
 
 			<div class="row">
 				
-				<aside class="sidebar col-lg-2">
+				<!-- <aside class="sidebar col-lg-2">
 					<div class="sidebar-widgets-wrap">
 
 						<div class="widget widget_links">
@@ -32,10 +35,18 @@
 							</ul>
 						</div>
 					</div>
-				</aside>
+				</aside> -->
 
-				<main class="col-lg-10">
-					<div class="table-responsive mx-4">
+				<h4 class="d-flex align-items-center gap-2">
+					<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+					  <path stroke="currentColor" stroke-width="2" d="M3 11h18m-9 0v8m-8 0h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"/>
+					</svg>
+					Dashboard
+				</h4>
+				
+				<main class="col-lg-12 border rounded shadow pt-4">
+
+					<div class="table-responsive mx-4 pt-2">
 
 						<div class="d-flex align-items-center justify-content-between w-100">
 							<h5 class="mb-3 text-uppercase">

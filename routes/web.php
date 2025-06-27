@@ -622,6 +622,8 @@ Route::get('/member-logout', [RegistrationController::class, 'logout'])->name('m
 Route::get('/member-dashboard', [RegistrationController::class, 'memberDashboard'])->name('member.dashboard');
 Route::post('/member-profile-update', [RegistrationController::class, 'memberProfileUpdate'])->name('member.profile.update');
 Route::post('/member-resend-email', [RegistrationController::class, 'resendRegisterConfirmation'])->name('member.resend.email');
+Route::post('/member-upload-logo', [RegistrationController::class, 'uploadMemberLogo'])->name('member.upload.logo');
+Route::get('/member-login-error', [RegistrationController::class, 'loginError'])->name('member.login.error');
 
 // ADMIN USER
 Route::get('/admin-dashboard', [RegistrationController::class, 'adminDashboard'])->name('admin.dashboard');
@@ -631,6 +633,10 @@ Route::post('/admin-registration-delete', [RegistrationController::class, 'admin
 // MAINTENANCE
 Route::get('/maintenance-dashboard', [RegistrationController::class, 'maintenanceDashboard'])->name('maintenance.dashboard');
 Route::post('/maintenance-agency-store', [RegistrationController::class, 'maintenanceAgencyStore'])->name('maintenance.agency.store');
+Route::get('/maintenance-agency-edit/{id}', [RegistrationController::class, 'maintenanceAgencyEdit'])->name('maintenance.agency.edit');
+Route::post('/maintenance-agency-update/{id}', [RegistrationController::class, 'maintenanceAgencyUpdate'])->name('maintenance.agency.update');
+Route::post('/maintenance-agency-delete', [RegistrationController::class, 'maintenanceAgencyDelete'])->name('maintenance.agency.delete');
+Route::get('/maintenance-agency-view/{id}', [RegistrationController::class, 'maintenanceAgencyView'])->name('maintenance.agency.view');
 
 
 // Pages Frontend

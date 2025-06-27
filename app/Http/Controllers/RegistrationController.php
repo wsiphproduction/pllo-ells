@@ -24,10 +24,14 @@ use App\Models\Cluster;
 use App\Models\Designation;
 use App\Models\Member;
 use App\Models\MessagingNumber;
+use App\Models\Custom\EventParticipant;
+use App\Models\Custom\Event;
 
 use DB;
 use Auth;
 use Session;
+use Storage;
+use Image;
 
 class RegistrationController extends Controller
 {
@@ -59,31 +63,31 @@ class RegistrationController extends Controller
         ]);
 
         if(!$validator) {
-            return Redirect::back()->withErrors($validator);
+            return Redirect::back()->withInput()->withErrors($validator);
         }
 
         if ($request->month == 0) {
-            return back()->with('error', 'Invalid birthdate.');
+            return redirect()->back()->withInput()->with('error', 'Invalid birthdate.');
         }
 
         if ($request->day == 0) {
-            return back()->with('error', 'Invalid birthdate.');
+            return redirect()->back()->withInput()->with('error', 'Invalid birthdate.');
         }
 
         if ($request->gender == 0) {
-            return back()->with('error', 'Please select Gender.');
+            return redirect()->back()->withInput()->with('error', 'Please select Gender.');
         }
 
         if ($request->agency == 0) {
-            return back()->with('error', 'Please select Agency.');
+            return redirect()->back()->withInput()->with('error', 'Please select Agency.');
         }
 
         if ($request->designation == 0) {
-            return back()->with('error', 'Please select Designation.');
+            return redirect()->back()->withInput()->with('error', 'Please select Designation.');
         }
 
         if ($request->password != $request->confrim_password) {
-            return back()->with('error', 'Password and Confirm Password do not match.');
+            return redirect()->back()->withInput()->with('error', 'Password and Confirm Password do not match.');
         }
 
         // Parallel saving users to members table //
@@ -230,10 +234,10 @@ class RegistrationController extends Controller
         
         if (Auth::attempt($userCredentials)) {
 
-            if(Auth::user()->role_id <> '2'){ // block cms users from using this login form
+            if(Auth::user()->role_id <> 2){ // block users from using this login form
 
                 // Auth::logout();
-                // return back()->with('error', 'Administrative accounts are not allowed to login as customer.'); 
+                // return back()->with('error', 'Administrative accounts are not allowed to login as member.'); 
 
                 return redirect(route('admin.dashboard'));
             }
@@ -249,9 +253,17 @@ class RegistrationController extends Controller
             return redirect(route('member.dashboard'));
 
         } else {
-            Auth::logout();
-            return back()->with('error', __('auth.login.incorrect_input'));
+            
+            return redirect(route('member.login.error'));
+
         }
+    }
+
+    public function loginError() {
+         $page = new Page;
+         $page->name = 'Login Error';
+         
+         return view('theme.pages.login-error', compact('page'));
     }
 
     public function memberDashboard() {
@@ -263,8 +275,10 @@ class RegistrationController extends Controller
         $memberDetails = Member::where('user_id', Auth::user()->id)->first();
         $memberAgency = Agency::find($memberDetails->agency);
 
+        $events  = EventParticipant::where('member_id', $memberDetails->id)->get();
+        // dd($events);
         if (auth()->user()) {
-            return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency'));
+            return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency', 'events'));
         } else {
             return back()->with('error', ('Please login to your account.'));
         }
@@ -286,16 +300,29 @@ class RegistrationController extends Controller
             }
         }
 
+        if ($request->hasFile('photo')) {
+
+            $image = $request->file('photo');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $path = 'photo/' . $filename;
+
+            Storage::disk('public')->putFileAs('photo', $image, $filename);
+
+            $member->photo = $path;
+            $user->avatar = $path;
+
+        }
+
         $member->email = $request['email'];
         $member->alt_email = $request['alt_email'];
-        $user->email = $request['email'];
         $member->cluster = implode('::', $request['cluster']);
+
+        $user->email = $request['email'];
 
         $member->save();
         $user->save();
         
         return back()->with('success', ('Profile updated successfully.'));
-
     }
 
     public function logout() {
@@ -372,6 +399,54 @@ class RegistrationController extends Controller
         return back()->with('success', 'Agency added successfully.');
     }
 
+    public function maintenanceAgencyEdit($id) {
+
+        $page = new Page;
+        $page->name = 'Edit Agency';
+        $agency = Agency::find($id);
+        $genders = Gender::all();
+
+        return view('theme.pages.maintenance.agency.edit', compact('page', 'agency', 'genders'));
+    }
+
+    public function maintenanceAgencyUpdate(Request $request, $id) {
+
+        $agency = Agency::find($id);
+        $agency->agency_name = $request['agency_name'];
+        $agency->agency_address = $request['agency_address'];
+        $agency->agency_email = $request['agency_email'];
+        $agency->agency_landline = $request['agency_landline'];
+        $agency->agency_cellphone = $request['agency_cellphone'];
+        $agency->head_name = $request['head_name'];
+        $agency->head_nickname = $request['head_nickname'];
+        $agency->head_gender = $request['head_gender'];
+        $agency->head_address = $request['head_address'];
+        $agency->head_alt_address = $request['head_alt_address'];
+        $agency->head_email = $request['head_email'];
+        $agency->head_office_email = $request['head_office_email'];
+        $agency->head_cellphone = $request['head_cellphone'];
+        $agency->save();
+
+        return redirect()->route('maintenance.dashboard')->with('success', 'Agency updated successfully.');
+    }
+
+    public function maintenanceAgencyDelete(Request $request) {
+
+        $agency = Agency::find($request->agency_id);
+        $agency->delete();
+
+        return redirect()->route('maintenance.dashboard')->with('success', 'Agency deleted.');
+    }
+
+    public function maintenanceAgencyView($id) {
+
+        $page = new Page;
+        $page->name = "View Agency Details";
+        $agency = Agency::find($id);
+
+        return view('theme.pages.maintenance.agency.view', compact('page', 'agency'));
+    }
+
     public function resendRegisterConfirmation(Request $request) {
 
         $member = Member::find($request->reg_id);
@@ -381,4 +456,33 @@ class RegistrationController extends Controller
 
         return back()->with('success', 'Email Confirmation Resent.');
     }
+
+    public function uploadMemberLogo(Request $request)
+    {
+        $request->validate([
+            'logo' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048', // Max 2MB
+        ]);
+
+        $member = Member::where('user_id', auth()->user()->id)->first();
+
+        if ($request->hasFile('logo')) {
+
+            $image = $request->file('logo');
+            $filename = time() . '.' . $image->getClientOriginalExtension();
+            $path = 'logo/' . $filename;
+
+            Storage::disk('public')->putFileAs('logo', $image, $filename);
+
+            $member->logo = $path;
+
+            $member->save();
+            
+        } else {
+            return back()->with('error', 'No logo selected.');
+        }
+        return back()->with('success', 'New logo uploaded.');
+    
+    }
+
+
 }
