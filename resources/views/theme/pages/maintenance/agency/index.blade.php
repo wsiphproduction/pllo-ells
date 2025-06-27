@@ -53,19 +53,50 @@
                                         <td>{{ $agency->agency_name  }}</td>
                                         <td>{{ $agency->created_at  }}</td>
                                         <td>
-                                            <button class="btn btn-secondary" title="Edit agency details">
+                                            <a href="{{ route('maintenance.agency.view', $agency->id ) }}" class="btn btn-success" title="View agency details">
+                                                <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
+                                                  <path stroke="currentColor" stroke-width="2" d="M21 12c0 1.2-4.03 6-9 6s-9-4.8-9-6c0-1.2 4.03-6 9-6s9 4.8 9 6Z"/>
+                                                  <path stroke="currentColor" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                </svg>
+                                            </a>
+                                            &nbsp;
+                                            <a href="{{ route('maintenance.agency.edit', $agency->id ) }}" class="btn btn-secondary" title="Edit agency details">
                                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
                                                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m14.304 4.844 2.852 2.852M7 7H4a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-4.5m2.409-9.91a2.017 2.017 0 0 1 0 2.853l-6.844 6.844L8 14l.713-3.565 6.844-6.844a2.015 2.015 0 0 1 2.852 0Z"/>
                                                 </svg>
-                                            </button>
+                                            </a>
                                             &nbsp;
-                                            <button class="btn btn-danger" title="Delete agency">
+                                            <button type="button" class="btn btn-danger" title="Delete agency" data-bs-toggle="modal" data-bs-target="#deleteAgencyModal">
                                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
                                                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 7h14m-9 3v8m4-8v8M10 3h4a1 1 0 0 1 1 1v3H9V4a1 1 0 0 1 1-1ZM6 7h12v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V7Z"/>
                                                 </svg>
                                             </button>
                                         </td>
                                     </tr>
+
+                                    <!-- Delete confirmation modal -->
+                                    <div class="modal fade" id="deleteAgencyModal" tabindex="-1" aria-labelledby="deleteAgencyModalLabel" aria-hidden="true">
+                                      <div class="modal-dialog modal-dialog-centered">
+                                        <div class="modal-content">
+                                          <div class="modal-header">
+                                            <h5 class="modal-title" id="regApproveModalLabel">Delete Agency Confirmation</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                          </div>
+                                          <div class="modal-body">
+                                            Are you sure you want to delete this agency?
+                                          </div>
+                                          <div class="modal-footer">
+                                            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                            <form method="post" action="{{ route('maintenance.agency.delete' ) }}" enctype="multipart/form-data">
+                                                @csrf
+                                                <input type="hidden" name="agency_id" value="{{ $agency->id }}">
+                                                <button type="submit" class="btn btn-danger">Yes, Delete</button>
+                                            </form>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+
                                 @empty
                                     <tr>
                                         <td colspan="4">No approved agency found.</td>
@@ -163,6 +194,7 @@
                             </form>
                         </div>
                     </div>
+
                 </div>
 
             </div>
