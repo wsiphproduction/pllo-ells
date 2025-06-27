@@ -380,6 +380,7 @@ class RegistrationController extends Controller
         return back()->with('success', 'Registration Deleted!');
     }
 
+    // Agency
     public function maintenanceDashboard() {
 
         $page = new Page;
@@ -447,6 +448,97 @@ class RegistrationController extends Controller
         return view('theme.pages.maintenance.agency.view', compact('page', 'agency'));
     }
 
+    // Designation
+    public function maintenanceDesignation() {
+
+        $page = new Page();
+        $page->name = "Manage Designations";
+
+        $designations = Designation::all();
+    
+        return view('theme.pages.maintenance.designation.index', compact('page', 'designations'));
+    }
+
+    public function maintenanceDesignationStore(Request $request) {
+
+        $requests = $request->all();
+        Designation::create($requests);
+
+        return back()->with('success', 'Designation added successfully.');
+    }
+
+    public function maintenanceDesignationEdit($id) {
+
+        $page = new Page;
+        $page->name = 'Edit Designation';
+        $designation = Designation::find($id);
+
+        return view('theme.pages.maintenance.designation.edit', compact('page', 'designation'));
+    }
+
+    public function maintenanceDesignationUpdate(Request $request, $id) {
+
+        $designation = Designation::find($id);
+        $designation->name = $request['name'];
+        $designation->save();
+
+        return redirect()->route('maintenance.designation')->with('success', 'Designation updated successfully.');
+    }
+
+    public function maintenanceDesignationDelete(Request $request) {
+
+        $designation = Designation::find($request->designation_id);
+        $designation->delete();
+
+        return redirect()->route('maintenance.designation')->with('success', 'Designation deleted.');
+    }
+
+    // Cluster
+    public function maintenanceCluster() {
+
+        $page = new Page();
+        $page->name = "Manage Designations";
+
+        $clusters = Cluster::all();
+    
+        return view('theme.pages.maintenance.cluster.index', compact('page', 'clusters'));
+    }
+
+    public function maintenanceClusterStore(Request $request) {
+
+        $requests = $request->all();
+        Cluster::create($requests);
+
+        return back()->with('success', 'Cluster added successfully.');
+    }
+
+    public function maintenanceClusterEdit($id) {
+
+        $page = new Page;
+        $page->name = 'Edit Cluster';
+        $cluster = Cluster::find($id);
+
+        return view('theme.pages.maintenance.cluster.edit', compact('page', 'cluster'));
+    }
+
+    public function maintenanceClusterUpdate(Request $request, $id) {
+
+        $cluster = Cluster::find($id);
+        $cluster->name = $request['name'];
+        $cluster->save();
+
+        return redirect()->route('maintenance.cluster')->with('success', 'Cluster updated successfully.');
+    }
+
+    public function maintenanceClusterDelete(Request $request) {
+
+        $cluster = Cluster::find($request->cluster_id);
+        $cluster->delete();
+
+        return redirect()->route('maintenance.cluster')->with('success', 'Cluster deleted.');
+    }
+
+    // Email confirmation
     public function resendRegisterConfirmation(Request $request) {
 
         $member = Member::find($request->reg_id);

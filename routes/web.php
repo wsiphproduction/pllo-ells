@@ -632,11 +632,28 @@ Route::post('/admin-registration-delete', [RegistrationController::class, 'admin
 
 // MAINTENANCE
 Route::get('/maintenance-dashboard', [RegistrationController::class, 'maintenanceDashboard'])->name('maintenance.dashboard');
-Route::post('/maintenance-agency-store', [RegistrationController::class, 'maintenanceAgencyStore'])->name('maintenance.agency.store');
-Route::get('/maintenance-agency-edit/{id}', [RegistrationController::class, 'maintenanceAgencyEdit'])->name('maintenance.agency.edit');
-Route::post('/maintenance-agency-update/{id}', [RegistrationController::class, 'maintenanceAgencyUpdate'])->name('maintenance.agency.update');
-Route::post('/maintenance-agency-delete', [RegistrationController::class, 'maintenanceAgencyDelete'])->name('maintenance.agency.delete');
-Route::get('/maintenance-agency-view/{id}', [RegistrationController::class, 'maintenanceAgencyView'])->name('maintenance.agency.view');
+
+    // Agency Maintenance
+    Route::post('/maintenance-agency-store', [RegistrationController::class, 'maintenanceAgencyStore'])->name('maintenance.agency.store');
+    Route::get('/maintenance-agency-edit/{id}', [RegistrationController::class, 'maintenanceAgencyEdit'])->name('maintenance.agency.edit');
+    Route::post('/maintenance-agency-update/{id}', [RegistrationController::class, 'maintenanceAgencyUpdate'])->name('maintenance.agency.update');
+    Route::post('/maintenance-agency-delete', [RegistrationController::class, 'maintenanceAgencyDelete'])->name('maintenance.agency.delete');
+    Route::get('/maintenance-agency-view/{id}', [RegistrationController::class, 'maintenanceAgencyView'])->name('maintenance.agency.view');
+
+    // Designation Maintenance
+    Route::get('/maintenance-designation', [RegistrationController::class, 'maintenanceDesignation'])->name('maintenance.designation');
+    Route::post('/maintenance-designation-store', [RegistrationController::class, 'maintenanceDesignationStore'])->name('maintenance.designation.store');
+    Route::get('/maintenance-designation-edit/{id}', [RegistrationController::class, 'maintenanceDesignationEdit'])->name('maintenance.designation.edit');
+    Route::post('/maintenance-designation-update/{id}', [RegistrationController::class, 'maintenanceDesignationUpdate'])->name('maintenance.designation.update');
+    Route::post('/maintenance-designation-delete', [RegistrationController::class, 'maintenanceDesignationDelete'])->name('maintenance.designation.delete');
+
+    // Cluster Maintenance
+    Route::get('/maintenance-cluster', [RegistrationController::class, 'maintenanceCluster'])->name('maintenance.cluster');
+    Route::post('/maintenance-cluster-store', [RegistrationController::class, 'maintenanceClusterStore'])->name('maintenance.cluster.store');
+    Route::get('/maintenance-cluster-edit/{id}', [RegistrationController::class, 'maintenanceClusterEdit'])->name('maintenance.cluster.edit');
+    Route::post('/maintenance-cluster-update/{id}', [RegistrationController::class, 'maintenanceClusterUpdate'])->name('maintenance.cluster.update');
+    Route::post('/maintenance-cluster-delete', [RegistrationController::class, 'maintenanceClusterDelete'])->name('maintenance.cluster.delete');
+
 
 
 // Pages Frontend
