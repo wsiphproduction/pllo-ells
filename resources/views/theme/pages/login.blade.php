@@ -17,7 +17,7 @@
                         </div>
                     @endif
 
-                    <div class="tab-content clearfix" id="tab-login">
+                    <div class="tab-content clearfix shadow" id="tab-login">
                         <div class="card nobottommargin">
                             <div class="card-body" style="padding: 40px;">
                                 <form id="login-form" name="login-form" class="nobottommargin" action="{{ route('member.online') }}" method="post">

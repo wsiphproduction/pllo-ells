@@ -15,14 +15,14 @@
 
 			<div class="row">
 
-				<h4 class="d-flex align-items-center gap-2">
-					<svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-					  <path stroke="currentColor" stroke-width="2" d="M3 11h18m-9 0v8m-8 0h16a1 1 0 0 0 1-1V6a1 1 0 0 0-1-1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1Z"/>
+				<h4 class="d-flex align-items-center gap-1 mb-0">
+					<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24">
+					  <path d="M5 3a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H5Zm14 18a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h4ZM5 11a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h4a2 2 0 0 0 2-2v-6a2 2 0 0 0-2-2H5Zm14 2a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h4Z"/>
 					</svg>
 					Dashboard
 				</h4>
 
-				<div class="row g-3">
+				<div class="row g-3 mt-0">
 
 					<div class="col-md-12">
 						<div class="card h-100 shadow">
@@ -194,7 +194,7 @@
 															<td>{{ $registration_process->email }}</td>
 															<td>{{ $registration_process->updated_at }}</td>
 															<td>
-																<button class="btn btn-sedcondary mx-2 border" data-bs-toggle="modal" data-bs-target="#emailResendModal"  title="Resend Email Confirmation">
+																<button class="btn btn-sedcondary mx-2 border resend-email-btn" data-id="{{ $registration_process->user_id }}" data-bs-toggle="modal" data-bs-target="#emailResendModal"  title="Resend Email Confirmation">
 																	<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
 																	<path d="M2.038 5.61A2.01 2.01 0 0 0 2 6v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6c0-.12-.01-.238-.03-.352l-.866.65-7.89 6.032a2 2 0 0 1-2.429 0L2.884 6.288l-.846-.677Z"/>
 																	<path d="M20.677 4.117A1.996 1.996 0 0 0 20 4H4c-.225 0-.44.037-.642.105l.758.607L12 10.742 19.9 4.7l.777-.583Z"/>
@@ -218,7 +218,7 @@
 																<button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 																<form method="post" action="{{ route('member.resend.email') }}" enctype="multipart/form-data">
 																	@csrf
-																	<input type="hidden" name="reg_id" value="{{ $registration_process->user_id }}">
+																	<input type="hidden" name="reg_id" id="reg_id_resend">
 																	<button type="submit" class="btn btn-success">Resend</button>
 																</form>
 															</div>
@@ -266,7 +266,7 @@
 													<i class="bi-calendar-event-fill fs-3 text-dark"></i>
 												</div>
 												<div>
-													<h6 class="mb-1 fw-semibold">Anti War on Drugs</h6>
+													<h6 class="mb-1 fw-semibold">NCAP Deployment</h6>
 													<small class="text-muted">July 5, 2025 · 9:00AM - 4:00PM<br>Luneta Park</small>
 												</div>
 											</div>
@@ -373,6 +373,11 @@
 			// addons here
 	    });
 	} );
+
+	$(document).on('click','.resend-email-btn',function(){
+	     let id = $(this).attr('data-id');
+	     $('#reg_id_resend').val(id);
+	});
 
 </script>
 @endsection
