@@ -589,6 +589,10 @@ Route::group(['prefix' => 'admin-panel'], function (){
                 Route::get('/report/wishlist', [ReportsController::class, 'wishlist'])->name('report.wishlist');
                 Route::get('/report/favorites', [ReportsController::class, 'favorites'])->name('report.favorites');
 
+                Route::resource('downloadables', FileDownloadController::class);
+                Route::post('file-single-delete', [FileDownloadController::class, 'single_delete'])->name('file.single.delete');
+                Route::post('file-multiple-delete',[FileDownloadController::class, 'multiple_delete'])->name('file.multiple.delete');
+
             // Mobile Reports
                 Route::get('/report/best-sellers/mobile', [ReportsController::class, 'best_sellers_mobile'])->name('report.best-sellers.mobile');
                 Route::get('/report/sales-transaction/mobile', [ReportsController::class, 'sales_list_mobile'])->name('report.sales-transaction.mobile');
