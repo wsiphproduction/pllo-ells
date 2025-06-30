@@ -463,7 +463,7 @@
             color: #3c5d90;
         }
         .primary-text-color {
-            color: #3c5d90;
+            color: #3c5d90 !important;
         }
         .primary-button-color {
             background-color: #3c5d90 !important;

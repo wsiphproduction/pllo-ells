@@ -70,6 +70,38 @@
     .file-input-wrapper.photo {
         transform: translate(25px, 108px);
     }
+    ul#canvas-tab-border li.nav-item button.nav-link.active {
+        color: #3c5d90 !important;;
+        border: var(--bs-nav-tabs-border-width) solid var(--bs-nav-tabs-border-color) !important;
+        border-bottom: none !important;
+    }
+    ul#canvas-tab-border li.nav-item button.nav-link:not(.active) {
+        border: none;
+        background-color: transparent;
+    }
+    .card-saved-contacts:hover {
+        background-color: #e1e1e1;
+    }
+    .card-saved-contacts .delete-contact-btn {
+        display: none;
+    }
+    .card-saved-contacts:hover .delete-contact-btn {
+        display: block;
+    }
+    .card-saved-contacts .utility-btns {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        display: none;
+    }
+    .card-saved-contacts:hover .utility-btns {
+        position: absolute;
+        top: 0;
+        right: 25px;
+        display: flex;
+    }
+
+
 </style>
 @endsection
 
@@ -400,6 +432,8 @@
                                     <tr>
                                         <small>
                                             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                            <br>
+                                            &nbsp;
                                         </small>
                                     </tr>
                                     @forelse($events as $event)
@@ -416,21 +450,321 @@
                             </div>
                         </div>
 
+                        <!-- Reference Materials -->
                         <div class="tab-pane fade" id="reference-border" role="tabpanel" aria-labelledby="tab-reference-border-tab" tabindex="0">
-                            <p class="mb-0">Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master
-                                cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party
-                                locavore wolf cliche high life echo park Austin.</p>
+                            <div class="col-12">
+                                <table class="table-dotted table-striped">
+                                    <tr>
+                                        <small>
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        <br>
+                                        &nbsp;
+                                        </small>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td><span><small>March 3, 2023</small></span></td>
+                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">SSS Position on House Joint Resolution (HJR) No. 1 Mandating the implementat ion of the second tranche increase in pension</a></small></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><small>March 11, 2023</small></span></td>
+                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">Department of Finance-Bureau of Local Government Finance Real Property Valuaঞon Bil</a></small></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><small>March 29, 2023</small></span></td>
+                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">Act Requiring Local Government Units to Allocate Land for the Establishment of Muslim Filipino Public Cemetery</a></small></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><small>June 5, 2023</small></span></td>
+                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">New Emancipation Act / New Agrarian Emancipation Act / Agrarian Reform Emancipation and Condonation of Land Amortization act</a></small></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><small>June 19, 2023</small></span></td>
+                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">Expand the purposes and application of the Special Educaঞon Fund (SEF)</a></small></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><small>June 26, 2023</small></span></td>
+                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">Postponement of the December 2022 Barangay and Sangguniang Kabataan Election</a></small></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><small>July 15, 2023</small></span></td>
+                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">Unified System of Separation, Retirement and Pension - Military and Uniformed Personnel (MUP</a></small></span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><span><small>July 30, 2023</small></span></td>
+                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">BSP Proposed Amendment to Section 3 of the Consolidated Common Dra[ E-Governance / EGovernment Legislative Measures</a></small></span></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
+
+                        <!-- Policy Reforms Tab -->
                         <div class="tab-pane fade" id="policy-border" role="tabpanel" aria-labelledby="tab-policy-border-tab" tabindex="0">
-                            <p class="mb-0">Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master
-                                cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party
-                                locavore wolf cliche high life echo park Austin.</p>
+                            <div class="col-12">
+                                <table class="table-dotted table-striped">
+                                    <tr>
+                                        <small>
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                        <br>
+                                        <br>
+                                        <small><b class="primary-text-color">MY SAVED BILL/S</b></small>
+                                        </small>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td>
+                                            <span class="primary-text-color"><small><a href="#" class="primary-text-color">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium</a></small></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="primary-text-color"><small><a href="#" class="primary-text-color">Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicab</a></small></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="primary-text-color"><small><a href="#" class="primary-text-color">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</a></small></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span class="primary-text-color"><small><a href="#" class="primary-text-color">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat</a></small></span>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
+
+                        <!-- Saved Contacts Tab -->
                         <div class="tab-pane fade" id="saved-border" role="tabpanel" aria-labelledby="tab-saved-border-tab" tabindex="0">
-                            <p class="mb-0">Trust fund seitan letterpress, keytar raw denim keffiyeh etsy art party before they sold out master
-                                cleanse gluten-free squid scenester freegan cosby sweater. Fanny pack portland seitan DIY, art party
-                                locavore wolf cliche high life echo park Austin.</p>
+                            <div class="col-12">
+                                <small>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 1labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                <br>
+                                </small>
+                                <div class="my-2 d-flex flex-wrap">
+                                    <div class="col-6">
+                                        <div class="saved-container">
+                                            <div class="card border-0 card-saved-contacts cursor-pointer">
+                                                <div class="card-body">
+                                                    <div class="row mb-2">
+                                                        <small><b class="primary-text-color">CONGRESS COMMITTEE SECRETARY</b></small>
+                                                    </div>
+                                                    <div class="col-12 d-flex">
+                                                        <div class="col-3 text-center">
+                                                            <img class="rounded" src="{{ asset('images/user2.jpg') }}" width="120px">
+                                                            <br>
+                                                            <br>
+                                                            <small class="delete-contact-btn"><b class="text-danger cursor-pointer">DELETE</b></small>
+                                                        </div>
+                                                        <div class="col-9">
+                                                            <ul class="list-unstyled">
+                                                                <li>
+                                                                    <small>
+                                                                        <b class="primary-text-color">Gil Stella</b>
+                                                                    </small>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="icon-user" style="font-size: 14px; color: gray;"></i>
+                                                                    &nbsp; <small class="primary-text-color">Gil Stella</small>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="icon-users" style="font-size: 14px; color: gray;"></i>
+                                                                    &nbsp;
+                                                                    <small style="display: inline-grid;">
+                                                                        Persons with Disabilities
+                                                                        <br>
+                                                                        <p style="font-size: 10px;">Special Committee</p>
+                                                                    </small>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="icon-call" style="font-size: 14px; color: gray;"></i>
+                                                                    &nbsp;<small>8931-5001</small>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="icon-envelope" style="font-size: 14px; color: gray;"></i>
+                                                                    &nbsp; <small class="primary-text-color">manila6thdis@congress.gov.ph</small>
+                                                                </li>
+                                                            </ul>
+
+                                                            <div class="utility-btns align-items-center gap-2">
+                                                                <a href="#" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a>
+                                                                <a href="#" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="saved-container">
+                                            <div class="card border-0 card-saved-contacts cursor-pointer">
+                                                <div class="card-body">
+                                                    <div class="row mb-2">
+                                                        &nbsp;
+                                                    </div>
+                                                    <div class="col-12 d-flex">
+                                                        <div class="col-3 text-center">
+                                                            <img class="rounded" src="{{ asset('images/user3.jpg') }}" width="120px">
+                                                            <br>
+                                                            <br>
+                                                            <small class="delete-contact-btn"><b class="text-danger cursor-pointer">DELETE</b></small>
+                                                        </div>
+                                                        <div class="col-9">
+                                                            <ul class="list-unstyled">
+                                                                <li>
+                                                                    <small>
+                                                                        <b class="primary-text-color">Desiree Barramed</b>
+                                                                    </small>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="icon-user" style="font-size: 14px; color: gray;"></i>
+                                                                    &nbsp; <small class="primary-text-color">Eleanor C. Bulut-Begtang</small>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="icon-users" style="font-size: 14px; color: gray;"></i>
+                                                                    &nbsp;
+                                                                    <small style="display: inline-grid;">
+                                                                        Reforestation
+                                                                        <br>
+                                                                        <p style="font-size: 10px;">Special Committee</p>
+                                                                    </small>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="icon-call" style="font-size: 14px; color: gray;"></i>
+                                                                    &nbsp;<small>8931-5001</small>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="icon-envelope" style="font-size: 14px; color: gray;"></i>
+                                                                    &nbsp; <small class="primary-text-color">manila6thdis@congress.gov.ph</small>
+                                                                </li>
+                                                            </ul>
+
+                                                            <div class="utility-btns align-items-center gap-2">
+                                                                <a href="#" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a>
+                                                                <a href="#" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="saved-container">
+                                            <div class="card border-0 card-saved-contacts cursor-pointer">
+                                                <div class="card-body">
+                                                    <div class="row mb-2">
+                                                        <small><b class="primary-text-color">LLS MEMBERS</b></small>
+                                                    </div>
+                                                    <div class="col-12 d-flex">
+                                                        <div class="col-3 text-center">
+                                                            <img class="rounded" src="{{ asset('images/user4.jpg') }}" width="120px">
+                                                            <br>
+                                                            <br>
+                                                            <small class="delete-contact-btn"><b class="text-danger cursor-pointer">DELETE</b></small>
+                                                        </div>
+                                                        <div class="col-9">
+                                                            <ul class="list-unstyled">
+                                                                <li>
+                                                                    <small>
+                                                                        <b class="primary-text-color">Sheila D. Imperil</b>
+                                                                    </small>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="icon-user" style="font-size: 14px; color: gray;"></i>
+                                                                    &nbsp; <small class="primary-text-color">DLLO</small>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="icon-users" style="font-size: 14px; color: gray;"></i>
+                                                                    &nbsp;
+                                                                    <small style="display: inline-grid;">
+                                                                        CCC: Climate Change Comission
+                                                                    </small>
+                                                                    <small style="display: inline-grid;">
+                                                                        CCAMDRRC
+                                                                    </small>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="icon-call" style="font-size: 14px; color: gray;"></i>
+                                                                    &nbsp;<small>8420-5513</small>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="icon-envelope" style="font-size: 14px; color: gray;"></i>
+                                                                    &nbsp; <small class="primary-text-color">herreras@climate.gov.ph</small>
+                                                                </li>
+                                                            </ul>
+
+                                                            <div class="utility-btns align-items-center gap-2">
+                                                                <a href="#" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a>
+                                                                <a href="#" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="saved-container">
+                                            <div class="card border-0 card-saved-contacts cursor-pointer">
+                                                <div class="card-body">
+                                                    <div class="row mb-2">
+                                                        &nbsp;
+                                                    </div>
+                                                    <div class="col-12 d-flex">
+                                                        <div class="col-3 text-center">
+                                                            <img class="rounded" src="{{ asset('images/user5.jpg') }}" width="120px">
+                                                            <br>
+                                                            <br>
+                                                            <small class="delete-contact-btn"><b class="text-danger cursor-pointer">DELETE</b></small>
+                                                        </div>
+                                                        <div class="col-9">
+                                                            <ul class="list-unstyled">
+                                                                <li>
+                                                                    <small>
+                                                                        <b class="primary-text-color">Usec. Janet B. Abuel</b>
+                                                                    </small>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="icon-user" style="font-size: 14px; color: gray;"></i>
+                                                                    &nbsp; <small class="primary-text-color">DLLO</small>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="icon-users" style="font-size: 14px; color: gray;"></i>
+                                                                    &nbsp;
+                                                                    <small style="display: inline-grid;">
+                                                                        CCC: Climate Change Comission
+                                                                    </small>
+                                                                    <small style="display: inline-grid;">
+                                                                        CCAMDRRC
+                                                                    </small>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="icon-call" style="font-size: 14px; color: gray;"></i>
+                                                                    &nbsp;<small>8420-5513</small>
+                                                                </li>
+                                                                <li>
+                                                                    <i class="icon-envelope" style="font-size: 14px; color: gray;"></i>
+                                                                    &nbsp; <small class="primary-text-color">herreras@climate.gov.ph</small>
+                                                                </li>
+                                                            </ul>
+
+                                                            <div class="utility-btns align-items-center gap-2">
+                                                                <a href="#" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a>
+                                                                <a href="#" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
+
                     </div>
 
                     <div class="row">
