@@ -2,16 +2,6 @@
 
 @section('pagecss')
 <style>
-	.form-title {
-		margin-bottom: 10px;
-		color: #3c5d90;
-	}
-	.primary-text-color {
-		color: #3c5d90;
-	}
-	.primary-button-color {
-		background-color: #3c5d90 !important;
-	}
 	div#custom-alert {
 		width: 99%;
 	    height: 100%;
@@ -32,11 +22,16 @@
 		color: white;
 		float: right;
 	}
-	.hide-password {
+	.select-type-number {
 		position: absolute;
-		top: 7px;
-		right: 22px;
-		opacity: .7;
+	    width: fit-content;
+	    border: none;
+	    top: 1px;
+	    left: 14px;
+	}
+	#add_messaging:hover {
+		color: #005ded;
+		text-decoration: underline;
 	}
 </style>
 @endsection
@@ -48,20 +43,25 @@
 				<div class="col-2"></div>
 				<div class="col-8">
 					<h3 class="form-title">REGISTRATION</h3>
+
+					@if($errors->any())
+					    <div class="text-danger mb-2">*{{ implode('', $errors->all(':message')) }}</div>
+					@endif
+
 					<form action="{{ route('register-store') }}" method="post" enctype="multipart/form-data">
 						
 						<div class="row form-group">
 							<div class="col-10">
-								<input class="form-control" type="text" name="firstname" placeholder="FIRST NAME" required>
+								<input class="form-control" type="text" name="firstname" placeholder="FIRST NAME" value="{{ old('firstname') }}" required>
 							</div>
 							<div class="col-2">
-								<input class="form-control" type="text" name="middle_initial" placeholder="M.I." required>
+								<input class="form-control" type="text" name="middle_initial" placeholder="M.I." value="{{ old('middle_initial') }}" maxlength="1" required>
 							</div>
 						</div>
 
 						<div class="row form-group">
 							<div class="col-10">
-								<input class="form-control" type="text" name="lastname" placeholder="LAST NAME" required>
+								<input class="form-control" type="text" name="lastname" placeholder="LAST NAME" value="{{ old('lastname') }}" required>
 							</div>
 							<div class="col-2">
 								<select class="form-select" aria-label="select suffix" name="suffix">
@@ -74,61 +74,76 @@
 
 						<div class="row form-group">
 							<div class="col-12">
-								<input class="form-control" type="email" name="email" placeholder="EMAIL ADDRESS" required autocomplete="off">
+								<input class="form-control" type="email" name="email" placeholder="EMAIL ADDRESS" value="{{ old('email') }}" required autocomplete="off">
 							</div>
 						</div>
 
 						<div class="row form-group">
 							<div class="col-12">
-								<input class="form-control" type="email" name="alt_email" placeholder="ALTERNATIVE EMAIL ADDRESS" required autocomplete="off">
+								<input class="form-control" type="email" name="alt_email" placeholder="ALTERNATIVE EMAIL ADDRESS" value="{{ old('alt_email') }}" required autocomplete="off">
+							</div>
+						</div>
+
+						<div class="row form-group">
+							<div class="col-12 show_hide_password" id="show_hide_password">
+								<input class="form-control" id="password" type="password" name="password" placeholder="PASSWORD" required>
+								<a id="togglePassword" class="hide-password" style="color: gray; cursor: pointer;"><i class="icon icon-eye-slash" aria-hidden="true"></i></a>
+							</div>
+						</div>
+
+						<div class="row form-group">
+							<div class="col-12 show_hide_confirm_password" id="show_hide_confirm_password">
+								<input class="form-control"  id="confirmPassword" type="password" name="confrim_password" placeholder="CONFIRM PASSWORD" required>
+								<a id="toggleConfirmPassword" class="hide-password" style="color: gray; cursor: pointer;"><i class="icon icon-eye-slash" aria-hidden="true"></i></a>
 							</div>
 						</div>
 
 						<div class="row form-group">
 							<div class="col-12">
-								<input class="form-control" type="password" name="password" placeholder="PASSWORD" required>
-								<svg class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-								  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-								</svg>
+								<input class="form-control" type="text" name="contact_number" placeholder="MOBILE NUMBER" value="{{ old('contact_number') }}" required>
 							</div>
 						</div>
 
 						<div class="row form-group">
-							<div class="col-12">
-								<input class="form-control" type="password" name="confrim_password" placeholder="CONFIRM PASSWORD" required>
-								<svg class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-								  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-								</svg>
-							</div>
-						</div>
-
-						<div class="row form-group">
-							<div class="col-12">
-								<input class="form-control" type="text" name="contact_number" placeholder="MOBILE NUMBER" required>
-							</div>
-						</div>
-
-						<div class="row form-group">
-							<div class="col-12">
-								<select class="form-select" aria-label="select number" name="other_number">
-									@foreach($messaging_numbers as $messaging_number)
-								  	<option value="{{ $messaging_number->id }}">{{ $messaging_number->name }}</option>
-									@endforeach
+							<div class="col-12 relative">
+								<select id="select_number_solo" class="form-select select-type-number" aria-label="select type of number" name="type_number[]">
+								  	<option value="1">Viber</option>
+								  	<option value="2">WhatsApp</option>
+								  	<option value="3">Telegram</option>
+								  	<option value="4">Signal</option>
+								  	<option value="5">WeChat</option>
 								</select>
-								<small class="primary-text-color float-end pt-1">Add Instant Messaging Number</small>
+								<input class="form-control" type="text" name="other_number[]" placeholder="" required style="padding-left: 140px;">
+								<div id="messaging_container">
+									<!-- area for additional fields -->
+								</div>
+								<small id="add_messaging" class="primary-text-color float-end pt-1 cursor-pointer">Add Instant Messaging Number</small>
 							</div>
 						</div>
 
 						<div class="row form-group">
 							<div class="col-6">
 								<select class="form-select" aria-label="select gender" name="gender">
+								  	<option value="0">GENDER</option>
 									@foreach($genders as $gender)
 								  	<option value="{{ $gender->id }}">{{ $gender->name }}</option>
 									@endforeach
 								</select>
 							</div>
-							<div class="col-6">
-								<input class="form-control" type="date" name="birthdate" placeholder="BIRTHDAY" required>
+							<div class="col-6 d-flex">
+								<select class="form-select" aria-label="select month" name="month" style="width: 70%">
+								  	<option value="0">BIRTHMONTH</option>
+									@foreach(Config::get('months') as $month)
+								  	<option value="{{ $month }}">{{ $month }}</option>
+									@endforeach
+								</select>
+								&nbsp;
+								<select class="form-select" aria-label="select day" name="day" style="width: 30%">
+								  	<option value="0">BIRTHDAY</option>
+									@for($d = 1; $d <= 31; $d++)
+								  	<option value="{{ $d }}">{{ $d }}</option>
+									@endfor
+								</select>
 							</div>
 						</div>
 
@@ -145,8 +160,9 @@
 						<div class="row form-group">
 							<div class="col-12">
 								<select class="form-select" aria-label="select agency" name="agency">
+									<option value="0">GOVERNMENT AGENCY</option>
 									@foreach($agencies as $agency)
-								  	<option value="{{ $agency->id }}">{{ $agency->name }}</option>
+								  	<option value="{{ $agency->id }}">{{ $agency->agency_name }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -155,6 +171,7 @@
 						<div class="row form-group">
 							<div class="col-12">
 								<select class="form-select" aria-label="select designation" name="designation">
+									<option value="0">DESIGNATION</option>
 									@foreach($designations as $designation)
 								  	<option value="{{ $designation->id }}">{{ $designation->name }}</option>
 									@endforeach
@@ -245,13 +262,65 @@
 
 	$(document).ready( function() {
 
-	  $('#office_id_holder').click(function(){
-	    $("#office_id").click();
-	  });
+		$('#office_id_holder').click(function(){
+			$("#office_id").click();
+		});
 
-	  $('#agency_logo_holder').click(function(){
-	    $("#agency_logo").click();
-	  });
+		$('#agency_logo_holder').click(function(){
+			$("#agency_logo").click();
+		});
+
+	  	$("#add_messaging").click(function() {
+		    var newFieldHtml = `<div style="position: relative; margin-top: 4px;"><select id="select_number" class="form-select select-type-number" aria-label="select type of number" name="type_number[]" style="left: 0px;">
+									<option value="1">Viber</option>
+								  	<option value="2">WhatsApp</option>
+								  	<option value="3">Telegram</option>
+								  	<option value="4">Signal</option>
+								  	<option value="5">WeChat</option>
+								</select>
+								<input class="form-control" type="text" name="other_number[]" placeholder="" required style="padding-left: 140px;">
+		    					<svg id="remove_new_field" style="position: absolute;right: 12px; top: 12px; cursor: pointer;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24">
+		    					  <path stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+		    					</svg>
+								</div>
+								`;
+		    $("#messaging_container").append(newFieldHtml);
+		});
+
+		$('body').on('click', '#remove_new_field', function(e){
+			e.preventDefault();
+			$(this).parent('div').remove();
+		});
+
+		$('#togglePassword').click(function() {
+	        var passwordField = $('#password');
+	        var toggleButton = $('#togglePassword i');
+
+	        if (passwordField.attr('type') === 'password') {
+	            passwordField.attr('type', 'text');
+	            toggleButton.removeClass('icon-eye-slash');
+	            toggleButton.addClass('icon-eye');
+	        } else {
+	            passwordField.attr('type', 'password');
+	            toggleButton.addClass('icon-eye-slash');
+	            toggleButton.removeClass('icon-eye');
+	        }
+	    });
+
+    	$('#toggleConfirmPassword').click(function() {
+            var passwordField = $('#confirmPassword');
+            var toggleButton = $('#toggleConfirmPassword i');
+
+            if (passwordField.attr('type') === 'password') {
+                passwordField.attr('type', 'text');
+                toggleButton.removeClass('icon-eye-slash');
+                toggleButton.addClass('icon-eye');
+            } else {
+                passwordField.attr('type', 'password');
+                toggleButton.addClass('icon-eye-slash');
+                toggleButton.removeClass('icon-eye');
+            }
+        });
 
 	});
 
@@ -273,13 +342,13 @@
 	});
 
 	$('#close_agency_logo_file').click(function(){
-	 	$('#agency_logo_file_container').hide();
+	 	$('#agency_logo_file_container').hide(); 
 	  	$('#agency_logo_holder').show();
 	});
 
 	$('#exit-custom-alert').click(function(){
 	    $("#custom-alert").hide();
-	  });
+	});
 
 </script>
 @endsection

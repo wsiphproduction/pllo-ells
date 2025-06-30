@@ -22,6 +22,12 @@ use App\Http\Controllers\Ecommerce\{
     CustomerController, CustomerFrontController, ProductCategoryController, ProductController, ProductFrontController, InventoryReceiverHeaderController, PromoController, DeliverablecitiesController, CouponController, CouponFrontController, CartController, MyAccountController, SalesController, ReportsController, BrandController, FormAttributeController, ProductReviewController, CustomerFavoriteController, CustomerWishlistController, BannerAdController, ProductCatalogHeaderController
 };
 
+
+// Ecommerce Controller
+use App\Http\Controllers\Custom\{
+    EventController
+};
+
 use App\Http\Controllers\MailingList\{SubscriberController, GroupController, CampaignController, SubscriberFrontController};
 
 
@@ -63,6 +69,15 @@ Route::get('/phpinfo', function () {
 
         Route::get('/albums/preview', [FrontController::class, 'test'])->name('albums.preview');
         Route::get('/search-result', [FrontController::class, 'seach_result'])->name('search.result');
+    //
+
+    // Events
+        Route::resource('/events', EventController::class);
+        Route::get('/events/view/{id}', [EventController::class, 'view'])->name('events.view');
+        Route::get('/events/invitees/{id}', [EventController::class, 'invitees'])->name('events.invitees');
+        Route::post('/events/cancel-event/{id}', [EventController::class, 'cancel_event'])->name('events.cancel-event');
+        Route::post('/events/register-event/{id}', [EventController::class, 'register_event'])->name('events.register-event');
+        Route::post('/events/decline-event/{id}', [EventController::class, 'decline_event'])->name('events.decline-event');
     //
 
     // Sitemap
@@ -271,7 +286,7 @@ Route::group(['prefix' => 'admin-panel'], function (){
             Route::resource('/access', AccessController::class);
             Route::post('/roles_and_permissions/update', [AccessController::class, 'update_roles_and_permissions'])->name('role-permission.update');
 
-            if (env('APP_DEBUG') == "true") {
+            // if (env('APP_DEBUG') == "true") {
                 // Permission Routes
                 Route::resource('/permission', PermissionController::class)->except(['destroy']);
                 Route::get('/permission-search/', [PermissionController::class, 'search'])->name('permission.search');
@@ -279,7 +294,7 @@ Route::group(['prefix' => 'admin-panel'], function (){
                 Route::get('/permission/restore/{id}', [PermissionController::class, 'restore'])->name('permission.restore');
                 Route::post('permission/delete', [PermissionController::class, 'delete'])->name('permission.delete');
 
-            }
+            // }
         //
 
 
@@ -596,6 +611,50 @@ Route::post('/register/register-store', [RegistrationController::class, 'registe
         Route::get('/registration/agency-edit/{id}', [RegistrationController::class, 'agencyEdit'])->name('registration.agency-edit');
         Route::post('/registration/agency-delete/{id}', [RegistrationController::class, 'agencyDelete'])->name('registration.agency-delete');
     //
+
+    // MAIL REGISTRATION
+        Route::get('/confirm-email', [RegistrationController::class, 'confirmEmail'])->name('confirm.email');
+
+// MEMBER LOGIN
+Route::get('/member-login', [RegistrationController::class, 'login'])->name('member.login');
+Route::post('/member-online', [RegistrationController::class, 'online'])->name('member.online');
+Route::get('/member-logout', [RegistrationController::class, 'logout'])->name('member.logout');
+Route::get('/member-dashboard', [RegistrationController::class, 'memberDashboard'])->name('member.dashboard');
+Route::post('/member-profile-update', [RegistrationController::class, 'memberProfileUpdate'])->name('member.profile.update');
+Route::post('/member-resend-email', [RegistrationController::class, 'resendRegisterConfirmation'])->name('member.resend.email');
+Route::post('/member-upload-logo', [RegistrationController::class, 'uploadMemberLogo'])->name('member.upload.logo');
+Route::get('/member-login-error', [RegistrationController::class, 'loginError'])->name('member.login.error');
+
+// ADMIN USER
+Route::get('/admin-dashboard', [RegistrationController::class, 'adminDashboard'])->name('admin.dashboard');
+Route::post('/admin-registration-approve', [RegistrationController::class, 'adminRegistrationApprove'])->name('admin.registration.approve');
+Route::post('/admin-registration-delete', [RegistrationController::class, 'adminRegistrationDelete'])->name('admin.registration.delete');
+
+// MAINTENANCE
+Route::get('/maintenance-dashboard', [RegistrationController::class, 'maintenanceDashboard'])->name('maintenance.dashboard');
+
+    // Agency Maintenance
+    Route::post('/maintenance-agency-store', [RegistrationController::class, 'maintenanceAgencyStore'])->name('maintenance.agency.store');
+    Route::get('/maintenance-agency-edit/{id}', [RegistrationController::class, 'maintenanceAgencyEdit'])->name('maintenance.agency.edit');
+    Route::post('/maintenance-agency-update/{id}', [RegistrationController::class, 'maintenanceAgencyUpdate'])->name('maintenance.agency.update');
+    Route::post('/maintenance-agency-delete', [RegistrationController::class, 'maintenanceAgencyDelete'])->name('maintenance.agency.delete');
+    Route::get('/maintenance-agency-view/{id}', [RegistrationController::class, 'maintenanceAgencyView'])->name('maintenance.agency.view');
+
+    // Designation Maintenance
+    Route::get('/maintenance-designation', [RegistrationController::class, 'maintenanceDesignation'])->name('maintenance.designation');
+    Route::post('/maintenance-designation-store', [RegistrationController::class, 'maintenanceDesignationStore'])->name('maintenance.designation.store');
+    Route::get('/maintenance-designation-edit/{id}', [RegistrationController::class, 'maintenanceDesignationEdit'])->name('maintenance.designation.edit');
+    Route::post('/maintenance-designation-update/{id}', [RegistrationController::class, 'maintenanceDesignationUpdate'])->name('maintenance.designation.update');
+    Route::post('/maintenance-designation-delete', [RegistrationController::class, 'maintenanceDesignationDelete'])->name('maintenance.designation.delete');
+
+    // Cluster Maintenance
+    Route::get('/maintenance-cluster', [RegistrationController::class, 'maintenanceCluster'])->name('maintenance.cluster');
+    Route::post('/maintenance-cluster-store', [RegistrationController::class, 'maintenanceClusterStore'])->name('maintenance.cluster.store');
+    Route::get('/maintenance-cluster-edit/{id}', [RegistrationController::class, 'maintenanceClusterEdit'])->name('maintenance.cluster.edit');
+    Route::post('/maintenance-cluster-update/{id}', [RegistrationController::class, 'maintenanceClusterUpdate'])->name('maintenance.cluster.update');
+    Route::post('/maintenance-cluster-delete', [RegistrationController::class, 'maintenanceClusterDelete'])->name('maintenance.cluster.delete');
+
+
 
 // Pages Frontend
 Route::get('/{any}', [FrontController::class, 'page'])->where('any', '.*');

@@ -449,6 +449,89 @@
         #footer #copyrights .text-center {
             color: #979797;
         }
+
+        .text-fade {
+            color: rgb(97 97 97) !important;
+        }
+
+        .padb-4 {
+            padding-bottom: .5rem;
+        }
+
+        .form-title {
+            margin-bottom: 10px;
+            color: #3c5d90;
+        }
+        .primary-text-color {
+            color: #3c5d90 !important;
+        }
+        .primary-button-color {
+            background-color: #3c5d90 !important;
+        }
+
+        /* profile */
+        .table-dotted tr {
+            border-top: 1px dotted #929292;
+            border-bottom: 1px dotted #929292;
+        }
+        .table-dotted tr td > span {
+            line-height: 2.5;
+            padding-left: 4px;
+        }
+        .table-dotted {
+            min-width: 100%;
+        }
+        .bottommargin-2xl {
+            margin-bottom: 10%;
+        }
+        p {
+            margin-bottom: 0px;
+        }
+        .profile-label {
+            opacity: .7;
+        }
+
+        .profile-label small {
+            white-space: nowrap;
+        }
+        .pllo-body .container {
+            max-width: 100% !important;
+            padding: 0 7% !important;
+        }
+        .hide-password {
+            position: absolute;
+            top: 7px;
+            right: 22px;
+            opacity: .7;
+        }
+        body nav.primary-menu.with-arrows ul.menu-container li.menu-item.sub-menu ul.sub-menu-container {
+            background-color: rgb(223 223 223);
+        }
+        body div#header-wrap ul.sub-menu-container .menu-link:hover {
+            color: #ffffff !important;
+            background-color: #2b3649;
+        }
+
+        .no-bullet {
+            list-style: none;
+        }
+
+        .btn-navs {
+            padding: 6px 12px;
+            border-radius: 6px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #2b3649;
+            color: white;
+            border: 1px solid #2b3649;
+            font-size: 14px;
+        }
+        .btn-navs:hover {
+            background-color: #405475;
+            border: 1px solid #405475;
+        }
         
     </style>
 

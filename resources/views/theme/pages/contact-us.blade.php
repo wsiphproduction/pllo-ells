@@ -75,7 +75,7 @@
         </div>
     </div>
     
-    <div class="row contact-details">
+    <!-- <div class="row contact-details">
         <div class="col-lg-4 my-2">
             <div class="feature-box fbox-center fbox-bg fbox-plain">
                 <div class="fbox-icon">
@@ -117,7 +117,7 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> -->
 
 </div>
 @endsection

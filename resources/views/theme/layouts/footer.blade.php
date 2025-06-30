@@ -20,8 +20,155 @@
     $variables  = [$socmedHTML];
 
     $footerContents = str_replace($keywords,$variables,$contents);
+
 @endphp
 
+<section id="footer-header" style="background-color: #f7f7f7 !important; border-top: 1px solid #e7e7e7; padding-top: 40px; padding-bottom: 25px;">
+	<div class="wrapper" style="margin-left: 7%; margin-right: 7%;">
+		<div class="row">
+			<div class="col-12 col-md-6">
+				<div class="d-flex">
+					<img src="{{ asset('theme/addons/images/logos/pllo-bp.png') }}" width="160" style="height: 100%; margin-right: 14px;">
+					<div>
+						<p class="text-fade">
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
+						</p>
+						<p class="text-fade">
+							<img src="theme/addons/images/logos/fb.png" width="20" style="height: 100%; margin-right: 5px;">
+							Lorem ipsum dolor sit amet, consectetur adipiscing elit
+						</p>
+					</div>
+				</div>
+			</div>
+			<div class="col-12 col-md-6">
+				<div class="row">
+					<div class="col-12 col-md-6" style="padding-left: 30px">
+						<h4 class="form-title">
+							Main Menu
+						</h4>
+						<div class="row">
+							<div class="col-12 col-md-6">
+								<ul>
+									<li class="text-fade list-unstyled d-flex align-items-center">
+										<a href="/home" class="text-fade padb-4">
+											<svg class="mb-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+											  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 16 4-4-4-4m6 8 4-4-4-4"/>
+											</svg>
+											Home
+										</a>
+									</li>
+									<li class="text-fade list-unstyled d-flex align-items-center">
+										<a href="/home" class="text-fade padb-4">
+											<svg class="mb-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+											  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 16 4-4-4-4m6 8 4-4-4-4"/>
+											</svg>
+											About us
+										</a>
+									</li>
+									<li class="text-fade list-unstyled d-flex align-items-center">
+										<a href="/home" class="text-fade padb-4">
+											<svg class="mb-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+											  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 16 4-4-4-4m6 8 4-4-4-4"/>
+											</svg>
+											Events
+										</a>
+									</li>
+									<li class="text-fade list-unstyled d-flex align-items-center">
+										<a href="/home" class="text-fade padb-4">
+											<svg class="mb-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+											  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 16 4-4-4-4m6 8 4-4-4-4"/>
+											</svg>
+											Position Paper
+										</a>
+									</li>
+									</li>
+								</ul>
+							</div>
+							<div class="col-12 col-md-6">
+								<ul>
+									<li class="text-fade list-unstyled d-flex align-items-center">
+										<a href="/home" class="text-fade padb-4">
+											<svg class="mb-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+											  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 16 4-4-4-4m6 8 4-4-4-4"/>
+											</svg>
+											Report
+										</a>
+									</li>
+									<li class="text-fade list-unstyled d-flex align-items-center">
+										<a href="/home" class="text-fade padb-4">
+											<svg class="mb-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+											  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 16 4-4-4-4m6 8 4-4-4-4"/>
+											</svg>
+											Directory
+										</a>
+									</li>
+									<li class="text-fade list-unstyled d-flex align-items-center">
+										<a href="/home" class="text-fade padb-4">
+											<svg class="mb-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+											  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 16 4-4-4-4m6 8 4-4-4-4"/>
+											</svg>
+											Crowdsourcing
+										</a>
+									</li>
+									<li class="text-fade list-unstyled d-flex align-items-center">
+										<a href="/home" class="text-fade padb-4">
+											<svg class="mb-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+											  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 16 4-4-4-4m6 8 4-4-4-4"/>
+											</svg>
+											Contact us
+										</a>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="col-12 col-md-6" style="padding-left: 30px">
+						<h4 class="form-title">
+							Help
+						</h4>
+						<div class="row">
+							<ul>
+								<li class="text-fade list-unstyled d-flex align-items-center">
+									<a href="/home" class="text-fade padb-4">
+										<svg class="mb-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+										  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 16 4-4-4-4m6 8 4-4-4-4"/>
+										</svg>
+										Sitemap
+									</a>
+								</li>
+								<li class="text-fade list-unstyled d-flex align-items-center">
+									<a href="/home" class="text-fade padb-4">
+										<svg class="mb-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+										  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 16 4-4-4-4m6 8 4-4-4-4"/>
+										</svg>
+										Terms and Conditions
+									</a>
+								</li>
+								<li class="text-fade list-unstyled d-flex align-items-center">
+									<a href="/home" class="text-fade padb-4">
+										<svg class="mb-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+										  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 16 4-4-4-4m6 8 4-4-4-4"/>
+										</svg>
+										Privacy Policy
+									</a>
+								</li>
+								<li class="text-fade list-unstyled d-flex align-items-center">
+									<a href="/home" class="text-fade padb-4">
+										<svg class="mb-0" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+										  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m7 16 4-4-4-4m6 8 4-4-4-4"/>
+										</svg>
+										FAQ
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+	
 
 {!! $footerContents !!}
 

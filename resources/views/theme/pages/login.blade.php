@@ -1,26 +1,26 @@
 @extends('theme.main')
 
 @section('content')
-    <div class="content-wrap">
+    <div class="content-wrap d-flex justify-content-center">
         <div class="tabs divcenter nobottommargin clearfix" id="tab-login-register" style="max-width: 500px;">
 
                 <div class="tab-container">
                     @if($message = Session::get('error'))
                         <div class="alert alert-danger d-flex align-items-center" role="alert">
-                            <i data-feather="alert-circle" class="mg-r-10"></i> {{ $message }}
+                            <i class="fa fa-alert-circle" class="mg-r-10"></i> {{ $message }}
                         </div>
                     @endif
 
                     @if($message = Session::get('success'))
                         <div class="alert alert-success d-flex align-items-center" role="alert">
-                            <i data-feather="alert-circle" class="mg-r-10"></i> {{ $message }}
+                            <i class="fa fa-alert-circle" class="mg-r-10"></i> {{ $message }}
                         </div>
                     @endif
 
-                    <div class="tab-content clearfix" id="tab-login">
+                    <div class="tab-content clearfix shadow" id="tab-login">
                         <div class="card nobottommargin">
                             <div class="card-body" style="padding: 40px;">
-                                <form id="login-form" name="login-form" class="nobottommargin" action="{{ route('customer-front.customer_login') }}" method="post">
+                                <form id="login-form" name="login-form" class="nobottommargin" action="{{ route('member.online') }}" method="post">
                                     @csrf
                                     <h3>Login to your Account</h3>
 
@@ -34,14 +34,14 @@
                                             <label for="formGroupExampleInput">Password:</label>
                                             <div class="input-group show_hide_password" id="show_hide_password">
                                                 <input class="form-control" type="password" name="password">
-                                                <div class="input-group-append">
+                                                <!-- <div class="input-group-append">
                                                     <span class="input-group-text"><a href=""><i class="icon icon-eye-slash" aria-hidden="true"></i></a></span>
-                                                </div>
+                                                </div> -->
                                             </div>
                                         </div>
                                     </div>
 
-                                    <div class="col_full nobottommargin">
+                                    <div class="col_full nobottommargin mt-4">
                                         <button type="submit" class="button button-3d button-black nomargin" id="login-form-submit" name="login-form-submit" value="login">Login</button>
                                         <a href="{{ route('customer-front.forgot_password') }}" class="fright">Forgot Password?</a>
                                     </div>
