@@ -31,7 +31,7 @@
                     </div>
 
                     <div class="border-0 mb-5">
-                        <h3 class="mb-3">News</h3>
+                        <h3 class="mb-3">Policy Reforms</h3>
                         <div class="side-menu">
                             {!! $dates !!}
                         </div>
