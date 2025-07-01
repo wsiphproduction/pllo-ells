@@ -96,6 +96,7 @@ class RegistrationController extends Controller
         $requests['mobile'] = $requests['contact_number'];
         $requests['role_id'] = '2';
         $requests['is_active'] = '0';
+        $requests['avatar'] = $request->hasFile('office_id') ? FileHelper::move_to_folder($request->file('office_id'), 'photo')['url'] : null;
         $requests['password'] = Hash::make($request->password);
 
         $user = User::create($requests);

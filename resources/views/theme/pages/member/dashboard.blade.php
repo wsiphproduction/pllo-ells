@@ -139,7 +139,7 @@
                             </div>
                             <div class="profile-pic-preview-container">
                                 <img id="imagePreviewLogo"
-                                     src="{{ $memberDetails->logo ? asset('storage/' . $memberDetails->logo) : asset('images/user.png') }}"
+                                     src="{{ $memberDetails->logo ? asset('/' . $memberDetails->logo) : asset('images/user.png') }}"
                                      class="profile-pic-preview" alt="Profile Picture Preview"
                                      style="border-radius: 100%;">
 
@@ -192,7 +192,14 @@
                                 <div class="col-12 col-md-2">
                                     <small class="form-title"><b>MAIN ACCOUNT</b></small>
                                     <br />
-                                    <img class="mt-4" src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('images/user.png') }}" width="120" style="border-radius: 100%;">
+                                    <img class="mt-4" width="120" style="border-radius: 100%;
+                                                        border-radius: 100%;
+                                                        min-width: 120px;
+                                                        height: 120px;
+                                                        background-image: url('{{ Auth::user()->avatar ? asset('/' . Auth::user()->avatar) : asset('images/user.png') }}');
+                                                        background-size: cover;
+                                                        background-repeat: no-repeat;
+                                                        background-position: center;">
                                 </div>
                                 <div class="col-12 col-md-5">
                                     <table class="table-dotted table-striped">
@@ -251,7 +258,7 @@
                                                 </div>
                                                 <div class="profile-pic-preview-container">
                                                     <img id="imagePreviewPhoto"
-                                                         src="{{ Auth::user()->avatar ? asset('storage/' . Auth::user()->avatar) : asset('images/user.png') }}"
+                                                         src="{{ Auth::user()->avatar ? asset('/' . Auth::user()->avatar) : asset('images/user.png') }}"
                                                          class="profile-pic-preview" alt="Profile Picture Preview"
                                                          style="border-radius: 100%;">
 
