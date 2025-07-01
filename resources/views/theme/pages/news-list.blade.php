@@ -79,11 +79,12 @@
                                     </button>
                                     {!! $categories !!}
 
-                                    @if(auth()->user()->is_an_admin())
+                                    @if(auth()->user())
                                         <button class="btn btn-main-primary">
                                             PROPOSE A BILL
                                         </button>
                                     @endif
+
                                 </div>
                             </div>
                         </div>
