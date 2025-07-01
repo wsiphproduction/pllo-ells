@@ -29,7 +29,7 @@
         .signin-hero {
             height: 100vh;
             /*background: #efefef url('{{ Setting::get_company_logo_storage_path() }}') center center no-repeat;*/
-            background: #ffffff url('/theme/addons/images/banners/wc_icon.png') center center no-repeat;
+            background: #ffffff url({{ asset('/theme/addons/images/banners/wc_icon.png') }}) center center no-repeat;
             background-size: 70%;
         }
     </style>
