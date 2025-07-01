@@ -17,7 +17,6 @@ use App\Models\Article;
 use App\Models\Page;
 use App\Models\User;
 use App\Models\Menu;
-use App\Models\Ecommerce\{BannerAd, BannerAdPage};
 
 use Response;
 use Storage;
@@ -139,12 +138,7 @@ class ArticleFrontController extends Controller
 
         $latestArticles = Article::whereStatus('Published')->orderBy('date', 'desc')->take(5)->get();
         
-        //FOR BANNER ADS
-        $used_page = BannerAdPage::where('page_id', 4)->first();
-        $banner_ads = BannerAd::where('id', $used_page->banner_ad_id ?? 0)->where('status', 1)->where('expiration_date', '>', now())->get();
-        //END BANNER ADS
-
-        return view('theme.pages.news-list',compact('page', 'articles','breadcrumb','categories', 'dates', 'search','totalSearchedArticle', 'latestArticles', 'type', 'criteria', 'banner_ads'))->withShortcodes();
+        return view('theme.pages.news-list',compact('page', 'articles','breadcrumb','categories', 'dates', 'search','totalSearchedArticle', 'latestArticles', 'type', 'criteria'))->withShortcodes();
     }
 
     public function dates($conditions=null) {

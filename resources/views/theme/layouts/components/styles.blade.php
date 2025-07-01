@@ -534,7 +534,28 @@
         }
 
         .custom-text-primary {
-            color: #053487;
+            color: #053487 !important;
+        }
+
+        .custom-primary-bg {
+            background-color: #3c5d90 !important;
+        }
+
+        .btn-main-primary {
+            --bs-btn-color: #fff;
+            --bs-btn-bg: #3c5d90;
+            --bs-btn-border-color: #3c5d90;
+            --bs-btn-hover-color: #fff;
+            --bs-btn-hover-bg: #233451;
+            --bs-btn-hover-border-color: #3c5d90;
+            --bs-btn-focus-shadow-rgb: 49, 132, 253;
+            --bs-btn-active-color: #fff;
+            --bs-btn-active-bg: #3c5d90;
+            --bs-btn-active-border-color: #3c5d90;
+            --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+            --bs-btn-disabled-color: #fff;
+            --bs-btn-disabled-bg: #0d6efd;
+            --bs-btn-disabled-border-color: #0d6efd;
         }
         
         /*quick fix*/

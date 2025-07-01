@@ -55,7 +55,7 @@
         </li>
     @endif
 
-    @if (auth()->user()->has_access_to_menu_module())
+    <!-- @if (auth()->user()->has_access_to_menu_module())
         <li class="nav-item with-sub @if (request()->routeIs('menus*')) active show @endif">
             <a href="" class="nav-link"><i data-feather="edit"></i> <span>Registration Options</span></a>
             <ul>
@@ -64,7 +64,7 @@
                 <li><a href="{{ route('menus.index') }}">Manage Systems</a></li>
             </ul>
         </li>
-    @endif
+    @endif -->
 
     @if (auth()->user()->has_access_to_menu_module())
         <li class="nav-item with-sub @if (request()->routeIs('menus*')) active show @endif">
@@ -76,13 +76,13 @@
         </li>
     @endif
     
-    <!-- @if (auth()->user()->has_access_to_news_module() || auth()->user()->has_access_to_news_categories_module() || auth()->user()->role_id == '8')
+    @if (auth()->user()->has_access_to_news_module() || auth()->user()->has_access_to_news_categories_module() || auth()->user()->role_id == '8')
         <li class="nav-item with-sub @if (request()->routeIs('news*') || request()->routeIs('news-categories*')) active show @endif">
-            <a href="" class="nav-link"><i data-feather="edit"></i> <span>News</span></a>
+            <a href="" class="nav-link"><i data-feather="edit"></i> <span>Policy Reforms</span></a>
             <ul>
                 @if (auth()->user()->has_access_to_news_module())
-                    <li @if (\Route::current()->getName() == 'news.index' || \Route::current()->getName() == 'news.edit'  || \Route::current()->getName() == 'news.index.advance-search') class="active" @endif><a href="{{ route('news.index') }}">Manage News</a></li>
-                    <li @if (\Route::current()->getName() == 'news.create') class="active" @endif><a href="{{ route('news.create') }}">Create a News</a></li>
+                    <li @if (\Route::current()->getName() == 'news.index' || \Route::current()->getName() == 'news.edit'  || \Route::current()->getName() == 'news.index.advance-search') class="active" @endif><a href="{{ route('news.index') }}">Manage Policy Reforms</a></li>
+                    <li @if (\Route::current()->getName() == 'news.create') class="active" @endif><a href="{{ route('news.create') }}">Create a Policy Reforms</a></li>
                 @endif
                 @if (auth()->user()->has_access_to_news_categories_module())
                     <li @if (\Route::current()->getName() == 'news-categories.index' || \Route::current()->getName() == 'news-categories.edit') class="active" @endif><a href="{{ route('news-categories.index') }}">Manage Categories</a></li>
@@ -90,7 +90,7 @@
                 @endif
             </ul>
         </li> 
-    @endif -->
+    @endif
 
     @if (auth()->user()->is_an_admin() || auth()->user()->has_access_to('settings'))
         <li class="nav-item with-sub @if (request()->routeIs('account*') || request()->routeIs('website-settings*') || request()->routeIs('audit*')) active show @endif">
