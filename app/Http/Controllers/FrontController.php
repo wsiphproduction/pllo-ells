@@ -24,6 +24,7 @@ use App\Models\Template;
 use App\Models\EmailRecipient;
 use App\Models\ArticleCategory;
 use App\Models\Member;
+use App\Models\FileDownload;
 
 use App\Models\Ecommerce\{BannerAd, BannerAdPage, Product};
 
@@ -35,6 +36,8 @@ use Session;
 
 class FrontController extends Controller
 {
+
+    private $page_limit = 10;
 
     public function registration()
     {
@@ -57,17 +60,7 @@ class FrontController extends Controller
         return $this->page('home');
     }
 
-    public function directory()
-    {
-        $page = new Page();
-        $page->name = 'Cabinet Members';
-
-        $members = Member::all();
-
-        return view('theme.pages.directory', compact('page', 'members'));
-    }
-
-    public function directory_search(Request $request)
+    public function directory(Request $request)
     {
         $page = new Page();
         $page->name = 'Cabinet Members';
@@ -76,14 +69,38 @@ class FrontController extends Controller
 
         if (request('member_name')) {
             $members->where(function ($query) {
-                $query->where('firstname', request('member_name'))
-                    ->orWhere('lastname', request('member_name'));
+                $name = request('member_name');
+                $query->where('firstname', 'like', "%{$name}%")
+                    ->orWhere('lastname', 'like', "%{$name}%");
             });
         }
 
-        $members = $members->get();
+        $members = $members->paginate($this->page_limit);
 
         return view('theme.pages.directory', compact('page', 'members'));
+    }
+
+    public function downloads(Request $request)
+    {
+        $page = new Page();
+        $page->name = 'Summary of Laws Passed';
+
+        $downloads = FileDownload::query();
+
+        if (request('search')) {
+            $downloads->where(function ($query) {
+                $search = request('search');
+                $query->where('ra_jr', 'like', "%{$search}%")
+                    ->orWhere('approved_on', 'like', "%{$search}%")
+                    ->orWhere('congress', 'like', "%{$search}%")
+                    ->orWhere('source_priority_level', 'like', "%{$search}%")
+                    ->orWhere('title', 'like', "%{$search}%");
+            });
+        }
+
+        $downloads = $downloads->paginate($this->page_limit);
+
+        return view('theme.pages.downloads', compact('page', 'downloads'));
     }
 
     public function privacy_policy(){

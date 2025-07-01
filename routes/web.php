@@ -56,8 +56,11 @@ Route::get('/phpinfo', function () {
 
 // CMS4 Front Pages
     Route::get('/', [FrontController::class, 'home'])->name('home');
+
     Route::get('/directory', [FrontController::class, 'directory'])->name('directory');
-    Route::post('/directory-search', [FrontController::class, 'directory_search'])->name('directory-search');
+
+    Route::get('/downloads', [FrontController::class, 'downloads'])->name('downloads');
+
     Route::get('/privacy-policy/', [FrontController::class, 'privacy_policy'])->name('privacy-policy');
     Route::post('/contact-us', [FrontController::class, 'contact_us'])->name('contact-us');
 

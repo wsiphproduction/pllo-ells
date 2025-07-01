@@ -55,6 +55,12 @@
         </li>
     @endif
 
+    @if (auth()->user()->has_access_to_file_manager_module() || auth()->user()->has_access_to('file-manager'))
+        <li class="nav-item @if (\Route::current()->getName() == 'downloadables.index') active @endif">
+            <a href="{{ route('downloadables.index') }}" class="nav-link"><i data-feather="download"></i> <span>Downloadables</span></a>
+        </li>
+    @endif
+
     @if (auth()->user()->has_access_to_menu_module())
         <li class="nav-item with-sub @if (request()->routeIs('menus*')) active show @endif">
             <a href="" class="nav-link"><i data-feather="edit"></i> <span>Registration Options</span></a>
