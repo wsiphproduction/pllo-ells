@@ -533,6 +533,11 @@
             border: 1px solid #405475;
         }
         
+        /*quick fix*/
+        body {
+            padding: 0px !important;
+        }
+        
     </style>
 
     <style>
