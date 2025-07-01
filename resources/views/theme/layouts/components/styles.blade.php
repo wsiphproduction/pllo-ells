@@ -537,6 +537,11 @@
             color: #053487;
         }
         
+        /*quick fix*/
+        body {
+            padding: 0px !important;
+        }
+        
     </style>
 
     <style>
