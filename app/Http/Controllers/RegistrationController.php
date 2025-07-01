@@ -305,7 +305,7 @@ class RegistrationController extends Controller
 
             $image = $request->file('photo');
             $filename = time() . '.' . $image->getClientOriginalExtension();
-            $path = 'photo/' . $filename;
+            $path = 'storage/photo/' . $filename;
 
             Storage::disk('public')->putFileAs('photo', $image, $filename);
 
@@ -562,7 +562,7 @@ class RegistrationController extends Controller
 
             $image = $request->file('logo');
             $filename = time() . '.' . $image->getClientOriginalExtension();
-            $path = 'logo/' . $filename;
+            $path = 'storage/logo/' . $filename;
 
             Storage::disk('public')->putFileAs('logo', $image, $filename);
 
