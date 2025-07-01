@@ -23,6 +23,8 @@ use App\Models\TemplateCategory;
 use App\Models\Template;
 use App\Models\EmailRecipient;
 use App\Models\ArticleCategory;
+use App\Models\Member;
+
 use App\Models\Ecommerce\{BannerAd, BannerAdPage, Product};
 
 use Auth;
@@ -53,6 +55,35 @@ class FrontController extends Controller
         // condition here? by jeff p.
 
         return $this->page('home');
+    }
+
+    public function directory()
+    {
+        $page = new Page();
+        $page->name = 'Cabinet Members';
+
+        $members = Member::all();
+
+        return view('theme.pages.directory', compact('page', 'members'));
+    }
+
+    public function directory_search(Request $request)
+    {
+        $page = new Page();
+        $page->name = 'Cabinet Members';
+        
+        $members = Member::query();
+
+        if (request('member_name')) {
+            $members->where(function ($query) {
+                $query->where('firstname', request('member_name'))
+                    ->orWhere('lastname', request('member_name'));
+            });
+        }
+
+        $members = $members->get();
+
+        return view('theme.pages.directory', compact('page', 'members'));
     }
 
     public function privacy_policy(){

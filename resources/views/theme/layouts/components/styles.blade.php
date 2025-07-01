@@ -532,6 +532,10 @@
             background-color: #405475;
             border: 1px solid #405475;
         }
+
+        .custom-text-primary {
+            color: #053487;
+        }
         
     </style>
 
