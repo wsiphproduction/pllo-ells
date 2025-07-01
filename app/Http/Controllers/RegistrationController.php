@@ -96,6 +96,7 @@ class RegistrationController extends Controller
         $requests['mobile'] = $requests['contact_number'];
         $requests['role_id'] = '2';
         $requests['is_active'] = '0';
+        $requests['avatar'] = $request->hasFile('office_id') ? FileHelper::move_to_folder($request->file('office_id'), 'photo')['url'] : null;
         $requests['password'] = Hash::make($request->password);
 
         $user = User::create($requests);
@@ -304,7 +305,7 @@ class RegistrationController extends Controller
 
             $image = $request->file('photo');
             $filename = time() . '.' . $image->getClientOriginalExtension();
-            $path = 'photo/' . $filename;
+            $path = 'storage/photo/' . $filename;
 
             Storage::disk('public')->putFileAs('photo', $image, $filename);
 
@@ -561,7 +562,7 @@ class RegistrationController extends Controller
 
             $image = $request->file('logo');
             $filename = time() . '.' . $image->getClientOriginalExtension();
-            $path = 'logo/' . $filename;
+            $path = 'storage/logo/' . $filename;
 
             Storage::disk('public')->putFileAs('logo', $image, $filename);
 
