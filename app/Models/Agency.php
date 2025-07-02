@@ -15,6 +15,7 @@ class Agency extends Model
     public $table = 'agency';
 
     protected $fillable = [ 
+                            'user_type_id',
                             'agency_name',
                             'agency_address',
                             'agency_email',
@@ -43,5 +44,9 @@ class Agency extends Model
 
     public static function getAgencyName($id){
         return Agency::find($id);
+    }
+
+    public function userType() {
+        return $this->belongsTo(userType::class, 'user_type_id');
     }
 }

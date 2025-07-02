@@ -149,37 +149,90 @@
 
 						<div class="row form-group">
 							<div class="col-12">
-								<select class="form-select" aria-label="select system" name="system">
-									@foreach($systems as $system)
-								  	<option value="{{ $system->id }}">{{ $system->name }}</option>
+								<select class="form-select" aria-label="select user type" name="user_type" id="user_type">
+									@foreach($user_types as $user_type)
+								  	<option value="{{ $user_type->id }}">{{ $user_type->name }}</option>
 									@endforeach
 								</select>
 							</div>
 						</div>
 
-						<div class="row form-group">
+						<div class="row form-group" id="reg_agency_dropdown">
+							<div class="col-12">
+								<select class="form-select" aria-label="select agency" name="agency" id="agency">
+									<option value="0" selected disabled>GOVERNMENT AGENCY</option>
+
+									<div id="pllo_lls_agency_dropdown">
+										@foreach($pllo_lls_agencies as $agency)
+									  	<option value="{{ $agency->id }}">{{ $agency->agency_name }}</option>
+										@endforeach
+									</div>
+
+									<div id="op_agency_dropdown">
+										@foreach($op_agencies as $agency)
+									  	<option value="{{ $agency->id }}">{{ $agency->agency_name }}</option>
+										@endforeach
+									</div>
+
+								</select>
+							</div>
+						</div>
+
+						<div class="row form-group" id="reg_sub_agency_dropdown">
 							<div class="col-12">
 								<select class="form-select" aria-label="select agency" name="agency">
-									<option value="0">GOVERNMENT AGENCY</option>
-									@foreach($agencies as $agency)
-								  	<option value="{{ $agency->id }}">{{ $agency->agency_name }}</option>
-									@endforeach
+
+									<div id="op_subagency_dropdown">
+										@foreach($op_subagencies as $agency)
+									  	<option value="{{ $agency->id }}">{{ $agency->name }}</option>
+										@endforeach
+									</div>
+
+									<div id="cabinet_subagency_dropdown">
+										@foreach($cabinet_subagencies as $agency)
+									  	<option value="{{ $agency->id }}">{{ $agency->name }}</option>
+										@endforeach
+									</div>
+
 								</select>
 							</div>
 						</div>
 
-						<div class="row form-group">
+						<div class="row form-group" id="reg_designation_dropdown">
 							<div class="col-12">
 								<select class="form-select" aria-label="select designation" name="designation">
-									<option value="0">DESIGNATION</option>
-									@foreach($designations as $designation)
-								  	<option value="{{ $designation->id }}">{{ $designation->name }}</option>
-									@endforeach
+									<option value="0" selected disabled>DESIGNATION</option>
+
+									<div id="designation_lls_dropdown">
+										@foreach($designations_lls as $designation_lls)
+									  	<option value="{{ $designation_lls->id }}">{{ $designation_lls->name }}</option>
+										@endforeach
+									</div>
+
+									<div id="designation_senator_dropdown">
+										@foreach($designations_senators as $designation_senators)
+									  	<option value="{{ $designation_senators->id }}">{{ $designation_senators->name }}</option>
+										@endforeach
+									</div>
+
+									<div id="designation_hor_dropdown">
+										@foreach($designations_hor as $designation_hor)
+									  	<option value="{{ $designation_hor->id }}">{{ $designation_hor->name }}</option>
+										@endforeach
+									</div>
+
+									<div id="designation_op_dropdown">
+										@foreach($designations_op as $designation_op)
+									  	<option value="{{ $designation_op->id }}">{{ $designation_op->name }}</option>
+										@endforeach
+									</div>
+
+
 								</select>
 							</div>
 						</div>
 
-						<div class="row form-group">
+						<div class="row form-group" id="reg_cluster_dropdown">
 							<div class="col-12">
 								<select class="form-select" multiple aria-label="multiple select example" name="cluster[]">
 									@foreach($clusters as $cluster)
@@ -322,6 +375,12 @@
             }
         });
 
+        $("#designation_senator_dropdown").hide();
+        $("#designation_hor_dropdown").hide();
+        $("#designation_op_dropdown").hide();
+        $("#op_agency_dropdown").hide();
+        $("#cabinet_subagency_dropdown").hide();
+		$("#reg_sub_agency_dropdown").hide();
 	});
 
 	$('#office_id').change(function() {
@@ -349,6 +408,102 @@
 	$('#exit-custom-alert').click(function(){
 	    $("#custom-alert").hide();
 	});
+
+	// Selections depends on user type
+    $('#user_type').on('change', function(){
+        let user_type = $(this).val();
+
+        if (user_type < 8) {
+        	$("#reg_designation_dropdown").show();
+
+        	// lls
+        	if (user_type == 1) {
+            	$("#designation_lls_dropdown").show();
+            	$("#designation_senator_dropdown").hide();
+            	$("#designation_hor_dropdown").hide();
+            	$("#designation_op_dropdown").hide();
+        		$("#reg_cluster_dropdown").show();
+        		$("#reg_agency_dropdown").show();
+        		$("#pllo_lls_agency_dropdown").show();
+    			$("#op_agency_dropdown").hide();
+    			$("#reg_sub_agency_dropdown").hide();
+        	}
+        	// senator staff
+        	if (user_type == 5) {
+        		$("#designation_lls_dropdown").hide();
+        		$("#designation_senator_dropdown").show();
+        		$("#designation_hor_dropdown").hide();
+        		$("#designation_op_dropdown").hide();
+        		$("#reg_cluster_dropdown").hide();
+        		$("#reg_agency_dropdown").hide();
+        		$("#op_agency_dropdown").hide();
+    			$("#reg_sub_agency_dropdown").hide();
+        	}
+        	// hor staff
+        	if (user_type == 6) {
+        		$("#designation_lls_dropdown").hide();
+        		$("#designation_senator_dropdown").hide();
+        		$("#designation_hor_dropdown").show();
+        		$("#designation_op_dropdown").hide();
+        		$("#reg_cluster_dropdown").hide();
+        		$("#reg_agency_dropdown").hide();
+        		$("#op_agency_dropdown").hide();
+				$("#reg_sub_agency_dropdown").hide();
+        	}
+        	// op proper
+        	if (user_type == 7) {
+        		$("#designation_lls_dropdown").hide();
+        		$("#designation_senator_dropdown").hide();
+        		$("#designation_hor_dropdown").hide();
+        		$("#designation_op_dropdown").show();
+        		$("#reg_cluster_dropdown").hide();
+        		$("#reg_agency_dropdown").show();
+        		$("#pllo_lls_agency_dropdown").hide();
+        		$("#op_agency_dropdown").show();
+        		$("#op_subagency_dropdown").show();
+				$("#reg_sub_agency_dropdown").hide();
+        	}
+        }
+        // pllo
+        else if(user_type == 9) {
+        	$("#reg_cluster_dropdown").show();
+        	$("#reg_designation_dropdown").show();
+        	$("#reg_agency_dropdown").show();
+        	$("#pllo_lls_agency_dropdown").show();
+    		$("#op_agency_dropdown").hide();
+			$("#reg_sub_agency_dropdown").hide();
+        } else {
+        	$("#reg_designation_dropdown").hide();
+        	$("#reg_cluster_dropdown").hide();
+        	$("#reg_agency_dropdown").hide();
+        	$("#op_agency_dropdown").hide();
+			$("#reg_sub_agency_dropdown").hide();
+        }
+    });
+
+    // Selections depends on user type
+    $('#agency').on('change', function(){
+        let agency_type = $(this).val();
+
+        if (agency_type == 9) {
+			$("#reg_sub_agency_dropdown").show();
+        	$("#op_subagency_dropdown").show();
+        	$("#cabinet_subagency_dropdown").hide();
+        }
+
+        if (agency_type == 10) {
+        	$("#reg_sub_agency_dropdown").show();
+        	$("#op_subagency_dropdown").hide();
+        	$("#cabinet_subagency_dropdown").show();
+        }
+
+        if (agency_type == 11) {
+        	$("#reg_sub_agency_dropdown").val('0');
+        	$("#reg_sub_agency_dropdown").hide();
+        }
+
+
+    });;
 
 </script>
 @endsection

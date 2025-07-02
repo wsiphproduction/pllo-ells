@@ -13,11 +13,15 @@ class Designation extends Model
 
     public $table = 'designation';
 
-    protected $fillable = [ 'name' ];
+    protected $fillable = [ 'name', 'user_type_id' ];
 
     public function members()
     {
         return $this->hasMany(Member::class, 'designation');
+    }
+
+    public function userType() {
+        return $this->belongsTo(userType::class, 'user_type_id');
     }
 
 }

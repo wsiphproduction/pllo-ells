@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\ActivityLog;
 
-class System extends Model
+class UserType extends Model
 {
     use SoftDeletes;
 
