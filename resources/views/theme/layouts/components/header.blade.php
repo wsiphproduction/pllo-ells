@@ -26,7 +26,7 @@
                         </div>
                         @endif
                     @else
-                        <a class="nav-link py-3 px-4 border-start border-secondary text-white text-uppercase cursor-pointer" data-bs-toggle="modal" data-bs-target="#newLoginModal">
+                        <a class="nav-link py-3 px-4 border-start border-secondary text-white text-uppercase cursor-pointer" data-bs-toggle="modal" data-bs-target="#newLoginModal" id="newLoginModalOpen">
                             <small>LOGIN</small>
                         </a>
                     @endif
@@ -169,17 +169,6 @@
                             </div>
 
                             <div id="login-form-panel">
-                                @if($message = Session::get('error'))
-                                    <div class="alert alert-danger d-flex align-items-center" role="alert">
-                                        <i class="fa fa-alert-circle" class="mg-r-10"></i> {{ $message }}
-                                    </div>
-                                @endif
-
-                                @if($message = Session::get('success'))
-                                    <div class="alert alert-success d-flex align-items-center" role="alert">
-                                        <i class="fa fa-alert-circle" class="mg-r-10"></i> {{ $message }}
-                                    </div>
-                                @endif
 
                                 <h5 class="primary-text-color" style="font-size: 16px; font-weight: 600; margin-bottom: 6px;">USER LOGIN</h5>
                                 <form id="login-form" name="login-form" class="nobottommargin mb-0" action="{{ route('member.online') }}" method="post">

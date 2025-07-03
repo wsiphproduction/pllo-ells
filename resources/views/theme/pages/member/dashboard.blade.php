@@ -168,15 +168,23 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="tab-profile-border-tab" data-bs-toggle="pill" data-bs-target="#profile-border" type="button" role="tab" aria-controls="tab-profile-border" aria-selected="true"><small><b>PROFILE</b></small></button>
                         </li>
+
+                        @if(!empty($memberDetails->agency))
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="tab-agency-border-tab" data-bs-toggle="pill" data-bs-target="#agency-border" type="button" role="tab" aria-controls="tab-agency-border" aria-selected="false"><small><b>AGENCY PROFILE</b></small></button>
                         </li>
+                        @endif
+
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="tab-events-border-tab" data-bs-toggle="pill" data-bs-target="#events-border" type="button" role="tab" aria-controls="tab-events-border" aria-selected="false"><small><b>EVENTS ATTENDED</b></small></button>
                         </li>
+                        
+                        @if($memberDetails->userType->name == 'House of Representative Staff')
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="tab-reference-border-tab" data-bs-toggle="pill" data-bs-target="#reference-border" type="button" role="tab" aria-controls="tab-reference-border" aria-selected="false"><small><b>REFERENCE MATERIALS</b></small></button>
                         </li>
+                        @endif
+
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="tab-policy-border-tab" data-bs-toggle="pill" data-bs-target="#policy-border" type="button" role="tab" aria-controls="tab-policy-border" aria-selected="false"><small><b>POLICY REFORMS</b></small></button>
                         </li>
@@ -218,6 +226,8 @@
                                         </tr>
                                     </table>
                                 </div>
+
+                                @if(!empty($memberDetails->cluster))
                                 <div class="col-12 col-md-5">
                                     <table class="table-dotted table-striped">
                                         <tr><small class="form-title"><b>CLUSTER</b></small></tr>
@@ -237,6 +247,8 @@
 
                                     </table>
                                 </div>
+                                @endif
+
                             </div>
 
                             <div class="row" id="edit_profile_panel" style="display: none;">
@@ -292,6 +304,8 @@
                                             </div>
                                             <small><i><span class="text-danger">Disclaimer:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</i></small>
                                         </div>
+
+                                        @if(!empty($memberDetails->cluster))
                                         <div class="col-12 col-md-5">
                                             <div class="mb-2">
                                                 @php
@@ -305,6 +319,8 @@
                                             </div>
                                             <small><i>Press Control in keyboard and Left Click Mouse for changes and Multi Select. Changes in cluster needs approval.</i></small>
                                         </div>
+                                        @endif
+
                                     </div>
                                 </form>
                             </div>
@@ -361,6 +377,7 @@
                         </div>
 
                         <!-- Agency Tab -->
+                        @if(!empty($memberDetails->agency))
                         <div class="tab-pane fade" id="agency-border" role="tabpanel" aria-labelledby="tab-agency-border-tab" tabindex="0">
                             <div class="row">
                                 <div class="col-12 col-md-6">
@@ -431,6 +448,7 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
 
                         <!-- Events Tab -->
                         <div class="tab-pane fade" id="events-border" role="tabpanel" aria-labelledby="tab-events-border-tab" tabindex="0">
@@ -560,9 +578,6 @@
                                                     <div class="col-12 d-flex">
                                                         <div class="col-3 text-center">
                                                             <img class="rounded" src="{{ asset('images/user2.jpg') }}" width="120px">
-                                                            <br>
-                                                            <br>
-                                                            <small class="delete-contact-btn"><b class="text-danger cursor-pointer">DELETE</b></small>
                                                         </div>
                                                         <div class="col-9">
                                                             <ul class="list-unstyled">
@@ -597,6 +612,7 @@
                                                             <div class="utility-btns align-items-center gap-2">
                                                                 <a href="#" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a>
                                                                 <a href="#" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
+                                                                <a href="#" title="Delete" style="color: #ff4d4d !important;"><i class="icon-trash"></i></a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -614,9 +630,6 @@
                                                     <div class="col-12 d-flex">
                                                         <div class="col-3 text-center">
                                                             <img class="rounded" src="{{ asset('images/user3.jpg') }}" width="120px">
-                                                            <br>
-                                                            <br>
-                                                            <small class="delete-contact-btn"><b class="text-danger cursor-pointer">DELETE</b></small>
                                                         </div>
                                                         <div class="col-9">
                                                             <ul class="list-unstyled">
@@ -651,6 +664,7 @@
                                                             <div class="utility-btns align-items-center gap-2">
                                                                 <a href="#" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a>
                                                                 <a href="#" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
+                                                                <a href="#" title="Delete" style="color: #ff4d4d !important;"><i class="icon-trash"></i></a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -668,9 +682,6 @@
                                                     <div class="col-12 d-flex">
                                                         <div class="col-3 text-center">
                                                             <img class="rounded" src="{{ asset('images/user4.jpg') }}" width="120px">
-                                                            <br>
-                                                            <br>
-                                                            <small class="delete-contact-btn"><b class="text-danger cursor-pointer">DELETE</b></small>
                                                         </div>
                                                         <div class="col-9">
                                                             <ul class="list-unstyled">
@@ -706,6 +717,7 @@
                                                             <div class="utility-btns align-items-center gap-2">
                                                                 <a href="#" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a>
                                                                 <a href="#" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
+                                                                <a href="#" title="Delete" style="color: #ff4d4d !important;"><i class="icon-trash"></i></a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -723,9 +735,6 @@
                                                     <div class="col-12 d-flex">
                                                         <div class="col-3 text-center">
                                                             <img class="rounded" src="{{ asset('images/user5.jpg') }}" width="120px">
-                                                            <br>
-                                                            <br>
-                                                            <small class="delete-contact-btn"><b class="text-danger cursor-pointer">DELETE</b></small>
                                                         </div>
                                                         <div class="col-9">
                                                             <ul class="list-unstyled">
@@ -761,6 +770,7 @@
                                                             <div class="utility-btns align-items-center gap-2">
                                                                 <a href="#" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a>
                                                                 <a href="#" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
+                                                                <a href="#" title="Delete" style="color: #ff4d4d !important;"><i class="icon-trash"></i></a>
                                                             </div>
                                                         </div>
                                                     </div>

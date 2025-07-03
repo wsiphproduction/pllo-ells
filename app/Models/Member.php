@@ -25,13 +25,20 @@ class Member extends Model
                             'alt_email',
                             'password',
                             'contact_number',
+                            'type_number',
                             'other_number',
                             'gender',
                             'birthdate',
                             'system',
+                            'user_type',
                             'agency',
+                            'sub_agency',
                             'designation',
                             'cluster',
+                            'hor_id',
+                            'congsec_type',
+                            'committee_type',
+                            'chairperson',
                             'logo',
                             'photo',
                             'is_verified'
@@ -89,6 +96,10 @@ class Member extends Model
     public static function getMemberInfo($user_id) {
         $member = Member::where('user_id', $user_id)->first();
         return $member;
+    }
+
+    public function userType() {
+        return $this->belongsTo(userType::class, 'user_type');
     }
 
 }

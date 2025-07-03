@@ -15,10 +15,12 @@ use Illuminate\Support\Facades\Hash;
 use App\Mail\RegisterMail;
 use App\Mail\RegisterConfirmationMail;
 
+use App\Models\Hor;
 use App\Models\User;
 use App\Models\Page;
 use App\Models\Gender;
 use App\Models\Agency;
+use App\Models\Senator;
 use App\Models\SubAgency;
 use App\Models\UserType;
 use App\Models\Cluster;
@@ -47,11 +49,13 @@ class RegistrationController extends Controller
         $genders = Gender::all();
         $designations = Designation::all();
         $messaging_numbers = MessagingNumber::all();
+        $senators = Senator::all();
+        $hors = Hor::all();
 
         $designations_lls = Designation::where('user_type_id', 1)->get();
-        $designations_senators = Designation::where('user_type_id', 5)->get();
-        $designations_hor = Designation::where('user_type_id', 6)->get();
-        $designations_op = Designation::where('user_type_id', 7)->get();
+        $designations_senators = Designation::where('user_type_id', 2)->get();
+        $designations_hor = Designation::where('user_type_id', 3)->get();
+        $designations_op = Designation::where('user_type_id', 4)->get();
 
         $pllo_lls_agencies = Agency::where([
                                             ['id', '<>', 9],
@@ -76,7 +80,7 @@ class RegistrationController extends Controller
         if (auth()->user()) {
             return back()->with('error', ('You are already logged in, please logout first to continue.'));
         } else {
-            return view('theme.pages.registration.register', compact('page', 'user_types', 'agencies', 'clusters', 'genders', 'designations', 'messaging_numbers', 'designations_lls', 'designations_senators', 'designations_hor', 'designations_op', 'pllo_lls_agencies', 'op_agencies', 'op_subagencies', 'cabinet_subagencies'));
+            return view('theme.pages.registration.register', compact('page', 'user_types', 'agencies', 'clusters', 'genders', 'designations', 'messaging_numbers', 'designations_lls', 'designations_senators', 'designations_hor', 'designations_op', 'pllo_lls_agencies', 'op_agencies', 'op_subagencies', 'cabinet_subagencies', 'senators', 'hors'));
         }
     }
 
@@ -103,16 +107,18 @@ class RegistrationController extends Controller
             return redirect()->back()->withInput()->with('error', 'Please select Gender.');
         }
 
-        if ($request->agency == 0) {
-            return redirect()->back()->withInput()->with('error', 'Please select Agency.');
-        }
-
-        if ($request->designation == 0) {
-            return redirect()->back()->withInput()->with('error', 'Please select Designation.');
-        }
-
         if ($request->password != $request->confrim_password) {
             return redirect()->back()->withInput()->with('error', 'Password and Confirm Password do not match.');
+        }
+
+        if ($request->user_type == 1) {
+            if ($request->designation == 0) {
+                return redirect()->back()->withInput()->with('error', 'Please select Designation.');
+            }
+
+            if ($request->agency == 0) {
+                return redirect()->back()->withInput()->with('error', 'Please select Agency.');
+            } 
         }
 
         // Parallel saving users to members table //
@@ -127,10 +133,13 @@ class RegistrationController extends Controller
         $user = User::create($requests);
 
         // Create new member //
+        if ($request->user_type == 1 || $request->user_type == 9) {
+            $requests['cluster'] = implode("::", $request['cluster']);
+        }
+
         $requests['user_id'] = $user->id;
         $requests['type_number'] = implode("::", $request['type_number']);
         $requests['other_number'] = implode("::", $request['other_number']);
-        $requests['cluster'] = implode("::", $request['cluster']);
         $requests['birthdate'] = $requests['month'] ." ". $requests['day'];
         $requests['photo'] = $request->hasFile('office_id') ? FileHelper::move_to_folder($request->file('office_id'), 'photo')['url'] : null;
         $requests['logo'] = $request->hasFile('agency_logo') ? FileHelper::move_to_folder($request->file('agency_logo'), 'logo')['url'] : null;
@@ -279,9 +288,8 @@ class RegistrationController extends Controller
             return redirect(route('member.dashboard'));
 
         } else {
-            
-            return redirect(route('member.login.error'));
-
+            return back()->with('error', 'Incorrect username or password. Please try again.'); 
+            // return redirect(route('member.login.error'));
         }
     }
 

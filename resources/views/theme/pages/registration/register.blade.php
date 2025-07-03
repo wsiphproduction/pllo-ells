@@ -113,7 +113,7 @@
 								  	<option value="4">Signal</option>
 								  	<option value="5">WeChat</option>
 								</select>
-								<input class="form-control" type="text" name="other_number[]" placeholder="" required style="padding-left: 140px;">
+								<input class="form-control" type="text" name="other_number[]" required style="padding-left: 140px;">
 								<div id="messaging_container">
 									<!-- area for additional fields -->
 								</div>
@@ -180,7 +180,7 @@
 
 						<div class="row form-group" id="reg_sub_agency_dropdown">
 							<div class="col-12">
-								<select class="form-select" aria-label="select agency" name="agency">
+								<select class="form-select" aria-label="select sub agency" name="sub_agency">
 
 									<div id="op_subagency_dropdown">
 										@foreach($op_subagencies as $agency)
@@ -228,6 +228,54 @@
 									</div>
 
 
+								</select>
+							</div>
+						</div>
+
+						<div class="row form-group" id="reg_senators_dropdown">
+							<div class="col-12">
+								<select class="form-select" aria-label="select user type" name="senator">
+									@foreach($senators as $senator)
+								  	<option value="{{ $senator->id }}">{{ $senator->name }}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+
+						<div class="row form-group" id="reg_hor_dropdown">
+							<div class="col-12">
+								<select class="form-select" aria-label="select user type" name="hor">
+									@foreach($hors as $hor)
+								  	<option value="{{ $hor->id }}">{{ $hor->name }}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+
+						<div class="row form-group" id="reg_congsec_type_dropdown">
+							<div class="col-12">
+								<select class="form-select" aria-label="select user type" name="congsec_type" id="congsec_type">
+								  	<option value="1">Senate Committee Secretary</option>
+								  	<option value="2">House of Representatives Committee Secretary</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="row form-group" id="reg_committee_type_dropdown">
+							<div class="col-12">
+								<select class="form-select" aria-label="select user type" name="committee_type" id="committee_type">
+								  	<option value="1">Standing Committee</option>
+								  	<option value="2">Special Committee</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="row form-group" id="reg_chairperson_dropdown">
+							<div class="col-12">
+								<select class="form-select" aria-label="select user type" name="chairperson" id="chairperson">
+									@foreach($hors as $hor)
+								  	<option value="{{ $hor->id }}">{{ $hor->name }}</option>
+									@endforeach
 								</select>
 							</div>
 						</div>
@@ -375,12 +423,19 @@
             }
         });
 
+    	// hide elements on first load of the registration page
         $("#designation_senator_dropdown").hide();
         $("#designation_hor_dropdown").hide();
         $("#designation_op_dropdown").hide();
         $("#op_agency_dropdown").hide();
         $("#cabinet_subagency_dropdown").hide();
 		$("#reg_sub_agency_dropdown").hide();
+		$("#reg_senators_dropdown").hide();
+		$("#reg_hor_dropdown").hide();
+		$("#reg_congsec_type_dropdown").hide();
+		$("#reg_committee_type_dropdown").hide();
+		$("#reg_chairperson_dropdown").hide();
+
 	});
 
 	$('#office_id').change(function() {
@@ -413,7 +468,7 @@
     $('#user_type').on('change', function(){
         let user_type = $(this).val();
 
-        if (user_type < 8) {
+        if (user_type < 5) {
         	$("#reg_designation_dropdown").show();
 
         	// lls
@@ -427,9 +482,17 @@
         		$("#pllo_lls_agency_dropdown").show();
     			$("#op_agency_dropdown").hide();
     			$("#reg_sub_agency_dropdown").hide();
+    			$("#reg_senators_dropdown").hide();
+				$("#reg_hor_dropdown").hide();
+				$("#reg_congsec_type_dropdown").hide();
+				$("#reg_committee_type_dropdown").hide();
+				$("#reg_chairperson_dropdown").hide();
+
+
+				$('#agency_logo_holder').attr('placeholder', 'UPLOAD GOVERNMENT AGENCY LOGO');
         	}
         	// senator staff
-        	if (user_type == 5) {
+        	if (user_type == 2) {
         		$("#designation_lls_dropdown").hide();
         		$("#designation_senator_dropdown").show();
         		$("#designation_hor_dropdown").hide();
@@ -438,9 +501,16 @@
         		$("#reg_agency_dropdown").hide();
         		$("#op_agency_dropdown").hide();
     			$("#reg_sub_agency_dropdown").hide();
+    			$("#reg_senators_dropdown").show();
+    			$("#reg_hor_dropdown").hide();
+    			$("#reg_congsec_type_dropdown").hide();
+				$("#reg_committee_type_dropdown").hide();
+				$("#reg_chairperson_dropdown").hide();
+
+    			$('#agency_logo_holder').attr('placeholder', 'UPLOAD SENATE LOGO');
         	}
         	// hor staff
-        	if (user_type == 6) {
+        	if (user_type == 3) {
         		$("#designation_lls_dropdown").hide();
         		$("#designation_senator_dropdown").hide();
         		$("#designation_hor_dropdown").show();
@@ -449,9 +519,16 @@
         		$("#reg_agency_dropdown").hide();
         		$("#op_agency_dropdown").hide();
 				$("#reg_sub_agency_dropdown").hide();
+    			$("#reg_senators_dropdown").hide();
+    			$("#reg_hor_dropdown").show();
+    			$("#reg_congsec_type_dropdown").hide();
+    			$("#reg_committee_type_dropdown").hide();
+    			$("#reg_chairperson_dropdown").hide();
+
+				$('#agency_logo_holder').attr('placeholder', 'UPLOAD HREP LOGO');
         	}
         	// op proper
-        	if (user_type == 7) {
+        	if (user_type == 4) {
         		$("#designation_lls_dropdown").hide();
         		$("#designation_senator_dropdown").hide();
         		$("#designation_hor_dropdown").hide();
@@ -462,22 +539,64 @@
         		$("#op_agency_dropdown").show();
         		$("#op_subagency_dropdown").show();
 				$("#reg_sub_agency_dropdown").hide();
+    			$("#reg_senators_dropdown").hide();
+    			$("#reg_hor_dropdown").hide();
+    			$("#reg_congsec_type_dropdown").hide();
+    			$("#reg_committee_type_dropdown").hide();
+    			$("#reg_chairperson_dropdown").hide();
+
+				$('#agency_logo_holder').attr('placeholder', 'UPLOAD PHOTO (2X2 Picture with white background)');
         	}
         }
         // pllo
-        else if(user_type == 9) {
+        else if(user_type == 6) {
         	$("#reg_cluster_dropdown").show();
         	$("#reg_designation_dropdown").show();
         	$("#reg_agency_dropdown").show();
         	$("#pllo_lls_agency_dropdown").show();
     		$("#op_agency_dropdown").hide();
+			$("#reg_sub_agency_dropdown").hide(); 
+			$("#reg_senators_dropdown").hide();
+			$("#reg_hor_dropdown").hide();
+			$("#reg_congsec_type_dropdown").hide();
+			$("#reg_committee_type_dropdown").hide();
+			$("#reg_chairperson_dropdown").hide();
+
+			$('#agency_logo_holder').attr('placeholder', 'UPLOAD PHOTO (2X2 Picture with white background)');
+    	}
+    	// congressional secretariat
+    	else if (user_type == 5) {
+    		$("#designation_lls_dropdown").hide();
+        	$("#reg_designation_dropdown").hide();
+    		$("#designation_senator_dropdown").hide();
+    		$("#designation_hor_dropdown").hide();
+    		$("#designation_op_dropdown").hide();
+    		$("#reg_cluster_dropdown").hide();
+    		$("#reg_agency_dropdown").hide();
+    		$("#pllo_lls_agency_dropdown").hide();
+    		$("#op_agency_dropdown").hide();
+    		$("#op_subagency_dropdown").hide();
 			$("#reg_sub_agency_dropdown").hide();
+			$("#reg_senators_dropdown").hide();
+			$("#reg_hor_dropdown").hide();
+			$("#reg_congsec_type_dropdown").show();
+			$("#reg_committee_type_dropdown").show();
+			$("#reg_chairperson_dropdown").show();
+
+			$('#agency_logo_holder').attr('placeholder', 'UPLOAD PHOTO (2X2 Picture with white background)');
         } else {
         	$("#reg_designation_dropdown").hide();
         	$("#reg_cluster_dropdown").hide();
         	$("#reg_agency_dropdown").hide();
         	$("#op_agency_dropdown").hide();
 			$("#reg_sub_agency_dropdown").hide();
+			$("#reg_senators_dropdown").hide();
+			$("#reg_hor_dropdown").hide();
+			$("#reg_congsec_type_dropdown").hide();
+			$("#reg_committee_type_dropdown").hide();
+			$("#reg_chairperson_dropdown").hide();
+
+			$('#agency_logo_holder').attr('placeholder', 'UPLOAD PHOTO (2X2 Picture with white background)');
         }
     });
 
