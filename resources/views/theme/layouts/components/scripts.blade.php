@@ -28,6 +28,10 @@
 <script src="{{ asset('theme/js/functions.js') }}"></script>
 <script src="{{ asset('js/notify.js') }}"></script>
 
+{{-- Sweet Alert --}}
+<script src="{{ asset('theme/js/swal2.js') }}"></script>
+
+
 <script>
 	jQuery(document).ready( function($){
 		function modeSwitcher( elementCheck, elementParent ) {

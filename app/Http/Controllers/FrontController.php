@@ -98,9 +98,32 @@ class FrontController extends Controller
             });
         }
 
-        $downloads = $downloads->paginate($this->page_limit);
+        $downloads = $downloads->orderByDesc('id')->paginate($this->page_limit);
 
         return view('theme.pages.downloads', compact('page', 'downloads'));
+    }
+
+    public function reference_materials(Request $request)
+    {
+        $page = new Page();
+        $page->name = 'Reference Materials';
+
+        $downloads = FileDownload::query();
+
+        if (request('search')) {
+            $downloads->where(function ($query) {
+                $search = request('search');
+                $query->where('ra_jr', 'like', "%{$search}%")
+                    ->orWhere('approved_on', 'like', "%{$search}%")
+                    ->orWhere('congress', 'like', "%{$search}%")
+                    ->orWhere('source_priority_level', 'like', "%{$search}%")
+                    ->orWhere('title', 'like', "%{$search}%");
+            });
+        }
+
+        $downloads = $downloads->orderByDesc('id')->paginate($this->page_limit);
+
+        return view('theme.pages.reference-materials.index', compact('page', 'downloads'));
     }
 
     public function privacy_policy(){
