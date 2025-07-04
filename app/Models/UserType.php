@@ -11,7 +11,7 @@ class UserType extends Model
 {
     use SoftDeletes;
 
-    public $table = 'systems';
+    public $table = 'user_types';
 
     protected $fillable = [ 'name', 'description'];
 

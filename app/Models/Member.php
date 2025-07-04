@@ -35,6 +35,7 @@ class Member extends Model
                             'sub_agency',
                             'designation',
                             'cluster',
+                            'senator_id',
                             'hor_id',
                             'congsec_type',
                             'committee_type',
@@ -100,6 +101,10 @@ class Member extends Model
 
     public function userType() {
         return $this->belongsTo(userType::class, 'user_type');
+    }
+
+    public function senator() {
+        return $this->belongsTo(Senator::class, 'senator_id');
     }
 
 }

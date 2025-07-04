@@ -308,11 +308,12 @@ class RegistrationController extends Controller
         $clustersList = Cluster::all();
         $memberDetails = Member::where('user_id', Auth::user()->id)->first();
         $memberAgency = Agency::find($memberDetails->agency);
+        $genders = Gender::all();
 
         $events  = EventParticipant::where('member_id', $memberDetails->id)->get();
         // dd($events);
         if (auth()->user()) {
-            return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency', 'events'));
+            return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency', 'events', 'genders'));
         } else {
             return back()->with('error', ('Please login to your account.'));
         }

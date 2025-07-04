@@ -234,9 +234,9 @@
 
 						<div class="row form-group" id="reg_senators_dropdown">
 							<div class="col-12">
-								<select class="form-select" aria-label="select user type" name="senator">
+								<select class="form-select" aria-label="select user type" name="senator_id">
 									@foreach($senators as $senator)
-								  	<option value="{{ $senator->id }}">{{ $senator->name }}</option>
+								  	<option value="{{ $senator->id }}">{{ $senator->sen_firstname }} @if($senator->sen_middle_initial) {{ $senator->sen_middle_initial }}. @endif {{ $senator->sen_lastname }} {{ $senator->sen_suffix }}</option>
 									@endforeach
 								</select>
 							</div>
