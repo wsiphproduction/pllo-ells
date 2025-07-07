@@ -33,6 +33,34 @@
 		color: #005ded;
 		text-decoration: underline;
 	}
+
+	/*Loading Screen Css*/
+    #loadingScreen {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: #fff;
+    }
+    .spinner {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 15px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    /*End Loading Screen Css*/
 </style>
 @endsection
 
@@ -48,7 +76,7 @@
 					    <div class="text-danger mb-2">*{{ implode('', $errors->all(':message')) }}</div>
 					@endif
 
-					<form action="{{ route('register-store') }}" method="post" enctype="multipart/form-data">
+					<form action="{{ route('register-store') }}" method="post" enctype="multipart/form-data" id="registration-form-body">
 						
 						<div class="row form-group">
 							<div class="col-10">
@@ -244,7 +272,7 @@
 
 						<div class="row form-group" id="reg_hor_dropdown">
 							<div class="col-12">
-								<select class="form-select" aria-label="select user type" name="hor">
+								<select class="form-select" aria-label="select user type" name="hor_id">
 									@foreach($hors as $hor)
 								  	<option value="{{ $hor->id }}">{{ $hor->name }}</option>
 									@endforeach
@@ -354,6 +382,12 @@
 			</div>
 		</div>
 		@endif
+
+		<!-- Loading screen -->
+		<div id="loadingScreen">
+			<div class="spinner"></div>
+			<div>Just a moment while we register your account...</div>
+		</div>
 
 	</section>
 @endsection
@@ -623,6 +657,11 @@
 
 
     });;
+
+    // Activate Loading Screen
+    $('#registration-form-body').submit(function(e) {
+    	$("#loadingScreen").css('display', 'flex');
+    });
 
 </script>
 @endsection

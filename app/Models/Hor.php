@@ -15,4 +15,8 @@ class Hor extends Model
     public $table = 'hors';
 
     protected $fillable = [ 'name' ];
+
+    public function gender() {
+        return $this->belongsTo(Gender::class, 'hor_gender');
+    }
 }

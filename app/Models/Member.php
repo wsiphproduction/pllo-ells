@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\ActivityLog;
 use App\Models\Cluster;
 use App\Models\User;
+use App\Models\Hor;
 
 class Member extends Model
 {
@@ -105,6 +106,10 @@ class Member extends Model
 
     public function senator() {
         return $this->belongsTo(Senator::class, 'senator_id');
+    }
+
+    public function hor() {
+        return $this->belongsTo(Hor::class, 'hor_id');
     }
 
 }
