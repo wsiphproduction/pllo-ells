@@ -166,17 +166,53 @@
 
                     <ul class="nav canvas-tabs tabs-bordered canvas-tabs tabs nav-tabs mb-3" id="canvas-tab-border" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link active" id="tab-profile-border-tab" data-bs-toggle="pill" data-bs-target="#profile-border" type="button" role="tab" aria-controls="tab-profile-border" aria-selected="true"><small><b>PROFILE</b></small></button>
+                            <button class="nav-link active" id="tab-profile-border-tab" data-bs-toggle="pill" data-bs-target="#profile-border" type="button" role="tab" aria-controls="tab-profile-border" aria-selected="true" onclick="tabSwitch(1)">
+
+                                @if($memberDetails->userType->id == 1)
+                                    <small><b>PROFILE</b></small>
+                                @endif
+
+                                @if($memberDetails->userType->id == 2 | $memberDetails->userType->id == 3)
+                                    <small><b>SECRETARIE'S PROFILE</b></small>
+                                @endif
+
+                            </button>
                         </li>
+
+                        @if(!empty($memberDetails->agency))
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="tab-agency-border-tab" data-bs-toggle="pill" data-bs-target="#agency-border" type="button" role="tab" aria-controls="tab-agency-border" aria-selected="false"><small><b>AGENCY PROFILE</b></small></button>
                         </li>
+                        @endif 
+
+                        @if(!empty($memberDetails->senator_id))
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="tab-senator-border-tab" data-bs-toggle="pill" data-bs-target="#senator-border" type="button" role="tab" aria-controls="tab-senator-border" aria-selected="false" onclick="tabSwitch(3)">
+                                <small><b>{{ $memberDetails->senator->sen_firstname }} @if($memberDetails->senator->sen_middle_initial) {{ $memberDetails->senator->sen_middle_initial }}. @endif {{ $memberDetails->senator->sen_lastname }} {{ $memberDetails->senator->sen_suffix }}</b></small>
+                            </button>
+                        </li>
+                        @endif
+
+                        @if(!empty($memberDetails->hor_id))
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="tab-hor-border-tab" data-bs-toggle="pill" data-bs-target="#hor-border" type="button" role="tab" aria-controls="tab-hor-border" aria-selected="false">
+                                <small><b>{{ $memberDetails->hor->name }}</b></small>
+                            </button>
+                        </li>
+                        @endif
+
+                        @if($memberDetails->user_type != 7)
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="tab-events-border-tab" data-bs-toggle="pill" data-bs-target="#events-border" type="button" role="tab" aria-controls="tab-events-border" aria-selected="false"><small><b>EVENTS ATTENDED</b></small></button>
                         </li>
+                        @endif
+                        
+                        @if($memberDetails->userType->id == 1 || $memberDetails->userType->id == 6)
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="tab-reference-border-tab" data-bs-toggle="pill" data-bs-target="#reference-border" type="button" role="tab" aria-controls="tab-reference-border" aria-selected="false"><small><b>REFERENCE MATERIALS</b></small></button>
                         </li>
+                        @endif
+
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="tab-policy-border-tab" data-bs-toggle="pill" data-bs-target="#policy-border" type="button" role="tab" aria-controls="tab-policy-border" aria-selected="false"><small><b>POLICY REFORMS</b></small></button>
                         </li>
@@ -218,6 +254,8 @@
                                         </tr>
                                     </table>
                                 </div>
+
+                                @if(!empty($memberDetails->cluster))
                                 <div class="col-12 col-md-5">
                                     <table class="table-dotted table-striped">
                                         <tr><small class="form-title"><b>CLUSTER</b></small></tr>
@@ -237,6 +275,8 @@
 
                                     </table>
                                 </div>
+                                @endif
+
                             </div>
 
                             <div class="row" id="edit_profile_panel" style="display: none;">
@@ -292,6 +332,8 @@
                                             </div>
                                             <small><i><span class="text-danger">Disclaimer:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</i></small>
                                         </div>
+
+                                        @if(!empty($memberDetails->cluster))
                                         <div class="col-12 col-md-5">
                                             <div class="mb-2">
                                                 @php
@@ -305,6 +347,8 @@
                                             </div>
                                             <small><i>Press Control in keyboard and Left Click Mouse for changes and Multi Select. Changes in cluster needs approval.</i></small>
                                         </div>
+                                        @endif
+
                                     </div>
                                 </form>
                             </div>
@@ -361,8 +405,9 @@
                         </div>
 
                         <!-- Agency Tab -->
+                        @if(!empty($memberDetails->agency))
                         <div class="tab-pane fade" id="agency-border" role="tabpanel" aria-labelledby="tab-agency-border-tab" tabindex="0">
-                            <div class="row">
+                            <div class="row" id="default_agency_panel">
                                 <div class="col-12 col-md-6">
                                     <table class="table-dotted table-striped">
                                         <tr><small class="form-title"><b>{{ $memberAgency->agency_name }}</b></small></tr>
@@ -431,8 +476,515 @@
                                 </div>
                             </div>
                         </div>
+                        @endif
+
+                        <!-- Senators Tab -->
+                        @if(!empty($memberDetails->senator_id))
+                        <div class="tab-pane fade" id="senator-border" role="tabpanel" aria-labelledby="tab-senator-border-tab" tabindex="0">
+                            <div class="row" id="default_senator_panel">
+                                <div class="col-12 col-md-6">
+                                    <table class="table-dotted table-striped">
+                                        <tr>
+                                            <td><span class="profile-label"><small>Nickname:</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senator->sen_nickname }}</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Office Email Addres:</small></span></td>
+                                            <td>
+                                                <span>
+                                                    @if($memberDetails->senator->sen_email_agree)
+                                                        <small class="form-title"><b>{{ $memberDetails->senator->sen_email }}</b></small>
+                                                    @else
+                                                        <small class="form-title">
+                                                            <i disabled>(<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
+                                                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/>
+                                                            </svg>
+                                                            Email hidden)
+                                                            </i>
+                                                        </small>
+                                                    @endif
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Office Landline Number:</small></span></td>
+                                            <td>
+                                                <span>
+                                                    @if($memberDetails->senator->sen_landline_agree)
+                                                        <small>{{ $memberDetails->senator->sen_landline }}</small>
+                                                    @else
+                                                        <small class="form-title">
+                                                            <i disabled>(<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
+                                                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/>
+                                                            </svg>
+                                                            Office landline number hidden)
+                                                            </i>
+                                                        </small>
+                                                    @endif
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Office Cellphone Number:</small></span></td>
+                                            <td>
+                                                <span>
+                                                    @if($memberDetails->senator->sen_office_cellphone_agree)
+                                                        <small>{{ $memberDetails->senator->sen_office_cellphone }}</small>
+                                                    @else
+                                                        <small class="form-title">
+                                                            <i disabled>(<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
+                                                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/>
+                                                            </svg>
+                                                            Office cellphone number hidden)
+                                                            </i>
+                                                        </small>
+                                                    @endif
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <small class="form-title"><b class="text-uppercase">Main Room</b></small>
+                                    <table class="table-dotted table-striped mt-2">
+                                        <tr>
+                                            <td><span class="profile-label"><small>Room Number: </small></span></td>
+                                            <td><span><small>{{ $memberDetails->senator->sen_main_room_number }}</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Direct Line: </small></span></td>
+                                            <td><span><small>{{ $memberDetails->senator->sen_main_direct_line }}</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Fax Number: </small></span></td>
+                                            <td><span><small>{{ $memberDetails->senator->sen_main_fax_number }}</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Trunk Local Number: </small></span></td>
+                                            <td><span><small>{{ $memberDetails->senator->sen_main_trunk_local_number }}</small></span></td>
+                                        </tr>
+                                    </table>
+
+                                    <small class="form-title"><b class="text-uppercase">Social Media</b></small>
+                                    <table class="table-dotted table-striped mt-2">
+                                        <tr>
+                                            <td><span class="profile-label"><small>Faceebook: </small></span></td>
+                                            <td><span><small>{{ $memberDetails->senator->sen_facebook }}</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Twitter: </small></span></td>
+                                            <td><span><small>{{ $memberDetails->senator->sen_twitter }}</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Instagram: </small></span></td>
+                                            <td><span><small>{{ $memberDetails->senator->sen_instagram }}</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Youtube: </small></span></td>
+                                            <td><span><small>{{ $memberDetails->senator->sen_youtube }}</small></span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <table class="table-dotted table-striped">
+                                        <tr>
+                                            <td><span class="profile-label"><small>Senate Group:</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senator->sen_group }}</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Political Party:</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senator->sen_party }}</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Gender: </small></span></td>
+                                            <td><span><small>@if(!empty($memberDetails->senator->senGender->name)){{ $memberDetails->senator->senGender->name }}@endif</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            @php
+                                                $sen_bday = explode('::',$memberDetails->senator->sen_birthday);
+                                                $sen_month = $sen_bday[0];
+                                                $sen_day = $sen_bday[1];
+                                            @endphp
+                                            <td><span class="profile-label"><small>BirthDate: </small></span></td>
+                                            <td><span><small>{{ config('months.'.$sen_month) }} &nbsp; {{ $sen_day }}</small></span></td>
+                                        </tr>
+                                    </table>
+
+                                    <small class="form-title"><b class="text-uppercase">Extension Room</b></small>
+                                    <table class="table-dotted table-striped mt-2">
+                                        <tr>
+                                            <td><span class="profile-label"><small>Room Number: </small></span></td>
+                                            <td><span><small>{{ $memberDetails->senator->sen_extension_room_number }}</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Direct Line: </small></span></td>
+                                            <td><span><small>{{ $memberDetails->senator->sen_extension_direct_line }}</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Fax Number: </small></span></td>
+                                            <td><span><small>{{ $memberDetails->senator->sen_extension_fax_number }}</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Trunk Local Number: </small></span></td>
+                                            <td><span><small>{{ $memberDetails->senator->sen_extension_trunk_local_number }}</small></span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="row" id="edit_senator_panel" style="display: none;">
+                                <form id="senator_update_form" action="{{ route('member.profile.senator.update', $memberDetails->senator->id ) }}" method="post" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="row">
+                                        <small class="form-title"><b>DETAILS THAT ARE VISIBLE IN DIRECTORY</b></small>
+                                        <br />
+                                        <div class="col-12 d-flex">
+
+                                            <div class="col-6">
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <input class="form-control" type="text" name="sen_firstname" value="{{ $memberDetails->senator->sen_firstname }}" placeholder="FIRST NAME">
+                                                        </div>
+                                                        <div class="col-2" style="padding-left: 0px;">
+                                                            <input class="form-control" type="text" name="sen_middle_initial" value="{{ $memberDetails->senator->sen_middle_initial }}" placeholder="M.I.">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <input class="form-control" type="text" name="sen_lastname" value="{{ $memberDetails->senator->sen_lastname }}" placeholder="LAST NAME">
+                                                        </div>
+                                                        <div class="col-2" style="padding-left: 0px;">
+                                                            <select class="form-select" name="sen_suffix">
+                                                                <option selected disabled>SUFFIX</option>
+                                                                <option @if($memberDetails->senator->sen_nickname == 'Jr') selected  @endif>Jr</option>
+                                                                <option @if($memberDetails->senator->sen_nickname == 'Sr') selected  @endif>Sr</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="sen_nickname" value="{{ $memberDetails->senator->sen_nickname }}" placeholder="NICKNAME">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="sen_email" value="{{ $memberDetails->senator->sen_email }}" placeholder="EMAIL ADDRESS*" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 d-flex align-items-center justify-content-start gap-2">
+                                                            <input type="checkbox" name="sen_email_agree" @if($memberDetails->senator->sen_email_agree) checked @endif>
+                                                            <small class="my-2">Agree to show in <span class="text-primary ">Senator's Directory</span></small>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="sen_landline" value="{{ $memberDetails->senator->sen_landline }}" placeholder="OFFICE LANDLINE NUMBER*" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 d-flex align-items-center justify-content-start gap-2">
+                                                            <input type="checkbox" name="sen_landline_agree" @if($memberDetails->senator->sen_landline_agree) checked @endif>
+                                                            <small class="my-2">Agree to show in <span class="text-primary ">Senator's Directory</span></small>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="sen_office_cellphone" value="{{ $memberDetails->senator->sen_office_cellphone }}" placeholder="OFFICE CELLPHONE NUMBER">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 d-flex align-items-center justify-content-start gap-2">
+                                                            <input type="checkbox" name="sen_office_cellphone_agree" @if($memberDetails->senator->sen_office_cellphone_agree) checked @endif>
+                                                            <small class="my-2">Agree to show in <span class="text-primary ">Senator's Directory</span></small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6 px-4">
+                                                <div class="form-group">
+                                                    <select class="form-select" name="sen_group">
+                                                        <option selected disabled>MAJORITY/MINORITY/INDEPENDENT</option>
+                                                        <option @if($memberDetails->senator->sen_group == 'MAJORITY') selected  @endif>MAJORITY</option>
+                                                        <option @if($memberDetails->senator->sen_group == 'MINORITY') selected  @endif>MINORITY</option>
+                                                        <option @if($memberDetails->senator->sen_group == 'INDEPENDENT') selected  @endif>INDEPENDENT</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <select class="form-select" name="sen_party">
+                                                        <option selected disabled>POLITICAL PARTY</option>
+                                                        <option>PDP</option>
+                                                        <option>LIBERAL</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        @php
+                                                            $sen_bday = explode('::',$memberDetails->senator->sen_birthday);
+                                                            $sen_month = $sen_bday[0];
+                                                            $sen_day = $sen_bday[1];
+                                                        @endphp
+                                                        <div class="col-6">
+                                                            <select class="form-select" name="sen_gender">
+                                                                <option selected disabled>GENDER</option>
+                                                                @foreach($genders as $gender)
+                                                                    <option @if($memberDetails->senator->sen_gender == $gender->id) selected @endif value="{{ $gender->id }}" >{{$gender->name}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-6" style="padding-left: 0px;">
+                                                            <div class="d-flex">
+                                                                <select class="form-select" aria-label="select month" name="sen_month" style="width: 70%">
+                                                                    <option value="0">BIRTHMONTH</option>
+                                                                    @foreach(Config::get('months') as $key => $month)
+                                                                    <option @if($sen_month == $key) selected @endif value="{{ $key }}">{{ $month }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                &nbsp;
+                                                                <select class="form-select" aria-label="select day" name="sen_day" style="width: 30%">
+                                                                    <option value="0">BIRTHDAY</option>
+                                                                    @for($d = 1; $d <= 31; $d++)
+                                                                    <option @if($sen_day == $d) selected @endif value="{{ $d }}">{{ $d }}</option>
+                                                                    @endfor
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <br />
+                                        <small class="form-title"><b>SOCIAL MEDIA</b></small>
+                                        <br />
+                                        <div class="col-12 d-flex gap-4">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="sen_facebook" value="{{ $memberDetails->senator->sen_facebook }}" placeholder="FACEBOOK">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="sen_twitter" value="{{ $memberDetails->senator->sen_twitter }}" placeholder="TWITTER">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="sen_instagram" value="{{ $memberDetails->senator->sen_instagram }}" placeholder="INSTAGRAM">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="sen_youtube" value="{{ $memberDetails->senator->sen_youtube }}" placeholder="YOUTUBE">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <br />
+                                        <div class="col-12 d-flex gap-4">
+                                            <div class="col-6">
+                                                <small class="form-title"><b>MAIN ROOM</b></small>
+                                                <br />
+                                                <div class="form-group mt-2">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="sen_main_room_number" value="{{ $memberDetails->senator->sen_main_room_number }}" placeholder="ROOM NUMBER">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="sen_main_direct_line" value="{{ $memberDetails->senator->sen_main_direct_line }}" placeholder="DIRECT LINE">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="sen_main_fax_number" value="{{ $memberDetails->senator->sen_main_fax_number }}" placeholder="FAX NUMBER">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="sen_main_trunk_local_number" value="{{ $memberDetails->senator->sen_main_trunk_local_number }}" placeholder="TRUNK LOCAL NUMBER">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <small class="form-title"><b>EXTENSION ROOM</b></small>
+                                                <br />
+                                                <div class="form-group mt-2">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="sen_extension_room_number" value="{{ $memberDetails->senator->sen_extension_room_number }}" placeholder="ROOM NUMBER">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="sen_extension_direct_line" value="{{ $memberDetails->senator->sen_extension_direct_line }}" placeholder="DIRECT LINE">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="sen_extension_fax_number" value="{{ $memberDetails->senator->sen_extension_fax_number }}" placeholder="FAX NUMBER">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="sen_extension_trunk_local_number" value="{{ $memberDetails->senator->sen_extension_trunk_local_number }}" placeholder="TRUNK LOCAL NUMBER">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <br />
+                                        <small class="form-title"><b>DETAILS THAT ARE NOT VISIBLE IN DIRECTORY</b></small>
+                                        <small class="form-title"><b>SPOUSE</b></small>
+                                        <br />
+                                        <div class="col-12 d-flex">
+
+                                            <div class="col-6">
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <input class="form-control" type="text" name="sen_spouse_firstname" value="{{ $memberDetails->senator->sen_spouse_firstname }}" placeholder="FIRST NAME">
+                                                        </div>
+                                                        <div class="col-2" style="padding-left: 0px;">
+                                                            <input class="form-control" type="text" name="sen_spouse_middle_initial" value="{{ $memberDetails->senator->sen_spouse_middle_initial }}" placeholder="M.I.">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <input class="form-control" type="text" name="sen_spouse_lastname" value="{{ $memberDetails->senator->sen_spouse_lastname }}" placeholder="LAST NAME">
+                                                        </div>
+                                                        <div class="col-2" style="padding-left: 0px;">
+                                                            <select class="form-select" name="sen_spouse_suffix">
+                                                                <option selected disabled>SUFFIX</option>
+                                                                <option>Jr</option>
+                                                                <option>Sr</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <select class="form-select" name="sen_spouse_gender">
+                                                                <option selected disabled>GENDER</option>
+                                                                @foreach($genders as $gender)
+                                                                    <option @if($memberDetails->senator->sen_spouse_gender == $gender->id) selected @endif value="{{ $gender->id }}" >{{$gender->name}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-6" style="padding-left: 0px;">
+                                                            <input class="form-control" type="text" name="sen_spouse_birthday" value="{{ $memberDetails->senator->sen_spouse_birthday }}" placeholder="BIRTHDAY">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <!-- need changes here soon -->
+                                                <div class="form-group">
+                                                    <select class="form-select" name="sen_spouse_profession">
+                                                        <option selected disabled>PROFESSION</option>
+                                                        <option>TEACHER</option>
+                                                        <option>TECHNOLOGY</option>
+                                                        <option>GOVERNMENT</option>
+                                                    </select>
+                                                </div>
+                                               
+                                            </div>
+
+                                            <div class="col-6 px-4">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="sen_spouse_office_address" value="{{ $memberDetails->senator->sen_spouse_office_address }}" placeholder="OFFICE ADDRESS*" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="sen_spouse_email_address" value="{{ $memberDetails->senator->sen_spouse_email_address }}" placeholder="EMAIL ADDRESS*" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="sen_spouse_landline_number" value="{{ $memberDetails->senator->sen_spouse_landline_number }}" placeholder="LANDLINE NUMBER*" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="sen_spouse_cellphone_number" value="{{ $memberDetails->senator->sen_spouse_cellphone_number }}" placeholder="CELLPHONE NUMBER*" required>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        @endif
+
+                        <!-- Hors Tab -->
+                        @if(!empty($memberDetails->hor_id))
+                        <div class="tab-pane fade" id="hor-border" role="tabpanel" aria-labelledby="tab-hor-border-tab" tabindex="0">
+                            <div class="col-12">
+                                HoR Profile
+                            </div>
+                        </div>
+                        @endif
 
                         <!-- Events Tab -->
+                        @if($memberDetails->user_type != 7)
                         <div class="tab-pane fade" id="events-border" role="tabpanel" aria-labelledby="tab-events-border-tab" tabindex="0">
                             <div class="col-12">
                                 <table class="table-dotted table-striped">
@@ -456,8 +1008,10 @@
                                 </table>
                             </div>
                         </div>
+                        @endif
 
                         <!-- Reference Materials -->
+                        @if($memberDetails->userType->id == 1 || $memberDetails->userType->id == 6)
                         <div class="tab-pane fade" id="reference-border" role="tabpanel" aria-labelledby="tab-reference-border-tab" tabindex="0">
                             <div class="col-12">
                                 <table class="table-dotted table-striped">
@@ -504,6 +1058,7 @@
                                 </table>
                             </div>
                         </div>
+                        @endif
 
                         <!-- Policy Reforms Tab -->
                         <div class="tab-pane fade" id="policy-border" role="tabpanel" aria-labelledby="tab-policy-border-tab" tabindex="0">
@@ -560,9 +1115,6 @@
                                                     <div class="col-12 d-flex">
                                                         <div class="col-3 text-center">
                                                             <img class="rounded" src="{{ asset('images/user2.jpg') }}" width="120px">
-                                                            <br>
-                                                            <br>
-                                                            <small class="delete-contact-btn"><b class="text-danger cursor-pointer">DELETE</b></small>
                                                         </div>
                                                         <div class="col-9">
                                                             <ul class="list-unstyled">
@@ -597,6 +1149,7 @@
                                                             <div class="utility-btns align-items-center gap-2">
                                                                 <a href="#" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a>
                                                                 <a href="#" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
+                                                                <a href="#" title="Delete" style="color: #ff4d4d !important;"><i class="icon-trash"></i></a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -614,9 +1167,6 @@
                                                     <div class="col-12 d-flex">
                                                         <div class="col-3 text-center">
                                                             <img class="rounded" src="{{ asset('images/user3.jpg') }}" width="120px">
-                                                            <br>
-                                                            <br>
-                                                            <small class="delete-contact-btn"><b class="text-danger cursor-pointer">DELETE</b></small>
                                                         </div>
                                                         <div class="col-9">
                                                             <ul class="list-unstyled">
@@ -651,6 +1201,7 @@
                                                             <div class="utility-btns align-items-center gap-2">
                                                                 <a href="#" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a>
                                                                 <a href="#" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
+                                                                <a href="#" title="Delete" style="color: #ff4d4d !important;"><i class="icon-trash"></i></a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -668,9 +1219,6 @@
                                                     <div class="col-12 d-flex">
                                                         <div class="col-3 text-center">
                                                             <img class="rounded" src="{{ asset('images/user4.jpg') }}" width="120px">
-                                                            <br>
-                                                            <br>
-                                                            <small class="delete-contact-btn"><b class="text-danger cursor-pointer">DELETE</b></small>
                                                         </div>
                                                         <div class="col-9">
                                                             <ul class="list-unstyled">
@@ -706,6 +1254,7 @@
                                                             <div class="utility-btns align-items-center gap-2">
                                                                 <a href="#" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a>
                                                                 <a href="#" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
+                                                                <a href="#" title="Delete" style="color: #ff4d4d !important;"><i class="icon-trash"></i></a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -723,9 +1272,6 @@
                                                     <div class="col-12 d-flex">
                                                         <div class="col-3 text-center">
                                                             <img class="rounded" src="{{ asset('images/user5.jpg') }}" width="120px">
-                                                            <br>
-                                                            <br>
-                                                            <small class="delete-contact-btn"><b class="text-danger cursor-pointer">DELETE</b></small>
                                                         </div>
                                                         <div class="col-9">
                                                             <ul class="list-unstyled">
@@ -761,6 +1307,7 @@
                                                             <div class="utility-btns align-items-center gap-2">
                                                                 <a href="#" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a>
                                                                 <a href="#" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
+                                                                <a href="#" title="Delete" style="color: #ff4d4d !important;"><i class="icon-trash"></i></a>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -794,6 +1341,8 @@
                             <button class="btn btn-danger text-white" data-bs-toggle="modal" data-bs-target="#deleteAccountModal"><small class="text-uppercase">delete account</small></button>
                         </div>
                     </div>
+
+                    <input type="hidden" id="current-tab" value="1">
 
                     <!-- Resend Email Confirmation Modal -->
                     <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountLabel" aria-hidden="true">
@@ -886,23 +1435,53 @@
             });
         });
 
+        // Profile Edit
         $('#edit_profile_btn').on('click', function() {
             $('#edit_profile_panel').css("display", "flex");
             $('#default_profile_panel').css("display", "none");
+
             $('#save_cancel_pane').css("display", "flex");
             $('#edit_profile_btn').css("display", "none");
         });
 
+        // Cancel Edit
         $('#cancel_profile_btn').on('click', function() {
             $('#edit_profile_panel').css("display", "none");
             $('#default_profile_panel').css("display", "flex");
+
+            $('#edit_senator_panel').css("display", "none");
+            $('#default_senator_panel').css("display", "flex");
+
             $('#save_cancel_pane').css("display", "none");
             $('#edit_profile_btn').css("display", "flex");
         });
 
-        function submitProfileUpdate() {
-            $('#profile_update_form').submit();
+        // Senators Edit
+        $('#edit_profile_btn').on('click', function() {
+            $('#edit_senator_panel').css("display", "flex");
+            $('#default_senator_panel').css("display", "none");
+
+            $('#save_cancel_pane').css("display", "flex");
+            $('#edit_profile_btn').css("display", "none");
+        });
+
+        function tabSwitch(num) {
+            $('#current-tab').val(num);
         }
+
+        function submitProfileUpdate() {
+
+            let tab = $('#current-tab').val();
+
+            if(tab == 1) {
+                $('#profile_update_form').submit();
+            } else if(tab == 3) {
+                $('#senator_update_form').submit();
+            }
+
+        }
+
+
 	</script>
 @endsection
 

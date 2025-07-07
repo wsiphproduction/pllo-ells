@@ -45,6 +45,14 @@
                                             <label for="name">Designation Name</label>
                                             <input class="form-control" type="text" name="name" value="{{ $designation->name }}" required>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="name">User Type</label>
+                                            <select class="form-control" name="user_type_id">
+                                                @foreach($user_types as $user_type)
+                                                    <option value="{{ $user_type->id }}" @if($user_type->id == $designation->user_type_id ) selected @endif  >{{ $user_type->name }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                         <div class="d-flex align-items-center justify-content-start gap-3 py-4">
                                             <button type="submit" class="btn btn-success">
                                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
