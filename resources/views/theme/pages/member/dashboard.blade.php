@@ -495,18 +495,52 @@
                                                     @if($memberDetails->senator->sen_email_agree)
                                                         <small class="form-title"><b>{{ $memberDetails->senator->sen_email }}</b></small>
                                                     @else
-                                                        <small class="form-title"><i disabled>(Email hidden)</i></small>
+                                                        <small class="form-title">
+                                                            <i disabled>(<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
+                                                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/>
+                                                            </svg>
+                                                            Email hidden)
+                                                            </i>
+                                                        </small>
                                                     @endif
                                                 </span>
                                             </td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Office Landline Number:</small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_landline }}</small></span></td>
+                                            <td>
+                                                <span>
+                                                    @if($memberDetails->senator->sen_landline_agree)
+                                                        <small>{{ $memberDetails->senator->sen_landline }}</small>
+                                                    @else
+                                                        <small class="form-title">
+                                                            <i disabled>(<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
+                                                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/>
+                                                            </svg>
+                                                            Office landline number hidden)
+                                                            </i>
+                                                        </small>
+                                                    @endif
+                                                </span>
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Office Cellphone Number:</small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_office_cellphone }}</small></span></td>
+                                            <td>
+                                                <span>
+                                                    @if($memberDetails->senator->sen_office_cellphone_agree)
+                                                        <small>{{ $memberDetails->senator->sen_office_cellphone }}</small>
+                                                    @else
+                                                        <small class="form-title">
+                                                            <i disabled>(<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
+                                                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/>
+                                                            </svg>
+                                                            Office cellphone number hidden)
+                                                            </i>
+                                                        </small>
+                                                    @endif
+                                                </span>
+                                            </td>
                                         </tr>
                                     </table>
 
@@ -562,11 +596,16 @@
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Gender: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->senGender->name }}</small></span></td>
+                                            <td><span><small>@if(!empty($memberDetails->senator->senGender->name)){{ $memberDetails->senator->senGender->name }}@endif</small></span></td>
                                         </tr>
                                         <tr>
+                                            @php
+                                                $sen_bday = explode('::',$memberDetails->senator->sen_birthday);
+                                                $sen_month = $sen_bday[0];
+                                                $sen_day = $sen_bday[1];
+                                            @endphp
                                             <td><span class="profile-label"><small>BirthDate: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_bithday }}</small></span></td>
+                                            <td><span><small>{{ config('months.'.$sen_month) }} &nbsp; {{ $sen_day }}</small></span></td>
                                         </tr>
                                     </table>
 
@@ -593,7 +632,7 @@
                             </div>
 
                             <div class="row" id="edit_senator_panel" style="display: none;">
-                                <form id="senator_update_form" action="{{ route('member.profile.senator.update') }}" method="post" enctype="multipart/form-data">
+                                <form id="senator_update_form" action="{{ route('member.profile.senator.update', $memberDetails->senator->id ) }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
                                         <small class="form-title"><b>DETAILS THAT ARE VISIBLE IN DIRECTORY</b></small>
@@ -693,6 +732,11 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
+                                                        @php
+                                                            $sen_bday = explode('::',$memberDetails->senator->sen_birthday);
+                                                            $sen_month = $sen_bday[0];
+                                                            $sen_day = $sen_bday[1];
+                                                        @endphp
                                                         <div class="col-6">
                                                             <select class="form-select" name="sen_gender">
                                                                 <option selected disabled>GENDER</option>
@@ -702,7 +746,21 @@
                                                             </select>
                                                         </div>
                                                         <div class="col-6" style="padding-left: 0px;">
-                                                            <input class="form-control" type="text" name="sen_birthday" value="{{ $memberDetails->senator->sen_birthday }}" placeholder="BIRTHDAY">
+                                                            <div class="d-flex">
+                                                                <select class="form-select" aria-label="select month" name="sen_month" style="width: 70%">
+                                                                    <option value="0">BIRTHMONTH</option>
+                                                                    @foreach(Config::get('months') as $key => $month)
+                                                                    <option @if($sen_month == $key) selected @endif value="{{ $key }}">{{ $month }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                &nbsp;
+                                                                <select class="form-select" aria-label="select day" name="sen_day" style="width: 30%">
+                                                                    <option value="0">BIRTHDAY</option>
+                                                                    @for($d = 1; $d <= 31; $d++)
+                                                                    <option @if($sen_day == $d) selected @endif value="{{ $d }}">{{ $d }}</option>
+                                                                    @endfor
+                                                                </select>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>

@@ -41,8 +41,60 @@ class MemberProfileController extends Controller
 
 	private $searchFields = ['name'];
 
-	public function senatorProfileUpdate(Request $request) {
-		dd($request);
+	public function senatorProfileUpdate(Request $request, $id) {
+
+		$birth_arr = [$request['sen_month'], $request['sen_day']];
+		$sen_birthday = implode('::', $birth_arr);
+
+		if ($request['sen_email_agree'] == 'on') {
+			$sen_email_agree = 1;
+		} else { $sen_email_agree = 0; }
+		if ($request['sen_landline_agree'] == 'on') {
+			$sen_landline_agree = 1;
+		} else { $sen_email_agree = 0; }
+		if ($request['sen_office_cellphone_agree'] == 'on') {
+			$sen_office_cellphone_agree = 1;
+		} else { $sen_email_agree = 0; }
+
+		$senator = Senator::find($id);
+		$senator->sen_firstname = $request['sen_firstname'];
+		$senator->sen_middle_initial = $request['sen_middle_initial'];
+		$senator->sen_lastname = $request['sen_lastname'];
+		$senator->sen_nickname = $request['sen_nickname'];
+		$senator->sen_email = $request['sen_email'];
+		$senator->sen_email_agree = $sen_email_agree;
+		$senator->sen_landline = $request['sen_landline'];
+		$senator->sen_landline_agree = $sen_landline_agree;
+		$senator->sen_office_cellphone = $request['sen_office_cellphone'];
+		$senator->sen_office_cellphone_agree = $sen_office_cellphone_agree;
+		$senator->sen_group = $request['sen_group'];
+		$senator->sen_gender = $request['sen_gender'];
+		$senator->sen_birthday = $sen_birthday;
+		$senator->sen_facebook = $request['sen_facebook'];
+		$senator->sen_twitter = $request['sen_twitter'];
+		$senator->sen_instagram = $request['sen_instagram'];
+		$senator->sen_youtube = $request['sen_youtube'];
+		$senator->sen_main_room_number = $request['sen_main_room_number'];
+		$senator->sen_main_direct_line = $request['sen_main_direct_line'];
+		$senator->sen_main_fax_number = $request['sen_main_fax_number'];
+		$senator->sen_main_trunk_local_number = $request['sen_main_trunk_local_number'];
+		$senator->sen_extension_room_number = $request['sen_extension_room_number'];
+		$senator->sen_extension_direct_line = $request['sen_extension_direct_line'];
+		$senator->sen_extension_fax_number = $request['sen_extension_fax_number'];
+		$senator->sen_extension_trunk_local_number = $request['sen_extension_trunk_local_number'];
+		$senator->sen_spouse_firstname = $request['sen_spouse_firstname'];
+		$senator->sen_spouse_middle_initial = $request['sen_spouse_middle_initial'];
+		$senator->sen_spouse_lastname = $request['sen_spouse_lastname'];
+		$senator->sen_spouse_gender = $request['sen_spouse_gender'];
+		$senator->sen_spouse_birthday = $request['sen_spouse_birthday'];
+		$senator->sen_spouse_office_address = $request['sen_spouse_office_address'];
+		$senator->sen_spouse_email_address = $request['sen_spouse_email_address'];
+		$senator->sen_spouse_landline_number = $request['sen_spouse_landline_number'];
+		$senator->sen_spouse_cellphone_number = $request['sen_spouse_cellphone_number'];
+
+		$senator->save();
+
+		return back()->with('success', 'Senator details updated.');
 	}
 
 }

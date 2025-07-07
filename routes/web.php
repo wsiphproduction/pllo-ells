@@ -664,7 +664,7 @@ Route::get('/maintenance-dashboard', [RegistrationController::class, 'maintenanc
     Route::post('/maintenance-cluster-delete', [RegistrationController::class, 'maintenanceClusterDelete'])->name('maintenance.cluster.delete');
 
 // Member Profile Routes
-    Route::post('/member-profile-senator-update', [MemberProfileController::class, 'senatorProfileUpdate'])->name('member.profile.senator.update');
+    Route::post('/member-profile-senator-update/{id}', [MemberProfileController::class, 'senatorProfileUpdate'])->name('member.profile.senator.update');
 
 // Pages Frontend
 Route::get('/{any}', [FrontController::class, 'page'])->where('any', '.*');
