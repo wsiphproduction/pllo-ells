@@ -68,7 +68,27 @@ class FileDownloadController extends Controller
         $this->upload_photo($request,$file->id);
 
         return redirect(route('downloadables.index'))->with('success', 'Downloadable has been added.');
+    }
 
+    public function front_store(Request $request)
+    {
+        Validator::make($request->all(), [
+            'title' => 'required|max:150',
+            'ra_jr' => 'required|max:150',
+            'congress' => 'required',
+            'file' => 'required|mimes:csv,xlsx,xls,pdf|max:2000',
+            'approved_on' => 'required',
+            'source_priority_level' => 'required'
+        ])->validate();
+
+        $requestData = $request->all();
+        $requestData['unique_hash'] = Str::random(32);
+        $requestData['status'] = 1;
+
+        $file = FileDownload::create($requestData);
+        $this->upload_photo($request,$file->id);
+
+        return redirect()->back()->with('success', 'Downloadable has been added.');
     }
 
     public function upload_photo($request,$id)

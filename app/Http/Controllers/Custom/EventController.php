@@ -122,15 +122,25 @@ class EventController extends Controller
 
     public function view($id){
 
+        if(!Auth::user()){
+            return redirect()->route('home')->with('error', 'Access Denied');
+        }
+
         $event = Event::find($id);
 
         $page = new Page();
         $page->name = $event->title;
 
-        return view('theme.pages.events.view', compact('page', 'event'));
+        $members = Member::all();
+
+        return view('theme.pages.events.view', compact('page', 'event', 'members'));
     }
 
     public function invitees($id){
+
+        if(!Auth::user()){
+            return redirect()->route('home')->with('error', 'Access Denied');
+        }
 
         $event = Event::find($id);
         $members = Member::all();
@@ -160,9 +170,9 @@ class EventController extends Controller
     }
 
     public function update(EventRequest $request, Event $event){
+
         $data = $request->validated();
 
-        // dd($data);
         //EVENT
        if ($request->hasFile('attachments')) {
             $attachments = [];
@@ -329,15 +339,27 @@ class EventController extends Controller
         return redirect()->route('events.index')->with('success', 'You successfully deleted an event');
     }
 
-    public function register_event($event_id){
+    public function register_event(Request $request, $event_id){
 
-        EventParticipant::create([
-            'event_id' => $event_id,
-            'member_id' => Member::getMemberInfo(Auth::user()->id)->id
-        ]);
+        foreach($request->member_id as $member_id){
+            EventParticipant::create([
+                'event_id' => $event_id,
+                'member_id' => $member_id
+            ]);
+        }
 
         return redirect()->back()->with('success', 'You successfully registered on this event');
     }
+
+    // public function register_event($event_id){
+
+    //     EventParticipant::create([
+    //         'event_id' => $event_id,
+    //         'member_id' => Member::getMemberInfo(Auth::user()->id)->id
+    //     ]);
+
+    //     return redirect()->back()->with('success', 'You successfully registered on this event');
+    // }
 
     public function decline_event($event_id){
 

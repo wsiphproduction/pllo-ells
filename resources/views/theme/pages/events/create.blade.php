@@ -140,18 +140,6 @@
 									<small class="col-12 text-uppercase">END TIME <span class="text-danger">*</span></small>
 									<input class="form-control" type="time" name="end_time" value="12:00" required>
 								</div>
-								
-								{{-- <div class="col-6">
-									<small class="col-12 text-uppercase">START TIME</small>
-									<input class="form-control @error('time') error @enderror" type="text" id="time_range" name="time" placeholder="SET TIME (8:00 - 12:00)" readonly>
-									@error('time')
-										<small class="text-danger">{{ $message }}</small>
-									@enderror
-								</div> 
-
-								<!-- Hidden native time inputs -->
-								<input type="time" id="time_start" value="08:00" hidden>
-								<input type="time" id="time_end" value="12:00" hidden> --}}
 							</div>
 							<div class="row form-group">
 								<div class="col-12">
@@ -219,7 +207,7 @@
 									</div>
 
 									<div class="form-group row" style="margin-top: -7px;">
-<<<<<<< HEAD
+
 										<div class="row mb-1">
 											<span class="text-primary text-end" style="font-size:12px; cursor: pointer;" id="add-agency">Add agency selection <i class="fa fa-plus"></i></span>
 										</div>
@@ -237,34 +225,6 @@
 											</select>
 										</div>
 									</div>
-
-									{{-- <div class="form-group row" style="margin-top: -7px;">
-										<div class="row mb-1">
-											<span class="text-primary text-end" style="font-size:12px; cursor: pointer;" id="add-agency">Add agency selection <i class="fa fa-plus"></i></span>
-										</div>
-										<div class="col-sm-1" id="universal-limit-wrapper">
-											<div class="col-sm-12 agency-select d-flex align-items-center gap-2">
-												<input class="form-control" type="number" id="universal-limit" title="Set limit for all" min="0" onclick="select()" oninput="this.value = this.value || 0;" value="0" placeholder="SET LIMIT FOR ALL" style="width:60px;">
-=======
-										<div class="mb-2 ml-2 d-flex justify-content-end">
-											<span class="text-primary" style="font-size:12px; cursor: pointer;" id="add-agency">Add agency selection <i class="fa fa-plus"></i></span>
-										</div>
-										<div class="col-sm-1" id="universal-limit-wrapper">
-											<div class="col-sm-12 agency-select d-flex align-items-center gap-2">
-												<input class="form-control" type="number" id="universal-limit" title="Set limit for all" min="0" onclick="select()" oninput="this.value = this.value || 0;" value="0" placeholder="SET LIMIT FOR ALL" style="width:60px;transform: translate(0px, -4px);">
->>>>>>> 2c2988fe7b23cf0b08887d162d86a70076cc49c5
-											</div>
-										</div>
-										<div class="col-sm-11">
-											<div class="d-inline-flex align-items-center">
-												<span class="" style="font-size:12px; cursor: pointer; padding-left: 10px;" id="add-agency">Limit for all Agency or select option for different limit per agency </span>
-												<select id="limit-mode" class="border-0 bg-transparent p-0 text-primary" style="appearance: none; -webkit-appearance: none; box-shadow: none; font-size: 12px; margin-left: 10px;">
-													<option class="text-dark" value="all" style="padding: 8px !important;">Set limit for all</option>
-													<option class="text-dark" value="per" style="padding: 8px !important;">Set limit per agency</option>
-												</select>
-											</div>
-										</div>
-									</div> --}}
 									
 									<div class="form-group">
 										<small class="col-12 text-uppercase">UPLOAD INVITATION FILE <i class="text-danger">*</i></small>

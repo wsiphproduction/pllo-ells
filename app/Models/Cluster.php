@@ -20,4 +20,8 @@ class Cluster extends Model
         return $this->hasMany(\App\Models\Custom\Event::class, 'event_cluster_id')->withTrashed();
     }
 
+    public function reference_materials(){
+        return $this->hasMany(\App\Models\Custom\ReferenceMaterial::class)->withTrashed();
+    }
+
 }
