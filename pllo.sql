@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 07, 2025 at 03:51 AM
+-- Generation Time: Jul 07, 2025 at 10:15 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -1643,7 +1643,33 @@ INSERT INTO `cms_activity_logs` (`id`, `log_by`, `activity_type`, `dashboard_act
 (1189, '1', 'update', 'updated the user lastname', 'updated the user lastname of senator K. test  from Test to test', '2025-07-04 09:37:29', 'users', 'Test', 'test', '52254'),
 (1190, '1', 'update', 'updated the user status', 'updated the user status of senator K. test  from 1 to 0', '2025-07-04 09:37:29', 'users', '1', '0', '52254'),
 (1191, NULL, 'insert', 'created a new user', 'created the user Jason X. Mraz Jr', '2025-07-04 14:05:16', 'users', '', 'Jason X. Mraz Jr', '52255'),
-(1192, '1', 'update', 'updated the user status', 'updated the user status of Jason X. Mraz Jr from 1 to 0', '2025-07-04 14:05:53', 'users', '1', '0', '52255');
+(1192, '1', 'update', 'updated the user status', 'updated the user status of Jason X. Mraz Jr from 1 to 0', '2025-07-04 14:05:53', 'users', '1', '0', '52255'),
+(1193, NULL, 'insert', 'created a new user', 'created the user hor T. test Jr', '2025-07-07 10:50:18', 'users', '', 'hor T. test Jr', '52256'),
+(1194, NULL, 'update', 'updated the user firstname', 'updated the user firstname of hor T. test Jr from Hor to hor', '2025-07-07 10:50:52', 'users', 'Hor', 'hor', '52256'),
+(1195, NULL, 'update', 'updated the user lastname', 'updated the user lastname of hor T. test Jr from Test to test', '2025-07-07 10:50:52', 'users', 'Test', 'test', '52256'),
+(1196, '1', 'update', 'updated the user firstname', 'updated the user firstname of hor T. test Jr from Hor to hor', '2025-07-07 10:51:07', 'users', 'Hor', 'hor', '52256'),
+(1197, '1', 'update', 'updated the user lastname', 'updated the user lastname of hor T. test Jr from Test to test', '2025-07-07 10:51:07', 'users', 'Test', 'test', '52256'),
+(1198, '1', 'update', 'updated the user status', 'updated the user status of hor T. test Jr from 1 to 0', '2025-07-07 10:51:07', 'users', '1', '0', '52256'),
+(1199, NULL, 'insert', 'created a new user', 'created the user hor M. test Sr', '2025-07-07 11:08:55', 'users', '', 'hor M. test Sr', '52257'),
+(1200, NULL, 'update', 'updated the user firstname', 'updated the user firstname of hor M. test Sr from Hor to hor', '2025-07-07 11:09:22', 'users', 'Hor', 'hor', '52257'),
+(1201, NULL, 'update', 'updated the user lastname', 'updated the user lastname of hor M. test Sr from Test to test', '2025-07-07 11:09:22', 'users', 'Test', 'test', '52257'),
+(1202, '1', 'update', 'updated the user firstname', 'updated the user firstname of hor M. test Sr from Hor to hor', '2025-07-07 11:09:51', 'users', 'Hor', 'hor', '52257'),
+(1203, '1', 'update', 'updated the user lastname', 'updated the user lastname of hor M. test Sr from Test to test', '2025-07-07 11:09:51', 'users', 'Test', 'test', '52257'),
+(1204, '1', 'update', 'updated the user status', 'updated the user status of hor M. test Sr from 1 to 0', '2025-07-07 11:09:51', 'users', '1', '0', '52257'),
+(1205, NULL, 'insert', 'created a new user', 'created the user hor B. test Jr', '2025-07-07 11:13:23', 'users', '', 'hor B. test Jr', '52258'),
+(1206, NULL, 'update', 'updated the user firstname', 'updated the user firstname of hor B. test Jr from Hor to hor', '2025-07-07 11:15:48', 'users', 'Hor', 'hor', '52258'),
+(1207, NULL, 'update', 'updated the user lastname', 'updated the user lastname of hor B. test Jr from Test to test', '2025-07-07 11:15:48', 'users', 'Test', 'test', '52258'),
+(1208, '1', 'update', 'updated the user firstname', 'updated the user firstname of hor B. test Jr from Hor to hor', '2025-07-07 11:16:00', 'users', 'Hor', 'hor', '52258'),
+(1209, '1', 'update', 'updated the user lastname', 'updated the user lastname of hor B. test Jr from Test to test', '2025-07-07 11:16:00', 'users', 'Test', 'test', '52258'),
+(1210, '1', 'update', 'updated the user status', 'updated the user status of hor B. test Jr from 1 to 0', '2025-07-07 11:16:00', 'users', '1', '0', '52258'),
+(1211, '52258', 'insert', 'created a new user', 'created the user hor O. test Sr', '2025-07-07 11:20:41', 'users', '', 'hor O. test Sr', '52259'),
+(1212, '1', 'update', 'updated the user firstname', 'updated the user firstname of hor O. test Sr from Hor to hor', '2025-07-07 11:21:02', 'users', 'Hor', 'hor', '52259'),
+(1213, '1', 'update', 'updated the user lastname', 'updated the user lastname of hor O. test Sr from Test to test', '2025-07-07 11:21:02', 'users', 'Test', 'test', '52259'),
+(1214, '1', 'update', 'updated the user firstname', 'updated the user firstname of hor O. test Sr from Hor to hor', '2025-07-07 11:21:09', 'users', 'Hor', 'hor', '52259'),
+(1215, '1', 'update', 'updated the user lastname', 'updated the user lastname of hor O. test Sr from Test to test', '2025-07-07 11:21:09', 'users', 'Test', 'test', '52259'),
+(1216, '1', 'update', 'updated the user status', 'updated the user status of hor O. test Sr from 1 to 0', '2025-07-07 11:21:09', 'users', '1', '0', '52259'),
+(1217, NULL, 'insert', 'created a new user', 'created the user retry q. test Sr', '2025-07-07 13:21:20', 'users', '', 'retry q. test Sr', '52260'),
+(1218, NULL, 'insert', 'created a new user', 'created the user zxvc d. zxvc ', '2025-07-07 13:23:34', 'users', '', 'zxvc d. zxvc ', '52261');
 
 -- --------------------------------------------------------
 
@@ -1875,7 +1901,61 @@ INSERT INTO `gender` (`id`, `name`, `created_at`, `updated_at`, `deleted_at`) VA
 
 CREATE TABLE `hors` (
   `id` int(11) NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
+  `hor_firstname` varchar(255) DEFAULT NULL,
+  `hor_lastname` varchar(255) DEFAULT NULL,
+  `hor_middle_initial` varchar(255) DEFAULT NULL,
+  `hor_nickname` varchar(255) DEFAULT NULL,
+  `hor_suffix` varchar(255) DEFAULT NULL,
+  `hor_email` varchar(255) DEFAULT NULL,
+  `hor_email_agree` int(1) DEFAULT NULL,
+  `hor_landline` varchar(255) DEFAULT NULL,
+  `hor_landline_agree` int(1) DEFAULT NULL,
+  `hor_office_cellphone` varchar(255) DEFAULT NULL,
+  `hor_office_cellphone_agree` int(1) DEFAULT NULL,
+  `hor_province` varchar(255) DEFAULT NULL,
+  `hor_district` int(11) DEFAULT NULL,
+  `hor_region` int(11) DEFAULT NULL,
+  `hor_group` varchar(255) DEFAULT NULL,
+  `hor_party` int(11) DEFAULT NULL,
+  `hor_gender` int(11) DEFAULT NULL,
+  `hor_birthday` varchar(255) DEFAULT NULL,
+  `hor_term` varchar(255) NOT NULL,
+  `hor_room_number` varchar(255) NOT NULL,
+  `hor_facebook` varchar(255) DEFAULT NULL,
+  `hor_twitter` varchar(255) DEFAULT NULL,
+  `hor_instagram` varchar(255) DEFAULT NULL,
+  `hor_youtube` varchar(255) DEFAULT NULL,
+  `hor_resident_adress` varchar(255) DEFAULT NULL,
+  `hor_resident_email` varchar(255) DEFAULT NULL,
+  `hor_resident_landline` varchar(255) DEFAULT NULL,
+  `hor_resident_cellphone` varchar(255) DEFAULT NULL,
+  `hor_province_address` varchar(255) DEFAULT NULL,
+  `hor_province_email` varchar(255) DEFAULT NULL,
+  `hor_province_landline` varchar(255) DEFAULT NULL,
+  `hor_province_cellphone` varchar(255) DEFAULT NULL,
+  `hor_direct_address` varchar(255) DEFAULT NULL,
+  `hor_direct_email` varchar(255) DEFAULT NULL,
+  `hor_direct_landline` varchar(255) DEFAULT NULL,
+  `hor_direct_cellphone` varchar(255) DEFAULT NULL,
+  `hor_highest_education` varchar(255) DEFAULT NULL,
+  `hor_school` varchar(255) DEFAULT NULL,
+  `hor_prev_work_gov` varchar(255) DEFAULT NULL,
+  `hor_prev_work_private` varchar(255) DEFAULT NULL,
+  `hor_religion` varchar(255) DEFAULT NULL,
+  `hor_civic` varchar(255) DEFAULT NULL,
+  `hor_spouse_firstname` varchar(255) DEFAULT NULL,
+  `hor_spouse_lastname` varchar(255) DEFAULT NULL,
+  `hor_spouse_middle_initial` varchar(255) DEFAULT NULL,
+  `hor_spouse_suffix` varchar(255) DEFAULT NULL,
+  `hor_spouse_birthday` date DEFAULT NULL,
+  `hor_spouse_profession` varchar(254) DEFAULT NULL,
+  `hor_spouse_civic` varchar(255) DEFAULT NULL,
+  `hor_spouse_wedding_aniv` date DEFAULT NULL,
+  `hor_child_name` varchar(255) DEFAULT NULL,
+  `hor_child_email` varchar(255) DEFAULT NULL,
+  `hor_child_landline` varchar(255) DEFAULT NULL,
+  `hor_child_cellphone` varchar(255) DEFAULT NULL,
+  `hor_child_profession` varchar(255) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   `deleted_at` timestamp NULL DEFAULT NULL
@@ -1885,11 +1965,8 @@ CREATE TABLE `hors` (
 -- Dumping data for table `hors`
 --
 
-INSERT INTO `hors` (`id`, `name`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Congressman JC Abalos', '2025-07-03 01:17:50', NULL, NULL),
-(2, 'Congresswoman Maria Fe R. Abunda', '2025-07-03 01:17:47', NULL, NULL),
-(3, 'Loreto B. Acharon', '2025-07-03 01:17:11', NULL, NULL),
-(4, 'Jose Manuel F. Alba', '2025-07-03 01:17:11', NULL, NULL);
+INSERT INTO `hors` (`id`, `hor_firstname`, `hor_lastname`, `hor_middle_initial`, `hor_nickname`, `hor_suffix`, `hor_email`, `hor_email_agree`, `hor_landline`, `hor_landline_agree`, `hor_office_cellphone`, `hor_office_cellphone_agree`, `hor_province`, `hor_district`, `hor_region`, `hor_group`, `hor_party`, `hor_gender`, `hor_birthday`, `hor_term`, `hor_room_number`, `hor_facebook`, `hor_twitter`, `hor_instagram`, `hor_youtube`, `hor_resident_adress`, `hor_resident_email`, `hor_resident_landline`, `hor_resident_cellphone`, `hor_province_address`, `hor_province_email`, `hor_province_landline`, `hor_province_cellphone`, `hor_direct_address`, `hor_direct_email`, `hor_direct_landline`, `hor_direct_cellphone`, `hor_highest_education`, `hor_school`, `hor_prev_work_gov`, `hor_prev_work_private`, `hor_religion`, `hor_civic`, `hor_spouse_firstname`, `hor_spouse_lastname`, `hor_spouse_middle_initial`, `hor_spouse_suffix`, `hor_spouse_birthday`, `hor_spouse_profession`, `hor_spouse_civic`, `hor_spouse_wedding_aniv`, `hor_child_name`, `hor_child_email`, `hor_child_landline`, `hor_child_cellphone`, `hor_child_profession`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Mark', 'Go', 'N', 'marky boy', NULL, 'm@mail.com', 1, '22278644', 1, '09096453306', 1, 'Northern Samar', 2, 10, 'MAJORITY', 3, 1, 'December::5', '7', '1009', ' m@facebook.com', 'm@twitter.com', 'm@instagram.com', 'm@youtube.com', '999 Karne Norte, Samar, Philippines', 'mres@mail.com', '28755243', '09108872561', 'kalabasa street, general trias, Samar', 'provm@mail.com', '23387465', '09176253456', 'horm@mail.conm', 'dm@mail.com', '2271823', '09227167338', 'BSHRM', 'Ateneo De Batanes', 'Utility Driver', 'CEO - Owner Potattoo Corner', 'INC', 'Orphange Owner', 'Emelda', 'Gakos', 'L', NULL, '2016-07-01', 'Desk Fan Cleaner', 'Cook for Isaw Vendor', '2016-07-07', 'Ben Trilfo', 'ben10@mail.com', '2243566', '09097762534', 'Shipping Line Captain - Hamburg', '2025-07-07 06:00:40', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -1935,20 +2012,12 @@ CREATE TABLE `members` (
 --
 
 INSERT INTO `members` (`id`, `user_id`, `firstname`, `lastname`, `middle_initial`, `suffix`, `email`, `alt_email`, `password`, `contact_number`, `type_number`, `other_number`, `gender`, `birthdate`, `user_type`, `agency`, `sub_agency`, `designation`, `cluster`, `senator_id`, `hor_id`, `congsec_type`, `committee_type`, `chairperson`, `logo`, `photo`, `is_verified`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(24, 52231, 'Newly', 'Created', 'X', 'Sr', 'newlycreated@gmail.com', NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '1231231234', NULL, '3', 1, '1999-06-26', 1, 7, NULL, NULL, '1::2', NULL, NULL, NULL, NULL, NULL, 'storage/logo/1751333371.png', 'storage/photo/1751333388.jfif', 1, '2025-06-16 01:00:15', '2025-07-01 01:29:48', NULL),
-(32, 52241, 'Dino', 'Cornel', 'T', 'Sr', 'ef@gmail.com', 'ef2@gmail.com', '$2y$10$V7oKIKP/39i8gckyk70ZsOlmX3gQpJl0MbspGqYql8rcLReAS155C', '99999999999', NULL, '3333333333::444444444', 1, 'January 1', 1, 3, NULL, NULL, '4::5', NULL, NULL, NULL, NULL, NULL, 'storage/logo/f3.jpg', 'storage/photo/f1.jpg', 1, '2025-06-23 18:34:06', '2025-06-23 18:34:32', NULL),
-(33, 52242, 'Jose', 'Rixal', 'K', 'Sr', 'jose@mail.com', 'jose2@mail.com', '$2y$10$U.ROWwYaCn/SToXwaRo5QOTeFUpot0R6Bh2XMNMVHlakNYAhTUafG', '1231231234', NULL, '123123333::1231231231', 1, 'July 12', 1, 7, NULL, NULL, '2::3', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, '2025-06-25 02:51:32', '2025-06-25 02:51:32', NULL),
-(34, 52243, 'Raven', 'Stark', 'H', NULL, '001ravenstark@gmail.com', '002ravenstark@gmail.com', '$2y$10$vcz.KPAnLvSFY6Mi56wIveDPmtki8mrLw247XnoUFeiNTjkNVPAme', '09876543321', NULL, '0988765167', 1, 'October 12', 1, 2, NULL, 2, '2::4', NULL, NULL, NULL, NULL, NULL, 'storage/logo/lls-logo (5).png', 'storage/photo/bp (4).png', 1, '2025-06-25 06:24:51', '2025-06-25 06:25:40', NULL),
-(35, 52244, 'Pablo', 'Escobar', 'X', 'Sr', 'pabloes@gmail.com', 'pabloes2@gmail.com', '$2y$10$biTF/7V1hMMHPUTFY/f.zuTN9pAjLq7zG3rqbrAUkBSJrVLJuQhOe', '0982827362', NULL, '45454545::23232523', 1, 'November 2', 1, 2, NULL, 2, '3::4', NULL, NULL, NULL, NULL, NULL, 'storage/logo/dict-logo.png', 'storage/photo/2023-solidarity (2).png', 1, '2025-06-26 06:19:13', '2025-06-26 06:23:50', NULL),
-(36, 52245, 'Jose', 'Rixal', 'z', NULL, 'wsiprod22.demo@gmail.com', 'wsiprod23.demo@gmail.com', '$2y$10$Isj27nwFrskDrevv8Zx5C.kISHHjAogNsyD4Vu0Khs3qnuDuZYOnW', '1231231234', NULL, '43433::54545', 1, 'December 31', 1, 3, NULL, 1, '3::4', NULL, NULL, NULL, NULL, NULL, 'storage/logo/dev-signin.png', 'storage/photo/user3.jpg', 1, '2025-07-01 00:28:30', '2025-07-01 00:30:53', NULL),
-(37, 52246, 'Dina', 'Cornel', 'X', NULL, 'wsiprod55.demo@gmail.com', 'wsiprod558.demo@gmail.com', '$2y$10$vcen22MUfCYyJ8WXcfbML.mw1SsmwV1PP1aFsl0wVNFeM9FPSj7wq', '12312312334', NULL, '2323::9789789789', 1, 'December 9', 1, 7, NULL, 8, '3::4', NULL, NULL, NULL, NULL, NULL, 'storage/logo/dev-signin (2).png', 'storage/photo/user2.jpg', 1, '2025-07-01 00:46:40', '2025-07-01 00:47:09', NULL),
-(38, 52247, 'Josh', 'Sotto', 'K', 'Sr', 'r11@gmail.com', 'r112@gmail.com', '$2y$10$8uYFGdAcQ0kXdb9WFwaYzeN2..wdPToms8B5o1vPpyWm25YDFa0Ae', '1231231234', NULL, '9789789789::45454545', 1, 'November 13', 1, 4, NULL, 8, '2::3', NULL, NULL, NULL, NULL, NULL, 'storage/logo/dict-logo (2).png', 'storage/photo/user4 (2).jpg', 1, '2025-07-01 00:56:59', '2025-07-01 00:57:14', NULL),
-(39, 52248, 'Lebronny', 'James', 'I', 'Jr', 'lbj@gmail.com', 'lbj2@gmail.com', '$2y$10$KBEL8PQA3YD7PXOIYnGfDOtbS5lxJCZkXvvkBsUeztA9notsMVbW6', '1231231234', NULL, '45342534543', 2, 'November 11', 1, 4, NULL, 1, '3', NULL, NULL, NULL, NULL, NULL, 'storage/logo/dict-logo (3).png', 'storage/photo/user5 (2).jpg', 1, '2025-07-01 01:43:45', '2025-07-01 01:46:25', NULL),
-(40, 52250, 'Rosei', 'Blackpink', 'T', 'Sr', 'rsbl@gmail.com', 'rsbl2@gmail.com', '$2y$10$GANhYBSiA0SZgKS8w2IRcOBVsg4jUONRpXNhqeZyWUljeQPCWtKjm', '1231231234', NULL, '45454545', 2, 'December 13', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'storage/logo/dict-logo (4).png', 'storage/photo/pr4 (2).png', 0, '2025-07-03 05:46:02', '2025-07-03 05:46:02', NULL),
-(41, 52251, 'Lisa', 'Banoban', 'U', 'Sr', 'lisaB@gmail.com', 'lisaB2@gmail.com', '$2y$10$h0FcCleNhaOOrc6irn1/peyhyEYx7C1c/DasSkkN7uRhz44gJ3h4y', '3453451232', '2::3', '45342534543::9789789789', 2, 'August 11', NULL, NULL, 1, NULL, NULL, NULL, NULL, 2, 2, 4, 'storage/logo/dict-logo (5).png', 'storage/photo/welcomeimg1 (2).png', 0, '2025-07-03 05:50:02', '2025-07-03 05:50:02', NULL),
-(42, 52252, 'Jennie', 'Kim', 'B', NULL, 'jennie.blackpink@gmail.com', 'jennie2.blackpink@gmail.com', '$2y$10$84ao8dXfKm1Aawqmo8QhEOU0NqOOfi6U6KdJUfNV0egVj05.mdjKu', '0982827362', '2::3', '9789789789::43433', 2, 'February 14', 6, NULL, 1, 14, NULL, NULL, NULL, 1, 1, 1, 'storage/logo/hret-logo.png', 'storage/photo/user2 (3).jpg', 1, '2025-07-03 06:03:10', '2025-07-03 06:03:33', NULL),
-(44, 52254, 'senator', 'test', 'K', NULL, 'senatortest@gmail.com', 'senatortes2t@gmail.com', '$2y$10$rkD7Fcr5bcRUNkkjK6LmYeOVQhp9oLF5h0QYlt/.fNz9Y4H3W.VI.', '1231231234', '1::5', '43433::54545', 2, 'January 1', 2, NULL, 1, 11, NULL, 8, NULL, 1, 1, 1, 'storage/logo/logo-mobile.png', 'storage/photo/user5 (4).jpg', 1, '2025-07-04 01:35:44', '2025-07-04 01:37:09', NULL),
-(45, 52255, 'Jason', 'Mraz', 'X', 'Jr', 'json@gmail.com', 'json2@gmail.com', '$2y$10$2ahgPg.NJh5qvQuv1OrZ7.ZkcvPhZ9xogZKNOa8f19.EfBq373.si', '0982827362', '3', '0909 876 9924', 1, 'November 11', 2, NULL, 1, 11, NULL, 1, NULL, 1, 1, 1, 'storage/logo/hret-logo (2).png', 'storage/photo/msgfromsecimg1 (2).png', 1, '2025-07-04 06:05:16', '2025-07-04 06:05:42', NULL);
+(24, 31, 'Newly', 'Created', 'X', 'Sr', 'newlycreated@gmail.com', NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '1231231234', NULL, '3', 1, '1999-06-26', 1, 7, NULL, NULL, '1::2', NULL, NULL, NULL, NULL, NULL, 'storage/logo/1751333371.png', 'storage/photo/1751333388.jfif', 1, '2025-06-16 01:00:15', '2025-07-01 01:29:48', NULL),
+(34, 43, 'Raven', 'Stark', 'H', NULL, '001ravenstark@gmail.com', '002ravenstark@gmail.com', '$2y$10$vcz.KPAnLvSFY6Mi56wIveDPmtki8mrLw247XnoUFeiNTjkNVPAme', '09876543321', NULL, '0988765167', 1, 'October 12', 1, 2, NULL, 2, '2::4', NULL, NULL, NULL, NULL, NULL, 'storage/logo/lls-logo (5).png', 'storage/photo/bp (4).png', 1, '2025-06-25 06:24:51', '2025-06-25 06:25:40', NULL),
+(45, 55, 'Jason', 'Mraz', 'X', 'Jr', 'json@gmail.com', 'json2@gmail.com', '$2y$10$2ahgPg.NJh5qvQuv1OrZ7.ZkcvPhZ9xogZKNOa8f19.EfBq373.si', '0982827362', '3', '0909 876 9924', 1, 'November 11', 2, NULL, 1, 11, NULL, 1, NULL, 1, 1, 1, 'storage/logo/hret-logo (2).png', 'storage/photo/msgfromsecimg1 (2).png', 1, '2025-07-04 06:05:16', '2025-07-04 06:05:42', NULL),
+(49, 52259, 'hor', 'test', 'O', 'Sr', 'hortest@gmail.com', 'hortest2@gmail.com', '$2y$10$6izwDoxUrsbcd4K9LlVO.eadjYQI.PmQ94Ihbe0gw0N3DFDDYVLUq', '0982827362', '1', '0978978978', 2, 'April 10', 3, NULL, 1, 14, NULL, NULL, 1, NULL, 1, 1, 'storage/logo/lls-logo (8).png', 'storage/photo/user5 (10).jpg', 1, '2025-07-07 03:20:41', '2025-07-07 03:21:02', NULL),
+(50, 52260, 'retry', 'test', 'q', 'Sr', 'retry@gmail.com', 'retry3@gmail.com', '$2y$10$21UcSU/1plXCYzrV3EgGwegby1cipyCOOo8htOck6FlbqdzbY/0aG', '1231231234', '4', '9789789789', 1, 'November 9', 3, NULL, 1, 14, NULL, NULL, 3, NULL, 1, 1, NULL, NULL, 0, '2025-07-07 05:21:20', '2025-07-07 05:21:20', NULL),
+(51, 52261, 'zxvc', 'zxvc', 'd', NULL, 'zxv@gmail.com', 'zxv3@gmail.com', '$2y$10$z0eFCCD3DowkLBxS4jMlwufjkN2ZMtU62ZzicJHmXDosAZDCEZ8Ha', '0982877223', '3', '09092323221', 1, 'May 11', 1, 5, 1, 7, '3', NULL, NULL, NULL, 1, 1, NULL, NULL, 0, '2025-07-07 05:23:34', '2025-07-07 05:23:34', NULL);
 
 -- --------------------------------------------------------
 
@@ -3765,22 +3834,13 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `firstname`, `lastname`, `avatar`, `verification_code`, `email_verified_at`, `password`, `role_id`, `is_active`, `user_id`, `mobile`, `phone`, `birth_date`, `address_street`, `address_city`, `address_municipality`, `address_province`, `address_zip`, `social_login`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Admin Istrator', 'wsiprod.demo@gmail.com', 'PLLO', 'Administrator', 'http://127.0.0.1:8000/storage/avatars/wsi-logo (2).png', NULL, '2024-01-30 06:25:03', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, 1, 1, '09456714321', '022646545', NULL, 'Maharlika St', 'Pasay', NULL, NULL, '1234', 0, 'gpty6iG2OaTc8NNne0HpSeCZefmBaidkrTIowsp0zF19sNq0nEREjn1utelJ', '2024-01-30 06:25:03', '2025-05-21 07:20:36', NULL),
-(52241, 'Dino T. Cornel Sr', 'ef@gmail.com', 'Dino', 'Cornel', NULL, '9165', '2025-06-23 18:34:32', '$2y$10$V7oKIKP/39i8gckyk70ZsOlmX3gQpJl0MbspGqYql8rcLReAS155C', 2, 1, NULL, '99999999999', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-23 18:34:06', '2025-06-23 18:34:49', NULL),
-(52242, 'Jose K. Rixal Sr', 'jose@mail.com', 'Jose', 'Rixal', NULL, NULL, NULL, '$2y$10$U.ROWwYaCn/SToXwaRo5QOTeFUpot0R6Bh2XMNMVHlakNYAhTUafG', 2, 0, NULL, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-25 02:51:32', '2025-06-25 02:51:32', NULL),
-(52243, 'Raven H. Stark ', '001ravenstark@gmail.com', 'Raven', 'Stark', NULL, '9166', '2025-06-25 06:25:40', '$2y$10$vcz.KPAnLvSFY6Mi56wIveDPmtki8mrLw247XnoUFeiNTjkNVPAme', 2, 1, NULL, '09876543321', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-25 06:24:51', '2025-06-25 06:25:52', NULL),
-(52245, 'Jose z. Rixal ', 'wsiprod22.demo@gmail.com', 'Jose', 'Rixal', NULL, '9168', '2025-07-01 00:30:53', '$2y$10$Isj27nwFrskDrevv8Zx5C.kISHHjAogNsyD4Vu0Khs3qnuDuZYOnW', 2, 0, NULL, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-01 00:28:30', '2025-07-01 00:30:53', NULL),
-(52246, 'Dina X. Cornel ', 'wsiprod55.demo@gmail.com', 'Dina', 'Cornel', NULL, '9169', '2025-07-01 00:47:09', '$2y$10$vcen22MUfCYyJ8WXcfbML.mw1SsmwV1PP1aFsl0wVNFeM9FPSj7wq', 2, 1, NULL, '12312312334', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-01 00:46:40', '2025-07-01 00:48:54', NULL),
-(52247, 'Josh K. Sotto Sr', 'r11@gmail.com', 'Josh', 'Sotto', 'storage/photo/user4.jpg', '9170', '2025-07-01 00:57:14', '$2y$10$8uYFGdAcQ0kXdb9WFwaYzeN2..wdPToms8B5o1vPpyWm25YDFa0Ae', 2, 1, NULL, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-01 00:56:59', '2025-07-01 00:57:26', NULL),
-(52248, 'Lebronny I. James Jr', 'lbj@gmail.com', 'Lebronny', 'James', 'storage/photo/user5.jpg', '9171', '2025-07-01 01:46:25', '$2y$10$KBEL8PQA3YD7PXOIYnGfDOtbS5lxJCZkXvvkBsUeztA9notsMVbW6', 2, 1, NULL, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-01 01:43:45', '2025-07-01 01:46:41', NULL),
-(52249, 'Rosei X. Blackpink ', 'rosie@gmail.com', 'Rosei', 'Blackpink', 'storage/photo/pr6.png', NULL, NULL, '$2y$10$UtDLYJu3/VV07KkWggzgF.TDXL5ShBHDnr9MltR.855PnUeKGjw2m', 2, 0, NULL, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-03 05:40:07', '2025-07-03 05:40:07', NULL),
-(52250, 'Rosei T. Blackpink Sr', 'rsbl@gmail.com', 'Rosei', 'Blackpink', 'storage/photo/pr4.png', NULL, NULL, '$2y$10$GANhYBSiA0SZgKS8w2IRcOBVsg4jUONRpXNhqeZyWUljeQPCWtKjm', 2, 0, NULL, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-03 05:46:02', '2025-07-03 05:46:02', NULL),
-(52251, 'Lisa U. Banoban Sr', 'lisaB@gmail.com', 'Lisa', 'Banoban', 'storage/photo/welcomeimg1.png', NULL, NULL, '$2y$10$h0FcCleNhaOOrc6irn1/peyhyEYx7C1c/DasSkkN7uRhz44gJ3h4y', 2, 0, NULL, '3453451232', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-03 05:50:02', '2025-07-03 05:50:02', NULL),
-(52252, 'Jennie B. Kim ', 'jennie.blackpink@gmail.com', 'Jennie', 'Kim', 'storage/photo/user2 (2).jpg', '9172', '2025-07-03 06:03:33', '$2y$10$84ao8dXfKm1Aawqmo8QhEOU0NqOOfi6U6KdJUfNV0egVj05.mdjKu', 2, 1, NULL, '0982827362', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-03 06:03:10', '2025-07-03 06:03:52', NULL),
-(52254, 'senator K. test ', 'senatortest@gmail.com', 'senator', 'test', 'storage/photo/user5 (3).jpg', '9173', '2025-07-04 01:37:09', '$2y$10$rkD7Fcr5bcRUNkkjK6LmYeOVQhp9oLF5h0QYlt/.fNz9Y4H3W.VI.', 2, 1, NULL, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-04 01:35:44', '2025-07-04 01:37:29', NULL),
-(52255, 'Jason X. Mraz Jr', 'json@gmail.com', 'Jason', 'Mraz', 'storage/photo/msgfromsecimg1.png', '9174', '2025-07-04 06:05:42', '$2y$10$2ahgPg.NJh5qvQuv1OrZ7.ZkcvPhZ9xogZKNOa8f19.EfBq373.si', 2, 1, NULL, '0982827362', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-04 06:05:16', '2025-07-04 06:05:53', NULL),
-(52244, 'Pablo X. Escobar Sr', 'pabloes@gmail.com', 'Pablo', 'Escobar', NULL, '9167', '2025-06-26 06:23:50', '$2y$10$biTF/7V1hMMHPUTFY/f.zuTN9pAjLq7zG3rqbrAUkBSJrVLJuQhOe', 2, 1, NULL, '0982827362', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-26 06:19:13', '2025-07-01 00:31:14', NULL),
-(52231, 'Newly X. Created Sr', 'newlycreated@gmail.com', 'Newly', 'Created', 'storage/photo/1751333388.jfif', '9164', '2025-06-16 04:38:35', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, 1, 24, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-16 01:00:15', '2025-07-01 01:29:48', NULL);
+(1, 'Admin Istrator', 'wsiprod.demo@gmail.com', 'PLLO', 'Administrator', 'http://127.0.0.1:8000/storage/avatars/wsi-logo (2).png', NULL, '2024-01-30 06:25:03', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, 1, 1, '09456714321', '022646545', NULL, 'Maharlika St', 'Pasay', NULL, NULL, '1234', 0, 'fK2ZEuXIMOqvDIQJGmtqwS4WjLvWT4Yu3mDurmVrqSZE7oekJAAisvXPGe4M', '2024-01-30 06:25:03', '2025-05-21 07:20:36', NULL),
+(43, 'Raven H. Stark ', '001ravenstark@gmail.com', 'Raven', 'Stark', NULL, '9166', '2025-06-25 06:25:40', '$2y$10$vcz.KPAnLvSFY6Mi56wIveDPmtki8mrLw247XnoUFeiNTjkNVPAme', 2, 1, NULL, '09876543321', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-25 06:24:51', '2025-06-25 06:25:52', NULL),
+(55, 'Jason X. Mraz Jr', 'json@gmail.com', 'Jason', 'Mraz', 'storage/photo/msgfromsecimg1.png', '9174', '2025-07-04 06:05:42', '$2y$10$2ahgPg.NJh5qvQuv1OrZ7.ZkcvPhZ9xogZKNOa8f19.EfBq373.si', 2, 1, NULL, '0982827362', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-04 06:05:16', '2025-07-04 06:05:53', NULL),
+(52259, 'hor O. test Sr', 'hortest@gmail.com', 'hor', 'test', 'storage/photo/user5 (9).jpg', '9175', '2025-07-07 03:21:02', '$2y$10$6izwDoxUrsbcd4K9LlVO.eadjYQI.PmQ94Ihbe0gw0N3DFDDYVLUq', 2, 1, NULL, '0982827362', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-07 03:20:41', '2025-07-07 03:21:09', NULL),
+(52260, 'retry q. test Sr', 'retry@gmail.com', 'retry', 'test', NULL, NULL, NULL, '$2y$10$21UcSU/1plXCYzrV3EgGwegby1cipyCOOo8htOck6FlbqdzbY/0aG', 2, 0, NULL, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-07 05:21:20', '2025-07-07 05:21:20', NULL),
+(52261, 'zxvc d. zxvc ', 'zxv@gmail.com', 'zxvc', 'zxvc', NULL, NULL, NULL, '$2y$10$z0eFCCD3DowkLBxS4jMlwufjkN2ZMtU62ZzicJHmXDosAZDCEZ8Ha', 2, 0, NULL, '0982877223', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-07 05:23:34', '2025-07-07 05:23:34', NULL),
+(31, 'Newly X. Created Sr', 'newlycreated@gmail.com', 'Newly', 'Created', 'storage/photo/1751333388.jfif', '9164', '2025-06-16 04:38:35', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, 1, 24, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-16 01:00:15', '2025-07-01 01:29:48', NULL);
 
 -- --------------------------------------------------------
 
@@ -4154,7 +4214,7 @@ ALTER TABLE `cluster`
 -- AUTO_INCREMENT for table `cms_activity_logs`
 --
 ALTER TABLE `cms_activity_logs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1193;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1219;
 
 --
 -- AUTO_INCREMENT for table `committee_type`
@@ -4214,13 +4274,13 @@ ALTER TABLE `gender`
 -- AUTO_INCREMENT for table `hors`
 --
 ALTER TABLE `hors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
 
 --
 -- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
 
 --
 -- AUTO_INCREMENT for table `menus`
@@ -4334,7 +4394,7 @@ ALTER TABLE `sub_agency`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52256;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52262;
 
 --
 -- AUTO_INCREMENT for table `user_types`
