@@ -120,6 +120,11 @@ class RegistrationController extends Controller
                 return redirect()->back()->withInput()->with('error', 'Please select Agency.');
             } 
         }
+        // End validation //
+
+        if ($request->user_type != 2) { $request['senator_id'] = null; }
+        if ($request->user_type != 3) { $request['hor_id'] = null; }
+        if ($request->user_type != 4) { $request['congsec_type'] = null; }
 
         // Parallel saving users to members table //
         $requests = $request->all();
@@ -309,9 +314,8 @@ class RegistrationController extends Controller
         $memberDetails = Member::where('user_id', Auth::user()->id)->first();
         $memberAgency = Agency::find($memberDetails->agency);
         $genders = Gender::all();
-
         $events  = EventParticipant::where('member_id', $memberDetails->id)->get();
-        // dd($events);
+        
         if (auth()->user()) {
             return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency', 'events', 'genders'));
         } else {

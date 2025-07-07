@@ -165,6 +165,8 @@
                 <div class="col-12 col-md-10">
 
                     <ul class="nav canvas-tabs tabs-bordered canvas-tabs tabs nav-tabs mb-3" id="canvas-tab-border" role="tablist">
+
+                        <!-- main profile trigger tab -->
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="tab-profile-border-tab" data-bs-toggle="pill" data-bs-target="#profile-border" type="button" role="tab" aria-controls="tab-profile-border" aria-selected="true" onclick="tabSwitch(1)">
 
@@ -179,28 +181,32 @@
                             </button>
                         </li>
 
+                        <!-- agency trigger tab -->
                         @if(!empty($memberDetails->agency))
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="tab-agency-border-tab" data-bs-toggle="pill" data-bs-target="#agency-border" type="button" role="tab" aria-controls="tab-agency-border" aria-selected="false"><small><b>AGENCY PROFILE</b></small></button>
                         </li>
                         @endif 
 
+                        <!-- senator trigger tab -->
                         @if(!empty($memberDetails->senator_id))
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="tab-senator-border-tab" data-bs-toggle="pill" data-bs-target="#senator-border" type="button" role="tab" aria-controls="tab-senator-border" aria-selected="false" onclick="tabSwitch(3)">
-                                <small><b>{{ $memberDetails->senator->sen_firstname }} @if($memberDetails->senator->sen_middle_initial) {{ $memberDetails->senator->sen_middle_initial }}. @endif {{ $memberDetails->senator->sen_lastname }} {{ $memberDetails->senator->sen_suffix }}</b></small>
+                                <small><b class="text-uppercase">{{ $memberDetails->senator->sen_firstname }} @if($memberDetails->senator->sen_middle_initial) {{ $memberDetails->senator->sen_middle_initial }}. @endif {{ $memberDetails->senator->sen_lastname }} {{ $memberDetails->senator->sen_suffix }}</b></small>
                             </button>
                         </li>
                         @endif
 
+                        <!-- hor trigger tab -->
                         @if(!empty($memberDetails->hor_id))
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="tab-hor-border-tab" data-bs-toggle="pill" data-bs-target="#hor-border" type="button" role="tab" aria-controls="tab-hor-border" aria-selected="false">
-                                <small><b>{{ $memberDetails->hor->name }}</b></small>
+                            <button class="nav-link" id="tab-hor-border-tab" data-bs-toggle="pill" data-bs-target="#hor-border" type="button" role="tab" aria-controls="tab-hor-border" aria-selected="false" onclick="tabSwitch(4)">
+                                <small><b class="text-uppercase">{{ $memberDetails->hor->hor_firstname }} {{ $memberDetails->hor->hor_middle_initial }} @if($memberDetails->hor->hor_middle_initial) . @endif {{ $memberDetails->hor->hor_lastname }}  {{ $memberDetails->hor->hor_suffix }}</b></small>
                             </button>
                         </li>
                         @endif
 
+                        <!-- events trigger tab -->
                         @if($memberDetails->user_type != 7)
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="tab-events-border-tab" data-bs-toggle="pill" data-bs-target="#events-border" type="button" role="tab" aria-controls="tab-events-border" aria-selected="false"><small><b>EVENTS ATTENDED</b></small></button>
@@ -977,8 +983,560 @@
                         <!-- Hors Tab -->
                         @if(!empty($memberDetails->hor_id))
                         <div class="tab-pane fade" id="hor-border" role="tabpanel" aria-labelledby="tab-hor-border-tab" tabindex="0">
-                            <div class="col-12">
-                                HoR Profile
+                            <div class="row" id="default_hor_panel">
+                                <div class="col-12 col-md-6">
+                                    <table class="table-dotted table-striped">
+                                        <tr>
+                                            <td><span class="profile-label"><small>Nickname:</small></span></td>
+                                            <td><span><small>{{ $memberDetails->hor->hor_nickname }}</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Office Email Addres:</small></span></td>
+                                            <td>
+                                                <span>
+                                                    @if($memberDetails->hor->hor_email_agree)
+                                                        <small class="form-title"><b>{{ $memberDetails->hor->hor_email }}</b></small>
+                                                    @else
+                                                        <small class="form-title">
+                                                            <i disabled>(<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
+                                                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/>
+                                                            </svg>
+                                                            Email hidden)
+                                                            </i>
+                                                        </small>
+                                                    @endif
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Office Landline Number:</small></span></td>
+                                            <td>
+                                                <span>
+                                                    @if($memberDetails->hor->hor_landline_agree)
+                                                        <small>{{ $memberDetails->hor->hor_landline }}</small>
+                                                    @else
+                                                        <small class="form-title">
+                                                            <i disabled>(<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
+                                                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/>
+                                                            </svg>
+                                                            Office landline number hidden)
+                                                            </i>
+                                                        </small>
+                                                    @endif
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Office Cellphone Number:</small></span></td>
+                                            <td>
+                                                <span>
+                                                    @if($memberDetails->hor->hor_office_cellphone_agree)
+                                                        <small>{{ $memberDetails->hor->hor_office_cellphone }}</small>
+                                                    @else
+                                                        <small class="form-title">
+                                                            <i disabled>(<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
+                                                              <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14v3m-3-6V7a3 3 0 1 1 6 0v4m-8 0h10a1 1 0 0 1 1 1v7a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1v-7a1 1 0 0 1 1-1Z"/>
+                                                            </svg>
+                                                            Office cellphone number hidden)
+                                                            </i>
+                                                        </small>
+                                                    @endif
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </table>
+
+                                    <small class="form-title"><b class="text-uppercase">Social Media</b></small>
+                                    <table class="table-dotted table-striped mt-2">
+                                        <tr>
+                                            <td><span class="profile-label"><small>Faceebook: </small></span></td>
+                                            <td><span><small>{{ $memberDetails->hor->hor_facebook }}</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Twitter: </small></span></td>
+                                            <td><span><small>{{ $memberDetails->hor->hor_twitter }}</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Instagram: </small></span></td>
+                                            <td><span><small>{{ $memberDetails->hor->hor_instagram }}</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Youtube: </small></span></td>
+                                            <td><span><small>{{ $memberDetails->hor->hor_youtube }}</small></span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                                <div class="col-12 col-md-6">
+                                    <table class="table-dotted table-striped">
+                                        <tr>
+                                            <td><span class="profile-label"><small>Province | Partylist:</small></span></td>
+                                            <td><span><small>{{ $memberDetails->hor->hor_province }}</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>District:</small></span></td>
+                                            <td><span><small>{{ $memberDetails->hor->hor_district }}</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Region:</small></span></td>
+                                            <td><span><small>{{ $memberDetails->hor->hor_region }}</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Senate Group:</small></span></td>
+                                            <td><span><small>{{ $memberDetails->hor->hor_group }}</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Political Party:</small></span></td>
+                                            <td><span><small>{{ $memberDetails->hor->hor_party }}</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Gender: </small></span></td>
+                                            <td><span><small>@if(!empty($memberDetails->hor->gender->name)){{ $memberDetails->hor->gender->name }}@endif</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            @php
+                                                $hor_bday = explode('::',$memberDetails->hor->hor_birthday);
+                                                $hor_month = $hor_bday[0];
+                                                $hor_day = $hor_bday[1];
+                                            @endphp
+                                            <td><span class="profile-label"><small>BirthDate: </small></span></td>
+                                            <td><span><small>{{ config('months.'.$hor_month) }} &nbsp; {{ $hor_day }}</small></span></td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                            <div class="row" id="edit_hor_panel" style="display: none;">
+                                <form id="hor_update_form" action="#" method="post" enctype="multipart/form-data">
+                                    @csrf
+                                    <div class="row">
+                                        <small class="form-title"><b>DETAILS THAT ARE VISIBLE IN DIRECTORY</b></small>
+                                        <br />
+                                        <div class="col-12 d-flex">
+
+                                            <div class="col-6">
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <input class="form-control" type="text" name="hor_firstname" value="{{ $memberDetails->hor->hor_firstname }}" placeholder="FIRST NAME">
+                                                        </div>
+                                                        <div class="col-2" style="padding-left: 0px;">
+                                                            <input class="form-control" type="text" name="hor_middle_initial" value="{{ $memberDetails->hor->hor_middle_initial }}" placeholder="M.I.">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <input class="form-control" type="text" name="hor_lastname" value="{{ $memberDetails->hor->hor_lastname }}" placeholder="LAST NAME">
+                                                        </div>
+                                                        <div class="col-2" style="padding-left: 0px;">
+                                                            <select class="form-select" name="hor_suffix">
+                                                                <option selected disabled>SUFFIX</option>
+                                                                <option @if($memberDetails->hor->sen_nickname == 'Jr') selected  @endif>Jr</option>
+                                                                <option @if($memberDetails->hor->sen_nickname == 'Sr') selected  @endif>Sr</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_nickname" value="{{ $memberDetails->hor->hor_nickname }}" placeholder="NICKNAME">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_email" value="{{ $memberDetails->hor->hor_email }}" placeholder="EMAIL ADDRESS*" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 d-flex align-items-center justify-content-start gap-2">
+                                                            <input type="checkbox" name="hor_email_agree" @if($memberDetails->hor->hor_email_agree) checked @endif>
+                                                            <small class="my-2">Agree to show in <span class="text-primary ">Senator's Directory</span></small>
+                                                        </div>
+                                                    </div>
+                                                    
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_landline" value="{{ $memberDetails->hor->hor_landline }}" placeholder="OFFICE LANDLINE NUMBER*" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 d-flex align-items-center justify-content-start gap-2">
+                                                            <input type="checkbox" name="hor_landline_agree" @if($memberDetails->hor->hor_landline_agree) checked @endif>
+                                                            <small class="my-2">Agree to show in <span class="text-primary ">Senator's Directory</span></small>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_office_cellphone" value="{{ $memberDetails->hor->hor_office_cellphone }}" placeholder="OFFICE CELLPHONE NUMBER">
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12 d-flex align-items-center justify-content-start gap-2">
+                                                            <input type="checkbox" name="hor_office_cellphone_agree" @if($memberDetails->hor->hor_office_cellphone_agree) checked @endif>
+                                                            <small class="my-2">Agree to show in <span class="text-primary ">Senator's Directory</span></small>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-6 px-4">
+                                                <div class="form-group">
+                                                    <select class="form-select" name="hor_group">
+                                                        <option selected disabled>MAJORITY/MINORITY/INDEPENDENT</option>
+                                                        <option @if($memberDetails->hor->sen_group == 'MAJORITY') selected  @endif>MAJORITY</option>
+                                                        <option @if($memberDetails->hor->sen_group == 'MINORITY') selected  @endif>MINORITY</option>
+                                                        <option @if($memberDetails->hor->sen_group == 'INDEPENDENT') selected  @endif>INDEPENDENT</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <select class="form-select" name="hor_party">
+                                                        <option selected disabled>POLITICAL PARTY</option>
+                                                        <option>PDP</option>
+                                                        <option>LIBERAL</option>
+                                                    </select>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        @php
+                                                            $hor_bday = explode('::',$memberDetails->hor->hor_birthday);
+                                                            $hor_month = $hor_bday[0];
+                                                            $hor_day = $hor_bday[1];
+                                                        @endphp
+                                                        <div class="col-6">
+                                                            <select class="form-select" name="hor_gender">
+                                                                <option selected disabled>GENDER</option>
+                                                                @foreach($genders as $gender)
+                                                                    <option @if($memberDetails->hor->hor_gender == $gender->id) selected @endif value="{{ $gender->id }}" >{{$gender->name}}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                        <div class="col-6" style="padding-left: 0px;">
+                                                            <div class="d-flex">
+                                                                <select class="form-select" aria-label="select month" name="hor_month" style="width: 70%">
+                                                                    <option value="0">BIRTHMONTH</option>
+                                                                    @foreach(Config::get('months') as $key => $month)
+                                                                    <option @if($hor_month == $key) selected @endif value="{{ $key }}">{{ $month }}</option>
+                                                                    @endforeach
+                                                                </select>
+                                                                &nbsp;
+                                                                <select class="form-select" aria-label="select day" name="hor_day" style="width: 30%">
+                                                                    <option value="0">BIRTHDAY</option>
+                                                                    @for($d = 1; $d <= 31; $d++)
+                                                                    <option @if($hor_day == $d) selected @endif value="{{ $d }}">{{ $d }}</option>
+                                                                    @endfor
+                                                                </select>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                        </div>
+
+                                        <br />
+                                        <small class="form-title"><b>SOCIAL MEDIA</b></small>
+                                        <br />
+                                        <div class="col-12 d-flex gap-4">
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_facebook" value="{{ $memberDetails->hor->hor_facebook }}" placeholder="FACEBOOK">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_twitter" value="{{ $memberDetails->hor->hor_twitter }}" placeholder="TWITTER">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_instagram" value="{{ $memberDetails->hor->hor_instagram }}" placeholder="INSTAGRAM">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_youtube" value="{{ $memberDetails->hor->hor_youtube }}" placeholder="YOUTUBE">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <small class="form-title"><b>DETAILS THAT ARE NOT VISIBLE IN DIRECTORY</b></small>
+                                        <div class="col-12 d-flex gap-4">
+                                            <div class="col-6">
+                                                <small class="form-title"><b>RESIDENTIAL ADDRESS</b></small>
+                                                <br />
+                                                <div class="form-group mt-2">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_resident_adress" value="{{ $memberDetails->hor->hor_resident_adress }}" placeholder="ADDRESS">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_resident_email" value="{{ $memberDetails->hor->hor_resident_email }}" placeholder="EMAIL ADDRESS">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_resident_landline" value="{{ $memberDetails->hor->hor_resident_landline }}" placeholder="LANDLINE NUMBER">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_resident_cellphone" value="{{ $memberDetails->hor->hor_resident_cellphone }}" placeholder="CELLPHONE NUMBER">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <small class="form-title"><b>PROVINCIAL ADDRESS</b></small>
+                                                <br />
+                                                <div class="form-group mt-2">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_province_adress" value="{{ $memberDetails->hor->hor_province_adress }}" placeholder="ADDRESS">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_province_email" value="{{ $memberDetails->hor->hor_province_email }}" placeholder="EMAIL ADDRESS">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_province_landline" value="{{ $memberDetails->hor->hor_province_landline }}" placeholder="LANDLINE NUMBER">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_province_cellphone" value="{{ $memberDetails->hor->hor_province_cellphone }}" placeholder="CELLPHONE NUMBER">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <br />
+                                        <small class="form-title"><b>DIRECT ADDRESS</b></small>
+                                        <div class="col-12 d-flex gap-4">
+                                            <div class="col-6">
+                                                <div class="form-group mt-2">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_resident_adress" value="{{ $memberDetails->hor->hor_resident_adress }}" placeholder="ADDRESS">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_resident_email" value="{{ $memberDetails->hor->hor_resident_email }}" placeholder="EMAIL ADDRESS">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_province_landline" value="{{ $memberDetails->hor->hor_province_landline }}" placeholder="LANDLINE NUMBER">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_province_cellphone" value="{{ $memberDetails->hor->hor_province_cellphone }}" placeholder="CELLPHONE NUMBER">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-12 d-flex gap-4">
+                                            <div class="col-6">
+                                                <small class="form-title"><b>SCHOOL | WORK</b></small>
+                                                <br />
+                                                <div class="form-group mt-2">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_highest_education" value="{{ $memberDetails->hor->hor_highest_education }}" placeholder="HIGHEST EDUCATIONAL ATTAINMENT COURSE">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_school" value="{{ $memberDetails->hor->hor_school }}" placeholder="SCHOOL">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_prev_work_gov" value="{{ $memberDetails->hor->hor_prev_work_gov }}" placeholder="PREVIOUS WORK: GOVERNMENT">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_prev_work_private" value="{{ $memberDetails->hor->hor_prev_work_private }}" placeholder="PREVIOUS WORK: PRIVATE">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_religion" value="{{ $memberDetails->hor->hor_religion }}" placeholder="RELIGION">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_civic" value="{{ $memberDetails->hor->hor_civic }}" placeholder="CIVIC ORGANIZATIONAL AFFILIATION">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <small class="form-title"><b>SPOUSE</b></small>
+                                                <br />
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <input class="form-control" type="text" name="hor_spouse_firstname" value="{{ $memberDetails->hor->hor_spouse_firstname }}" placeholder="FIRST NAME">
+                                                        </div>
+                                                        <div class="col-2" style="padding-left: 0px;">
+                                                            <input class="form-control" type="text" name="hor_spouse_middle_initial" value="{{ $memberDetails->hor->hor_spouse_middle_initial }}" placeholder="M.I.">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-10">
+                                                            <input class="form-control" type="text" name="hor_spouse_lastname" value="{{ $memberDetails->hor->hor_spouse_lastname }}" placeholder="LAST NAME">
+                                                        </div>
+                                                        <div class="col-2" style="padding-left: 0px;">
+                                                            <select class="form-select" name="hor_spouse_suffix">
+                                                                <option selected disabled>SUFFIX</option>
+                                                                <option>Jr</option>
+                                                                <option>Sr</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-6">
+                                                            <input class="form-control" type="date" name="hor_spouse_wedding_aniv" value="{{ $memberDetails->hor->hor_spouse_wedding_aniv }}" placeholder="WEDDING ANNIVERSARY">
+                                                        </div>
+                                                        <div class="col-6" style="padding-left: 0px;">
+                                                            <input class="form-control" type="text" name="hor_spouse_birthday" value="{{ $memberDetails->hor->hor_spouse_birthday }}" placeholder="BIRTHDAY">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_spouse_civic" value="{{ $memberDetails->hor->hor_spouse_civic }}" placeholder="CIVIC ORGANIZATIONAL AFFILIATION">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-group">
+                                                   <input class="form-control" type="text" name="hor_spouse_profession" value="{{ $memberDetails->hor->hor_spouse_profession }}" placeholder="PROFESSION">
+                                                </div>
+                                               
+                                            </div>
+                                        </div>
+
+                                        <br />
+                                        <small class="form-title"><b>CHILDREN</b></small>
+                                        <!-- add fucntion to create another children fields -->
+                                        <div class="col-12 d-flex flex-wrap">
+                                            <div class="col-6 mb-4 px-3">
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_child_name" value="{{ $memberDetails->hor->hor_child_name }}" placeholder="NAME">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_child_email" value="{{ $memberDetails->hor->hor_child_email }}" placeholder="EMAIL ADDRESS">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_child_landline" value="{{ $memberDetails->hor->hor_child_landline }}" placeholder="LANDLINE NUMBER">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_child_cellphone" value="{{ $memberDetails->hor->hor_child_cellphone }}" placeholder="CELLPHONE NUMBER">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="form-group">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <input class="form-control" type="text" name="hor_child_profession" value="{{ $memberDetails->hor->hor_child_profession }}" placeholder="PROFESSION">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+                                        <div class="col-12 d-flex">
+                                            <button class="w-100 btn btn-secondary rounded shadow text-center"> ADD CHILDREN </button>
+                                        </div>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                         @endif
@@ -1325,6 +1883,7 @@
                         <small><i><span class="text-danger">Disclaimer for Data Privacy: </span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</i></small>
                     </div>
 
+                    <!-- Action buttons -->
                     <div class="row">
                         <div class="button-group d-flex justify-content-end mt-4">
                             <button class="btn btn-secondary text-white" id="edit_profile_btn"><small class="text-uppercase">edit profile</small></button>
@@ -1437,46 +1996,61 @@
 
         // Profile Edit
         $('#edit_profile_btn').on('click', function() {
+            // for main profile tab
             $('#edit_profile_panel').css("display", "flex");
             $('#default_profile_panel').css("display", "none");
 
+            // for senator tab
+            $('#edit_senator_panel').css("display", "flex");
+            $('#default_senator_panel').css("display", "none");
+
+            // for hor tab
+            $('#edit_hor_panel').css("display", "flex");
+            $('#default_hor_panel').css("display", "none");
+
+            // buttons
             $('#save_cancel_pane').css("display", "flex");
             $('#edit_profile_btn').css("display", "none");
         });
 
-        // Cancel Edit
+        // Cancel Edit hide all active tabs
         $('#cancel_profile_btn').on('click', function() {
+            // for main profile
             $('#edit_profile_panel').css("display", "none");
             $('#default_profile_panel').css("display", "flex");
 
+            // for senator
             $('#edit_senator_panel').css("display", "none");
             $('#default_senator_panel').css("display", "flex");
 
+            // for hor
+            $('#edit_hor_panel').css("display", "none");
+            $('#default_hor_panel').css("display", "flex");
+
+            // for buttons
             $('#save_cancel_pane').css("display", "none");
             $('#edit_profile_btn').css("display", "flex");
         });
 
-        // Senators Edit
-        $('#edit_profile_btn').on('click', function() {
-            $('#edit_senator_panel').css("display", "flex");
-            $('#default_senator_panel').css("display", "none");
-
-            $('#save_cancel_pane').css("display", "flex");
-            $('#edit_profile_btn').css("display", "none");
-        });
-
+        // tab switch determinant
         function tabSwitch(num) {
             $('#current-tab').val(num);
         }
 
+        // submit condition before process
         function submitProfileUpdate() {
 
+            // catch tab hidden value
             let tab = $('#current-tab').val();
 
             if(tab == 1) {
                 $('#profile_update_form').submit();
             } else if(tab == 3) {
                 $('#senator_update_form').submit();
+            } else if(tab == 4) {
+                $('#hor_update_form').submit();
+            } else {
+                // nothing for now.
             }
 
         }
