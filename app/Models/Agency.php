@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\ActivityLog;
 use App\Models\Gender;
+use App\Models\SubAgency;
 
 class Agency extends Model
 {
@@ -48,5 +49,9 @@ class Agency extends Model
 
     public function userType() {
         return $this->belongsTo(userType::class, 'user_type_id');
+    }
+
+    public static function subAgency(){
+        return $this->belongsTo(SubAgency::class, 'agency_id');
     }
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 07, 2025 at 10:15 AM
+-- Generation Time: Jul 08, 2025 at 08:59 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -88,7 +88,7 @@ CREATE TABLE `albums` (
 --
 
 INSERT INTO `albums` (`id`, `name`, `transition_in`, `transition_out`, `transition`, `type`, `banner_type`, `user_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Home Banner', 45, 40, 4, 'main_banner', 'image', 1, '2024-01-30 06:25:03', '2025-05-21 08:48:30', NULL),
+(1, 'Home Banner', 45, 40, 4, 'main_banner', 'image', 1, '2024-01-30 06:25:03', '2025-07-08 03:10:47', NULL),
 (2, 'Sub Banner 1', 1, 2, 6, 'sub_banner', 'image', 1, '2024-01-30 06:25:03', '2024-09-25 08:13:58', NULL),
 (3, 'Sub Banner 2', 49, 56, 2, 'sub_banner', 'image', 1, '2024-02-06 03:32:26', '2024-09-25 08:14:16', NULL),
 (4, 'Test Sub Banner', 9, 26, 7, 'sub_banner', 'image', 1, '2024-02-07 06:51:19', '2025-02-24 13:48:05', NULL),
@@ -242,8 +242,9 @@ INSERT INTO `banners` (`id`, `album_id`, `title`, `description`, `alt`, `image_p
 (38, 111, 'Highest Quality of Technical and Engineering Services', 'MODAIR MANILA CO. LTD., INC. is a Securities and Exchange Commission (SEC) registered corporation established in the Philippines on June 22, 1992. It is a subsidiary of TONETS CORPORATION of Japan that offers the highest quality of technical, design, and general construction services.', 'modair', 'http://127.0.0.1:8000/storage/banners//bg-modair-beta.jpg', 'Learn More', 'http://127.0.0.1:8000/about-us', 1, 1, '2024-03-05 10:29:16', '2024-03-05 10:29:16', NULL),
 (39, 1, NULL, NULL, NULL, 'storage/banners//banner11.jpg', NULL, NULL, 1, 1, '2025-03-20 00:51:11', '2025-05-21 08:48:30', '2025-05-21 08:48:30'),
 (40, 1, NULL, NULL, NULL, 'storage/banners//banner22.jpg', NULL, NULL, 2, 1, '2025-03-20 00:51:11', '2025-05-21 08:48:30', '2025-05-21 08:48:30'),
-(41, 1, NULL, NULL, NULL, '127.0.0.1:8000/storage/banners//bg-modair-beta (3).jpg', NULL, NULL, 1, 1, '2025-05-21 08:48:30', '2025-05-21 08:48:30', NULL),
-(42, 1, 'Lorem ipsum Dolor Sit Amet Perspiciatis', 'Porem ipsum dolor sit amet, consectetur dipisicing elit, sed do eiusmod tempoi cidi ut labore et dolore magna aliqua.', NULL, 'https://cms4.webfocusprod.wsiph2.com/pllo-ells/public/storage/banners//banner 3.jpg', 'Contact Now', 'https://cms4.webfocusprod.wsiph2.com/pllo-ells/public/', 1, 1, '2025-07-02 08:25:19', NULL, NULL);
+(41, 1, NULL, NULL, NULL, '127.0.0.1:8000/storage/banners//bg-modair-beta (3).jpg', NULL, NULL, 1, 1, '2025-05-21 08:48:30', '2025-07-08 03:10:47', '2025-07-08 03:10:47'),
+(42, 1, 'Welcome To PLLO SYSTEM', 'This is the Presidential Legislative Liaison System', NULL, 'https://cms4.webfocusprod.wsiph2.com/pllo-ells/public/storage/banners//banner 3.jpg', 'Contact Now', 'https://cms4.webfocusprod.wsiph2.com/pllo-ells/public/', 1, 1, '2025-07-02 08:25:19', '2025-07-08 03:10:47', NULL),
+(43, 1, 'Presidential Legislative System', NULL, NULL, 'http://127.0.0.1:8787/storage/banners//image3 (2).jpg', NULL, NULL, 2, 1, '2025-07-08 03:10:47', '2025-07-08 03:10:47', NULL);
 
 -- --------------------------------------------------------
 
@@ -1669,7 +1670,26 @@ INSERT INTO `cms_activity_logs` (`id`, `log_by`, `activity_type`, `dashboard_act
 (1215, '1', 'update', 'updated the user lastname', 'updated the user lastname of hor O. test Sr from Test to test', '2025-07-07 11:21:09', 'users', 'Test', 'test', '52259'),
 (1216, '1', 'update', 'updated the user status', 'updated the user status of hor O. test Sr from 1 to 0', '2025-07-07 11:21:09', 'users', '1', '0', '52259'),
 (1217, NULL, 'insert', 'created a new user', 'created the user retry q. test Sr', '2025-07-07 13:21:20', 'users', '', 'retry q. test Sr', '52260'),
-(1218, NULL, 'insert', 'created a new user', 'created the user zxvc d. zxvc ', '2025-07-07 13:23:34', 'users', '', 'zxvc d. zxvc ', '52261');
+(1218, NULL, 'insert', 'created a new user', 'created the user zxvc d. zxvc ', '2025-07-07 13:23:34', 'users', '', 'zxvc d. zxvc ', '52261'),
+(1219, NULL, 'insert', 'created a new user', 'created the user pllouser1 T. gov ', '2025-07-08 08:48:29', 'users', '', 'pllouser1 T. gov ', '52262'),
+(1220, NULL, 'update', 'updated the user firstname', 'updated the user firstname of pllouser1 T. gov  from Pllouser1 to pllouser1', '2025-07-08 08:50:30', 'users', 'Pllouser1', 'pllouser1', '52262'),
+(1221, NULL, 'update', 'updated the user lastname', 'updated the user lastname of pllouser1 T. gov  from Gov to gov', '2025-07-08 08:50:30', 'users', 'Gov', 'gov', '52262'),
+(1222, '1', 'update', 'updated the user firstname', 'updated the user firstname of pllouser1 T. gov  from Pllouser1 to pllouser1', '2025-07-08 08:50:38', 'users', 'Pllouser1', 'pllouser1', '52262'),
+(1223, '1', 'update', 'updated the user lastname', 'updated the user lastname of pllouser1 T. gov  from Gov to gov', '2025-07-08 08:50:38', 'users', 'Gov', 'gov', '52262'),
+(1224, '1', 'update', 'updated the user status', 'updated the user status of pllouser1 T. gov  from 1 to 0', '2025-07-08 08:50:38', 'users', '1', '0', '52262');
+INSERT INTO `cms_activity_logs` (`id`, `log_by`, `activity_type`, `dashboard_activity`, `activity_desc`, `activity_date`, `db_table`, `old_value`, `new_value`, `reference`) VALUES
+(1225, '1', 'update', 'updated the menu menu order', 'updated the menu menu order of PLLO MENU from [{\"label\":\"Home\",\"type\":\"page\",\"page_id\":1,\"id\":31},{\"target\":\"\",\"type\":\"external\",\"label\":\"Events\",\"uri\":\"events\",\"page_id\":50,\"id\":50,\"children\":[{\"target\":\"\",\"type\":\"external\",\"label\":\"Create Event\",\"uri\":\"events/create\",\"page_id\":51,\"id\":51}]},{\"label\":\"Reference Materials\",\"uri\":\"reference-materials\",\"target\":\"\",\"type\":\"external\"},{\"target\":\"\",\"uri\":\"downloads\",\"label\":\"Downloads\",\"type\":\"external\"},{\"target\":\"\",\"uri\":\"directory\",\"label\":\"Directory\",\"type\":\"external\"},{\"label\":\"Policy Reforms\",\"type\":\"page\",\"page_id\":4,\"id\":52},{\"label\":\"FAQ\",\"type\":\"page\",\"page_id\":20,\"id\":48},{\"label\":\"Contact Us\",\"type\":\"page\",\"page_id\":3,\"id\":35}] to [{\"label\":\"Home\",\"type\":\"page\",\"page_id\":1,\"id\":31},{\"target\":\"\",\"type\":\"external\",\"label\":\"Events\",\"uri\":\"events\",\"page_id\":50,\"id\":50,\"children\":[{\"target\":\"\",\"type\":\"external\",\"label\":\"Create Event\",\"uri\":\"events/create\",\"page_id\":51,\"id\":51}]},{\"label\":\"Policy Reforms\",\"type\":\"page\",\"page_id\":4},{\"label\":\"FAQ\",\"type\":\"page\",\"page_id\":20,\"id\":48},{\"label\":\"Contact Us\",\"type\":\"page\",\"page_id\":3,\"id\":35}]', '2025-07-08 09:58:25', 'menus', '[{\"label\":\"Home\",\"type\":\"page\",\"page_id\":1,\"id\":31},{\"target\":\"\",\"type\":\"external\",\"label\":\"Events\",\"uri\":\"events\",\"page_id\":50,\"id\":50,\"children\":[{\"target\":\"\",\"type\":\"external\",\"label\":\"Create Event\",\"uri\":\"events/create\",\"page_id\":51,\"id\":51}]},{\"label\":\"Reference Materials\",\"uri\":\"reference-materials\",\"target\":\"\",\"type\":\"external\"},{\"target\":\"\",\"uri\":\"downloads\",\"label\":\"Downloads\",\"type\":\"external\"},{\"target\":\"\",\"uri\":\"directory\",\"label\":\"Directory\",\"type\":\"external\"},{\"label\":\"Policy Reforms\",\"type\":\"page\",\"page_id\":4,\"id\":52},{\"label\":\"FAQ\",\"type\":\"page\",\"page_id\":20,\"id\":48},{\"label\":\"Contact Us\",\"type\":\"page\",\"page_id\":3,\"id\":35}]', '[{\"label\":\"Home\",\"type\":\"page\",\"page_id\":1,\"id\":31},{\"target\":\"\",\"type\":\"external\",\"label\":\"Events\",\"uri\":\"events\",\"page_id\":50,\"id\":50,\"children\":[{\"target\":\"\",\"type\":\"external\",\"label\":\"Create Event\",\"uri\":\"events/create\",\"page_id\":51,\"id\":51}]},{\"label\":\"Policy Reforms\",\"type\":\"page\",\"page_id\":4},{\"label\":\"FAQ\",\"type\":\"page\",\"page_id\":20,\"id\":48},{\"label\":\"Contact Us\",\"type\":\"page\",\"page_id\":3,\"id\":35}]', '7'),
+(1226, NULL, 'insert', 'created a new user', 'created the user Jake U. Gordon Jr', '2025-07-08 10:14:04', 'users', '', 'Jake U. Gordon Jr', '52263'),
+(1227, '1', 'update', 'updated the user status', 'updated the user status of Jake U. Gordon Jr from 1 to 0', '2025-07-08 10:15:10', 'users', '1', '0', '52263'),
+(1228, NULL, 'insert', 'created a new user', 'created the user sen1 X. test Jr', '2025-07-08 10:35:04', 'users', '', 'sen1 X. test Jr', '52264'),
+(1229, NULL, 'update', 'updated the user firstname', 'updated the user firstname of sen1 X. test Jr from Sen1 to sen1', '2025-07-08 10:35:19', 'users', 'Sen1', 'sen1', '52264'),
+(1230, NULL, 'update', 'updated the user lastname', 'updated the user lastname of sen1 X. test Jr from Test to test', '2025-07-08 10:35:19', 'users', 'Test', 'test', '52264'),
+(1231, '1', 'update', 'updated the user firstname', 'updated the user firstname of sen1 X. test Jr from Sen1 to sen1', '2025-07-08 10:35:39', 'users', 'Sen1', 'sen1', '52264'),
+(1232, '1', 'update', 'updated the user lastname', 'updated the user lastname of sen1 X. test Jr from Test to test', '2025-07-08 10:35:39', 'users', 'Test', 'test', '52264'),
+(1233, '1', 'update', 'updated the user status', 'updated the user status of sen1 X. test Jr from 1 to 0', '2025-07-08 10:35:39', 'users', '1', '0', '52264'),
+(1234, '1', 'update', 'updated the banner title', 'updated the banner title of  from Welcome To PLLO SYSTEM to Lorem ipsum Dolor Sit Amet Perspiciatis', '2025-07-08 11:10:47', 'banners', 'Welcome To PLLO SYSTEM', 'Lorem ipsum Dolor Sit Amet Perspiciatis', '42'),
+(1235, '1', 'update', 'updated the banner description', 'updated the banner description of  from This is the Presidential Legislative Liaison System to Porem ipsum dolor sit amet, consectetur dipisicing elit, sed do eiusmod tempoi cidi ut labore et dolore magna aliqua.', '2025-07-08 11:10:47', 'banners', 'This is the Presidential Legislative Liaison System', 'Porem ipsum dolor sit amet, consectetur dipisicing elit, sed do eiusmod tempoi cidi ut labore et dolore magna aliqua.', '42'),
+(1236, '1', 'delete', 'deleted a banner', 'deleted the banner ', '2025-07-08 11:10:47', 'banners', '', '', '41');
 
 -- --------------------------------------------------------
 
@@ -1775,8 +1795,10 @@ CREATE TABLE `events` (
 --
 
 INSERT INTO `events` (`id`, `title`, `description`, `event_cluster_id`, `date`, `start_time`, `end_time`, `location`, `attachments`, `other_links`, `event_img`, `created_by`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'WSI Fun Run 2025', 'A fun runmade to wsi personnels for health improvement and physique.', 3, '2025-06-26', '08:00', '12:00', 'CDO, Misamis Oriental', '[\"storage\\/events\\/1\\/attachments\\/pllo-bp.png\"]', NULL, 'storage/events/1/cover/coms.jpg', 1, '2025-06-26 05:21:49', '2025-06-26 05:21:49', NULL),
-(2, 'High School Reunion 2025', 'A gathering for high school students.', 5, '2025-06-26', '08:00', '12:00', 'Manila, Philippines', '[\"storage\\/events\\/2\\/attachments\\/pllo-bp.png\"]', NULL, 'storage/events/2/cover/hero_bg.jpg', 1, '2025-06-26 05:26:57', '2025-06-26 05:26:57', NULL);
+(1, 'WSI Fun Run 2025', 'A fun runmade to wsi personnels for health improvement and physique.', 3, '2025-07-10', '08:00', '12:00', 'CDO, Misamis Oriental', '[\"storage\\/events\\/1\\/attachments\\/pllo-bp.png\"]', NULL, 'storage/events/1/cover/funrun2024.jpg', 1, '2025-06-26 05:21:49', '2025-07-08 02:32:52', NULL),
+(2, 'High School Reunion 2025', 'A gathering for high school students.', 5, '2025-06-26', '08:00', '12:00', 'Manila, Philippines', '[\"storage\\/events\\/2\\/attachments\\/pllo-bp.png\"]', NULL, 'storage/events/2/cover/hero_bg.jpg', 1, '2025-06-26 05:26:57', '2025-06-26 05:26:57', NULL),
+(3, 'Republic Act 1077 Anti Agricultural Demolition', 'Agri Tayo Dito', 5, '2025-07-16', '08:00', '12:00', 'LUXENT HOTEL, TIMOG AVENUE, QUEZON CITY', '[\"storage\\/events\\/3\\/attachments\\/Audit Trail.csv\",\"storage\\/events\\/3\\/attachments\\/Fast Moving Items (1).xlsx\",\"storage\\/events\\/3\\/attachments\\/Fast Moving Items.csv\"]', '[\"google.com\",\"facebook.com\"]', 'storage/events/3/cover/download (15).jpg', 1, '2025-07-08 02:38:58', '2025-07-08 02:49:39', NULL),
+(4, 'Republican Records Syndicate Production', 'Hora ashimoto wo mite goran, kore ga anata no ayumu michi hora mai wo mite goran  are ga anata no mirai', 3, '2025-07-24', '08:00', '12:00', 'Tondo, Manila', NULL, NULL, 'storage/events/4/cover/channels4_profile.jpg', 1, '2025-07-08 02:41:29', '2025-07-08 02:43:39', NULL);
 
 -- --------------------------------------------------------
 
@@ -1802,12 +1824,22 @@ CREATE TABLE `event_invites` (
 --
 
 INSERT INTO `event_invites` (`id`, `event_id`, `type`, `invitation_file`, `invited`, `invited_by`, `participant_limit`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 1, 'cluster', 'storage/events/1/invitation/a3.jpg', 2, 1, 0, '2025-06-26 05:21:49', '2025-06-26 05:21:49', NULL),
-(2, 1, 'agency', 'storage/events/1/invitation/a3.jpg', 2, 1, 0, '2025-06-26 05:21:49', '2025-06-26 05:21:49', NULL),
-(3, 1, 'member', 'storage/events/1/invitation/a3.jpg', 24, 1, 0, '2025-06-26 05:21:49', '2025-06-26 05:21:49', NULL),
+(1, 1, 'cluster', 'storage/events/1/invitation/1751334143_Fast Moving Items.csv', 2, 1, 0, '2025-06-26 05:21:49', '2025-07-08 02:32:52', NULL),
+(2, 1, 'agency', 'storage/events/1/invitation/a3.jpg', 2, 1, 0, '2025-06-26 05:21:49', '2025-07-08 02:32:52', '2025-07-08 02:32:52'),
+(3, 1, 'member', 'storage/events/1/invitation/1751334143_Fast Moving Items.csv', 24, 1, 0, '2025-06-26 05:21:49', '2025-07-08 02:32:52', NULL),
 (4, 2, 'cluster', 'storage/events/2/invitation/app.png', 3, 1, 0, '2025-06-26 05:26:57', '2025-06-26 05:26:57', NULL),
 (5, 2, 'agency', 'storage/events/2/invitation/app.png', 2, 1, 0, '2025-06-26 05:26:57', '2025-06-26 05:26:57', NULL),
-(6, 2, 'member', 'storage/events/2/invitation/app.png', 24, 1, 0, '2025-06-26 05:26:57', '2025-06-26 05:26:57', NULL);
+(6, 2, 'member', 'storage/events/2/invitation/app.png', 24, 1, 0, '2025-06-26 05:26:57', '2025-06-26 05:26:57', NULL),
+(7, 1, 'agency', 'storage/events/1/invitation/1751334143_Fast Moving Items.csv', 3, 1, 0, '2025-07-08 02:32:52', '2025-07-08 02:32:52', NULL),
+(8, 3, 'cluster', 'storage/events/3/invitation/download (15).jpg', 3, 1, 0, '2025-07-08 02:38:58', '2025-07-08 02:49:39', NULL),
+(9, 3, 'cluster', 'storage/events/3/invitation/download (15).jpg', 4, 1, 0, '2025-07-08 02:38:58', '2025-07-08 02:49:39', NULL),
+(10, 3, 'agency', 'storage/events/3/invitation/download (15).jpg', 5, 1, 7, '2025-07-08 02:38:58', '2025-07-08 02:49:39', NULL),
+(11, 3, 'agency', 'storage/events/3/invitation/download (15).jpg', 3, 1, 7, '2025-07-08 02:38:58', '2025-07-08 02:49:39', NULL),
+(12, 4, 'cluster', 'storage/events/4/invitation/no-banner.jpg', 1, 1, 0, '2025-07-08 02:41:29', '2025-07-08 05:48:43', NULL),
+(13, 4, 'cluster', 'storage/events/4/invitation/no-banner.jpg', 3, 1, 0, '2025-07-08 02:41:29', '2025-07-08 05:48:43', NULL),
+(14, 4, 'cluster', 'storage/events/4/invitation/no-banner.jpg', 4, 1, 0, '2025-07-08 02:41:29', '2025-07-08 05:48:43', NULL),
+(15, 4, 'cluster', 'storage/events/4/invitation/no-banner.jpg', 5, 1, 0, '2025-07-08 02:41:29', '2025-07-08 05:48:43', NULL),
+(16, 4, 'member', 'storage/events/4/invitation/no-banner.jpg', 54, 1, 0, '2025-07-08 05:48:43', '2025-07-08 05:48:43', NULL);
 
 -- --------------------------------------------------------
 
@@ -1868,6 +1900,32 @@ CREATE TABLE `file_download` (
   `congress` varchar(250) DEFAULT NULL,
   `source_priority_level` varchar(250) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `file_download`
+--
+
+INSERT INTO `file_download` (`id`, `version_no`, `title`, `file_url`, `status`, `unique_hash`, `created_at`, `updated_at`, `deleted_at`, `ra_jr`, `approved_on`, `congress`, `source_priority_level`) VALUES
+(1, NULL, 'An Act Strengthening the Anti-Hospital Deposit Law to Penalize Refusal of Treatment During Emergencies. This measure aims to ensure that all patients, regardless of financial capability, receive timely medical attention during emergencies. It imposes stricter penalties on hospitals and clinics that deny urgent care based on inability to pay. The law reaffirms healthcare as a fundamental human right.', '1751334143_Fast Moving Items.csv', '1', '2yu5LxQvhdB10Npppr05cIgTjlCIzcPe', '2025-07-08 02:58:07', '2025-07-08 02:58:07', NULL, '11500', '2024-02-10', '12th', 'Directive'),
+(2, NULL, 'A Measure Promoting Digital Literacy Among Senior Citizens Across Rural Communities. The initiative seeks to bridge the digital divide by providing free training programs on basic computer skills and internet usage. Special focus will be given to mobile banking, online communication, and accessing government services. The goal is to empower seniors to fully participate in an increasingly digital society.', '1751334143_Fast Moving Items.csv', '1', '9Th2U2Rk8Mz9UREYISBjj9nSh8lUivWR', '2025-07-08 02:58:07', '2025-07-08 02:58:07', NULL, '11501', '2025-04-11', '10th', 'Constitution'),
+(3, NULL, 'An Act Mandating Free Annual Physical Exams for Public School Teachers. This law guarantees government-funded medical check-ups to monitor and maintain the health of educators. It recognizes the physical and mental demands placed on teachers and aims to provide early detection of common illnesses. Healthier teachers result in better educational outcomes for students.', '1751334143_Fast Moving Items.csv', '1', '7SRKfMTRoVcVlJFu3JiIQU7h72D8jnIE', '2025-07-08 02:58:07', '2025-07-08 02:58:07', NULL, '11502', '2025-02-19', '18th', 'Directive'),
+(4, NULL, 'A Directive Establishing a National Food Waste Reduction Program. This directive encourages households, restaurants, and food businesses to adopt sustainable practices to minimize waste. It includes incentives for donations of surplus food and penalties for excessive discarding of edible goods. The program aligns with global environmental goals and addresses local food insecurity.', '1751334143_Fast Moving Items.csv', '1', 'OF89cDzxKMzabd52FiS209tTxEaGGqSF', '2025-07-08 02:58:07', '2025-07-08 02:58:07', NULL, '11503', '2023-07-24', '15th', 'Directive'),
+(5, NULL, 'A Law Encouraging the Use of Renewable Energy in All Government Buildings. The legislation mandates the installation of solar panels, wind turbines, or other clean energy systems in public offices and facilities. It also provides funding for retrofitting older structures to improve energy efficiency. By leading by example, the government aims to reduce carbon emissions nationwide.', '1751334143_Fast Moving Items.csv', '1', 'o0zaFIbPV24rAKnbeH2kicwC1C2onUof', '2025-07-08 02:58:07', '2025-07-08 02:58:07', NULL, '11504', '2025-05-05', '11th', 'Directive'),
+(6, NULL, 'An Act Enhancing Cybersecurity Measures in Financial Institutions. This act compels banks and fintech firms to strengthen their data protection frameworks through modern encryption and regular security audits. It also establishes a central cybersecurity command for rapid incident response. The law is designed to safeguard public trust and prevent financial data breaches.', '1751334143_Fast Moving Items.csv', '1', '9BWGsTBrTZjA0yIC1W57TdyRJdClA9KY', '2025-07-08 02:58:07', '2025-07-08 02:58:07', NULL, '11505', '2024-07-30', '12th', 'Sona Measure'),
+(7, NULL, 'A Measure Creating the National Center for Disease Control and Prevention. The center will serve as the primary agency for disease surveillance, outbreak response, and health crisis coordination. It will be equipped with modern labs and trained personnel to monitor public health threats. This measure ensures the country is better prepared for pandemics and health emergencies.', '1751334143_Fast Moving Items.csv', '1', 'nqlSFpYUR6YSS4h9TNr5b0WTNWlnP2Om', '2025-07-08 02:58:07', '2025-07-08 02:58:07', NULL, '11506', '2024-05-23', '17th', 'Directive'),
+(8, NULL, 'A Directive Implementing Mandatory Disaster Preparedness Drills in All Schools. The policy requires quarterly earthquake, fire, and evacuation drills for both students and staff. It aims to instill a culture of readiness and reduce panic during actual emergencies. The directive also mandates the updating of school safety protocols and evacuation maps.', '1751334143_Fast Moving Items.csv', '1', 'YP29hzJiFaEwlLzEOe22e4zdDLQnXK2y', '2025-07-08 02:58:07', '2025-07-08 02:58:07', NULL, '11507', '2024-02-15', '10th', 'Constitution'),
+(9, NULL, 'An Act Expanding the Scholarship Coverage for Indigenous and Marginalized Students. This legislation provides full tuition and stipend support for qualified learners in both secondary and tertiary levels. It recognizes the systemic barriers faced by underrepresented communities in accessing education. The act aims to promote equality and inclusive development through learning.', '1751334143_Fast Moving Items.csv', '1', 'muSifbYSQRez0vxzdhrG0x2CHaDe8uNH', '2025-07-08 02:58:07', '2025-07-08 02:58:07', NULL, '11508', '2024-10-23', '14th', 'Constitution'),
+(10, NULL, 'A Law Requiring Transparency in Public Infrastructure Projects Through Real-Time Monitoring Portals. This measure mandates the creation of online platforms where citizens can view updates on government-funded construction. It includes geotagged photos, project timelines, and budget breakdowns. Transparency is expected to reduce corruption and improve project efficiency.', '1751334143_Fast Moving Items.csv', '1', 'vJooC5FbSV7XCATl8CVrOL53x38XsSM4', '2025-07-08 02:58:07', '2025-07-08 02:58:07', NULL, '11509', '2024-03-23', '14th', 'Sona Measure'),
+(11, NULL, 'An Act Strengthening the Anti-Hospital Deposit Law to Penalize Refusal of Treatment During Emergencies. This measure aims to ensure that all patients, regardless of financial capability, receive timely medical attention during emergencies. It imposes stricter penalties on hospitals and clinics that deny urgent care based on inability to pay. The law reaffirms healthcare as a fundamental human right.', '1751334143_Fast Moving Items.csv', '1', 'C0AwURtxlScoGZjZQiUS84etRvvrwBOp', '2025-07-08 02:58:07', '2025-07-08 02:58:07', NULL, '11510', '2024-12-22', '18th', 'Directive'),
+(12, NULL, 'A Measure Promoting Digital Literacy Among Senior Citizens Across Rural Communities. The initiative seeks to bridge the digital divide by providing free training programs on basic computer skills and internet usage. Special focus will be given to mobile banking, online communication, and accessing government services. The goal is to empower seniors to fully participate in an increasingly digital society.', '1751334143_Fast Moving Items.csv', '1', '8NNlFoHvBCq9G4Yd8rPeRLDB167CMlUb', '2025-07-08 02:58:07', '2025-07-08 02:58:07', NULL, '11511', '2023-11-22', '8th', 'Sona Measure'),
+(13, NULL, 'An Act Mandating Free Annual Physical Exams for Public School Teachers. This law guarantees government-funded medical check-ups to monitor and maintain the health of educators. It recognizes the physical and mental demands placed on teachers and aims to provide early detection of common illnesses. Healthier teachers result in better educational outcomes for students.', '1751334143_Fast Moving Items.csv', '1', 'A5cQxLbPEI2LNODM3IMcpHGw0aXakzyf', '2025-07-08 02:58:07', '2025-07-08 02:58:07', NULL, '11512', '2023-10-28', '11th', 'Directive'),
+(14, NULL, 'A Directive Establishing a National Food Waste Reduction Program. This directive encourages households, restaurants, and food businesses to adopt sustainable practices to minimize waste. It includes incentives for donations of surplus food and penalties for excessive discarding of edible goods. The program aligns with global environmental goals and addresses local food insecurity.', '1751334143_Fast Moving Items.csv', '1', 'x1rv21NRjzdpFYxtYFbbSutYM2GTXIYe', '2025-07-08 02:58:07', '2025-07-08 02:58:07', NULL, '11513', '2024-09-03', '18th', 'Directive'),
+(15, NULL, 'A Law Encouraging the Use of Renewable Energy in All Government Buildings. The legislation mandates the installation of solar panels, wind turbines, or other clean energy systems in public offices and facilities. It also provides funding for retrofitting older structures to improve energy efficiency. By leading by example, the government aims to reduce carbon emissions nationwide.', '1751334143_Fast Moving Items.csv', '1', 'WWK3Mx8FWsdic8BXjiwczOTnm8ks99g5', '2025-07-08 02:58:07', '2025-07-08 02:58:07', NULL, '11514', '2023-07-13', '18th', 'Constitution'),
+(16, NULL, 'An Act Enhancing Cybersecurity Measures in Financial Institutions. This act compels banks and fintech firms to strengthen their data protection frameworks through modern encryption and regular security audits. It also establishes a central cybersecurity command for rapid incident response. The law is designed to safeguard public trust and prevent financial data breaches.', '1751334143_Fast Moving Items.csv', '1', '52r3E3SZ86j25dSopS7Rbl1bhvdPi43l', '2025-07-08 02:58:07', '2025-07-08 02:58:07', NULL, '11515', '2025-01-25', '14th', 'Constitution'),
+(17, NULL, 'A Measure Creating the National Center for Disease Control and Prevention. The center will serve as the primary agency for disease surveillance, outbreak response, and health crisis coordination. It will be equipped with modern labs and trained personnel to monitor public health threats. This measure ensures the country is better prepared for pandemics and health emergencies.', '1751334143_Fast Moving Items.csv', '1', 'xu1NDrJADKANan1dA8F310ElbqoNSBk2', '2025-07-08 02:58:07', '2025-07-08 02:58:07', NULL, '11516', '2023-08-20', '10th', 'Constitution'),
+(18, NULL, 'A Directive Implementing Mandatory Disaster Preparedness Drills in All Schools. The policy requires quarterly earthquake, fire, and evacuation drills for both students and staff. It aims to instill a culture of readiness and reduce panic during actual emergencies. The directive also mandates the updating of school safety protocols and evacuation maps.', '1751334143_Fast Moving Items.csv', '1', 'cLLLwykhIlxMDa50yntGTXwRm7QpkTyp', '2025-07-08 02:58:07', '2025-07-08 02:58:07', NULL, '11517', '2025-06-29', '12th', 'Sona Measure'),
+(19, NULL, 'An Act Expanding the Scholarship Coverage for Indigenous and Marginalized Students. This legislation provides full tuition and stipend support for qualified learners in both secondary and tertiary levels. It recognizes the systemic barriers faced by underrepresented communities in accessing education. The act aims to promote equality and inclusive development through learning.', '1751334143_Fast Moving Items.csv', '1', '3XWsueZJUd5ee6fRqzjEmDf6c6Pgrcjk', '2025-07-08 02:58:07', '2025-07-08 02:58:07', NULL, '11518', '2023-11-05', '8th', 'Directive'),
+(20, NULL, 'A Law Requiring Transparency in Public Infrastructure Projects Through Real-Time Monitoring Portals. This measure mandates the creation of online platforms where citizens can view updates on government-funded construction. It includes geotagged photos, project timelines, and budget breakdowns. Transparency is expected to reduce corruption and improve project efficiency.', '1751334143_Fast Moving Items.csv', '1', 'Vvyz4726pNkXbdSybN3bCt7iKRr6M4oQ', '2025-07-08 02:58:07', '2025-07-08 02:58:07', NULL, '11519', '2024-10-20', '16th', 'Sona Measure');
 
 -- --------------------------------------------------------
 
@@ -1981,6 +2039,7 @@ CREATE TABLE `members` (
   `lastname` varchar(255) DEFAULT NULL,
   `middle_initial` varchar(255) DEFAULT NULL,
   `suffix` varchar(255) DEFAULT NULL,
+  `nickname` varchar(255) DEFAULT NULL,
   `email` varchar(255) DEFAULT NULL,
   `alt_email` varchar(255) DEFAULT NULL,
   `password` varchar(255) DEFAULT NULL,
@@ -2011,13 +2070,15 @@ CREATE TABLE `members` (
 -- Dumping data for table `members`
 --
 
-INSERT INTO `members` (`id`, `user_id`, `firstname`, `lastname`, `middle_initial`, `suffix`, `email`, `alt_email`, `password`, `contact_number`, `type_number`, `other_number`, `gender`, `birthdate`, `user_type`, `agency`, `sub_agency`, `designation`, `cluster`, `senator_id`, `hor_id`, `congsec_type`, `committee_type`, `chairperson`, `logo`, `photo`, `is_verified`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(24, 31, 'Newly', 'Created', 'X', 'Sr', 'newlycreated@gmail.com', NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '1231231234', NULL, '3', 1, '1999-06-26', 1, 7, NULL, NULL, '1::2', NULL, NULL, NULL, NULL, NULL, 'storage/logo/1751333371.png', 'storage/photo/1751333388.jfif', 1, '2025-06-16 01:00:15', '2025-07-01 01:29:48', NULL),
-(34, 43, 'Raven', 'Stark', 'H', NULL, '001ravenstark@gmail.com', '002ravenstark@gmail.com', '$2y$10$vcz.KPAnLvSFY6Mi56wIveDPmtki8mrLw247XnoUFeiNTjkNVPAme', '09876543321', NULL, '0988765167', 1, 'October 12', 1, 2, NULL, 2, '2::4', NULL, NULL, NULL, NULL, NULL, 'storage/logo/lls-logo (5).png', 'storage/photo/bp (4).png', 1, '2025-06-25 06:24:51', '2025-06-25 06:25:40', NULL),
-(45, 55, 'Jason', 'Mraz', 'X', 'Jr', 'json@gmail.com', 'json2@gmail.com', '$2y$10$2ahgPg.NJh5qvQuv1OrZ7.ZkcvPhZ9xogZKNOa8f19.EfBq373.si', '0982827362', '3', '0909 876 9924', 1, 'November 11', 2, NULL, 1, 11, NULL, 1, NULL, 1, 1, 1, 'storage/logo/hret-logo (2).png', 'storage/photo/msgfromsecimg1 (2).png', 1, '2025-07-04 06:05:16', '2025-07-04 06:05:42', NULL),
-(49, 52259, 'hor', 'test', 'O', 'Sr', 'hortest@gmail.com', 'hortest2@gmail.com', '$2y$10$6izwDoxUrsbcd4K9LlVO.eadjYQI.PmQ94Ihbe0gw0N3DFDDYVLUq', '0982827362', '1', '0978978978', 2, 'April 10', 3, NULL, 1, 14, NULL, NULL, 1, NULL, 1, 1, 'storage/logo/lls-logo (8).png', 'storage/photo/user5 (10).jpg', 1, '2025-07-07 03:20:41', '2025-07-07 03:21:02', NULL),
-(50, 52260, 'retry', 'test', 'q', 'Sr', 'retry@gmail.com', 'retry3@gmail.com', '$2y$10$21UcSU/1plXCYzrV3EgGwegby1cipyCOOo8htOck6FlbqdzbY/0aG', '1231231234', '4', '9789789789', 1, 'November 9', 3, NULL, 1, 14, NULL, NULL, 3, NULL, 1, 1, NULL, NULL, 0, '2025-07-07 05:21:20', '2025-07-07 05:21:20', NULL),
-(51, 52261, 'zxvc', 'zxvc', 'd', NULL, 'zxv@gmail.com', 'zxv3@gmail.com', '$2y$10$z0eFCCD3DowkLBxS4jMlwufjkN2ZMtU62ZzicJHmXDosAZDCEZ8Ha', '0982877223', '3', '09092323221', 1, 'May 11', 1, 5, 1, 7, '3', NULL, NULL, NULL, 1, 1, NULL, NULL, 0, '2025-07-07 05:23:34', '2025-07-07 05:23:34', NULL);
+INSERT INTO `members` (`id`, `user_id`, `firstname`, `lastname`, `middle_initial`, `suffix`, `nickname`, `email`, `alt_email`, `password`, `contact_number`, `type_number`, `other_number`, `gender`, `birthdate`, `user_type`, `agency`, `sub_agency`, `designation`, `cluster`, `senator_id`, `hor_id`, `congsec_type`, `committee_type`, `chairperson`, `logo`, `photo`, `is_verified`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(24, 31, 'Newly', 'Created', 'X', 'Sr', 'noob', 'newlycreated@gmail.com', NULL, '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', '1231231234', '4', '354534543', 1, 'January 11', 1, 7, NULL, 8, '1::2', NULL, NULL, NULL, NULL, NULL, 'storage/logo/1751333371.png', 'storage/photo/1751333388.jfif', 1, '2025-06-16 01:00:15', '2025-07-01 01:29:48', NULL),
+(34, 43, 'Raven', 'Stark', 'H', NULL, 'nigro', '001ravenstark@gmail.com', '002ravenstark@gmail.com', '$2y$10$vcz.KPAnLvSFY6Mi56wIveDPmtki8mrLw247XnoUFeiNTjkNVPAme', '09876543321', '2', '0988765167', 1, 'October 12', 1, 3, NULL, 7, '2::4', NULL, NULL, NULL, NULL, NULL, 'storage/logo/1751956724.jpg', 'storage/photo/bp (4).png', 1, '2025-06-25 06:24:51', '2025-07-08 06:38:44', NULL),
+(45, 55, 'Jason', 'Mraz', 'X', 'Jr', 'jesjes', 'json@gmail.com', 'json2@gmail.com', '$2y$10$2ahgPg.NJh5qvQuv1OrZ7.ZkcvPhZ9xogZKNOa8f19.EfBq373.si', '0982827362', '3', '0909 876 9924', 1, 'November 11', 2, NULL, NULL, 11, NULL, 1, NULL, 1, 1, 1, 'storage/logo/hret-logo (2).png', 'storage/photo/msgfromsecimg1 (2).png', 1, '2025-07-04 06:05:16', '2025-07-04 06:05:42', NULL),
+(49, 52259, 'hor', 'test', 'O', 'Sr', 'yoyo', 'hortest@gmail.com', 'hortest2@gmail.com', '$2y$10$6izwDoxUrsbcd4K9LlVO.eadjYQI.PmQ94Ihbe0gw0N3DFDDYVLUq', '0982827362', '1', '0978978978', 2, 'April 10', 3, NULL, NULL, 14, NULL, NULL, 1, NULL, 1, 1, 'storage/logo/lls-logo (8).png', 'storage/photo/user5 (10).jpg', 1, '2025-07-07 03:20:41', '2025-07-07 03:21:02', NULL),
+(50, 52260, 'retry', 'test', 'q', 'Sr', 'indoy', 'retry@gmail.com', 'retry3@gmail.com', '$2y$10$21UcSU/1plXCYzrV3EgGwegby1cipyCOOo8htOck6FlbqdzbY/0aG', '1231231234', '4', '9789789789', 1, 'November 9', 3, NULL, NULL, 14, NULL, NULL, 3, NULL, 1, 1, NULL, NULL, 0, '2025-07-07 05:21:20', '2025-07-07 05:21:20', NULL),
+(52, 52262, 'pllouser1', 'gov', 'T', NULL, 'soysoy', 'gov1@gmail.com', 'gov1@gmail.com', '$2y$10$WTv4eHu8J/u5P3s2.nZUUOEnrY2OvL2FV.aqfJmDjHwTr.OzV5LrG', '1231231234', '1', '43433', 1, 'August 9', 1, 5, 1, 9, '1::2', NULL, NULL, NULL, 1, 1, 'storage/logo/dict-logo (7).png', 'storage/photo/user2 (5).jpg', 1, '2025-07-08 00:48:29', '2025-07-08 00:50:30', NULL),
+(53, 52263, 'Jake', 'Gordon', 'U', 'Jr', NULL, 'jake@gmail.com', 'jake2@gmail.com', '$2y$10$HJmlMu7MLemVt9elAC6Wd.PFq/BJ4EfmCymI5oLNK.huXEgxbwhk2', '0982827362', '3', '09789789789', 1, 'March 11', 1, 8, 1, 1, '4::5', NULL, NULL, NULL, 1, 1, 'storage/logo/dict-logo (8).png', 'storage/photo/pr1 (2).png', 1, '2025-07-08 02:14:04', '2025-07-08 02:15:01', NULL),
+(54, 52264, 'sen1', 'test', 'X', 'Jr', NULL, 'sen1@gmail.com', 'sen11@gmail.com', '$2y$10$LL42IX0NLxEGNUjJbM4PgOvXE6w/Sq0aAzFjYlLhMuNWxTJ.Hm6oC', '1231231234', '1', '45342534543', 1, 'February 14', 2, NULL, NULL, 10, NULL, 1, NULL, NULL, 1, 1, 'storage/logo/lls-logo (9).png', 'storage/photo/user3 (5).jpg', 1, '2025-07-08 02:35:04', '2025-07-08 02:35:19', NULL);
 
 -- --------------------------------------------------------
 
@@ -2041,7 +2102,7 @@ CREATE TABLE `menus` (
 --
 
 INSERT INTO `menus` (`id`, `name`, `is_active`, `pages_json`, `user_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(7, 'PLLO MENU', 1, '[{\"label\":\"Home\",\"type\":\"page\",\"page_id\":1,\"id\":31},{\"target\":\"\",\"type\":\"external\",\"label\":\"Events\",\"uri\":\"events\",\"page_id\":50,\"id\":50,\"children\":[{\"target\":\"\",\"type\":\"external\",\"label\":\"Create Event\",\"uri\":\"events/create\",\"page_id\":51,\"id\":51}]},{\"label\":\"Policy Reforms\",\"type\":\"page\",\"page_id\":4},{\"label\":\"FAQ\",\"type\":\"page\",\"page_id\":20,\"id\":48},{\"label\":\"Contact Us\",\"type\":\"page\",\"page_id\":3,\"id\":35}]', NULL, '2025-02-14 12:24:27', '2025-07-01 01:59:37', NULL);
+(7, 'PLLO MENU', 1, '[{\"label\":\"Home\",\"type\":\"page\",\"page_id\":1,\"id\":31},{\"target\":\"\",\"type\":\"external\",\"label\":\"Events\",\"uri\":\"events\",\"page_id\":50,\"id\":50,\"children\":[{\"target\":\"\",\"type\":\"external\",\"label\":\"Create Event\",\"uri\":\"events/create\",\"page_id\":51,\"id\":51}]},{\"label\":\"Reference Materials\",\"uri\":\"reference-materials\",\"target\":\"\",\"type\":\"external\"},{\"target\":\"\",\"uri\":\"downloads\",\"label\":\"Downloads\",\"type\":\"external\"},{\"target\":\"\",\"uri\":\"directory\",\"label\":\"Directory\",\"type\":\"external\"},{\"label\":\"Policy Reforms\",\"type\":\"page\",\"page_id\":4,\"id\":52},{\"label\":\"FAQ\",\"type\":\"page\",\"page_id\":20,\"id\":48},{\"label\":\"Contact Us\",\"type\":\"page\",\"page_id\":3,\"id\":35}]', NULL, '2025-02-14 12:24:27', '2025-07-08 01:58:25', NULL);
 
 -- --------------------------------------------------------
 
@@ -2098,11 +2159,14 @@ INSERT INTO `menus_has_pages` (`id`, `menu_id`, `parent_id`, `page_id`, `page_or
 (29, 6, 0, 1, 1, 'Home', NULL, '', 'page', '2024-09-25 09:01:35', '2024-09-25 09:01:35', NULL),
 (30, 6, 0, 2, 2, 'About Us', NULL, '', 'page', '2024-09-25 09:01:35', '2024-09-25 09:01:35', NULL),
 (31, 7, 0, 1, 1, 'Home', NULL, '', 'page', '2025-02-14 12:24:27', '2025-02-14 12:24:27', NULL),
-(35, 7, 0, 3, 5, 'Contact Us', NULL, '', 'page', '2025-02-14 12:25:18', '2025-06-18 01:25:58', NULL),
+(53, 7, 0, 0, 3, 'Reference Materials', 'reference-materials', '', 'external', '2025-07-08 01:58:25', '2025-07-08 01:58:25', NULL),
+(35, 7, 0, 3, 8, 'Contact Us', NULL, '', 'page', '2025-02-14 12:25:18', '2025-07-08 01:58:25', NULL),
+(54, 7, 0, 0, 4, 'Downloads', 'downloads', '', 'external', '2025-07-08 01:58:25', '2025-07-08 01:58:25', NULL),
 (50, 7, 0, 0, 2, 'Events', 'events', '', 'external', '2025-06-18 01:25:07', '2025-06-18 01:25:58', NULL),
 (51, 7, 50, 0, 1, 'Create Event', 'events/create', '', 'external', '2025-06-18 01:25:52', '2025-06-18 01:25:52', NULL),
-(52, 7, 0, 4, 3, 'Policy Reforms', NULL, '', 'page', '2025-07-01 01:59:37', '2025-07-01 01:59:37', NULL),
-(48, 7, 0, 20, 4, 'FAQ', NULL, '', 'page', '2025-05-22 00:42:19', '2025-06-18 01:25:58', NULL);
+(52, 7, 0, 4, 6, 'Policy Reforms', NULL, '', 'page', '2025-07-01 01:59:37', '2025-07-08 01:58:25', NULL),
+(48, 7, 0, 20, 7, 'FAQ', NULL, '', 'page', '2025-05-22 00:42:19', '2025-07-08 01:58:25', NULL),
+(55, 7, 0, 0, 5, 'Directory', 'directory', '', 'external', '2025-07-08 01:58:25', '2025-07-08 01:58:25', NULL);
 
 -- --------------------------------------------------------
 
@@ -3294,6 +3358,15 @@ CREATE TABLE `reference_materials` (
   `deleted_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Dumping data for table `reference_materials`
+--
+
+INSERT INTO `reference_materials` (`id`, `subject`, `significance_level`, `cluster_id`, `agency_id`, `attachments`, `remarks`, `created_by`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 'Unified System of Separation, Retirement and Pension - Military and Uniformed Personnel (MUP)', 'Agency Priority', 5, NULL, '[\"storage\\/reference-materials\\/1\\/attachments\\/1st Sample Forms 3-12-2025 (4).pdf\",\"storage\\/reference-materials\\/1\\/attachments\\/PA PRINT KO GAW PALIHUG LAMAAATS (5).pdf\",\"storage\\/reference-materials\\/1\\/attachments\\/FSI Book Inventory System Memo (2).pdf\"]', 'THIS IS OK', 43, '2025-07-08 02:52:25', '2025-07-08 02:52:25', NULL),
+(2, 'No to Anti-Semitism', 'President Legislative Priorities', 2, NULL, '[\"storage\\/reference-materials\\/2\\/attachments\\/1st Sample Forms 3-12-2025.pdf\"]', 'No Discrimination Act', 43, '2025-07-08 02:53:24', '2025-07-08 03:03:52', NULL),
+(3, 'Bawal ang Wangwang', 'Agency Priority', 4, NULL, '[\"storage\\/reference-materials\\/3\\/attachments\\/Laragon_Hosting_Guide.pdf\",\"storage\\/reference-materials\\/3\\/attachments\\/el website r4 (002).pdf\"]', 'Test Remarks', 43, '2025-07-08 06:44:35', '2025-07-08 06:44:35', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -3576,6 +3649,35 @@ INSERT INTO `role_permission` (`id`, `role_id`, `permission_id`, `user_id`, `isA
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `saved_contacts`
+--
+
+CREATE TABLE `saved_contacts` (
+  `id` int(11) NOT NULL,
+  `user_id` int(11) DEFAULT NULL,
+  `contact_id` int(11) DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `saved_contacts`
+--
+
+INSERT INTO `saved_contacts` (`id`, `user_id`, `contact_id`, `created_at`, `updated_at`, `deleted_at`) VALUES
+(1, 54, 24, '2025-07-02 05:11:18', NULL, NULL),
+(2, 54, 34, '2025-07-09 05:11:18', NULL, NULL),
+(3, 54, 45, '2025-07-17 05:12:36', NULL, NULL),
+(4, 54, 53, '2025-07-10 05:12:36', NULL, NULL),
+(5, 24, 54, '2025-07-02 05:13:40', NULL, NULL),
+(6, 24, 53, '2025-07-23 05:13:40', NULL, NULL),
+(7, 24, 45, '2025-07-09 05:13:40', NULL, NULL),
+(8, 24, 49, '2025-07-02 05:13:40', NULL, NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `senators`
 --
 
@@ -3834,12 +3936,15 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `firstname`, `lastname`, `avatar`, `verification_code`, `email_verified_at`, `password`, `role_id`, `is_active`, `user_id`, `mobile`, `phone`, `birth_date`, `address_street`, `address_city`, `address_municipality`, `address_province`, `address_zip`, `social_login`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Admin Istrator', 'wsiprod.demo@gmail.com', 'PLLO', 'Administrator', 'http://127.0.0.1:8000/storage/avatars/wsi-logo (2).png', NULL, '2024-01-30 06:25:03', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, 1, 1, '09456714321', '022646545', NULL, 'Maharlika St', 'Pasay', NULL, NULL, '1234', 0, 'fK2ZEuXIMOqvDIQJGmtqwS4WjLvWT4Yu3mDurmVrqSZE7oekJAAisvXPGe4M', '2024-01-30 06:25:03', '2025-05-21 07:20:36', NULL),
+(1, 'Admin Istrator', 'wsiprod.demo@gmail.com', 'PLLO', 'Administrator', 'http://127.0.0.1:8000/storage/avatars/wsi-logo (2).png', NULL, '2024-01-30 06:25:03', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, 1, 1, '09456714321', '022646545', NULL, 'Maharlika St', 'Pasay', NULL, NULL, '1234', 0, '7XqyCxdpom8ZsLSB84bISOYzlemr2g2SN1KeqNT4hlSRGJWyuqq1dYqgIz6e', '2024-01-30 06:25:03', '2025-05-21 07:20:36', NULL),
 (43, 'Raven H. Stark ', '001ravenstark@gmail.com', 'Raven', 'Stark', NULL, '9166', '2025-06-25 06:25:40', '$2y$10$vcz.KPAnLvSFY6Mi56wIveDPmtki8mrLw247XnoUFeiNTjkNVPAme', 2, 1, NULL, '09876543321', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-25 06:24:51', '2025-06-25 06:25:52', NULL),
 (55, 'Jason X. Mraz Jr', 'json@gmail.com', 'Jason', 'Mraz', 'storage/photo/msgfromsecimg1.png', '9174', '2025-07-04 06:05:42', '$2y$10$2ahgPg.NJh5qvQuv1OrZ7.ZkcvPhZ9xogZKNOa8f19.EfBq373.si', 2, 1, NULL, '0982827362', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-04 06:05:16', '2025-07-04 06:05:53', NULL),
 (52259, 'hor O. test Sr', 'hortest@gmail.com', 'hor', 'test', 'storage/photo/user5 (9).jpg', '9175', '2025-07-07 03:21:02', '$2y$10$6izwDoxUrsbcd4K9LlVO.eadjYQI.PmQ94Ihbe0gw0N3DFDDYVLUq', 2, 1, NULL, '0982827362', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-07 03:20:41', '2025-07-07 03:21:09', NULL),
 (52260, 'retry q. test Sr', 'retry@gmail.com', 'retry', 'test', NULL, NULL, NULL, '$2y$10$21UcSU/1plXCYzrV3EgGwegby1cipyCOOo8htOck6FlbqdzbY/0aG', 2, 0, NULL, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-07 05:21:20', '2025-07-07 05:21:20', NULL),
 (52261, 'zxvc d. zxvc ', 'zxv@gmail.com', 'zxvc', 'zxvc', NULL, NULL, NULL, '$2y$10$z0eFCCD3DowkLBxS4jMlwufjkN2ZMtU62ZzicJHmXDosAZDCEZ8Ha', 2, 0, NULL, '0982877223', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-07 05:23:34', '2025-07-07 05:23:34', NULL),
+(52262, 'pllouser1 T. gov ', 'gov1@gmail.com', 'pllouser1', 'gov', 'storage/photo/user2 (4).jpg', '9176', '2025-07-08 00:50:30', '$2y$10$WTv4eHu8J/u5P3s2.nZUUOEnrY2OvL2FV.aqfJmDjHwTr.OzV5LrG', 2, 1, NULL, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-08 00:48:29', '2025-07-08 00:50:38', NULL),
+(52263, 'Jake U. Gordon Jr', 'jake@gmail.com', 'Jake', 'Gordon', 'storage/photo/pr1.png', '9177', '2025-07-08 02:15:01', '$2y$10$HJmlMu7MLemVt9elAC6Wd.PFq/BJ4EfmCymI5oLNK.huXEgxbwhk2', 2, 1, NULL, '0982827362', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-08 02:14:04', '2025-07-08 02:15:10', NULL),
+(52264, 'sen1 X. test Jr', 'sen1@gmail.com', 'sen1', 'test', 'storage/photo/user3 (4).jpg', '9178', '2025-07-08 02:35:19', '$2y$10$LL42IX0NLxEGNUjJbM4PgOvXE6w/Sq0aAzFjYlLhMuNWxTJ.Hm6oC', 2, 1, NULL, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-08 02:35:04', '2025-07-08 02:35:39', NULL),
 (31, 'Newly X. Created Sr', 'newlycreated@gmail.com', 'Newly', 'Created', 'storage/photo/1751333388.jfif', '9164', '2025-06-16 04:38:35', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, 1, 24, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-16 01:00:15', '2025-07-01 01:29:48', NULL);
 
 -- --------------------------------------------------------
@@ -4122,6 +4227,12 @@ ALTER TABLE `role_permission`
   ADD PRIMARY KEY (`id`);
 
 --
+-- Indexes for table `saved_contacts`
+--
+ALTER TABLE `saved_contacts`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Indexes for table `senators`
 --
 ALTER TABLE `senators`
@@ -4196,7 +4307,7 @@ ALTER TABLE `article_categories`
 -- AUTO_INCREMENT for table `banners`
 --
 ALTER TABLE `banners`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=43;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=44;
 
 --
 -- AUTO_INCREMENT for table `chairpersons`
@@ -4214,7 +4325,7 @@ ALTER TABLE `cluster`
 -- AUTO_INCREMENT for table `cms_activity_logs`
 --
 ALTER TABLE `cms_activity_logs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1219;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1237;
 
 --
 -- AUTO_INCREMENT for table `committee_type`
@@ -4238,13 +4349,13 @@ ALTER TABLE `email_recipients`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `event_invites`
 --
 ALTER TABLE `event_invites`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT for table `event_participants`
@@ -4262,7 +4373,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `file_download`
 --
 ALTER TABLE `file_download`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT for table `gender`
@@ -4280,7 +4391,7 @@ ALTER TABLE `hors`
 -- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=55;
 
 --
 -- AUTO_INCREMENT for table `menus`
@@ -4292,7 +4403,7 @@ ALTER TABLE `menus`
 -- AUTO_INCREMENT for table `menus_has_pages`
 --
 ALTER TABLE `menus_has_pages`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=53;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 
 --
 -- AUTO_INCREMENT for table `message_notification`
@@ -4346,7 +4457,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT for table `reference_materials`
 --
 ALTER TABLE `reference_materials`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -4359,6 +4470,12 @@ ALTER TABLE `role`
 --
 ALTER TABLE `role_permission`
   MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=229;
+
+--
+-- AUTO_INCREMENT for table `saved_contacts`
+--
+ALTER TABLE `saved_contacts`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `senators`
@@ -4394,7 +4511,7 @@ ALTER TABLE `sub_agency`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52262;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52265;
 
 --
 -- AUTO_INCREMENT for table `user_types`

@@ -21,14 +21,15 @@ use App\Models\Page;
 use App\Models\Gender;
 use App\Models\Agency;
 use App\Models\Senator;
-use App\Models\SubAgency;
-use App\Models\UserType;
-use App\Models\Cluster;
-use App\Models\Designation;
 use App\Models\Member;
+use App\Models\Cluster;
+use App\Models\UserType;
+use App\Models\SubAgency;
+use App\Models\Designation;
+use App\Models\SavedContact;
+use App\Models\Custom\Event;
 use App\Models\MessagingNumber;
 use App\Models\Custom\EventParticipant;
-use App\Models\Custom\Event;
 
 use DB;
 use Auth;
@@ -55,8 +56,12 @@ class MemberProfileController extends Controller
 	    							->where('user_id', '<>', Auth::user()->id)
 	    							->get();
 
+	    $saved_contacts = SavedContact::where('user_id', $memberDetails->id)->get();
+									// ->join('members', 'members.user_id', '=', 'saved_contacts.contact_id')
+									// ->get();
+									// dd($saved_contacts);
 	    if (auth()->user()) {
-	        return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency', 'events', 'genders', 'userTypeMembers'));
+	        return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency', 'events', 'genders', 'userTypeMembers', 'saved_contacts'));
 	    } else {
 	        return back()->with('error', ('Please login to your account.'));
 	    }
@@ -117,6 +122,18 @@ class MemberProfileController extends Controller
 		$senator->save();
 
 		return back()->with('success', 'Senator details updated.');
+	}
+
+	public function profileRemoveCotact(Request $request) {
+
+		$member = Member::where('user_id', Auth()->user()->id )->first();
+		$saved_contact = SavedContact::where('user_id', $member->id)
+									 ->where('contact_id', $request->contact_id)
+									 ->first();
+		$saved_contact->delete();
+
+		return back()->with('success', 'Contact removed.')
+
 	}
 
 }
