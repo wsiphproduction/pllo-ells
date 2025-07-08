@@ -118,4 +118,11 @@ class Member extends Model
         return $this->belongsTo(Gender::class, 'gender');
     }
 
+    public function agency() {
+        return $this->belongsTo(Agency::class, 'agency');
+    }
+
+    public function subAgency() {
+        return $this->belongsTo(SubAgency::class, 'sub_agency');
+    }
 }

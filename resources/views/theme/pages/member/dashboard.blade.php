@@ -1680,216 +1680,66 @@
                                 <br>
                                 </small>
                                 <div class="my-2 d-flex flex-wrap">
-                                    <div class="col-6">
-                                        <div class="saved-container">
-                                            <div class="card border-0 card-saved-contacts cursor-pointer">
-                                                <div class="card-body">
-                                                    <div class="row mb-2">
-                                                        <small><b class="primary-text-color">CONGRESS COMMITTEE SECRETARY</b></small>
-                                                    </div>
-                                                    <div class="col-12 d-flex">
-                                                        <div class="col-3 text-center">
-                                                            <img class="rounded" src="{{ asset('images/user2.jpg') }}" width="120px">
-                                                        </div>
-                                                        <div class="col-9">
-                                                            <ul class="list-unstyled">
-                                                                <li>
-                                                                    <small>
-                                                                        <b class="primary-text-color">Gil Stella</b>
-                                                                    </small>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="icon-user" style="font-size: 14px; color: gray;"></i>
-                                                                    &nbsp; <small class="primary-text-color">Gil Stella</small>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="icon-users" style="font-size: 14px; color: gray;"></i>
-                                                                    &nbsp;
-                                                                    <small style="display: inline-grid;">
-                                                                        Persons with Disabilities
-                                                                        <br>
-                                                                        <p style="font-size: 10px;">Special Committee</p>
-                                                                    </small>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="icon-call" style="font-size: 14px; color: gray;"></i>
-                                                                    &nbsp;<small>8931-5001</small>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="icon-envelope" style="font-size: 14px; color: gray;"></i>
-                                                                    &nbsp; <small class="primary-text-color">manila6thdis@congress.gov.ph</small>
-                                                                </li>
-                                                            </ul>
+                                    @forelse($saved_contacts as $saved_contact)
+                                        <div class="col-6">
+                                            <div class="saved-container">
+                                                <div class="card border-0 card-saved-contacts cursor-pointer">
+                                                    <div class="card-body">
+                                                        <!-- <div class="row mb-2">
+                                                            <small><b class="primary-text-color">CONGRESS COMMITTEE SECRETARY</b></small>
+                                                        </div> -->
+                                                        <div class="col-12 d-flex">
+                                                            <div class="col-3 text-center">
+                                                                <img class="rounded"
+                                                                src="{{ $saved_contact->member->photo ? asset('/' . $saved_contact->member->photo) : asset('images/user.png') }}"
+                                                                width="120px">
+                                                            </div>
+                                                            <div class="col-9">
+                                                                <ul class="list-unstyled">
+                                                                    <li>
+                                                                        <small>
+                                                                            <b class="primary-text-color">{{ $saved_contact->member->userType->name }}</b>
+                                                                        </small>
+                                                                    </li>
+                                                                    <li>
+                                                                        <i class="icon-user" style="font-size: 14px; color: gray;"></i>
+                                                                        &nbsp; <small class="primary-text-color">{{ $saved_contact->member->FullName }}</small>
+                                                                    </li>
+                                                                    <li>
+                                                                        <i class="icon-users" style="font-size: 14px; color: gray;"></i>
+                                                                        &nbsp;
+                                                                        <small style="display: inline-grid;">
+                                                                            {{ $saved_contact->member->FullAgencyName }}
+                                                                            @if($saved_contact->member->subAgency)
+                                                                            <br>
+                                                                            <p style="font-size: 10px;">{{ $saved_contact->member->subAgency->name }}</p>
+                                                                            @endif
+                                                                        </small>
+                                                                    </li>
+                                                                    <li>
+                                                                        <i class="icon-call" style="font-size: 14px; color: gray;"></i>
+                                                                        &nbsp;<small>{{ $saved_contact->member->contact_number }}</small>
+                                                                    </li>
+                                                                    <li>
+                                                                        <i class="icon-envelope" style="font-size: 14px; color: gray;"></i>
+                                                                        &nbsp; <small class="primary-text-color">{{ $saved_contact->member->email }}</small>
+                                                                    </li>
+                                                                </ul>
 
-                                                            <div class="utility-btns align-items-center gap-2">
-                                                                <a href="#" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a>
-                                                                <a href="#" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
-                                                                <a href="#" title="Delete" style="color: #ff4d4d !important;"><i class="icon-trash"></i></a>
+                                                                <div class="utility-btns align-items-center gap-2">
+                                                                    <a href="#" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a>
+                                                                    <a href="#" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
+                                                                    <a class="cursor-pointer trash-contact-btn" data-bs-toggle="modal" data-bs-target="#removeContactModal" data-id="{{ $saved_contact->member->id }}" title="Remove" style="color: #ff4d4d !important;"><i class="icon-trash"></i></a>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="saved-container">
-                                            <div class="card border-0 card-saved-contacts cursor-pointer">
-                                                <div class="card-body">
-                                                    <div class="row mb-2">
-                                                        &nbsp;
-                                                    </div>
-                                                    <div class="col-12 d-flex">
-                                                        <div class="col-3 text-center">
-                                                            <img class="rounded" src="{{ asset('images/user3.jpg') }}" width="120px">
-                                                        </div>
-                                                        <div class="col-9">
-                                                            <ul class="list-unstyled">
-                                                                <li>
-                                                                    <small>
-                                                                        <b class="primary-text-color">Desiree Barramed</b>
-                                                                    </small>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="icon-user" style="font-size: 14px; color: gray;"></i>
-                                                                    &nbsp; <small class="primary-text-color">Eleanor C. Bulut-Begtang</small>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="icon-users" style="font-size: 14px; color: gray;"></i>
-                                                                    &nbsp;
-                                                                    <small style="display: inline-grid;">
-                                                                        Reforestation
-                                                                        <br>
-                                                                        <p style="font-size: 10px;">Special Committee</p>
-                                                                    </small>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="icon-call" style="font-size: 14px; color: gray;"></i>
-                                                                    &nbsp;<small>8931-5001</small>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="icon-envelope" style="font-size: 14px; color: gray;"></i>
-                                                                    &nbsp; <small class="primary-text-color">manila6thdis@congress.gov.ph</small>
-                                                                </li>
-                                                            </ul>
-
-                                                            <div class="utility-btns align-items-center gap-2">
-                                                                <a href="#" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a>
-                                                                <a href="#" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
-                                                                <a href="#" title="Delete" style="color: #ff4d4d !important;"><i class="icon-trash"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="saved-container">
-                                            <div class="card border-0 card-saved-contacts cursor-pointer">
-                                                <div class="card-body">
-                                                    <div class="row mb-2">
-                                                        <small><b class="primary-text-color">LLS MEMBERS</b></small>
-                                                    </div>
-                                                    <div class="col-12 d-flex">
-                                                        <div class="col-3 text-center">
-                                                            <img class="rounded" src="{{ asset('images/user4.jpg') }}" width="120px">
-                                                        </div>
-                                                        <div class="col-9">
-                                                            <ul class="list-unstyled">
-                                                                <li>
-                                                                    <small>
-                                                                        <b class="primary-text-color">Sheila D. Imperil</b>
-                                                                    </small>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="icon-user" style="font-size: 14px; color: gray;"></i>
-                                                                    &nbsp; <small class="primary-text-color">DLLO</small>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="icon-users" style="font-size: 14px; color: gray;"></i>
-                                                                    &nbsp;
-                                                                    <small style="display: inline-grid;">
-                                                                        CCC: Climate Change Comission
-                                                                    </small>
-                                                                    <small style="display: inline-grid;">
-                                                                        CCAMDRRC
-                                                                    </small>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="icon-call" style="font-size: 14px; color: gray;"></i>
-                                                                    &nbsp;<small>8420-5513</small>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="icon-envelope" style="font-size: 14px; color: gray;"></i>
-                                                                    &nbsp; <small class="primary-text-color">herreras@climate.gov.ph</small>
-                                                                </li>
-                                                            </ul>
-
-                                                            <div class="utility-btns align-items-center gap-2">
-                                                                <a href="#" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a>
-                                                                <a href="#" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
-                                                                <a href="#" title="Delete" style="color: #ff4d4d !important;"><i class="icon-trash"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="saved-container">
-                                            <div class="card border-0 card-saved-contacts cursor-pointer">
-                                                <div class="card-body">
-                                                    <div class="row mb-2">
-                                                        &nbsp;
-                                                    </div>
-                                                    <div class="col-12 d-flex">
-                                                        <div class="col-3 text-center">
-                                                            <img class="rounded" src="{{ asset('images/user5.jpg') }}" width="120px">
-                                                        </div>
-                                                        <div class="col-9">
-                                                            <ul class="list-unstyled">
-                                                                <li>
-                                                                    <small>
-                                                                        <b class="primary-text-color">Usec. Janet B. Abuel</b>
-                                                                    </small>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="icon-user" style="font-size: 14px; color: gray;"></i>
-                                                                    &nbsp; <small class="primary-text-color">DLLO</small>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="icon-users" style="font-size: 14px; color: gray;"></i>
-                                                                    &nbsp;
-                                                                    <small style="display: inline-grid;">
-                                                                        CCC: Climate Change Comission
-                                                                    </small>
-                                                                    <small style="display: inline-grid;">
-                                                                        CCAMDRRC
-                                                                    </small>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="icon-call" style="font-size: 14px; color: gray;"></i>
-                                                                    &nbsp;<small>8420-5513</small>
-                                                                </li>
-                                                                <li>
-                                                                    <i class="icon-envelope" style="font-size: 14px; color: gray;"></i>
-                                                                    &nbsp; <small class="primary-text-color">herreras@climate.gov.ph</small>
-                                                                </li>
-                                                            </ul>
-
-                                                            <div class="utility-btns align-items-center gap-2">
-                                                                <a href="#" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a>
-                                                                <a href="#" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
-                                                                <a href="#" title="Delete" style="color: #ff4d4d !important;"><i class="icon-trash"></i></a>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    @empty
+                                        <p>No saved contacts for now.</p>
+                                    @endforelse
                                 </div>
                             </div>
                         </div>
@@ -1920,12 +1770,12 @@
 
                     <input type="hidden" id="current-tab" value="1">
 
-                    <!-- Resend Email Confirmation Modal -->
+                    <!-- Delete Account Modal -->
                     <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountLabel" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title" id="regApproveModalLabel">Delete Email</h5>
+                            <h5 class="modal-title" id="deleteAccountModalLabel">Delete Email</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
@@ -1937,6 +1787,30 @@
                                 @csrf
                                 <input type="hidden" name="user_id" value="{{ auth()->user() }}">
                                 <button type="submit" class="btn btn-danger">Delete</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Trash Contact -->
+                    <div class="modal fade" id="removeContactModal" tabindex="-1" aria-labelledby="removeContactLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="removeContactModalLabel">Remove Contact</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            Are you sure you want to remove this contact?
+                          </div>
+                          <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <form method="post" action="{{ route('member.profile.remove.contact') }}" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="user_id" id="trash-user-id" value="{{ auth()->user()->id }}">
+                                <input type="hidden" name="contact_id" id="trash-contact-id">
+                                <button type="submit" class="btn btn-danger">Remove</button>
                             </form>
                           </div>
                         </div>
@@ -2071,6 +1945,12 @@
             }
 
         }
+
+        // trash a contact
+        $('.trash-contact-btn').on('click', function() {
+            let num = $(this).attr('data-id');
+            $('#trash-contact-id').val(num);
+        });
 
 
 	</script>
