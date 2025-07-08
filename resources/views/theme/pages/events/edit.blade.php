@@ -280,7 +280,7 @@
 						</div>
 
 						<div class="col-12 text-end mt-2">
-							<button class="btn btn-primary">SAVE ONLY</button>
+							<button class="btn btn-primary">SAVE</button>
 						</div>
 
 					</div>

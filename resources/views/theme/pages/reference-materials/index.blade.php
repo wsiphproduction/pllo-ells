@@ -151,7 +151,8 @@
                                                 </div>
                                                 
                                                 <div class="form-group">
-                                                    <input type="text" name="remarks" id="remarks" value="{{ old('remarks', $reference_material->remarks ?? '')}}" class="form-control @error('remarks') is-invalid @enderror" placeholder="REMARKS">
+                                                    {{-- <input type="text" name="remarks" id="remarks" value="{{ old('remarks', $reference_material->remarks ?? '') }}" class="form-control @error('remarks') is-invalid @enderror" placeholder="REMARKS"> --}}
+                                                    <textarea name="remarks" class="form-control" placeholder="REMARKS">{{ old('remarks', $reference_material->remarks ?? '') }}</textarea>
                                                     @error('remarks')
                                                         <span class="text-danger">{{ $message }}</span>
                                                     @enderror
@@ -257,8 +258,8 @@
                                 </div>
                                 
                                 <div class="form-group">
-                                    <input type="text" name="remarks" id="remarks" value="{{ old('remarks')}}" class="form-control @error('remarks') is-invalid @enderror" placeholder="REMARKS">
-                                    {{-- <textarea name="remarks" class="form-control" placeholder="REMARKS"></textarea> --}}
+                                    {{-- <input type="text" name="remarks" id="remarks" value="{{ old('remarks')}}" class="form-control @error('remarks') is-invalid @enderror" placeholder="REMARKS"> --}}
+                                    <textarea name="remarks" class="form-control" placeholder="REMARKS">{{ old('remarks')}}</textarea>
                                     @error('remarks')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror

@@ -330,7 +330,7 @@ class EventController extends Controller
         //     }
         // }
 
-        return redirect()->back()->with('success', 'You successfully updated an event');
+        return redirect()->route('events.index')->with('success', 'You successfully updated an event');
     }
 
     public function cancel_event($id){

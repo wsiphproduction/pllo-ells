@@ -200,7 +200,7 @@
 					<h3 class="text-roman text-black m-0" style="font-size: 38px;">Legislative Liaison System</h2>
 					<h2 class="text-roman text-black mb-0" style="border-top: 1px solid #a1a1a1;">Presidential Legislative Liaison Office</h3>
 
-					<img src="{{ asset($event->event_img)}}" width="70%" @if(!$event->event_img) hidden @endif>
+					<img src="{{ asset($event->event_img)}}" width="70%" onerror="this.onerror=null; this.src='{{ asset('theme/addons/images/logos/pllo-logo.png') }}';" @if(!$event->event_img) hidden @endif>
 				</div>
 
 				<div class="col-8 offset-2 mt-5 mb-3">
@@ -249,7 +249,7 @@
 
 @section('pagejs')
 	<script>
-		const SELECTION_LIMIT = 2;
+		const SELECTION_LIMIT = 5;
 
 		function selectedCount () {
 			return document.querySelectorAll('.selectable-card input[type="checkbox"]:checked').length;
