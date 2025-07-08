@@ -41,6 +41,28 @@ class MemberProfileController extends Controller
 
 	private $searchFields = ['name'];
 
+	public function memberDashboard() {
+
+	    $page = new Page();
+	    $page->name = 'Member Dashboard';
+
+	    $clustersList = Cluster::all();
+	    $memberDetails = Member::where('user_id', Auth::user()->id)->first();
+	    $memberAgency = Agency::find($memberDetails->agency);
+	    $genders = Gender::all();
+	    $events  = EventParticipant::where('member_id', $memberDetails->id)->get();
+	    $userTypeMembers = Member::where('user_type', $memberDetails->user_type)
+	    							->where('user_id', '<>', Auth::user()->id)
+	    							->get();
+
+	    if (auth()->user()) {
+	        return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency', 'events', 'genders', 'userTypeMembers'));
+	    } else {
+	        return back()->with('error', ('Please login to your account.'));
+	    }
+
+	}
+
 	public function senatorProfileUpdate(Request $request, $id) {
 
 		$birth_arr = [$request['sen_month'], $request['sen_day']];

@@ -231,57 +231,124 @@
                         <!-- Profile Tab -->
                         <div class="tab-pane fade show active" id="profile-border" role="tabpanel" aria-labelledby="tab-profile-border-tab" tabindex="0">
                             <div class="row" id="default_profile_panel">
-                                <div class="col-12 col-md-2">
-                                    <small class="form-title"><b>MAIN ACCOUNT</b></small>
-                                    <br />
-                                    <img class="mt-4" width="120" style="border-radius: 100%;
-                                                        border-radius: 100%;
-                                                        min-width: 120px;
-                                                        height: 120px;
-                                                        background-image: url('{{ Auth::user()->avatar ? asset('/' . Auth::user()->avatar) : asset('images/user.png') }}');
-                                                        background-size: cover;
-                                                        background-repeat: no-repeat;
-                                                        background-position: center;">
-                                </div>
-                                <div class="col-12 col-md-5">
-                                    <table class="table-dotted table-striped">
-                                        <tr>&nbsp;</tr>
-                                        <tr>
-                                            <td><span class="profile-label">Email Address:</span></td>
-                                            <td><span>{{ $memberDetails->email }}</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="profile-label">Alt Email Address:</span></td>
-                                            <td><span>information@dict.gov.ph</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="profile-label">Password:</span></td>
-                                            <td><span>********</span></td>
-                                        </tr>
-                                    </table>
-                                </div>
-
-                                @if(!empty($memberDetails->cluster))
-                                <div class="col-12 col-md-5">
-                                    <table class="table-dotted table-striped">
-                                        <tr><small class="form-title"><b>CLUSTER</b></small></tr>
-
-                                        @php
-                                            $cluster_arr = [];
-                                            $cluster_arr = explode('::', $memberDetails->cluster);
-                                        @endphp
-
-                                        @forelse($cluster_arr as $cluster)
+                                <div class="row">
+                                    <small class="form-title mb-0"><b>MAIN ACCOUNT <i style="font-size: 12px;">({{ $memberDetails->designationDetails->name }})</i></b></small>
+                                    <div class="col-12 col-md-2 d-flex align-items-start justify-content-center">
+                                        <img class="mt-2" width="120" style="border-radius: 100%;
+                                                            border-radius: 100%;
+                                                            min-width: 120px;
+                                                            height: 120px;
+                                                            background-image: url('{{ Auth::user()->avatar ? asset('/' . Auth::user()->avatar) : asset('images/user.png') }}');
+                                                            background-size: cover;
+                                                            background-repeat: no-repeat;
+                                                            background-position: center;">
+                                    </div>
+                                    <div class="col-12 col-md-5">
+                                        <table class="table-dotted table-striped">
+                                            <tr>&nbsp;</tr>
                                             <tr>
-                                                <td><span><small>{{ $memberDetails->getClusterName($cluster)->name }}</small></span></td>
+                                                <td><span class="profile-label">Email Address:</span></td>
+                                                <td><span>{{ $memberDetails->email }}</span></td>
                                             </tr>
-                                        @empty
-                                            <tr><td><span>No Cluster Details.</span></td></tr>
-                                        @endforelse
+                                            <tr>
+                                                <td><span class="profile-label">Alt Email Address:</span></td>
+                                                <td><span>information@dict.gov.ph</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="profile-label">Password:</span></td>
+                                                <td><span>********</span></td>
+                                            </tr>
+                                        </table>
+                                    </div>
 
-                                    </table>
+                                    @if(!empty($memberDetails->cluster))
+                                        <div class="col-12 col-md-5">
+                                            <table class="table-dotted table-striped">
+                                                <tr><small class="form-title"><b>CLUSTER</b></small></tr>
+
+                                                @php
+                                                    $cluster_arr = [];
+                                                    $cluster_arr = explode('::', $memberDetails->cluster);
+                                                @endphp
+
+                                                @forelse($cluster_arr as $cluster)
+                                                    <tr>
+                                                        <td><span><small>{{ $memberDetails->getClusterName($cluster)->name }}</small></span></td>
+                                                    </tr>
+                                                @empty
+                                                    <tr><td><span>No Cluster Details.</span></td></tr>
+                                                @endforelse
+
+                                            </table>
+                                        </div>
+                                    @endif
                                 </div>
-                                @endif
+                                @foreach($userTypeMembers as $userTypeMember)
+                                <div class="tab-content">
+                                    <div class="row mt-4">
+                                        @if($userTypeMember->designationDetails)
+                                        <small class="form-title my-0" style="transform: translate(0px, 16px);">
+                                            <b class="text-uppercase">{{ $userTypeMember->designationDetails->name }}</b>
+                                        </small>
+                                        @endif
+                                        <div class="col-12 col-md-2 d-flex align-items-start justify-content-center">
+                                            <img class="mt-4" width="120" style="border-radius: 100%;
+                                                                border-radius: 100%;
+                                                                min-width: 120px;
+                                                                height: 120px;
+                                                                background-image: url('{{ $userTypeMember->photo ? asset('/' . $userTypeMember->photo) : asset('images/user.png') }}');
+                                                                background-size: cover;
+                                                                background-repeat: no-repeat;
+                                                                background-position: center;">
+                                        </div>
+                                        <div class="col-12 col-md-5">
+                                            <table class="table-dotted table-striped">
+                                                <tr>&nbsp;</tr>
+                                                <tr>
+                                                    <td><span class="profile-label">Name:</span></td>
+                                                    <td><span>{{ $userTypeMember->firstname }}  {{ $userTypeMember->suffix }} @if(!empty($userTypeMember->suffix)) . @endif {{ $userTypeMember->lastname }}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="profile-label">Nickname:</span></td>
+                                                    <td><span>{{ $userTypeMember->nickname }}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="profile-label">Gender:</span></td>
+                                                    <td><span>{{ $userTypeMember->memberGender->name }}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="profile-label">Birthday:</span></td>
+                                                    <td><span>{{ $userTypeMember->birthdate }}</span></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                        <div class="col-12 col-md-5">
+                                            @php
+                                                $type_number_name = config('numbertype.'.$userTypeMember->type_number);
+                                            @endphp 
+                                            <table class="table-dotted table-striped">
+                                                <tr>&nbsp;</tr>
+                                                <tr>
+                                                    <td><span class="profile-label">Email Address:</span></td>
+                                                    <td><span>{{ $userTypeMember->email }}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="profile-label">Cellphone Number:</span></td>
+                                                    <td><span>{{ $userTypeMember->contact_number }}</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="profile-label">Viber Number:</span></td>
+                                                    <td><span>@if($type_number_name == 'Viber' ) {{ $userTypeMember->other_number }} @else --- @endif</span></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><span class="profile-label">Telegram Number:</span></td>
+                                                    <td><span>@if($type_number_name == 'Telegram' ) {{ $userTypeMember->other_number }} @else --- @endif</span></td>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                @endforeach
 
                             </div>
 
@@ -358,56 +425,6 @@
                                     </div>
                                 </form>
                             </div>
-
-                            <!-- <div class="row mt-4">
-                                <small class="form-title my-0" style="transform: translate(0px, 16px);"><b>DLLS - HREP DEPARTMENT LEGISLATIVE LIAISON STAFF</b></small>
-                                <div class="col-12 col-md-2">
-                                    <img class="mt-4" src="{{ asset('images/user.png') }}" width="120">
-                                </div>
-                                <div class="col-12 col-md-5">
-                                    <table class="table-dotted table-striped">
-                                        <tr>&nbsp;</tr>
-                                        <tr>
-                                            <td><span class="profile-label">Name:</span></td>
-                                            <td><span>Karla Mae Gutierrez</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="profile-label">Nickname:</span></td>
-                                            <td><span>Karla</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="profile-label">Gender:</span></td>
-                                            <td><span>Female</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="profile-label">Birthday:</span></td>
-                                            <td><span>November 15</span></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                                <div class="col-12 col-md-5">
-                                    <table class="table-dotted table-striped">
-                                        <tr>&nbsp;</tr>
-                                        <tr>
-                                            <td><span class="profile-label">Email Address:</span></td>
-                                            <td><span>karlamae@dict.gov.ph</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="profile-label">Cellphone Number:</span></td>
-                                            <td><span>091789200101</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="profile-label">Viber Number:</span></td>
-                                            <td><span>091789200101</span></td>
-                                        </tr>
-                                        <tr>
-                                            <td><span class="profile-label">Telegram Number:</span></td>
-                                            <td><span>091789200101</span></td>
-                                        </tr>
-                                    </table>
-                                </div>
-                            </div> -->
-
                         </div>
 
                         <!-- Agency Tab -->

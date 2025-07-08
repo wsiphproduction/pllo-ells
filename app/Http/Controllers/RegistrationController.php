@@ -305,25 +305,6 @@ class RegistrationController extends Controller
          return view('theme.pages.login-error', compact('page'));
     }
 
-    public function memberDashboard() {
-
-        $page = new Page();
-        $page->name = 'Member Dashboard';
-
-        $clustersList = Cluster::all();
-        $memberDetails = Member::where('user_id', Auth::user()->id)->first();
-        $memberAgency = Agency::find($memberDetails->agency);
-        $genders = Gender::all();
-        $events  = EventParticipant::where('member_id', $memberDetails->id)->get();
-        
-        if (auth()->user()) {
-            return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency', 'events', 'genders'));
-        } else {
-            return back()->with('error', ('Please login to your account.'));
-        }
-
-    }
-
     public function memberProfileUpdate(Request $request) {
 
         $member = Member::where('user_id', auth()->user()->id)->first();

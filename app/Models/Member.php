@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\ActivityLog;
 use App\Models\Cluster;
+use App\Models\Gender;
 use App\Models\User;
 use App\Models\Hor;
 
@@ -22,6 +23,7 @@ class Member extends Model
                             'lastname',
                             'middle_initial',
                             'suffix',
+                            'nickname',
                             'email',
                             'alt_email',
                             'password',
@@ -50,8 +52,8 @@ class Member extends Model
         return $this->belongsTo(User::class, 'user_id', 'id');
     }
 
-    public function designation() {
-        return $this->belongsTo(Designation::class, 'id');
+    public function designationDetails() {
+        return $this->belongsTo(Designation::class, 'designation');
     }
 
     public function getClusterDetailsAttribute() {
@@ -110,6 +112,10 @@ class Member extends Model
 
     public function hor() {
         return $this->belongsTo(Hor::class, 'hor_id');
+    }
+
+    public function memberGender() {
+        return $this->belongsTo(Gender::class, 'gender');
     }
 
 }
