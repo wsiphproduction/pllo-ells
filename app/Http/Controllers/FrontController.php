@@ -62,6 +62,10 @@ class FrontController extends Controller
 
     public function directory(Request $request)
     {
+        if(!Auth::user()){
+            return redirect()->route('home')->with('error', 'Access Denied');
+        }
+
         $page = new Page();
         $page->name = 'Cabinet Members';
         
@@ -82,6 +86,10 @@ class FrontController extends Controller
 
     public function downloads(Request $request)
     {
+        if(!Auth::user()){
+            return redirect()->route('home')->with('error', 'Access Denied');
+        }
+        
         $page = new Page();
         $page->name = 'Summary of Laws Passed';
 

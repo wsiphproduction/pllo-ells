@@ -55,13 +55,13 @@
                             <td>{{ $reference_material->remarks }}</td>
                             <td class="text-center">
                                 <div class="btn-group" role="group">
-                                    <a href="javascript:void(0);" class="btn btn-transparent" title="View">
-                                        <i class="uil-eye"></i>
+                                    <a href="javascript:void(0);" class="btn btn-transparent" title="View Attachments" onclick="$('#attachmentsModal{{ $reference_material->id }}').modal('show')">
+                                        <i class="uil-paperclip"></i>
                                     </a>
                                     <a href="javascript:void(0);" class="btn btn-transparent" title="Edit" onclick="$('#editModal{{ $reference_material->id }}').modal('show')">
                                         <i class="uil-edit"></i>
                                     </a>
-                                    <a href="javascript:void(0);" class="btn btn-transparent" title="Delete">
+                                    <a href="javascript:void(0);" class="btn btn-transparent" title="Delete" onclick="$('#deleteModal').modal('show')">
                                         <i class="uil-trash"></i>
                                     </a>
                                 </div>
@@ -69,6 +69,43 @@
                         </tr>
 
 
+
+                        {{-- ATTACHMENTS --}}
+                        <div class="modal fade" id="attachmentsModal{{ $reference_material->id }}" tabindex="-1" aria-labelledby="attachmentsModalLabel{{ $reference_material->id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="attachmentsModalLabel{{ $reference_material->id }}"><i class="uil-paperclip"></i> View Attachments</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    
+                                    <div class="modal-body">
+                                        <strong><small>Subject:</small></strong>
+                                        <p class="mb-3">{{ $reference_material->subject }}</p>
+
+                                        <strong><small>Attachments:</small></strong>
+
+                                        @php
+                                            $attachments = json_decode($reference_material->attachments, true);
+                                        @endphp
+
+                                        @if (!empty($attachments) && is_array($attachments))
+                                            <ul class="list-unstyled">
+                                                @foreach ($attachments as $file)
+                                                    <li>
+                                                        <a href="{{ asset($file) }}" target="_blank">
+                                                            {{ basename($file) }}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @else
+                                            <p class="text-muted">No attachments found.</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                         {{-- EDIT --}}
                         <div class="modal fade" id="editModal{{ $reference_material->id }}" tabindex="-1">
@@ -142,6 +179,22 @@
                                 </div>
                             </div>
                         </div>
+
+                        {{-- DELETE --}}
+						<div class="modal fade" id="deleteModal" tabindex="-1">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-body">Are you sure you want to delete this item?</div>
+									<div class="modal-footer">
+										<form method="POST" action="{{ route('reference-materials.single-delete', $reference_material->id) }}">
+										    @csrf
+                                            <button type="submit" class="btn btn-danger text-white"><small>Yes</small></button>
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><small>No</small></button>
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
 
                     @empty
                         <tr>
