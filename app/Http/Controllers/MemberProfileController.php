@@ -132,7 +132,7 @@ class MemberProfileController extends Controller
 									 ->first();
 		$saved_contact->delete();
 
-		return back()->with('success', 'Contact removed.')
+		return back()->with('success', 'Contact removed.');
 
 	}
 
