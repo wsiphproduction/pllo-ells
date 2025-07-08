@@ -61,7 +61,7 @@
 
     <div class="container">
         
-        <div class="row">
+        <div class="row mt-5">
             <h4 class="custom-text-primary">PREVIOUS EVENTS</h4>
 
             <div id="oc-team" class="owl-carousel team-carousel carousel-widget" data-margin="30" data-nav="true" data-pagi="true" data-items-xs="1" data-items-sm="1" data-items-lg="2" data-items-xl="2">

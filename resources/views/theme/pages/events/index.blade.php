@@ -39,7 +39,7 @@
 										<div class="oc-item">
 											<div class="row g-0 align-items-center">
 												<div class="col-md-3 d-flex align-items-center justify-content-center overflow-hidden" style="height:210px;">
-													<img src="{{ asset($event->event_img ?? 'theme/addons/images/logos/pllo-logo.png')}}" class="rounded-start" alt="..." style="height: auto; width: auto; object-fit: cover;">
+													<img src="{{ asset($event->event_img ?? 'theme/addons/images/logos/pllo-logo.png')}}" onerror="this.onerror=null; this.src='{{ asset('theme/addons/images/logos/pllo-logo.png') }}';" class="rounded-start" alt="..." style="height: auto; width: auto; object-fit: cover;">
 												</div>
 												<div class="col-md-8 px-5 py-4 testi-content">
 													<h3 class="form-title">{{ $event->title }}</h3>
