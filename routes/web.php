@@ -418,7 +418,6 @@ Route::post('/register/register-store', [RegistrationController::class, 'registe
 Route::get('/member-login', [RegistrationController::class, 'login'])->name('member.login');
 Route::post('/member-online', [RegistrationController::class, 'online'])->name('member.online');
 Route::get('/member-logout', [RegistrationController::class, 'logout'])->name('member.logout');
-Route::get('/member-dashboard', [RegistrationController::class, 'memberDashboard'])->name('member.dashboard');
 Route::post('/member-profile-update', [RegistrationController::class, 'memberProfileUpdate'])->name('member.profile.update');
 Route::post('/member-resend-email', [RegistrationController::class, 'resendRegisterConfirmation'])->name('member.resend.email');
 Route::post('/member-upload-logo', [RegistrationController::class, 'uploadMemberLogo'])->name('member.upload.logo');
@@ -454,6 +453,7 @@ Route::get('/maintenance-dashboard', [RegistrationController::class, 'maintenanc
     Route::post('/maintenance-cluster-delete', [RegistrationController::class, 'maintenanceClusterDelete'])->name('maintenance.cluster.delete');
 
 // Member Profile Routes
+    Route::get('/member-dashboard', [MemberProfileController::class, 'memberDashboard'])->name('member.dashboard');
     Route::post('/member-profile-senator-update/{id}', [MemberProfileController::class, 'senatorProfileUpdate'])->name('member.profile.senator.update');
 
 // Pages Frontend
