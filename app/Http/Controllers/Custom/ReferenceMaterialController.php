@@ -18,6 +18,10 @@ class ReferenceMaterialController extends Controller
 
     public function index(Request $request)
     {
+        if(!Auth::user()){
+            return redirect()->route('home')->with('error', 'Access Denied');
+        }
+
         $page = new Page();
         $page->name = 'Reference Materials';
 
@@ -65,6 +69,7 @@ class ReferenceMaterialController extends Controller
         return redirect()->back()->with('success', 'You successfully added a reference material');
     }
 
+
     public function update(ReferenceMaterial $reference_material, ReferenceMaterialRequest $request){
 
         $data = $request->validated();
@@ -87,5 +92,12 @@ class ReferenceMaterialController extends Controller
 
         return redirect()->back()->with('success', 'You successfully updated a reference material');
 
+    }
+
+
+    public function single_delete($id){
+        ReferenceMaterial::where('id', $id)->delete();
+
+        return redirect()->route('reference-materials.index')->with('success', 'You successfully deleted an item');
     }
 }
