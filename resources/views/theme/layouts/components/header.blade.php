@@ -253,10 +253,10 @@
                                 @endif
 
                                 <h5 class="primary-text-color" style="font-size: 16px; font-weight: 600; margin-bottom: 6px;">RESET PASSWORD</h5>
-                                <form id="forgot-form" name="forgot-form" class="nobottommargin mb-0" action="{{ route('customer-front.send_reset_link_email') }}" method="post">
+                                <form id="reset-form" name="reset-form" class="nobottommargin mb-0" action="{{ route('customer-front.send_reset_link_email') }}" method="post">
                                     @csrf
                                     <div class="col_full" style="margin-bottom: 10px;">
-                                        <input type="email" id="email" name="email" value="{{ old('email') }}" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="EMAIL ADDRESS" />
+                                        <input type="email" id="reset_email" name="email" value="{{ old('email') }}" class="form-control" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$" placeholder="EMAIL ADDRESS" />
                                     </div>
 
                                     <div class="col_full nobottommargin mt-2">
@@ -282,6 +282,16 @@
 </div>
 
 @include('theme.layouts.components.alert')
+
+@if($message = Session::get('error'))
+    <script>
+        window.addEventListener('load', function() {
+            if (window.location.pathname == '/') {
+                document.getElementById('newLoginModalOpen').click();
+            }
+        });
+    </script>
+@endif
 
 <script>
     

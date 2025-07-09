@@ -455,7 +455,8 @@ Route::get('/maintenance-dashboard', [RegistrationController::class, 'maintenanc
 // Member Profile Routes
     Route::get('/member-dashboard', [MemberProfileController::class, 'memberDashboard'])->name('member.dashboard');
     Route::post('/member-profile-senator-update/{id}', [MemberProfileController::class, 'senatorProfileUpdate'])->name('member.profile.senator.update');
-    Route::post('/member-profile-remove-contact', [MemberProfileController::class, 'profileRemoveCotact'])->name('member.profile.remove.contact');
+    Route::post('/member-profile-remove-contact', [MemberProfileController::class, 'profileRemoveContact'])->name('member.profile.remove.contact');
+    Route::post('/member-profile-add-contact', [MemberProfileController::class, 'profileAddContact'])->name('member.profile.add.contact');
 
 // Pages Frontend
 Route::get('/{any}', [FrontController::class, 'page'])->where('any', '.*');

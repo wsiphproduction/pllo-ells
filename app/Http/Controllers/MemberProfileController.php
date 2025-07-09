@@ -20,8 +20,9 @@ use App\Models\User;
 use App\Models\Page;
 use App\Models\Gender;
 use App\Models\Agency;
-use App\Models\Senator;
 use App\Models\Member;
+use App\Models\Senator;
+use App\Models\Article;
 use App\Models\Cluster;
 use App\Models\UserType;
 use App\Models\SubAgency;
@@ -47,21 +48,20 @@ class MemberProfileController extends Controller
 	    $page = new Page();
 	    $page->name = 'Member Dashboard';
 
-	    $clustersList = Cluster::all();
 	    $memberDetails = Member::where('user_id', Auth::user()->id)->first();
-	    $memberAgency = Agency::find($memberDetails->agency);
+
 	    $genders = Gender::all();
+	    $clustersList = Cluster::all();
+	    $policy_reforms = Article::all();
+	    $memberAgency = Agency::find($memberDetails->agency);
+	    $saved_contacts = SavedContact::where('user_id', $memberDetails->user_id)->get();
 	    $events  = EventParticipant::where('member_id', $memberDetails->id)->get();
 	    $userTypeMembers = Member::where('user_type', $memberDetails->user_type)
 	    							->where('user_id', '<>', Auth::user()->id)
 	    							->get();
 
-	    $saved_contacts = SavedContact::where('user_id', $memberDetails->id)->get();
-									// ->join('members', 'members.user_id', '=', 'saved_contacts.contact_id')
-									// ->get();
-									// dd($saved_contacts);
 	    if (auth()->user()) {
-	        return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency', 'events', 'genders', 'userTypeMembers', 'saved_contacts'));
+	        return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency', 'events', 'genders', 'userTypeMembers', 'saved_contacts', 'policy_reforms'));
 	    } else {
 	        return back()->with('error', ('Please login to your account.'));
 	    }
@@ -124,10 +124,18 @@ class MemberProfileController extends Controller
 		return back()->with('success', 'Senator details updated.');
 	}
 
-	public function profileRemoveCotact(Request $request) {
+	public function profileAddContact(Request $request) {
 
-		$member = Member::where('user_id', Auth()->user()->id )->first();
-		$saved_contact = SavedContact::where('user_id', $member->id)
+		$requests = $request->all();
+		$contact = SavedContact::create($requests);
+
+		return back()->with('success', 'Contact added.');
+
+	}
+
+	public function profileRemoveContact(Request $request) {
+
+		$saved_contact = SavedContact::where('user_id', Auth()->user()->id)
 									 ->where('contact_id', $request->contact_id)
 									 ->first();
 		$saved_contact->delete();

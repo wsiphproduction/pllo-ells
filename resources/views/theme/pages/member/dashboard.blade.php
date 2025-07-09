@@ -1565,7 +1565,7 @@
                                 <table class="table-dotted table-striped">
                                     <tr>
                                         <small>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                            Attending key events provides valuable opportunities for knowledge sharing, networking, and collaboration, enhancing capacity to implement effective and informed policy reforms.
                                             <br>
                                             &nbsp;
                                         </small>
@@ -1592,7 +1592,7 @@
                                 <table class="table-dotted table-striped">
                                     <tr>
                                         <small>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                            Reference materials serve as essential tools for informed decision-making, offering evidence-based insights, best practices, and contextual understanding to support effective policy development and implementation.
                                         <br>
                                         &nbsp;
                                         </small>
@@ -1641,33 +1641,31 @@
                                 <table class="table-dotted table-striped">
                                     <tr>
                                         <small>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                            Policy reform is essential to modernize outdated systems, promote transparency and equity, and ensure that governance remains responsive, inclusive, and sustainable in addressing current and future societal needs.
                                         <br>
                                         <br>
                                         <small><b class="primary-text-color">MY SAVED BILL/S</b></small>
                                         </small>
                                     </tr>
-                                    
+                                    @forelse($policy_reforms as $policy_reform)
                                     <tr>
                                         <td>
-                                            <span class="primary-text-color"><small><a href="#" class="primary-text-color">Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium</a></small></span>
+                                            <span class="primary-text-color">
+                                                <small>
+                                                    <a href="news/{{ $policy_reform->slug }}" class="primary-text-color">
+                                                        {{ $policy_reform->name }}
+                                                    </a>
+                                                </small>
+                                            </span>
                                         </td>
                                     </tr>
+                                    @empty
                                     <tr>
                                         <td>
                                             <span class="primary-text-color"><small><a href="#" class="primary-text-color">Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicab</a></small></span>
                                         </td>
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            <span class="primary-text-color"><small><a href="#" class="primary-text-color">Lorem ipsum dolor sit amet, consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</a></small></span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span class="primary-text-color"><small><a href="#" class="primary-text-color">Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat</a></small></span>
-                                        </td>
-                                    </tr>
+                                    @endforelse
                                 </table>
                             </div>
                         </div>
@@ -1676,7 +1674,7 @@
                         <div class="tab-pane fade" id="saved-border" role="tabpanel" aria-labelledby="tab-saved-border-tab" tabindex="0">
                             <div class="col-12">
                                 <small>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut 1labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+                                    Saved contacts are crucial for building a strong network of stakeholders, enabling continued collaboration, information exchange, and support for policy reform initiatives.
                                 <br>
                                 </small>
                                 <div class="my-2 d-flex flex-wrap">
@@ -1703,12 +1701,12 @@
                                                                     </li>
                                                                     <li>
                                                                         <i class="icon-user" style="font-size: 14px; color: gray;"></i>
-                                                                        &nbsp; <small class="primary-text-color">{{ $saved_contact->member->FullName }}</small>
+                                                                        &nbsp; <small class="primary-text-color text-capitalize">{{ $saved_contact->member->FullName }}</small>
                                                                     </li>
                                                                     <li>
                                                                         <i class="icon-users" style="font-size: 14px; color: gray;"></i>
                                                                         &nbsp;
-                                                                        <small style="display: inline-grid;">
+                                                                        <small style="display: inline-grid;" class="text-uppercase">
                                                                             {{ $saved_contact->member->FullAgencyName }}
                                                                             @if($saved_contact->member->subAgency)
                                                                             <br>

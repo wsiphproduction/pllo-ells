@@ -69,7 +69,7 @@ class FrontController extends Controller
         $page = new Page();
         $page->name = 'Cabinet Members';
         
-        $members = Member::query();
+        $members = Member::where('user_id', '<>', Auth()->user()->id);
 
         if (request('member_name')) {
             $members->where(function ($query) {

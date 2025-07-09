@@ -31,3 +31,11 @@
     </div>
 </div>
 <!-- #alert end -->
+
+@section('pagejs')
+<script>
+    window.addEventListener('load', function() {
+        document.getElementById('newLoginModalOpen').click();
+    });
+</script>
+@endsection
