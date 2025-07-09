@@ -125,4 +125,14 @@ class Member extends Model
     public function subAgency() {
         return $this->belongsTo(SubAgency::class, 'sub_agency');
     }
+
+    public function is_contact_exist($contact) {
+
+        $is_exist = SavedContact::where('user_id', Auth()->user()->id)
+                                ->where('contact_id', $contact)
+                                ->first();
+        if ($is_exist) {
+            return true;
+        } return false;
+    }
 }
