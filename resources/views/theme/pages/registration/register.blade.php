@@ -262,7 +262,7 @@
 
 						<div class="row form-group" id="reg_senators_dropdown">
 							<div class="col-12">
-								<select class="form-select" aria-label="select user type" name="senator_id">
+								<select class="form-select" aria-label="select senator" name="senator_id">
 									@foreach($senators as $senator)
 								  	<option value="{{ $senator->id }}">{{ $senator->sen_firstname }} @if($senator->sen_middle_initial) {{ $senator->sen_middle_initial }}. @endif {{ $senator->sen_lastname }} {{ $senator->sen_suffix }}</option>
 									@endforeach
@@ -272,9 +272,9 @@
 
 						<div class="row form-group" id="reg_hor_dropdown">
 							<div class="col-12">
-								<select class="form-select" aria-label="select user type" name="hor_id">
+								<select class="form-select" aria-label="select hor" name="hor_id">
 									@foreach($hors as $hor)
-								  	<option value="{{ $hor->id }}">{{ $hor->name }}</option>
+								  	<option value="{{ $hor->id }}">{{ $hor->hor_firstname }} {{ $hor->hor_middle_initial }}@if($hor->hor_middle_initial). @endif {{ $hor->hor_lastname }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -282,27 +282,47 @@
 
 						<div class="row form-group" id="reg_congsec_type_dropdown">
 							<div class="col-12">
-								<select class="form-select" aria-label="select user type" name="congsec_type" id="congsec_type">
-								  	<option value="1">Senate Committee Secretary</option>
-								  	<option value="2">House of Representatives Committee Secretary</option>
+								<select class="form-select" aria-label="select congsec type" name="congsec_type" id="congsec_type">
+								  	<option value="Senate Committee Secretary">Senate Committee Secretary</option>
+								  	<option value="House of Representatives Committee Secretary">House of Representatives Committee Secretary</option>
 								</select>
 							</div>
 						</div>
 
 						<div class="row form-group" id="reg_committee_type_dropdown">
 							<div class="col-12">
-								<select class="form-select" aria-label="select user type" name="committee_type" id="committee_type">
-								  	<option value="1">Standing Committee</option>
-								  	<option value="2">Special Committee</option>
+								<select class="form-select" aria-label="select congsec committee type" name="committee_type" id="committee_type">
+								  	<option value="Standing Committee">Standing Committee</option>
+								  	<option value="Special Committee">Special Committee</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="row form-group" id="reg_standing_committee_dropdown">
+							<div class="col-12">
+								<select class="form-select" aria-label="select standing type" name="committee_standing" id="standing_committee_type">
+								  	<option value="1">Agrarian Reform</option>
+								  	<option value="2">Agriculture and Food</option>
+								  	<option value="3">Appropriations</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="row form-group" id="reg_special_committee_dropdown">
+							<div class="col-12">
+								<select class="form-select" aria-label="select special type" name="committee_special" id="special_committee_type">
+								  	<option value="1">Bases Conversion</option>
+								  	<option value="2">Food Security</option>
+								  	<option value="3">Land Use</option>
 								</select>
 							</div>
 						</div>
 
 						<div class="row form-group" id="reg_chairperson_dropdown">
 							<div class="col-12">
-								<select class="form-select" aria-label="select user type" name="chairperson" id="chairperson">
+								<select class="form-select" aria-label="select hor member" name="chairperson" id="chairperson">
 									@foreach($hors as $hor)
-								  	<option value="{{ $hor->id }}">{{ $hor->name }}</option>
+								  	<option value="{{ $hor->id }}">{{ $hor->hor_firstname }} {{ $hor->hor_middle_initial }}@if($hor->hor_middle_initial). @endif {{ $hor->hor_lastname }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -463,12 +483,14 @@
         $("#designation_op_dropdown").hide();
         $("#op_agency_dropdown").hide();
         $("#cabinet_subagency_dropdown").hide();
-		$("#reg_sub_agency_dropdown").hide();
-		$("#reg_senators_dropdown").hide();
-		$("#reg_hor_dropdown").hide();
-		$("#reg_congsec_type_dropdown").hide();
-		$("#reg_committee_type_dropdown").hide();
-		$("#reg_chairperson_dropdown").hide();
+				$("#reg_sub_agency_dropdown").hide();
+				$("#reg_senators_dropdown").hide();
+				$("#reg_hor_dropdown").hide();
+				$("#reg_congsec_type_dropdown").hide();
+				$("#reg_committee_type_dropdown").hide();
+				$("#reg_chairperson_dropdown").hide();
+				$("#reg_standing_committee_dropdown").hide();
+				$("#reg_special_committee_dropdown").hide();
 
 	});
 
@@ -511,17 +533,18 @@
             	$("#designation_senator_dropdown").hide();
             	$("#designation_hor_dropdown").hide();
             	$("#designation_op_dropdown").hide();
-        		$("#reg_cluster_dropdown").show();
-        		$("#reg_agency_dropdown").show();
-        		$("#pllo_lls_agency_dropdown").show();
-    			$("#op_agency_dropdown").hide();
-    			$("#reg_sub_agency_dropdown").hide();
-    			$("#reg_senators_dropdown").hide();
-				$("#reg_hor_dropdown").hide();
-				$("#reg_congsec_type_dropdown").hide();
-				$("#reg_committee_type_dropdown").hide();
-				$("#reg_chairperson_dropdown").hide();
-
+	        		$("#reg_cluster_dropdown").show();
+	        		$("#reg_agency_dropdown").show();
+	        		$("#pllo_lls_agency_dropdown").show();
+		    			$("#op_agency_dropdown").hide();
+		    			$("#reg_sub_agency_dropdown").hide();
+		    			$("#reg_senators_dropdown").hide();
+							$("#reg_hor_dropdown").hide();
+							$("#reg_congsec_type_dropdown").hide();
+							$("#reg_committee_type_dropdown").hide();
+							$("#reg_chairperson_dropdown").hide();
+							$("#reg_standing_committee_dropdown").hide();
+							$("#reg_special_committee_dropdown").hide();
 
 				$('#agency_logo_holder').attr('placeholder', 'UPLOAD GOVERNMENT AGENCY LOGO');
         	}
@@ -534,14 +557,16 @@
         		$("#reg_cluster_dropdown").hide();
         		$("#reg_agency_dropdown").hide();
         		$("#op_agency_dropdown").hide();
-    			$("#reg_sub_agency_dropdown").hide();
-    			$("#reg_senators_dropdown").show();
-    			$("#reg_hor_dropdown").hide();
-    			$("#reg_congsec_type_dropdown").hide();
-				$("#reg_committee_type_dropdown").hide();
-				$("#reg_chairperson_dropdown").hide();
+	    			$("#reg_sub_agency_dropdown").hide();
+	    			$("#reg_senators_dropdown").show();
+	    			$("#reg_hor_dropdown").hide();
+	    			$("#reg_congsec_type_dropdown").hide();
+						$("#reg_committee_type_dropdown").hide();
+						$("#reg_chairperson_dropdown").hide();
+						$("#reg_standing_committee_dropdown").hide();
+						$("#reg_special_committee_dropdown").hide();
 
-    			$('#agency_logo_holder').attr('placeholder', 'UPLOAD SENATE LOGO');
+    				$('#agency_logo_holder').attr('placeholder', 'UPLOAD SENATE LOGO');
         	}
         	// hor staff
         	if (user_type == 3) {
@@ -552,12 +577,14 @@
         		$("#reg_cluster_dropdown").hide();
         		$("#reg_agency_dropdown").hide();
         		$("#op_agency_dropdown").hide();
-				$("#reg_sub_agency_dropdown").hide();
-    			$("#reg_senators_dropdown").hide();
-    			$("#reg_hor_dropdown").show();
-    			$("#reg_congsec_type_dropdown").hide();
-    			$("#reg_committee_type_dropdown").hide();
-    			$("#reg_chairperson_dropdown").hide();
+						$("#reg_sub_agency_dropdown").hide();
+	    			$("#reg_senators_dropdown").hide();
+	    			$("#reg_hor_dropdown").show();
+	    			$("#reg_congsec_type_dropdown").hide();
+	    			$("#reg_committee_type_dropdown").hide();
+	    			$("#reg_chairperson_dropdown").hide();
+	    			$("#reg_standing_committee_dropdown").hide();
+						$("#reg_special_committee_dropdown").hide();
 
 				$('#agency_logo_holder').attr('placeholder', 'UPLOAD HREP LOGO');
         	}
@@ -572,12 +599,14 @@
         		$("#pllo_lls_agency_dropdown").hide();
         		$("#op_agency_dropdown").show();
         		$("#op_subagency_dropdown").show();
-				$("#reg_sub_agency_dropdown").hide();
-    			$("#reg_senators_dropdown").hide();
-    			$("#reg_hor_dropdown").hide();
-    			$("#reg_congsec_type_dropdown").hide();
-    			$("#reg_committee_type_dropdown").hide();
-    			$("#reg_chairperson_dropdown").hide();
+						$("#reg_sub_agency_dropdown").hide();
+	    			$("#reg_senators_dropdown").hide();
+	    			$("#reg_hor_dropdown").hide();
+	    			$("#reg_congsec_type_dropdown").hide();
+	    			$("#reg_committee_type_dropdown").hide();
+	    			$("#reg_chairperson_dropdown").hide();
+	    			$("#reg_standing_committee_dropdown").hide();
+						$("#reg_special_committee_dropdown").hide();
 
 				$('#agency_logo_holder').attr('placeholder', 'UPLOAD PHOTO (2X2 Picture with white background)');
         	}
@@ -588,20 +617,22 @@
         	$("#reg_designation_dropdown").show();
         	$("#reg_agency_dropdown").show();
         	$("#pllo_lls_agency_dropdown").show();
-    		$("#op_agency_dropdown").hide();
-			$("#reg_sub_agency_dropdown").hide(); 
-			$("#reg_senators_dropdown").hide();
-			$("#reg_hor_dropdown").hide();
-			$("#reg_congsec_type_dropdown").hide();
-			$("#reg_committee_type_dropdown").hide();
-			$("#reg_chairperson_dropdown").hide();
+    			$("#op_agency_dropdown").hide();
+					$("#reg_sub_agency_dropdown").hide(); 
+					$("#reg_senators_dropdown").hide();
+					$("#reg_hor_dropdown").hide();
+					$("#reg_congsec_type_dropdown").hide();
+					$("#reg_committee_type_dropdown").hide();
+					$("#reg_chairperson_dropdown").hide();
+					$("#reg_standing_committee_dropdown").hide();
+					$("#reg_special_committee_dropdown").hide();
 
 			$('#agency_logo_holder').attr('placeholder', 'UPLOAD PHOTO (2X2 Picture with white background)');
     	}
     	// congressional secretariat
     	else if (user_type == 5) {
     		$("#designation_lls_dropdown").hide();
-        	$("#reg_designation_dropdown").hide();
+        $("#reg_designation_dropdown").hide();
     		$("#designation_senator_dropdown").hide();
     		$("#designation_hor_dropdown").hide();
     		$("#designation_op_dropdown").hide();
@@ -610,12 +641,13 @@
     		$("#pllo_lls_agency_dropdown").hide();
     		$("#op_agency_dropdown").hide();
     		$("#op_subagency_dropdown").hide();
-			$("#reg_sub_agency_dropdown").hide();
-			$("#reg_senators_dropdown").hide();
-			$("#reg_hor_dropdown").hide();
-			$("#reg_congsec_type_dropdown").show();
-			$("#reg_committee_type_dropdown").show();
-			$("#reg_chairperson_dropdown").show();
+				$("#reg_sub_agency_dropdown").hide();
+				$("#reg_senators_dropdown").hide();
+				$("#reg_hor_dropdown").hide();
+				$("#reg_congsec_type_dropdown").show();
+				$("#reg_committee_type_dropdown").show();
+				$("#reg_chairperson_dropdown").show();
+				$("#reg_standing_committee_dropdown").show();
 
 			$('#agency_logo_holder').attr('placeholder', 'UPLOAD PHOTO (2X2 Picture with white background)');
         } else {
@@ -623,12 +655,14 @@
         	$("#reg_cluster_dropdown").hide();
         	$("#reg_agency_dropdown").hide();
         	$("#op_agency_dropdown").hide();
-			$("#reg_sub_agency_dropdown").hide();
-			$("#reg_senators_dropdown").hide();
-			$("#reg_hor_dropdown").hide();
-			$("#reg_congsec_type_dropdown").hide();
-			$("#reg_committee_type_dropdown").hide();
-			$("#reg_chairperson_dropdown").hide();
+					$("#reg_sub_agency_dropdown").hide();
+					$("#reg_senators_dropdown").hide();
+					$("#reg_hor_dropdown").hide();
+					$("#reg_congsec_type_dropdown").hide();
+					$("#reg_committee_type_dropdown").hide();
+					$("#reg_chairperson_dropdown").hide();
+					$("#reg_standing_committee_dropdown").hide();
+					$("#reg_special_committee_dropdown").hide();
 
 			$('#agency_logo_holder').attr('placeholder', 'UPLOAD PHOTO (2X2 Picture with white background)');
         }
@@ -661,6 +695,19 @@
     // Activate Loading Screen
     $('#registration-form-body').submit(function(e) {
     	$("#loadingScreen").css('display', 'flex');
+    });
+
+    $('#committee_type').on('change', function(){
+        let com_type = $(this).val();
+
+        if (com_type == 'Standing Committee') {
+        	$("#reg_standing_committee_dropdown").show();
+        	$("#reg_special_committee_dropdown").hide();
+        } else {
+        	$("#reg_standing_committee_dropdown").hide();
+        	$("#reg_special_committee_dropdown").show();
+        }
+
     });
 
 </script>

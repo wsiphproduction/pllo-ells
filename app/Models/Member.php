@@ -42,6 +42,8 @@ class Member extends Model
                             'hor_id',
                             'congsec_type',
                             'committee_type',
+                            'committee_standing',
+                            'committee_special',
                             'chairperson',
                             'logo',
                             'photo',

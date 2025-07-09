@@ -170,7 +170,7 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="tab-profile-border-tab" data-bs-toggle="pill" data-bs-target="#profile-border" type="button" role="tab" aria-controls="tab-profile-border" aria-selected="true" onclick="tabSwitch(1)">
 
-                                @if($memberDetails->userType->id == 1)
+                                @if($memberDetails->userType->id == 1 || $memberDetails->userType->id == 5 || $memberDetails->userType->id == 6 || $memberDetails->userType->id == 7)
                                     <small><b>PROFILE</b></small>
                                 @endif
 
@@ -232,7 +232,8 @@
                         <div class="tab-pane fade show active" id="profile-border" role="tabpanel" aria-labelledby="tab-profile-border-tab" tabindex="0">
                             <div class="row" id="default_profile_panel">
                                 <div class="row">
-                                    <small class="form-title mb-0"><b>MAIN ACCOUNT <i style="font-size: 12px;">({{ $memberDetails->designationDetails->name }})</i></b></small>
+                                    @if($memberDetails->user_type != 5)
+                                    <small class="form-title mb-0"><b>MAIN ACCOUNT @if(!empty($memberDetails->designationDetails))<i style="font-size: 12px;">({{ $memberDetails->designationDetails->name }})</i>@endif</b></small>
                                     <div class="col-12 col-md-2 d-flex align-items-start justify-content-center">
                                         <img class="mt-2" width="120" style="border-radius: 100%;
                                                             border-radius: 100%;
@@ -243,6 +244,7 @@
                                                             background-repeat: no-repeat;
                                                             background-position: center;">
                                     </div>
+                                    @endif
                                     <div class="col-12 col-md-5">
                                         <table class="table-dotted table-striped">
                                             <tr>&nbsp;</tr>
@@ -356,6 +358,7 @@
                                 <form id="profile_update_form" action="{{ route('member.profile.update') }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
+                                        @if($memberDetails->user_type != 5)
                                         <div class="col-12 col-md-2">
                                             <small class="form-title"><b>MAIN ACCOUNT</b></small>
                                             <br />
@@ -383,27 +386,106 @@
                                                 @enderror
                                             </div>
                                         </div>
+                                        @endif
                                         <div class="col-12 col-md-5">
-                                            <div>
-                                                <input class="form-control mb-3" type="text" name="email" value="{{ $memberDetails->email }}">
-                                                <input class="form-control mb-3" type="text" name="alt_email" value="{{ $memberDetails->alt_email }}" placeholder="ALT EMAIL ADDRESS">
-                                                
-                                                <div style="position: relative;">
-                                                    <input class="form-control mb-3" type="password" name="password" value="{{ $memberDetails->password }}" placeholder="PASSWORD">
-                                                    <svg style="right: 7px;" class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                                    </svg>
-                                                </div>
 
-                                                <div style="position: relative;">
-                                                    <input class="form-control mb-3" type="password" name="confirm_password" value="" placeholder="CONFIRM PASSWORD">
-                                                    <svg style="right: 7px;" class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                                    </svg>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-10">
+                                                        <input class="form-control" type="text" name="firstname" value="{{ $memberDetails->firstname }}" placeholder="FIRST NAME">
+                                                    </div>
+                                                    <div class="col-2" style="padding-left: 0px;">
+                                                        <input class="form-control" type="text" name="middle_initial" value="{{ $memberDetails->middle_initial }}" placeholder="M.I.">
+                                                    </div>
                                                 </div>
-
                                             </div>
+
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-10">
+                                                        <input class="form-control" type="text" name="lastname" value="{{ $memberDetails->lastname }}" placeholder="LAST NAME">
+                                                    </div>
+                                                    <div class="col-2" style="padding-left: 0px;">
+                                                        <select class="form-select" name="suffix">
+                                                            <option selected disabled>SUFFIX</option>
+                                                            <option @if($memberDetails->suffix == 'Jr') selected  @endif>Jr</option>
+                                                            <option @if($memberDetails->suffix == 'Sr') selected  @endif>Sr</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <input class="form-control" type="text" name="nickname" value="{{ $memberDetails->nickname }}" placeholder="NICKNAME">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input class="form-control mb-3" type="text" name="email" value="{{ $memberDetails->email }}">
+                                            <input class="form-control mb-3" type="text" name="alt_email" value="{{ $memberDetails->alt_email }}" placeholder="ALT EMAIL ADDRESS">
+                                            
+                                            <div style="position: relative;">
+                                                <input class="form-control mb-3" type="password" name="password" value="{{ $memberDetails->password }}" placeholder="PASSWORD">
+                                                <svg style="right: 7px;" class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                </svg>
+                                            </div>
+
+                                            <div style="position: relative;">
+                                                <input class="form-control mb-3" type="password" name="confirm_password" value="" placeholder="CONFIRM PASSWORD">
+                                                <svg style="right: 7px;" class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                </svg>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <input class="form-control" type="text" name="contact_number" value="{{ $memberDetails->contact_number }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    @php
+                                                        $bday = explode(' ',$memberDetails->birthdate);
+                                                        $month = $bday[0];
+                                                        $day = $bday[1];
+                                                    @endphp
+                                                    <div class="col-6">
+                                                        <select class="form-select" name="gender">
+                                                            <option selected disabled>GENDER</option>
+                                                            @foreach($genders as $gender)
+                                                                <option @if($memberDetails->gender == $gender->id) selected @endif value="{{ $gender->id }}" >{{$gender->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-6" style="padding-left: 0px;">
+                                                        <div class="d-flex">
+                                                            <select class="form-select" aria-label="select month" name="month" style="width: 70%">
+                                                                <option value="0">BIRTHMONTH</option>
+                                                                @foreach(Config::get('months') as $key => $month)
+                                                                <option @if($month == $key) selected @endif value="{{ $key }}">{{ $month }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            &nbsp;
+                                                            <select class="form-select" aria-label="select day" name="day" style="width: 30%">
+                                                                <option value="0">BIRTHDAY</option>
+                                                                @for($d = 1; $d <= 31; $d++)
+                                                                <option @if($day == $d) selected @endif value="{{ $d }}">{{ $d }}</option>
+                                                                @endfor
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            @if(!$memberDetails->user_type == 5)
                                             <small><i><span class="text-danger">Disclaimer:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</i></small>
+                                            @endif
+
                                         </div>
 
                                         @if(!empty($memberDetails->cluster))
@@ -421,6 +503,21 @@
                                             <small><i>Press Control in keyboard and Left Click Mouse for changes and Multi Select. Changes in cluster needs approval.</i></small>
                                         </div>
                                         @endif
+
+                                        <div class="col-12 col-md-5">
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-12 d-flex flex-column">
+                                                        <input class="form-control mb-3" type="text" name="user_type" value="{{ $memberDetails->userType->name }}">
+                                                        <input class="form-control mb-3" type="text" name="congsec_type" value="{{ $memberDetails->congsec_type }}">
+                                                        <input class="form-control mb-3" type="text" name="committee_type" value="{{ $memberDetails->committee_type }}">
+                                                        <input class="form-control mb-3" type="text" name="committee_standing" value="{{ $memberDetails->committee_standing }}">
+                                                        <input class="form-control mb-3" type="text" name="committee_special" value="{{ $memberDetails->committee_special }}">
+                                                        <input class="form-control mb-3" type="text" name="chairperson" value="{{ $memberDetails->chairperson }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
 
                                     </div>
                                 </form>
@@ -1117,7 +1214,7 @@
                                                 $hor_day = $hor_bday[1];
                                             @endphp
                                             <td><span class="profile-label"><small>BirthDate: </small></span></td>
-                                            <td><span><small>{{ config('months.'.$hor_month) }} &nbsp; {{ $hor_day }}</small></span></td>
+                                            <td><span><small>{{ $hor_month }} &nbsp; {{ $hor_day }}</small></span></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -1125,7 +1222,7 @@
                             </div>
 
                             <div class="row" id="edit_hor_panel" style="display: none;">
-                                <form id="hor_update_form" action="#" method="post" enctype="multipart/form-data">
+                                <form id="hor_update_form" action="{{ route('member.profile.hor.update', $memberDetails->hor->id ) }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
                                         <small class="form-title"><b>DETAILS THAT ARE VISIBLE IN DIRECTORY</b></small>
@@ -1242,8 +1339,8 @@
                                                             <div class="d-flex">
                                                                 <select class="form-select" aria-label="select month" name="hor_month" style="width: 70%">
                                                                     <option value="0">BIRTHMONTH</option>
-                                                                    @foreach(Config::get('months') as $key => $month)
-                                                                    <option @if($hor_month == $key) selected @endif value="{{ $key }}">{{ $month }}</option>
+                                                                    @foreach(Config::get('months') as $month)
+                                                                    <option @if($hor_month == $month) selected @endif value="{{ $month }}">{{ $month }}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 &nbsp;
@@ -1339,7 +1436,7 @@
                                                 <div class="form-group mt-2">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_province_adress" value="{{ $memberDetails->hor->hor_province_adress }}" placeholder="ADDRESS">
+                                                            <input class="form-control" type="text" name="hor_province_address" value="{{ $memberDetails->hor->hor_province_address }}" placeholder="ADDRESS">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1616,7 +1713,7 @@
                                     </tr>
                                     <tr>
                                         <td><span><small>June 19, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">Expand the purposes and application of the Special Educaঞon Fund (SEF)</a></small></span></td>
+                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">Expand the purposes and application of the Special Education Fund (SEF)</a></small></span></td>
                                     </tr>
                                     <tr>
                                         <td><span><small>June 26, 2023</small></span></td>
