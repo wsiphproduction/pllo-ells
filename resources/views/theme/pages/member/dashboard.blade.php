@@ -217,7 +217,7 @@
                         @if(!empty($memberDetails->hor_id))
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="tab-hor-border-tab" data-bs-toggle="pill" data-bs-target="#hor-border" type="button" role="tab" aria-controls="tab-hor-border" aria-selected="false" onclick="tabSwitch(4)">
-                                <small><b class="text-uppercase">{{ $memberDetails->hor->hor_firstname }} {{ $memberDetails->hor->hor_middle_initial }} @if($memberDetails->hor->hor_middle_initial) . @endif {{ $memberDetails->hor->hor_lastname }}  {{ $memberDetails->hor->hor_suffix }}</b></small>
+                                <small><b class="text-uppercase">Cong. {{ $memberDetails->hor->hor_firstname }} {{ $memberDetails->hor->hor_middle_initial }} @if($memberDetails->hor->hor_middle_initial) . @endif {{ $memberDetails->hor->hor_lastname }}  {{ $memberDetails->hor->hor_suffix }}</b></small>
                             </button>
                         </li>
                         @endif
@@ -387,11 +387,21 @@
                                                     <tr>&nbsp;</tr>
                                                     <tr>
                                                         <td><span class="profile-label">Email Address:</span></td>
-                                                        <td><span>{{ $userTypeMember->email }}</span></td>
+                                                        <td>
+                                                            <span class="d-flex justify-content-between">
+                                                                {{ $userTypeMember->email }}
+                                                                <a href="mailto:{{ $userTypeMember->email }}" title="send an email"><i class="icon-envelope px-1"></i></a>
+                                                            </span>
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="profile-label">Cellphone Number:</span></td>
-                                                        <td><span>{{ $userTypeMember->contact_number }}</span></td>
+                                                        <td>
+                                                            <span class="d-flex justify-content-between">
+                                                                {{ $userTypeMember->contact_number }}
+                                                                <a href="tel:{{ $userTypeMember->contact_number }}" title="Call"><i class="icon-mobile px-2"></i></a>
+                                                            </span>
+                                                        </td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="profile-label">Viber Number:</span></td>
@@ -1944,9 +1954,10 @@
                           </div>
                           <div class="modal-footer">
                             <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                            <form method="post" action="#" enctype="multipart/form-data">
+                            <form method="post" action="{{ route('member.profile.account.delete') }}" enctype="multipart/form-data">
                                 @csrf
-                                <input type="hidden" name="user_id" value="{{ auth()->user() }}">
+                                <input type="hidden" name="user_id" value="{{ auth()->user()->id }}">
+                                <input type="hidden" name="member_id" value="{{ $memberDetails->id }}">
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
                           </div>
