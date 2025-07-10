@@ -122,8 +122,13 @@
             <div class="row g-5">
 
                 <div class="col-12 col-md-2">
-                    <h4 class="form-title">USER PROFILE</h4>
+                    @if($memberDetails->user_type != 5)
+                        <h4 class="form-title">USER PROFILE</h4>
+                    @else
+                        <h4 class="form-title">PROFILE</h4>
+                    @endif
 
+                    <!-- Need adjustment for user_type 5 CongSec -->
                     <form action="{{ route('member.upload.logo') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
@@ -137,12 +142,19 @@
                                     </svg>
                                 </label>
                             </div>
+
                             <div class="profile-pic-preview-container">
+                                @if($memberDetails->user_type == 5 || $memberDetails->user_type == 7)
                                 <img id="imagePreviewLogo"
-                                     src="{{ $memberDetails->logo ? asset('/' . $memberDetails->logo) : asset('images/user.png') }}"
+                                     src="{{ $memberDetails->photo ? asset('/' . $memberDetails->photo) : asset('images/user.png') }}"
                                      class="profile-pic-preview" alt="Profile Picture Preview"
                                      style="border-radius: 100%;">
-
+                                @else
+                                    <img id="imagePreviewLogo"
+                                         src="{{ $memberDetails->logo ? asset('/' . $memberDetails->logo) : asset('images/user.png') }}"
+                                         class="profile-pic-preview" alt="Profile Picture Preview"
+                                         style="border-radius: 100%;">
+                                @endif
                             </div>
 
 
@@ -156,7 +168,11 @@
                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
                                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2M12 4v12m0-12 4 4m-4-4L8 8"/>
                                 </svg>
-                                Upload Logo
+                                @if($memberDetails->user_type == 5 || $memberDetails->user_type == 7)
+                                    Upload Photo ID
+                                @else
+                                    Upload Logo
+                                @endif
                             </button>
                         </div>
                     </form>
@@ -170,7 +186,7 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="tab-profile-border-tab" data-bs-toggle="pill" data-bs-target="#profile-border" type="button" role="tab" aria-controls="tab-profile-border" aria-selected="true" onclick="tabSwitch(1)">
 
-                                @if($memberDetails->userType->id == 1 || $memberDetails->userType->id == 5 || $memberDetails->userType->id == 6 || $memberDetails->userType->id == 7)
+                                @if($memberDetails->userType->id == 1 || $memberDetails->userType->id == 4 || $memberDetails->userType->id == 5 || $memberDetails->userType->id == 6 || $memberDetails->userType->id == 7)
                                     <small><b>PROFILE</b></small>
                                 @endif
 
@@ -232,19 +248,23 @@
                         <div class="tab-pane fade show active" id="profile-border" role="tabpanel" aria-labelledby="tab-profile-border-tab" tabindex="0">
                             <div class="row" id="default_profile_panel">
                                 <div class="row">
-                                    @if($memberDetails->user_type != 5)
-                                    <small class="form-title mb-0"><b>MAIN ACCOUNT @if(!empty($memberDetails->designationDetails))<i style="font-size: 12px;">({{ $memberDetails->designationDetails->name }})</i>@endif</b></small>
-                                    <div class="col-12 col-md-2 d-flex align-items-start justify-content-center">
-                                        <img class="mt-2" width="120" style="border-radius: 100%;
-                                                            border-radius: 100%;
-                                                            min-width: 120px;
-                                                            height: 120px;
-                                                            background-image: url('{{ Auth::user()->avatar ? asset('/' . Auth::user()->avatar) : asset('images/user.png') }}');
-                                                            background-size: cover;
-                                                            background-repeat: no-repeat;
-                                                            background-position: center;">
-                                    </div>
+
+                                    @if($memberDetails->user_type == 5 || $memberDetails->user_type == 7)
+                                        <!-- nothing for now -->
+                                    @else
+                                        <small class="form-title mb-0"><b>MAIN ACCOUNT @if(!empty($memberDetails->designationDetails))<i style="font-size: 12px;">({{ $memberDetails->designationDetails->name }})</i>@endif</b></small>
+                                        <div class="col-12 col-md-2 d-flex align-items-start justify-content-center">
+                                            <img class="mt-2" width="120" style="border-radius: 100%;
+                                                                border-radius: 100%;
+                                                                min-width: 120px;
+                                                                height: 120px;
+                                                                background-image: url('{{ Auth::user()->avatar ? asset('/' . Auth::user()->avatar) : asset('images/user.png') }}');
+                                                                background-size: cover;
+                                                                background-repeat: no-repeat;
+                                                                background-position: center;">
+                                        </div>
                                     @endif
+
                                     <div class="col-12 col-md-5">
                                         <table class="table-dotted table-striped">
                                             <tr>&nbsp;</tr>
@@ -260,8 +280,41 @@
                                                 <td><span class="profile-label">Password:</span></td>
                                                 <td><span>********</span></td>
                                             </tr>
+                                            @if($memberDetails->user_type == 5)
+                                            <tr>
+                                                <td><span class="profile-label">Gender:</span></td>
+                                                <td><span>{{ $memberDetails->memberGender->name }}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="profile-label">Birthday:</span></td>
+                                                <td><span>{{ $memberDetails->birthdate }}</span></td>
+                                            </tr>
+                                            @endif
                                         </table>
                                     </div>
+
+                                    @if($memberDetails->user_type == 5)
+                                    @php
+                                        $type_number_name = config('numbertype.'.$memberDetails->type_number);
+                                    @endphp 
+                                    <div class="col-12 col-md-5">
+                                        <table class="table-dotted table-striped">
+                                            <tr>&nbsp;</tr>
+                                            <tr>
+                                                <td><span class="profile-label">Cellphone Number:</span></td>
+                                                <td><span>{{ $memberDetails->contact_number }}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="profile-label">Viber Number:</span></td>
+                                                <td><span>@if($type_number_name == 'Viber' ) {{ $memberDetails->other_number }} @else --- @endif</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="profile-label">Telegram Number:</span></td>
+                                                <td><span>@if($type_number_name == 'Telegram' ) {{ $memberDetails->other_number }} @else --- @endif</span></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    @endif
 
                                     @if(!empty($memberDetails->cluster))
                                         <div class="col-12 col-md-5">
@@ -285,72 +338,75 @@
                                         </div>
                                     @endif
                                 </div>
-                                @foreach($userTypeMembers as $userTypeMember)
-                                <div class="tab-content">
-                                    <div class="row mt-4">
-                                        @if($userTypeMember->designationDetails)
-                                        <small class="form-title my-0" style="transform: translate(0px, 16px);">
-                                            <b class="text-uppercase">{{ $userTypeMember->designationDetails->name }}</b>
-                                        </small>
-                                        @endif
-                                        <div class="col-12 col-md-2 d-flex align-items-start justify-content-center">
-                                            <img class="mt-4" width="120" style="border-radius: 100%;
-                                                                border-radius: 100%;
-                                                                min-width: 120px;
-                                                                height: 120px;
-                                                                background-image: url('{{ $userTypeMember->photo ? asset('/' . $userTypeMember->photo) : asset('images/user.png') }}');
-                                                                background-size: cover;
-                                                                background-repeat: no-repeat;
-                                                                background-position: center;">
-                                        </div>
-                                        <div class="col-12 col-md-5">
-                                            <table class="table-dotted table-striped">
-                                                <tr>&nbsp;</tr>
-                                                <tr>
-                                                    <td><span class="profile-label">Name:</span></td>
-                                                    <td><span>{{ $userTypeMember->firstname }}  {{ $userTypeMember->suffix }} @if(!empty($userTypeMember->suffix)) . @endif {{ $userTypeMember->lastname }}</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="profile-label">Nickname:</span></td>
-                                                    <td><span>{{ $userTypeMember->nickname }}</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="profile-label">Gender:</span></td>
-                                                    <td><span>{{ $userTypeMember->memberGender->name }}</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="profile-label">Birthday:</span></td>
-                                                    <td><span>{{ $userTypeMember->birthdate }}</span></td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                        <div class="col-12 col-md-5">
-                                            @php
-                                                $type_number_name = config('numbertype.'.$userTypeMember->type_number);
-                                            @endphp 
-                                            <table class="table-dotted table-striped">
-                                                <tr>&nbsp;</tr>
-                                                <tr>
-                                                    <td><span class="profile-label">Email Address:</span></td>
-                                                    <td><span>{{ $userTypeMember->email }}</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="profile-label">Cellphone Number:</span></td>
-                                                    <td><span>{{ $userTypeMember->contact_number }}</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="profile-label">Viber Number:</span></td>
-                                                    <td><span>@if($type_number_name == 'Viber' ) {{ $userTypeMember->other_number }} @else --- @endif</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="profile-label">Telegram Number:</span></td>
-                                                    <td><span>@if($type_number_name == 'Telegram' ) {{ $userTypeMember->other_number }} @else --- @endif</span></td>
-                                                </tr>
-                                            </table>
+
+                                @if($memberDetails->user_type != 5)
+                                    @foreach($userTypeMembers as $userTypeMember)
+                                    <div class="tab-content">
+                                        <div class="row mt-4">
+                                            @if($userTypeMember->designationDetails)
+                                            <small class="form-title my-0" style="transform: translate(0px, 16px);">
+                                                <b class="text-uppercase">{{ $userTypeMember->designationDetails->name }}</b>
+                                            </small>
+                                            @endif
+                                            <div class="col-12 col-md-2 d-flex align-items-start justify-content-center">
+                                                <img class="mt-4" width="120" style="border-radius: 100%;
+                                                                    border-radius: 100%;
+                                                                    min-width: 120px;
+                                                                    height: 120px;
+                                                                    background-image: url('{{ $userTypeMember->photo ? asset('/' . $userTypeMember->photo) : asset('images/user.png') }}');
+                                                                    background-size: cover;
+                                                                    background-repeat: no-repeat;
+                                                                    background-position: center;">
+                                            </div>
+                                            <div class="col-12 col-md-5">
+                                                <table class="table-dotted table-striped">
+                                                    <tr>&nbsp;</tr>
+                                                    <tr>
+                                                        <td><span class="profile-label">Name:</span></td>
+                                                        <td><span>{{ $userTypeMember->firstname }}  {{ $userTypeMember->suffix }} @if(!empty($userTypeMember->suffix)) . @endif {{ $userTypeMember->lastname }}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span class="profile-label">Nickname:</span></td>
+                                                        <td><span>{{ $userTypeMember->nickname }}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span class="profile-label">Gender:</span></td>
+                                                        <td><span>{{ $userTypeMember->memberGender->name }}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span class="profile-label">Birthday:</span></td>
+                                                        <td><span>{{ $userTypeMember->birthdate }}</span></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="col-12 col-md-5">
+                                                @php
+                                                    $type_number_name = config('numbertype.'.$userTypeMember->type_number);
+                                                @endphp 
+                                                <table class="table-dotted table-striped">
+                                                    <tr>&nbsp;</tr>
+                                                    <tr>
+                                                        <td><span class="profile-label">Email Address:</span></td>
+                                                        <td><span>{{ $userTypeMember->email }}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span class="profile-label">Cellphone Number:</span></td>
+                                                        <td><span>{{ $userTypeMember->contact_number }}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span class="profile-label">Viber Number:</span></td>
+                                                        <td><span>@if($type_number_name == 'Viber' ) {{ $userTypeMember->other_number }} @else --- @endif</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span class="profile-label">Telegram Number:</span></td>
+                                                        <td><span>@if($type_number_name == 'Telegram' ) {{ $userTypeMember->other_number }} @else --- @endif</span></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                @endforeach
+                                    @endforeach
+                                @endif
 
                             </div>
 
@@ -358,35 +414,37 @@
                                 <form id="profile_update_form" action="{{ route('member.profile.update') }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
-                                        @if($memberDetails->user_type != 5)
-                                        <div class="col-12 col-md-2">
-                                            <small class="form-title"><b>MAIN ACCOUNT</b></small>
-                                            <br />
-                                            <div class="text-center mb-4 position-relative">
-                                                <div class="file-input-wrapper photo">
-                                                    <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
-                                                    <label for="photo" class="file-input-label">
-                                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                          <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8a1 1 0 0 1 1-1h1.5l1.707-1.707A1 1 0 0 1 8.914 5h6.172a1 1 0 0 1 .707.293L17.5 7H19a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/>
-                                                          <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                                        </svg>
-                                                    </label>
+                                        
+                                        @if($memberDetails->user_type == 5 || $memberDetails->user_type == 7)
+                                            <!-- nothing for now.. -->
+                                        @else
+                                            <div class="col-12 col-md-2">
+                                                <small class="form-title"><b>MAIN ACCOUNT</b></small>
+                                                <br />
+                                                <div class="text-center mb-4 position-relative">
+                                                    <div class="file-input-wrapper photo">
+                                                        <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
+                                                        <label for="photo" class="file-input-label">
+                                                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                              <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8a1 1 0 0 1 1-1h1.5l1.707-1.707A1 1 0 0 1 8.914 5h6.172a1 1 0 0 1 .707.293L17.5 7H19a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/>
+                                                              <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                            </svg>
+                                                        </label>
+                                                    </div>
+                                                    <div class="profile-pic-preview-container">
+                                                        <img id="imagePreviewPhoto"
+                                                             src="{{ Auth::user()->avatar ? asset('/' . Auth::user()->avatar) : asset('images/user.png') }}"
+                                                             class="profile-pic-preview" alt="Profile Picture Preview"
+                                                             style="border-radius: 100%;">
+
+                                                    </div>
+                                                    @error('photo')
+                                                        <div class="alert alert-danger mt-2">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
-                                                <div class="profile-pic-preview-container">
-                                                    <img id="imagePreviewPhoto"
-                                                         src="{{ Auth::user()->avatar ? asset('/' . Auth::user()->avatar) : asset('images/user.png') }}"
-                                                         class="profile-pic-preview" alt="Profile Picture Preview"
-                                                         style="border-radius: 100%;">
-
-                                                </div>
-
-
-                                                @error('photo')
-                                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
-                                                @enderror
                                             </div>
-                                        </div>
                                         @endif
+
                                         <div class="col-12 col-md-5">
 
                                             <div class="form-group">
@@ -488,8 +546,9 @@
 
                                         </div>
 
-                                        @if(!empty($memberDetails->cluster))
                                         <div class="col-12 col-md-5">
+
+                                            @if(!empty($memberDetails->cluster))
                                             <div class="mb-2">
                                                 @php
                                                     $cluster_arr = explode('::', $memberDetails->cluster);
@@ -501,10 +560,9 @@
                                                 </select>
                                             </div>
                                             <small><i>Press Control in keyboard and Left Click Mouse for changes and Multi Select. Changes in cluster needs approval.</i></small>
-                                        </div>
-                                        @endif
+                                            @endif
 
-                                        <div class="col-12 col-md-5">
+                                            @if($memberDetails->user_type == 5)
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-12 d-flex flex-column">
@@ -517,6 +575,8 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            @endif
+
                                         </div>
 
                                     </div>
@@ -725,7 +785,13 @@
                                                 $sen_day = $sen_bday[1];
                                             @endphp
                                             <td><span class="profile-label"><small>BirthDate: </small></span></td>
-                                            <td><span><small>{{ config('months.'.$sen_month) }} &nbsp; {{ $sen_day }}</small></span></td>
+                                            <td>
+                                                <span>
+                                                    <small>
+                                                        {{ config('months.'.$sen_month) }} &nbsp; {{ $sen_day }}
+                                                    </small>
+                                                </span>
+                                            </td>
                                         </tr>
                                     </table>
 
@@ -870,7 +936,7 @@
                                                                 <select class="form-select" aria-label="select month" name="sen_month" style="width: 70%">
                                                                     <option value="0">BIRTHMONTH</option>
                                                                     @foreach(Config::get('months') as $key => $month)
-                                                                    <option @if($sen_month == $key) selected @endif value="{{ $key }}">{{ $month }}</option>
+                                                                    <option @if($sen_month == $key) selected @endif value="{{ $month }}">{{ $month }}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 &nbsp;

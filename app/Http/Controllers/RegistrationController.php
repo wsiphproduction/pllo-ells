@@ -138,7 +138,7 @@ class RegistrationController extends Controller
         $user = User::create($requests);
 
         // Create new member //
-        if ($request->user_type == 1 || $request->user_type == 9) {
+        if ($request->user_type == 1 || $request->user_type == 6) {
             $requests['cluster'] = implode("::", $request['cluster']);
         }
 
@@ -150,12 +150,11 @@ class RegistrationController extends Controller
         $requests['logo'] = $request->hasFile('agency_logo') ? FileHelper::move_to_folder($request->file('agency_logo'), 'logo')['url'] : null;
 
         Member::create($requests);
-
+        
         // Email condition //
         Mail::to($requests['email'])->send(new RegisterMail(Setting::info(), $user));
 
         return redirect()->back()->with("success","Registered Successfully!");
-
     }
 
     public function agencyList(Request $request)
@@ -582,19 +581,32 @@ class RegistrationController extends Controller
 
         if ($request->hasFile('logo')) {
 
-            $image = $request->file('logo');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            $path = 'storage/logo/' . $filename;
+            if($member->user_type == 5) {
+                $image = $request->file('logo');
+                $filename = time() . '.' . $image->getClientOriginalExtension();
+                $path = 'storage/photo/' . $filename;
 
-            Storage::disk('public')->putFileAs('logo', $image, $filename);
+                Storage::disk('public')->putFileAs('photo', $image, $filename);
 
-            $member->logo = $path;
+                $member->photo = $path;
+            } else {
+                $image = $request->file('logo');
+                $filename = time() . '.' . $image->getClientOriginalExtension();
+                $path = 'storage/logo/' . $filename;
+
+                Storage::disk('public')->putFileAs('logo', $image, $filename);
+
+                $member->logo = $path;
+            }
 
             $member->save();
-            
+
         } else {
+
             return back()->with('error', 'No logo selected.');
+
         }
+
         return back()->with('success', 'New logo uploaded.');
     
     }
