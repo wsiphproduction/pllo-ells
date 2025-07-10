@@ -122,8 +122,13 @@
             <div class="row g-5">
 
                 <div class="col-12 col-md-2">
-                    <h4 class="form-title">USER PROFILE</h4>
+                    @if($memberDetails->user_type != 5)
+                        <h4 class="form-title">USER PROFILE</h4>
+                    @else
+                        <h4 class="form-title">PROFILE</h4>
+                    @endif
 
+                    <!-- Need adjustment for user_type 5 CongSec -->
                     <form action="{{ route('member.upload.logo') }}" method="POST" enctype="multipart/form-data">
                         @csrf
 
@@ -137,12 +142,19 @@
                                     </svg>
                                 </label>
                             </div>
+
                             <div class="profile-pic-preview-container">
+                                @if($memberDetails->user_type == 5 || $memberDetails->user_type == 7)
                                 <img id="imagePreviewLogo"
-                                     src="{{ $memberDetails->logo ? asset('/' . $memberDetails->logo) : asset('images/user.png') }}"
+                                     src="{{ $memberDetails->photo ? asset('/' . $memberDetails->photo) : asset('images/user.png') }}"
                                      class="profile-pic-preview" alt="Profile Picture Preview"
                                      style="border-radius: 100%;">
-
+                                @else
+                                    <img id="imagePreviewLogo"
+                                         src="{{ $memberDetails->logo ? asset('/' . $memberDetails->logo) : asset('images/user.png') }}"
+                                         class="profile-pic-preview" alt="Profile Picture Preview"
+                                         style="border-radius: 100%;">
+                                @endif
                             </div>
 
 
@@ -156,7 +168,11 @@
                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="none" viewBox="0 0 24 24">
                                   <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 15v2a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3v-2M12 4v12m0-12 4 4m-4-4L8 8"/>
                                 </svg>
-                                Upload Logo
+                                @if($memberDetails->user_type == 5 || $memberDetails->user_type == 7)
+                                    Upload Photo ID
+                                @else
+                                    Upload Logo
+                                @endif
                             </button>
                         </div>
                     </form>
@@ -170,7 +186,7 @@
                         <li class="nav-item" role="presentation">
                             <button class="nav-link active" id="tab-profile-border-tab" data-bs-toggle="pill" data-bs-target="#profile-border" type="button" role="tab" aria-controls="tab-profile-border" aria-selected="true" onclick="tabSwitch(1)">
 
-                                @if($memberDetails->userType->id == 1)
+                                @if($memberDetails->userType->id == 1 || $memberDetails->userType->id == 4 || $memberDetails->userType->id == 5 || $memberDetails->userType->id == 6 || $memberDetails->userType->id == 7)
                                     <small><b>PROFILE</b></small>
                                 @endif
 
@@ -232,17 +248,23 @@
                         <div class="tab-pane fade show active" id="profile-border" role="tabpanel" aria-labelledby="tab-profile-border-tab" tabindex="0">
                             <div class="row" id="default_profile_panel">
                                 <div class="row">
-                                    <small class="form-title mb-0"><b>MAIN ACCOUNT <i style="font-size: 12px;">({{ $memberDetails->designationDetails->name }})</i></b></small>
-                                    <div class="col-12 col-md-2 d-flex align-items-start justify-content-center">
-                                        <img class="mt-2" width="120" style="border-radius: 100%;
-                                                            border-radius: 100%;
-                                                            min-width: 120px;
-                                                            height: 120px;
-                                                            background-image: url('{{ Auth::user()->avatar ? asset('/' . Auth::user()->avatar) : asset('images/user.png') }}');
-                                                            background-size: cover;
-                                                            background-repeat: no-repeat;
-                                                            background-position: center;">
-                                    </div>
+
+                                    @if($memberDetails->user_type == 5 || $memberDetails->user_type == 7)
+                                        <!-- nothing for now -->
+                                    @else
+                                        <small class="form-title mb-0"><b>MAIN ACCOUNT @if(!empty($memberDetails->designationDetails))<i style="font-size: 12px;">({{ $memberDetails->designationDetails->name }})</i>@endif</b></small>
+                                        <div class="col-12 col-md-2 d-flex align-items-start justify-content-center">
+                                            <img class="mt-2" width="120" style="border-radius: 100%;
+                                                                border-radius: 100%;
+                                                                min-width: 120px;
+                                                                height: 120px;
+                                                                background-image: url('{{ Auth::user()->avatar ? asset('/' . Auth::user()->avatar) : asset('images/user.png') }}');
+                                                                background-size: cover;
+                                                                background-repeat: no-repeat;
+                                                                background-position: center;">
+                                        </div>
+                                    @endif
+
                                     <div class="col-12 col-md-5">
                                         <table class="table-dotted table-striped">
                                             <tr>&nbsp;</tr>
@@ -258,8 +280,41 @@
                                                 <td><span class="profile-label">Password:</span></td>
                                                 <td><span>********</span></td>
                                             </tr>
+                                            @if($memberDetails->user_type == 5)
+                                            <tr>
+                                                <td><span class="profile-label">Gender:</span></td>
+                                                <td><span>{{ $memberDetails->memberGender->name }}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="profile-label">Birthday:</span></td>
+                                                <td><span>{{ $memberDetails->birthdate }}</span></td>
+                                            </tr>
+                                            @endif
                                         </table>
                                     </div>
+
+                                    @if($memberDetails->user_type == 5)
+                                    @php
+                                        $type_number_name = config('numbertype.'.$memberDetails->type_number);
+                                    @endphp 
+                                    <div class="col-12 col-md-5">
+                                        <table class="table-dotted table-striped">
+                                            <tr>&nbsp;</tr>
+                                            <tr>
+                                                <td><span class="profile-label">Cellphone Number:</span></td>
+                                                <td><span>{{ $memberDetails->contact_number }}</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="profile-label">Viber Number:</span></td>
+                                                <td><span>@if($type_number_name == 'Viber' ) {{ $memberDetails->other_number }} @else --- @endif</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="profile-label">Telegram Number:</span></td>
+                                                <td><span>@if($type_number_name == 'Telegram' ) {{ $memberDetails->other_number }} @else --- @endif</span></td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    @endif
 
                                     @if(!empty($memberDetails->cluster))
                                         <div class="col-12 col-md-5">
@@ -283,72 +338,75 @@
                                         </div>
                                     @endif
                                 </div>
-                                @foreach($userTypeMembers as $userTypeMember)
-                                <div class="tab-content">
-                                    <div class="row mt-4">
-                                        @if($userTypeMember->designationDetails)
-                                        <small class="form-title my-0" style="transform: translate(0px, 16px);">
-                                            <b class="text-uppercase">{{ $userTypeMember->designationDetails->name }}</b>
-                                        </small>
-                                        @endif
-                                        <div class="col-12 col-md-2 d-flex align-items-start justify-content-center">
-                                            <img class="mt-4" width="120" style="border-radius: 100%;
-                                                                border-radius: 100%;
-                                                                min-width: 120px;
-                                                                height: 120px;
-                                                                background-image: url('{{ $userTypeMember->photo ? asset('/' . $userTypeMember->photo) : asset('images/user.png') }}');
-                                                                background-size: cover;
-                                                                background-repeat: no-repeat;
-                                                                background-position: center;">
-                                        </div>
-                                        <div class="col-12 col-md-5">
-                                            <table class="table-dotted table-striped">
-                                                <tr>&nbsp;</tr>
-                                                <tr>
-                                                    <td><span class="profile-label">Name:</span></td>
-                                                    <td><span>{{ $userTypeMember->firstname }}  {{ $userTypeMember->suffix }} @if(!empty($userTypeMember->suffix)) . @endif {{ $userTypeMember->lastname }}</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="profile-label">Nickname:</span></td>
-                                                    <td><span>{{ $userTypeMember->nickname }}</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="profile-label">Gender:</span></td>
-                                                    <td><span>{{ $userTypeMember->memberGender->name }}</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="profile-label">Birthday:</span></td>
-                                                    <td><span>{{ $userTypeMember->birthdate }}</span></td>
-                                                </tr>
-                                            </table>
-                                        </div>
-                                        <div class="col-12 col-md-5">
-                                            @php
-                                                $type_number_name = config('numbertype.'.$userTypeMember->type_number);
-                                            @endphp 
-                                            <table class="table-dotted table-striped">
-                                                <tr>&nbsp;</tr>
-                                                <tr>
-                                                    <td><span class="profile-label">Email Address:</span></td>
-                                                    <td><span>{{ $userTypeMember->email }}</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="profile-label">Cellphone Number:</span></td>
-                                                    <td><span>{{ $userTypeMember->contact_number }}</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="profile-label">Viber Number:</span></td>
-                                                    <td><span>@if($type_number_name == 'Viber' ) {{ $userTypeMember->other_number }} @else --- @endif</span></td>
-                                                </tr>
-                                                <tr>
-                                                    <td><span class="profile-label">Telegram Number:</span></td>
-                                                    <td><span>@if($type_number_name == 'Telegram' ) {{ $userTypeMember->other_number }} @else --- @endif</span></td>
-                                                </tr>
-                                            </table>
+
+                                @if($memberDetails->user_type != 5)
+                                    @foreach($userTypeMembers as $userTypeMember)
+                                    <div class="tab-content">
+                                        <div class="row mt-4">
+                                            @if($userTypeMember->designationDetails)
+                                            <small class="form-title my-0" style="transform: translate(0px, 16px);">
+                                                <b class="text-uppercase">{{ $userTypeMember->designationDetails->name }}</b>
+                                            </small>
+                                            @endif
+                                            <div class="col-12 col-md-2 d-flex align-items-start justify-content-center">
+                                                <img class="mt-4" width="120" style="border-radius: 100%;
+                                                                    border-radius: 100%;
+                                                                    min-width: 120px;
+                                                                    height: 120px;
+                                                                    background-image: url('{{ $userTypeMember->photo ? asset('/' . $userTypeMember->photo) : asset('images/user.png') }}');
+                                                                    background-size: cover;
+                                                                    background-repeat: no-repeat;
+                                                                    background-position: center;">
+                                            </div>
+                                            <div class="col-12 col-md-5">
+                                                <table class="table-dotted table-striped">
+                                                    <tr>&nbsp;</tr>
+                                                    <tr>
+                                                        <td><span class="profile-label">Name:</span></td>
+                                                        <td><span>{{ $userTypeMember->firstname }}  {{ $userTypeMember->suffix }} @if(!empty($userTypeMember->suffix)) . @endif {{ $userTypeMember->lastname }}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span class="profile-label">Nickname:</span></td>
+                                                        <td><span>{{ $userTypeMember->nickname }}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span class="profile-label">Gender:</span></td>
+                                                        <td><span>{{ $userTypeMember->memberGender->name }}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span class="profile-label">Birthday:</span></td>
+                                                        <td><span>{{ $userTypeMember->birthdate }}</span></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
+                                            <div class="col-12 col-md-5">
+                                                @php
+                                                    $type_number_name = config('numbertype.'.$userTypeMember->type_number);
+                                                @endphp 
+                                                <table class="table-dotted table-striped">
+                                                    <tr>&nbsp;</tr>
+                                                    <tr>
+                                                        <td><span class="profile-label">Email Address:</span></td>
+                                                        <td><span>{{ $userTypeMember->email }}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span class="profile-label">Cellphone Number:</span></td>
+                                                        <td><span>{{ $userTypeMember->contact_number }}</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span class="profile-label">Viber Number:</span></td>
+                                                        <td><span>@if($type_number_name == 'Viber' ) {{ $userTypeMember->other_number }} @else --- @endif</span></td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td><span class="profile-label">Telegram Number:</span></td>
+                                                        <td><span>@if($type_number_name == 'Telegram' ) {{ $userTypeMember->other_number }} @else --- @endif</span></td>
+                                                    </tr>
+                                                </table>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                @endforeach
+                                    @endforeach
+                                @endif
 
                             </div>
 
@@ -356,58 +414,141 @@
                                 <form id="profile_update_form" action="{{ route('member.profile.update') }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
-                                        <div class="col-12 col-md-2">
-                                            <small class="form-title"><b>MAIN ACCOUNT</b></small>
-                                            <br />
-                                            <div class="text-center mb-4 position-relative">
-                                                <div class="file-input-wrapper photo">
-                                                    <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
-                                                    <label for="photo" class="file-input-label">
-                                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                          <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8a1 1 0 0 1 1-1h1.5l1.707-1.707A1 1 0 0 1 8.914 5h6.172a1 1 0 0 1 .707.293L17.5 7H19a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/>
-                                                          <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                                        </svg>
-                                                    </label>
+                                        
+                                        @if($memberDetails->user_type == 5 || $memberDetails->user_type == 7)
+                                            <!-- nothing for now.. -->
+                                        @else
+                                            <div class="col-12 col-md-2">
+                                                <small class="form-title"><b>MAIN ACCOUNT</b></small>
+                                                <br />
+                                                <div class="text-center mb-4 position-relative">
+                                                    <div class="file-input-wrapper photo">
+                                                        <input type="file" class="form-control" id="photo" name="photo" accept="image/*">
+                                                        <label for="photo" class="file-input-label">
+                                                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                              <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8a1 1 0 0 1 1-1h1.5l1.707-1.707A1 1 0 0 1 8.914 5h6.172a1 1 0 0 1 .707.293L17.5 7H19a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/>
+                                                              <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                            </svg>
+                                                        </label>
+                                                    </div>
+                                                    <div class="profile-pic-preview-container">
+                                                        <img id="imagePreviewPhoto"
+                                                             src="{{ Auth::user()->avatar ? asset('/' . Auth::user()->avatar) : asset('images/user.png') }}"
+                                                             class="profile-pic-preview" alt="Profile Picture Preview"
+                                                             style="border-radius: 100%;">
+
+                                                    </div>
+                                                    @error('photo')
+                                                        <div class="alert alert-danger mt-2">{{ $message }}</div>
+                                                    @enderror
                                                 </div>
-                                                <div class="profile-pic-preview-container">
-                                                    <img id="imagePreviewPhoto"
-                                                         src="{{ Auth::user()->avatar ? asset('/' . Auth::user()->avatar) : asset('images/user.png') }}"
-                                                         class="profile-pic-preview" alt="Profile Picture Preview"
-                                                         style="border-radius: 100%;">
-
-                                                </div>
-
-
-                                                @error('photo')
-                                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
-                                                @enderror
                                             </div>
-                                        </div>
+                                        @endif
+
                                         <div class="col-12 col-md-5">
-                                            <div>
-                                                <input class="form-control mb-3" type="text" name="email" value="{{ $memberDetails->email }}">
-                                                <input class="form-control mb-3" type="text" name="alt_email" value="{{ $memberDetails->alt_email }}" placeholder="ALT EMAIL ADDRESS">
-                                                
-                                                <div style="position: relative;">
-                                                    <input class="form-control mb-3" type="password" name="password" value="{{ $memberDetails->password }}" placeholder="PASSWORD">
-                                                    <svg style="right: 7px;" class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                                    </svg>
-                                                </div>
 
-                                                <div style="position: relative;">
-                                                    <input class="form-control mb-3" type="password" name="confirm_password" value="" placeholder="CONFIRM PASSWORD">
-                                                    <svg style="right: 7px;" class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                      <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                                    </svg>
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-10">
+                                                        <input class="form-control" type="text" name="firstname" value="{{ $memberDetails->firstname }}" placeholder="FIRST NAME">
+                                                    </div>
+                                                    <div class="col-2" style="padding-left: 0px;">
+                                                        <input class="form-control" type="text" name="middle_initial" value="{{ $memberDetails->middle_initial }}" placeholder="M.I.">
+                                                    </div>
                                                 </div>
-
                                             </div>
+
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-10">
+                                                        <input class="form-control" type="text" name="lastname" value="{{ $memberDetails->lastname }}" placeholder="LAST NAME">
+                                                    </div>
+                                                    <div class="col-2" style="padding-left: 0px;">
+                                                        <select class="form-select" name="suffix">
+                                                            <option selected disabled>SUFFIX</option>
+                                                            <option @if($memberDetails->suffix == 'Jr') selected  @endif>Jr</option>
+                                                            <option @if($memberDetails->suffix == 'Sr') selected  @endif>Sr</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <input class="form-control" type="text" name="nickname" value="{{ $memberDetails->nickname }}" placeholder="NICKNAME">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <input class="form-control mb-3" type="text" name="email" value="{{ $memberDetails->email }}">
+                                            <input class="form-control mb-3" type="text" name="alt_email" value="{{ $memberDetails->alt_email }}" placeholder="ALT EMAIL ADDRESS">
+                                            
+                                            <div style="position: relative;">
+                                                <input class="form-control mb-3" type="password" name="password" value="{{ $memberDetails->password }}" placeholder="PASSWORD">
+                                                <svg style="right: 7px;" class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                </svg>
+                                            </div>
+
+                                            <div style="position: relative;">
+                                                <input class="form-control mb-3" type="password" name="confirm_password" value="" placeholder="CONFIRM PASSWORD">
+                                                <svg style="right: 7px;" class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                </svg>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <input class="form-control" type="text" name="contact_number" value="{{ $memberDetails->contact_number }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    @php
+                                                        $bday = explode(' ',$memberDetails->birthdate);
+                                                        $month = $bday[0];
+                                                        $day = $bday[1];
+                                                    @endphp
+                                                    <div class="col-6">
+                                                        <select class="form-select" name="gender">
+                                                            <option selected disabled>GENDER</option>
+                                                            @foreach($genders as $gender)
+                                                                <option @if($memberDetails->gender == $gender->id) selected @endif value="{{ $gender->id }}" >{{$gender->name}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="col-6" style="padding-left: 0px;">
+                                                        <div class="d-flex">
+                                                            <select class="form-select" aria-label="select month" name="month" style="width: 70%">
+                                                                <option value="0">BIRTHMONTH</option>
+                                                                @foreach(Config::get('months') as $key => $month)
+                                                                <option @if($month == $key) selected @endif value="{{ $key }}">{{ $month }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                            &nbsp;
+                                                            <select class="form-select" aria-label="select day" name="day" style="width: 30%">
+                                                                <option value="0">BIRTHDAY</option>
+                                                                @for($d = 1; $d <= 31; $d++)
+                                                                <option @if($day == $d) selected @endif value="{{ $d }}">{{ $d }}</option>
+                                                                @endfor
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            @if(!$memberDetails->user_type == 5)
                                             <small><i><span class="text-danger">Disclaimer:</span> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt.</i></small>
+                                            @endif
+
                                         </div>
 
-                                        @if(!empty($memberDetails->cluster))
                                         <div class="col-12 col-md-5">
+
+                                            @if(!empty($memberDetails->cluster))
                                             <div class="mb-2">
                                                 @php
                                                     $cluster_arr = explode('::', $memberDetails->cluster);
@@ -419,8 +560,24 @@
                                                 </select>
                                             </div>
                                             <small><i>Press Control in keyboard and Left Click Mouse for changes and Multi Select. Changes in cluster needs approval.</i></small>
+                                            @endif
+
+                                            @if($memberDetails->user_type == 5)
+                                            <div class="form-group">
+                                                <div class="row">
+                                                    <div class="col-12 d-flex flex-column">
+                                                        <input class="form-control mb-3" type="text" name="user_type" value="{{ $memberDetails->userType->name }}">
+                                                        <input class="form-control mb-3" type="text" name="congsec_type" value="{{ $memberDetails->congsec_type }}">
+                                                        <input class="form-control mb-3" type="text" name="committee_type" value="{{ $memberDetails->committee_type }}">
+                                                        <input class="form-control mb-3" type="text" name="committee_standing" value="{{ $memberDetails->committee_standing }}">
+                                                        <input class="form-control mb-3" type="text" name="committee_special" value="{{ $memberDetails->committee_special }}">
+                                                        <input class="form-control mb-3" type="text" name="chairperson" value="{{ $memberDetails->chairperson }}">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            @endif
+
                                         </div>
-                                        @endif
 
                                     </div>
                                 </form>
@@ -628,7 +785,13 @@
                                                 $sen_day = $sen_bday[1];
                                             @endphp
                                             <td><span class="profile-label"><small>BirthDate: </small></span></td>
-                                            <td><span><small>{{ config('months.'.$sen_month) }} &nbsp; {{ $sen_day }}</small></span></td>
+                                            <td>
+                                                <span>
+                                                    <small>
+                                                        {{ config('months.'.$sen_month) }} &nbsp; {{ $sen_day }}
+                                                    </small>
+                                                </span>
+                                            </td>
                                         </tr>
                                     </table>
 
@@ -773,7 +936,7 @@
                                                                 <select class="form-select" aria-label="select month" name="sen_month" style="width: 70%">
                                                                     <option value="0">BIRTHMONTH</option>
                                                                     @foreach(Config::get('months') as $key => $month)
-                                                                    <option @if($sen_month == $key) selected @endif value="{{ $key }}">{{ $month }}</option>
+                                                                    <option @if($sen_month == $key) selected @endif value="{{ $month }}">{{ $month }}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 &nbsp;
@@ -1117,7 +1280,7 @@
                                                 $hor_day = $hor_bday[1];
                                             @endphp
                                             <td><span class="profile-label"><small>BirthDate: </small></span></td>
-                                            <td><span><small>{{ config('months.'.$hor_month) }} &nbsp; {{ $hor_day }}</small></span></td>
+                                            <td><span><small>{{ $hor_month }} &nbsp; {{ $hor_day }}</small></span></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -1125,7 +1288,7 @@
                             </div>
 
                             <div class="row" id="edit_hor_panel" style="display: none;">
-                                <form id="hor_update_form" action="#" method="post" enctype="multipart/form-data">
+                                <form id="hor_update_form" action="{{ route('member.profile.hor.update', $memberDetails->hor->id ) }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
                                         <small class="form-title"><b>DETAILS THAT ARE VISIBLE IN DIRECTORY</b></small>
@@ -1242,8 +1405,8 @@
                                                             <div class="d-flex">
                                                                 <select class="form-select" aria-label="select month" name="hor_month" style="width: 70%">
                                                                     <option value="0">BIRTHMONTH</option>
-                                                                    @foreach(Config::get('months') as $key => $month)
-                                                                    <option @if($hor_month == $key) selected @endif value="{{ $key }}">{{ $month }}</option>
+                                                                    @foreach(Config::get('months') as $month)
+                                                                    <option @if($hor_month == $month) selected @endif value="{{ $month }}">{{ $month }}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 &nbsp;
@@ -1339,7 +1502,7 @@
                                                 <div class="form-group mt-2">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_province_adress" value="{{ $memberDetails->hor->hor_province_adress }}" placeholder="ADDRESS">
+                                                            <input class="form-control" type="text" name="hor_province_address" value="{{ $memberDetails->hor->hor_province_address }}" placeholder="ADDRESS">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1616,7 +1779,7 @@
                                     </tr>
                                     <tr>
                                         <td><span><small>June 19, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">Expand the purposes and application of the Special Educaঞon Fund (SEF)</a></small></span></td>
+                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">Expand the purposes and application of the Special Education Fund (SEF)</a></small></span></td>
                                     </tr>
                                     <tr>
                                         <td><span><small>June 26, 2023</small></span></td>
