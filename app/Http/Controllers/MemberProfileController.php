@@ -68,6 +68,19 @@ class MemberProfileController extends Controller
 
 	}
 
+	// Delete User Account
+	public function memberDelete(Request $request)
+	{
+		$member = Member::find($request->member_id);
+		$member->delete();
+
+		$user = User::find($request->user_id);
+		$user->delete();
+
+		Auth::logout();
+		return redirect()->route('home')->with('success', 'Account deleted!');
+	}
+
 	public function senatorProfileUpdate(Request $request, $id) {
 
 		$birth_arr = [$request['sen_month'], $request['sen_day']];
