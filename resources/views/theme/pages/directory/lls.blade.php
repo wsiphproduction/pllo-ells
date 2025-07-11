@@ -12,6 +12,10 @@
         top: 40%;
         left: 9%;
     }
+
+    .member-list-view {
+        display: none;
+    }
 </style>
 @endsection
 
@@ -20,19 +24,43 @@
                 
         <div class="col-12 mb-3 d-flex justify-content-between align-items-center">
             <h3 class="form-title text-uppercase">{{ $page->name }}</h3>
-            <form method="get" action="{{ route('directory') }}">
-                <div class="d-flex justify-content-between align-items-center">
-                    <input class="form-control" placeholder="Search Member Name" name="member_name" value="{{ request('member_name') }}"/>
-                    <button type="button" class="btn btn-transparent p-1"><i class="bi-grid-fill fa-1x custom-text-primary"></i></button>
-                    <a href="{{ route('directory') }}" type="button" class="btn btn-transparent p-1"><i class="fa-solid fa-refresh fa-1x custom-text-primary"></i></a>
+
+            <div class="d-flex align-items-centerl">
+
+                <div class="row mx-2">
+                    <select class="form-select lh-1" id="filter-designation" style="height: 38px;">
+                        <option selected disabled>DESIGNATION</option>
+                        @foreach($designations as $designation)
+                        <option value="{{ $designation->id }}">{{ $designation->name }}</option>
+                        @endforeach
+                    </select>
                 </div>
-            </form>
+
+                <div class="row mx-2">
+                    <select class="form-select lh-1" id="filter-birthmonth" style="height: 38px;">
+                        <option selected disabled>BIRTHMONTH</option>
+                        @foreach(config('months') as $month)
+                        <option>{{ $month }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                
+                <form method="get" action="{{ route('directory.lls') }}">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <input class="form-control mx-2" placeholder="Search Member Name" name="member_name" value="{{ request('member_name') }}"/>
+                        <button type="button" class="btn btn-transparent p-1" id="grid-view-btn" title="Grid View"><i class="bi-grid-fill fa-1x custom-text-primary"></i></button>
+                        <button type="button" class="btn btn-transparent p-1" id="list-view-btn" title="List View"><i class="bi-list-ul fa-1x custom-text-primary"></i></button>
+                        <a onclick="window.print()" type="button" class="btn btn-transparent p-1" title="Print"><i class="fa-solid fa-print fa-1x custom-text-primary"></i></a>
+                    </div>
+                </form>
+            </div>
+
         </div>
 
         <div id="portfolio" class="row g-4">
             
             @foreach($members as $member)
-                <article class="portfolio-item col-md-6 col-12">
+                <article class="portfolio-item col-md-6 col-12 member-grid-view">
                     <div class="card mb-4 p-3 border-0">
                         <div class="row g-0 relative">
                             <div class="col-md-4" style="height: 200px;">
@@ -79,6 +107,70 @@
                 </article>
             @endforeach
 
+            <div class="content member-list-view">
+                <table class="table-dotted table-striped">
+                    <thead>
+                        <tr class="border-0">
+                            <th class="py-3 px-2 custom-primary-bg rounded-start"><small class="text-white">PICTURE</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">NAME / POSITION</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">AGENCY</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">CLUSTER</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">NUMBER</small></th>
+                            <th class="py-3 custom-primary-bg rounded-end"><small class="text-white">EMAIL ADD</small></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($members as $member)
+                        <tr>
+                            <td>
+                                <img id="userPhotoDirectory"
+                                     src="{{ $member->photo ? asset('/' . $member->photo) : asset('images/user.png') }}"
+                                     class="profile-pic-directory" alt="Profile Picture"
+                                     style="border-radius: 12px; width: 80px;">
+                            </td>
+                            <td>
+                                <span class="d-flex flex-column">
+                                    <small class="lh-1"><b class="text-capitalize">{{ $member->FullName }}</b></small>
+                                    @if(!empty($member->designation))
+                                    <small class="lh-1"><i>{{ $member->designationDetails->name }}</i></small>
+                                    @endif
+                                </span>
+                            </td>
+                            <td>
+                                <span>
+                                    <small>{{ $member->agency }}</small>
+                                </span>
+                            </td>
+                            <td>
+                                @if(!empty($member->cluster))
+                                    @php
+                                        $cluster_arr = [];
+                                        $cluster_arr = explode('::', $member->cluster);
+                                    @endphp
+                                      
+                                    @forelse($cluster_arr as $cluster)
+                                        <span><small>{{ $member->getClusterName($cluster)->name }} <br /></small></span>
+                                    @empty
+                                        <span><small>No Cluster Details.</small></span>
+                                    @endforelse
+                                @endif
+                            </td>
+                            <td>
+                                <span>
+                                    <small>{{ $member->contact_number }}</small>
+                                </span>
+                            </td>
+                            <td>
+                                <span>
+                                    <small>{{ $member->email }}</small>
+                                </span>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
+
         </div>
     </div>
 
@@ -106,6 +198,11 @@
       </div>
     </div>
 
+    <!-- form filter by designation -->
+    <form action="{{ route('directory.lls') }}"  method="get" id="filter-designation-form">
+        <input type="hidden" name="designation" id="designation-value-holder">
+    </form>
+
 @endsection
 
 @section('pagejs')
@@ -115,6 +212,25 @@
     $('.add-contact-btn').on('click', function() {
         let num = $(this).attr('data-id');
         $('#add-contact-id').val(num);
+    });
+
+    // toggle view modes
+    $('#grid-view-btn').on('click', function() {
+        $('.member-grid-view').show();
+        $('.member-list-view').hide();
+    });
+
+    // toggle view modes
+    $('#list-view-btn').on('click', function() {
+        $('.member-grid-view').hide();
+        $('.member-list-view').show();
+    });
+
+    // filter by designation
+    $('#filter-designation').on('change', function() {
+        let val = $(this).val();
+        $('#designation-value-holder').val(val);
+        $('#filter-designation-form').submit();
     });
 
 </script>

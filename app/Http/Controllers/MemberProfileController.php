@@ -160,7 +160,7 @@ class MemberProfileController extends Controller
 	    $page = new Page();
 	    $page->name = 'Cabinet Members';
 	    
-	    $members = Member::where('user_id', '<>', Auth()->user()->id)->get();
+	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id);
 
 	    if (request('member_name')) {
 	        $members->where(function ($query) {
@@ -175,7 +175,7 @@ class MemberProfileController extends Controller
 	    return view('theme.pages.directory.cabinet', compact('page', 'members'));
 	}
 
-	public function llsDirectory()
+	public function llsDirectory(Request $request)
 	{	
 		if(!Auth::user()){
 	        return redirect()->route('home')->with('error', 'Access Denied');
@@ -184,7 +184,43 @@ class MemberProfileController extends Controller
 	    $page = new Page();
 	    $page->name = 'LLS Members';
 	    
-	    $members = Member::where('user_id', '<>', Auth()->user()->id)->get();
+	    $designations = Designation::where('user_type_id', 1)->get();
+
+	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id);
+
+	    if (request('member_name')) {
+	        $members->where(function ($query) {
+	            $name = request('member_name');
+	            $query->where('firstname', 'like', "%{$name}%")
+	                ->orWhere('lastname', 'like', "%{$name}%");
+	        });
+	    }
+
+	    // why this query is not working?
+	    if (request('designation')) {
+	        $members->where(function ($query) {
+	            $id = request('designation');
+	            $query->where('designation', '=', "%{$id}%");
+	        });
+	    }
+		// dd($members);
+
+	    $members = $members->paginate($this->page_limit);
+
+		return view('theme.pages.directory.lls', compact('page', 'members', 'designations'));
+	}
+
+	public function plloDirectory(Request $request)
+	{
+		if(!Auth::user()){
+	        return redirect()->route('home')->with('error', 'Access Denied');
+	    }
+
+	    $page = new Page();
+	    $page->name = 'PLLO';
+	    
+	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id)
+	    					->where('user_type', 6);
 
 	    if (request('member_name')) {
 	        $members->where(function ($query) {
@@ -196,69 +232,79 @@ class MemberProfileController extends Controller
 
 	    $members = $members->paginate($this->page_limit);
 
-		return view('theme.pages.directory.lls', compact('page', 'members'));
+		return view('theme.pages.directory.pllo', compact('page', 'members'));
 	}
 
-	public function plloDirectory()
+	public function senartorsDirectory(Request $request)
 	{
-			if(!Auth::user()){
-		        return redirect()->route('home')->with('error', 'Access Denied');
-		    }
+		if(!Auth::user()){
+	        return redirect()->route('home')->with('error', 'Access Denied');
+	    }
 
-		    $page = new Page();
-		    $page->name = 'PLLO';
-		    
-		    $members = Member::where('user_id', '<>', Auth()->user()->id)
-		    					->where('user_type', 6)
-		    					->get();
+	    $page = new Page();
+	    $page->name = 'Senators';
 
-		    if (request('member_name')) {
-		        $members->where(function ($query) {
-		            $name = request('member_name');
-		            $query->where('firstname', 'like', "%{$name}%")
-		                ->orWhere('lastname', 'like', "%{$name}%");
-		        });
-		    }
-
-		    $members = $members->paginate($this->page_limit);
-
-			return view('theme.pages.directory.pllo', compact('page', 'members'));
+		return view('theme.pages.directory.senator', compact('page'));
 	}
 
-	public function senartorsDirectory()
+	public function senartorStaffDirectory(Request $request)
 	{
-		// code...
-		return view('theme.pages.directory.senator');
+		if(!Auth::user()){
+	        return redirect()->route('home')->with('error', 'Access Denied');
+	    }
+
+	    $page = new Page();
+	    $page->name = 'Senators Staff';
+
+		return view('theme.pages.directory.senator-staff', compact('page'));
 	}
 
-	public function senartorStaffDirectory()
+	public function senartorComSecDirectory(Request $request)
 	{
-		// code...
-		return view('theme.pages.directory.senator-staff');
+		if(!Auth::user()){
+	        return redirect()->route('home')->with('error', 'Access Denied');
+	    }
+
+	    $page = new Page();
+	    $page->name = 'Senators Committee Secretary';
+
+		return view('theme.pages.directory.senator-com-sec', compact('page'));
 	}
 
-	public function senartorComSecDirectory()
+	public function horsDirectory(Request $request)
 	{
-		// code...
-		return view('theme.pages.directory.senator-com-sec');
+		if(!Auth::user()){
+	        return redirect()->route('home')->with('error', 'Access Denied');
+	    }
+
+	    $page = new Page();
+	    $page->name = 'House of Representatives';
+
+		return view('theme.pages.directory.hor', compact('page'));
 	}
 
-	public function horsDirectory()
+	public function horStaffDirectory(Request $request)
 	{
-		// code...
-		return view('theme.pages.directory.hor');
+		if(!Auth::user()){
+	        return redirect()->route('home')->with('error', 'Access Denied');
+	    }
+
+	    $page = new Page();
+	    $page->name = 'House of Representatives Staff';
+
+		return view('theme.pages.directory.hor-staff', compact('page'));
 	}
 
-	public function horStaffDirectory()
+	public function horComSecDirectory(Request $request)
 	{
-		// code...
-		return view('theme.pages.directory.hor-staff');
-	}
+		if(!Auth::user()){
+	        return redirect()->route('home')->with('error', 'Access Denied');
+	    }
 
-	public function horComSecDirectory()
-	{
-		// code...
-		return view('theme.pages.directory.hor-com-sec');
+	    $page = new Page();
+	    $page->name = 'House of Representatives Committee Secretary';
+
+		return view('theme.pages.directory.hor-com-sec', compact('page'));
 	}
 
 }
