@@ -788,6 +788,7 @@
                                             <td><span class="profile-label"><small>Gender: </small></span></td>
                                             <td><span><small>@if(!empty($memberDetails->senator->senGender->name)){{ $memberDetails->senator->senGender->name }}@endif</small></span></td>
                                         </tr>
+                                        @if(!empty($memberDetails->senator->sen_birthday))
                                         <tr>
                                             @php
                                                 $sen_bday = explode('::',$memberDetails->senator->sen_birthday);
@@ -803,6 +804,7 @@
                                                 </span>
                                             </td>
                                         </tr>
+                                        @endif
                                     </table>
 
                                     <small class="form-title"><b class="text-uppercase">Extension Room</b></small>
@@ -928,11 +930,6 @@
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
-                                                        @php
-                                                            $sen_bday = explode('::',$memberDetails->senator->sen_birthday);
-                                                            $sen_month = $sen_bday[0];
-                                                            $sen_day = $sen_bday[1];
-                                                        @endphp
                                                         <div class="col-6">
                                                             <select class="form-select" name="sen_gender">
                                                                 <option selected disabled>GENDER</option>
@@ -941,6 +938,12 @@
                                                                 @endforeach
                                                             </select>
                                                         </div>
+                                                        @if(!empty($memberDetails->senator->sen_birthday))
+                                                        @php
+                                                            $sen_bday = explode('::',$memberDetails->senator->sen_birthday);
+                                                            $sen_month = $sen_bday[0];
+                                                            $sen_day = $sen_bday[1];
+                                                        @endphp
                                                         <div class="col-6" style="padding-left: 0px;">
                                                             <div class="d-flex">
                                                                 <select class="form-select" aria-label="select month" name="sen_month" style="width: 70%">
@@ -958,6 +961,7 @@
                                                                 </select>
                                                             </div>
                                                         </div>
+                                                        @endif
                                                     </div>
                                                 </div>
                                             </div>
