@@ -34,7 +34,7 @@
 
 						@php $show_event = 0; @endphp
 						@foreach($events as $event)
-							@if(Auth::user()->role_id == 1 || App\Models\Custom\Event::isUserInvited(App\Models\Member::where('user_id', Auth::check() ? Auth::id() : 0)->first()->id, $event->id))
+							@if(Auth::user()->role_id == 1 || App\Models\Custom\Event::isUserParticipated(App\Models\Member::where('user_id', Auth::check() ? Auth::id() : 0)->first()->id, $event->id))
 								@php $show_event = 1; @endphp
 								
 								<article class="portfolio-item col-md-6 col-12">

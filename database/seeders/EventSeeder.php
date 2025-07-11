@@ -6,12 +6,22 @@ use App\Models\Custom\{Event, EventInvite};
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
 
 
 class EventSeeder extends Seeder
 {
     public function run(): void
     {
+        
+        DB::statement('SET FOREIGN_KEY_CHECKS=0;');
+
+        // Truncate tables
+        EventInvite::truncate();
+        Event::truncate();
+
+        DB::statement('SET FOREIGN_KEY_CHECKS=1;');
+
         $titles = [
             'An Act Strengthening the Anti-Hospital Deposit Law to Penalize Refusal of Treatment During Emergencies...',
             'A Measure Promoting Digital Literacy Among Senior Citizens Across Rural Communities...',
@@ -56,12 +66,14 @@ class EventSeeder extends Seeder
 
             foreach ($types as $type) {
                 $numInvites = rand(1, 3);
+                $uniqueIds = range(2, 4);
+                shuffle($uniqueIds);
 
                 for ($j = 0; $j < $numInvites; $j++) {
                     EventInvite::create([
                         'event_id' => $event->id,
                         'type' => $type,
-                        'invited' => rand(1, 60), // Simulating IDs (e.g. member/agency IDs)
+                        'invited' => $uniqueIds[$j],
                         'invited_by' => $event->created_by,
                         'invitation_file' => 'storage/events/' . $event->id . '/invitation/sample.jpg',
                         'participant_limit' => $type === 'agency' ? 10 : 0,
