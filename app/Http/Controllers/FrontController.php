@@ -60,30 +60,6 @@ class FrontController extends Controller
         return $this->page('home');
     }
 
-    public function directory(Request $request)
-    {
-        if(!Auth::user()){
-            return redirect()->route('home')->with('error', 'Access Denied');
-        }
-
-        $page = new Page();
-        $page->name = 'Directory';
-        
-        $members = Member::where('user_id', '<>', Auth()->user()->id);
-
-        if (request('member_name')) {
-            $members->where(function ($query) {
-                $name = request('member_name');
-                $query->where('firstname', 'like', "%{$name}%")
-                    ->orWhere('lastname', 'like', "%{$name}%");
-            });
-        }
-
-        $members = $members->paginate($this->page_limit);
-
-        return view('theme.pages.directory', compact('page', 'members'));
-    }
-
     public function downloads(Request $request)
     {
         if(!Auth::user()){

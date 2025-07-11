@@ -43,6 +43,8 @@ class MemberProfileController extends Controller
 
 	private $searchFields = ['name'];
 
+	private $page_limit = 10;
+
 	public function memberDashboard() {
 
 	    $page = new Page();
@@ -146,6 +148,117 @@ class MemberProfileController extends Controller
 
 		return back()->with('success', 'Contact removed.');
 
+	}
+
+	// Directory Fuctions
+	public function directory(Request $request)
+	{
+	    if(!Auth::user()){
+	        return redirect()->route('home')->with('error', 'Access Denied');
+	    }
+
+	    $page = new Page();
+	    $page->name = 'Cabinet Members';
+	    
+	    $members = Member::where('user_id', '<>', Auth()->user()->id)->get();
+
+	    if (request('member_name')) {
+	        $members->where(function ($query) {
+	            $name = request('member_name');
+	            $query->where('firstname', 'like', "%{$name}%")
+	                ->orWhere('lastname', 'like', "%{$name}%");
+	        });
+	    }
+
+	    $members = $members->paginate($this->page_limit);
+
+	    return view('theme.pages.directory.cabinet', compact('page', 'members'));
+	}
+
+	public function llsDirectory()
+	{	
+		if(!Auth::user()){
+	        return redirect()->route('home')->with('error', 'Access Denied');
+	    }
+
+	    $page = new Page();
+	    $page->name = 'LLS Members';
+	    
+	    $members = Member::where('user_id', '<>', Auth()->user()->id)->get();
+
+	    if (request('member_name')) {
+	        $members->where(function ($query) {
+	            $name = request('member_name');
+	            $query->where('firstname', 'like', "%{$name}%")
+	                ->orWhere('lastname', 'like', "%{$name}%");
+	        });
+	    }
+
+	    $members = $members->paginate($this->page_limit);
+
+		return view('theme.pages.directory.lls', compact('page', 'members'));
+	}
+
+	public function plloDirectory()
+	{
+			if(!Auth::user()){
+		        return redirect()->route('home')->with('error', 'Access Denied');
+		    }
+
+		    $page = new Page();
+		    $page->name = 'PLLO';
+		    
+		    $members = Member::where('user_id', '<>', Auth()->user()->id)
+		    					->where('user_type', 6)
+		    					->get();
+
+		    if (request('member_name')) {
+		        $members->where(function ($query) {
+		            $name = request('member_name');
+		            $query->where('firstname', 'like', "%{$name}%")
+		                ->orWhere('lastname', 'like', "%{$name}%");
+		        });
+		    }
+
+		    $members = $members->paginate($this->page_limit);
+
+			return view('theme.pages.directory.pllo', compact('page', 'members'));
+	}
+
+	public function senartorsDirectory()
+	{
+		// code...
+		return view('theme.pages.directory.senator');
+	}
+
+	public function senartorStaffDirectory()
+	{
+		// code...
+		return view('theme.pages.directory.senator-staff');
+	}
+
+	public function senartorComSecDirectory()
+	{
+		// code...
+		return view('theme.pages.directory.senator-com-sec');
+	}
+
+	public function horsDirectory()
+	{
+		// code...
+		return view('theme.pages.directory.hor');
+	}
+
+	public function horStaffDirectory()
+	{
+		// code...
+		return view('theme.pages.directory.hor-staff');
+	}
+
+	public function horComSecDirectory()
+	{
+		// code...
+		return view('theme.pages.directory.hor-com-sec');
 	}
 
 }

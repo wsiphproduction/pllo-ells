@@ -57,8 +57,6 @@ Route::get('/phpinfo', function () {
 // CMS4 Front Pages
     Route::get('/', [FrontController::class, 'home'])->name('home');
 
-    Route::get('/directory', [FrontController::class, 'directory'])->name('directory');
-
     Route::get('/downloads', [FrontController::class, 'downloads'])->name('downloads');
 
     // Route::get('/reference-materials', [FrontController::class, 'reference_materials'])->name('reference-materials');
@@ -462,6 +460,20 @@ Route::get('/maintenance-dashboard', [RegistrationController::class, 'maintenanc
 
     Route::post('/member-profile-remove-contact', [MemberProfileController::class, 'profileRemoveContact'])->name('member.profile.remove.contact');
     Route::post('/member-profile-add-contact', [MemberProfileController::class, 'profileAddContact'])->name('member.profile.add.contact');
+
+
+// Directory Routes
+    Route::get('/directory', [MemberProfileController::class, 'directory'])->name('directory');
+    Route::get('/directory/lls', [MemberProfileController::class, 'llsDirectory'])->name('directory.lls');
+    Route::get('/directory/pllo', [MemberProfileController::class, 'plloDirectory'])->name('directory.pllo');
+
+    Route::get('/directory/senators', [MemberProfileController::class, 'senartorsDirectory'])->name('directory.senators');
+    Route::get('/directory/senator-staff', [MemberProfileController::class, 'senartorStaffDirectory'])->name('directory.senator.staff');
+    Route::get('/directory/senators-committee-secretary', [MemberProfileController::class, 'senartorComSecDirectory'])->name('directory.senator.comsec');
+
+    Route::get('/directory/house-of-representatives', [MemberProfileController::class, 'horsDirectory'])->name('directory.hors');
+    Route::get('/directory/house-of-representatives-staff', [MemberProfileController::class, 'horStaffDirectory'])->name('directory.hor.staff');
+    Route::get('/directory/house-of-representatives-committee-secretary', [MemberProfileController::class, 'horComSecDirectory'])->name('directory.hor.comsec');
 
 // Pages Frontend
 Route::get('/{any}', [FrontController::class, 'page'])->where('any', '.*');
