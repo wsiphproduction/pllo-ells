@@ -18161,6 +18161,9 @@ body:not(.is-expanded-menu) .mobile-menu-overlay .menu-container {
 .is-expanded-menu .sub-menu-container .menu-item.current > .menu-link {
   color: var(--cnvs-primary-menu-submenu-hover-color);
 }
+.is-expanded-menu .sub-menu-container .menu-item:hover > .menu-link {
+  color: white !important;
+}
 .is-expanded-menu .menu-link div > i.sub-menu-indicator {
   top: 0px;
   font-size: 0.75rem;

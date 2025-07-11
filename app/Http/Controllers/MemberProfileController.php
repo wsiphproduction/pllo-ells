@@ -20,8 +20,9 @@ use App\Models\User;
 use App\Models\Page;
 use App\Models\Gender;
 use App\Models\Agency;
-use App\Models\Senator;
 use App\Models\Member;
+use App\Models\Senator;
+use App\Models\Article;
 use App\Models\Cluster;
 use App\Models\UserType;
 use App\Models\SubAgency;
@@ -42,30 +43,44 @@ class MemberProfileController extends Controller
 
 	private $searchFields = ['name'];
 
+	private $page_limit = 10;
+
 	public function memberDashboard() {
 
 	    $page = new Page();
 	    $page->name = 'Member Dashboard';
 
-	    $clustersList = Cluster::all();
 	    $memberDetails = Member::where('user_id', Auth::user()->id)->first();
-	    $memberAgency = Agency::find($memberDetails->agency);
+
 	    $genders = Gender::all();
+	    $clustersList = Cluster::all();
+	    $policy_reforms = Article::all();
+	    $memberAgency = Agency::find($memberDetails->agency);
+	    $saved_contacts = SavedContact::where('user_id', $memberDetails->user_id)->get();
 	    $events  = EventParticipant::where('member_id', $memberDetails->id)->get();
 	    $userTypeMembers = Member::where('user_type', $memberDetails->user_type)
 	    							->where('user_id', '<>', Auth::user()->id)
 	    							->get();
 
-	    $saved_contacts = SavedContact::where('user_id', $memberDetails->id)->get();
-									// ->join('members', 'members.user_id', '=', 'saved_contacts.contact_id')
-									// ->get();
-									// dd($saved_contacts);
 	    if (auth()->user()) {
-	        return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency', 'events', 'genders', 'userTypeMembers', 'saved_contacts'));
+	        return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency', 'events', 'genders', 'userTypeMembers', 'saved_contacts', 'policy_reforms'));
 	    } else {
 	        return back()->with('error', ('Please login to your account.'));
 	    }
 
+	}
+
+	// Delete User Account
+	public function memberDelete(Request $request)
+	{
+		$member = Member::find($request->member_id);
+		$member->delete();
+
+		$user = User::find($request->user_id);
+		$user->delete();
+
+		Auth::logout();
+		return redirect()->route('home')->with('success', 'Account deleted!');
 	}
 
 	public function senatorProfileUpdate(Request $request, $id) {
@@ -74,66 +89,176 @@ class MemberProfileController extends Controller
 		$sen_birthday = implode('::', $birth_arr);
 
 		if ($request['sen_email_agree'] == 'on') {
-			$sen_email_agree = 1;
-		} else { $sen_email_agree = 0; }
+			$request['sen_email_agree'] = 1;
+		} else { $request['sen_email_agree'] = 0; }
 		if ($request['sen_landline_agree'] == 'on') {
-			$sen_landline_agree = 1;
-		} else { $sen_email_agree = 0; }
+			$request['sen_landline_agree'] = 1;
+		} else { $request['sen_landline_agree'] = 0; }
 		if ($request['sen_office_cellphone_agree'] == 'on') {
-			$sen_office_cellphone_agree = 1;
-		} else { $sen_email_agree = 0; }
+			$request['sen_office_cellphone_agree'] = 1;
+		} else { $request['sen_office_cellphone_agree'] = 0; }
 
-		$senator = Senator::find($id);
-		$senator->sen_firstname = $request['sen_firstname'];
-		$senator->sen_middle_initial = $request['sen_middle_initial'];
-		$senator->sen_lastname = $request['sen_lastname'];
-		$senator->sen_nickname = $request['sen_nickname'];
-		$senator->sen_email = $request['sen_email'];
-		$senator->sen_email_agree = $sen_email_agree;
-		$senator->sen_landline = $request['sen_landline'];
-		$senator->sen_landline_agree = $sen_landline_agree;
-		$senator->sen_office_cellphone = $request['sen_office_cellphone'];
-		$senator->sen_office_cellphone_agree = $sen_office_cellphone_agree;
-		$senator->sen_group = $request['sen_group'];
-		$senator->sen_gender = $request['sen_gender'];
-		$senator->sen_birthday = $sen_birthday;
-		$senator->sen_facebook = $request['sen_facebook'];
-		$senator->sen_twitter = $request['sen_twitter'];
-		$senator->sen_instagram = $request['sen_instagram'];
-		$senator->sen_youtube = $request['sen_youtube'];
-		$senator->sen_main_room_number = $request['sen_main_room_number'];
-		$senator->sen_main_direct_line = $request['sen_main_direct_line'];
-		$senator->sen_main_fax_number = $request['sen_main_fax_number'];
-		$senator->sen_main_trunk_local_number = $request['sen_main_trunk_local_number'];
-		$senator->sen_extension_room_number = $request['sen_extension_room_number'];
-		$senator->sen_extension_direct_line = $request['sen_extension_direct_line'];
-		$senator->sen_extension_fax_number = $request['sen_extension_fax_number'];
-		$senator->sen_extension_trunk_local_number = $request['sen_extension_trunk_local_number'];
-		$senator->sen_spouse_firstname = $request['sen_spouse_firstname'];
-		$senator->sen_spouse_middle_initial = $request['sen_spouse_middle_initial'];
-		$senator->sen_spouse_lastname = $request['sen_spouse_lastname'];
-		$senator->sen_spouse_gender = $request['sen_spouse_gender'];
-		$senator->sen_spouse_birthday = $request['sen_spouse_birthday'];
-		$senator->sen_spouse_office_address = $request['sen_spouse_office_address'];
-		$senator->sen_spouse_email_address = $request['sen_spouse_email_address'];
-		$senator->sen_spouse_landline_number = $request['sen_spouse_landline_number'];
-		$senator->sen_spouse_cellphone_number = $request['sen_spouse_cellphone_number'];
-
-		$senator->save();
+		$requests = $request->all();
+		unset($requests['_token']);
+		unset($requests['sen_month']);
+		unset($requests['sen_day']);
+		Senator::where('id', $id)->update($requests);
 
 		return back()->with('success', 'Senator details updated.');
 	}
 
-	public function profileRemoveCotact(Request $request) {
+	public function horProfileUpdate(Request $request, $id) {
 
-		$member = Member::where('user_id', Auth()->user()->id )->first();
-		$saved_contact = SavedContact::where('user_id', $member->id)
+		if ($request['hor_email_agree'] == 'on') {
+			$request['hor_email_agree'] = 1;
+		} else { $request['hor_email_agree'] = 0; }
+		if ($request['hor_landline_agree'] == 'on') {
+			$request['hor_landline_agree'] = 1;
+		} else { $request['hor_landline_agree'] = 0; }
+		if ($request['hor_office_cellphone_agree'] == 'on') {
+			$request['hor_office_cellphone_agree'] = 1;
+		} else { $request['hor_office_cellphone_agree'] = 0; }
+
+		$request['hor_birthday'] = $request['hor_month']."::".$request['hor_day'];
+		
+		$requests = $request->all();
+		unset($requests['_token']);
+		unset($requests['hor_month']);
+		unset($requests['hor_day']);
+		Hor::where('id', $id)->update($requests);
+
+		return back()->with('success', 'Representative details updated.');
+	}
+
+	public function profileAddContact(Request $request) {
+
+		$requests = $request->all();
+		$contact = SavedContact::create($requests);
+
+		return back()->with('success', 'Contact added.');
+
+	}
+
+	public function profileRemoveContact(Request $request) {
+
+		$saved_contact = SavedContact::where('user_id', Auth()->user()->id)
 									 ->where('contact_id', $request->contact_id)
 									 ->first();
 		$saved_contact->delete();
 
 		return back()->with('success', 'Contact removed.');
 
+	}
+
+	// Directory Fuctions
+	public function directory(Request $request)
+	{
+	    if(!Auth::user()){
+	        return redirect()->route('home')->with('error', 'Access Denied');
+	    }
+
+	    $page = new Page();
+	    $page->name = 'Cabinet Members';
+	    
+	    $members = Member::where('user_id', '<>', Auth()->user()->id)->get();
+
+	    if (request('member_name')) {
+	        $members->where(function ($query) {
+	            $name = request('member_name');
+	            $query->where('firstname', 'like', "%{$name}%")
+	                ->orWhere('lastname', 'like', "%{$name}%");
+	        });
+	    }
+
+	    $members = $members->paginate($this->page_limit);
+
+	    return view('theme.pages.directory.cabinet', compact('page', 'members'));
+	}
+
+	public function llsDirectory()
+	{	
+		if(!Auth::user()){
+	        return redirect()->route('home')->with('error', 'Access Denied');
+	    }
+
+	    $page = new Page();
+	    $page->name = 'LLS Members';
+	    
+	    $members = Member::where('user_id', '<>', Auth()->user()->id)->get();
+
+	    if (request('member_name')) {
+	        $members->where(function ($query) {
+	            $name = request('member_name');
+	            $query->where('firstname', 'like', "%{$name}%")
+	                ->orWhere('lastname', 'like', "%{$name}%");
+	        });
+	    }
+
+	    $members = $members->paginate($this->page_limit);
+
+		return view('theme.pages.directory.lls', compact('page', 'members'));
+	}
+
+	public function plloDirectory()
+	{
+			if(!Auth::user()){
+		        return redirect()->route('home')->with('error', 'Access Denied');
+		    }
+
+		    $page = new Page();
+		    $page->name = 'PLLO';
+		    
+		    $members = Member::where('user_id', '<>', Auth()->user()->id)
+		    					->where('user_type', 6)
+		    					->get();
+
+		    if (request('member_name')) {
+		        $members->where(function ($query) {
+		            $name = request('member_name');
+		            $query->where('firstname', 'like', "%{$name}%")
+		                ->orWhere('lastname', 'like', "%{$name}%");
+		        });
+		    }
+
+		    $members = $members->paginate($this->page_limit);
+
+			return view('theme.pages.directory.pllo', compact('page', 'members'));
+	}
+
+	public function senartorsDirectory()
+	{
+		// code...
+		return view('theme.pages.directory.senator');
+	}
+
+	public function senartorStaffDirectory()
+	{
+		// code...
+		return view('theme.pages.directory.senator-staff');
+	}
+
+	public function senartorComSecDirectory()
+	{
+		// code...
+		return view('theme.pages.directory.senator-com-sec');
+	}
+
+	public function horsDirectory()
+	{
+		// code...
+		return view('theme.pages.directory.hor');
+	}
+
+	public function horStaffDirectory()
+	{
+		// code...
+		return view('theme.pages.directory.hor-staff');
+	}
+
+	public function horComSecDirectory()
+	{
+		// code...
+		return view('theme.pages.directory.hor-com-sec');
 	}
 
 }
