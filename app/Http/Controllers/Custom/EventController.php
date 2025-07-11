@@ -15,7 +15,7 @@ use Carbon\Carbon;
 class EventController extends Controller
 {
 
-    private $page_limit = 4;
+    private $page_limit = 10;
 
     public function index(){
 

@@ -361,6 +361,8 @@
 @section('pagejs')
 <script>
 	$(document).ready( function () {
+        jQuery.fn.dataTable.ext.errMode = 'none';
+
 	    $('#registrationsPendingTable').DataTable({
 			// addons here
 	    });

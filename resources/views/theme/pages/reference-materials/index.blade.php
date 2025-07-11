@@ -50,10 +50,20 @@
                             <input class="form-control me-2" placeholder="SEARCH" name="search" value="{{ request('search') }}"/>
 
                             <select class="form-control me-2" name="significance_level">
+                                <option disabled {{ !request('significance_level') ? 'selected' : '' }}>SIGNIFICANCE LEVEL</option>
+                                @foreach ($reference_materials->pluck('significance_level')->unique()->filter()->sort() as $level)
+                                    <option value="{{ $level }}" {{ request('significance_level') == $level ? 'selected' : '' }}>
+                                        {{ $level }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+
+                            {{-- <select class="form-control me-2" name="significance_level">
                                 <option disabled @if(!request('significance_level')) selected @endif>SIGNIFICANCE LEVEL</option>
                                 <option value="President Legislative Priorities" {{ request('significance_level') == 'President Legislative Priorities' ? 'selected' : '' }}>President Legislative Priorities</option>
                                 <option value="Agency Priority" {{ request('significance_level') == 'Agency Priority' ? 'selected' : '' }}>Agency Priority</option>
-                            </select>
+                            </select> --}}
 
                             <select class="form-control me-2" name="agency_id">
                                 <option disabled @if(!request('agency_id')) selected @endif>AGENCY</option>
@@ -86,10 +96,11 @@
 
         <div class="col-12 mb-3">
             <div class="table-responsive">
-                <table id="datatable" class="table table-hover" cellspacing="0" width="100%">
+                <table id="datatable" class="table table-hover text-start" cellspacing="0" width="100%">
                     <thead class="table-primary">
                         <tr>
-                            <th width="30%">SUBJECT</th>
+                            <th hidden>CREATED</th>
+                            <th>SUBJECT</th>
                             <th>SIGNIFICANCE LEVEL</th>
                             <th>CLUSTER</th>
                             <th>AGENCY</th>
@@ -101,6 +112,7 @@
                     <tbody>
                         @forelse($reference_materials as $reference_material)
                             <tr>
+                                <td hidden>{{ $reference_material->created_at }}</td>
                                 <td><a href="{{-- env('APP_URL').'/storage/reference_materialables/'.$reference_material->file_url --}}" target="_blank"><strong class="custom-text-primary">{{ $reference_material->subject }}</strong></a></td>
                                 <td>{{ $reference_material->significance_level }}</td>
                                 <td>{{ $reference_material->cluster->name ?? 'None' }}</td>
@@ -181,11 +193,12 @@
                                                     </div>
 
                                                     <div class="form-group">
-                                                        <select class="form-control" name="significance_level">
+                                                        <input type="text" name="significance_level" id="significance_level" value="{{ old('significance_level', $reference_material->significance_level ?? '') }}" class="form-control @error('significance_level') is-invalid @enderror" maxlength="150" placeholder="SIGNIFICANCE LEVEL" required>
+                                                        {{-- <select class="form-control" name="significance_level">
                                                             <option disabled selected>SIGNIFICANCE LEVEL</option>
                                                             <option value="President Legislative Priorities" {{ old('significance_level', $reference_material->significance_level ?? '') == 'President Legislative Priorities' ? 'selected' : '' }}>President Legislative Priorities </option>
                                                             <option value="Agency Priority" {{ old('significance_level', $reference_material->significance_level ?? '') == 'Agency Priority' ? 'selected' : '' }}>Agency Priority </option>
-                                                        </select>
+                                                        </select> --}}
                                                         @error('significance_level')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror             
@@ -300,11 +313,12 @@
                                 </div>
 
                                 <div class="form-group">
-                                    <select class="form-control" name="significance_level">
+                                    <input type="text" name="significance_level" id="significance_level" value="{{ old('significance_level')}}" class="form-control @error('significance_level') is-invalid @enderror" maxlength="150" placeholder="SIGNIFICANCE LEVEL" required>
+                                    {{-- <select class="form-control" name="significance_level">
                                         <option disabled selected>SIGNIFICANCE LEVEL</option>
                                         <option value="President Legislative Priorities" {{ old('significance_level') == 'President Legislative Priorities' ? 'selected' : '' }}>President Legislative Priorities </option>
                                         <option value="Agency Priority" {{ old('significance_level') == 'Agency Priority' ? 'selected' : '' }}>Agency Priority </option>
-                                    </select>
+                                    </select> --}}
                                     @error('significance_level')
                                         <span class="text-danger">{{ $message }}</span>
                                     @enderror             
@@ -376,10 +390,10 @@
             var table = jQuery('#datatable').DataTable({
                 searching: false,
                 paging: true,
-                info: true
+                info: true,
+                order: [[ 0, 'desc' ]]
             });
         });
     </script>
-    
 @endsection
 
