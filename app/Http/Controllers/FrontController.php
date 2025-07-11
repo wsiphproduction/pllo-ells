@@ -67,7 +67,7 @@ class FrontController extends Controller
         }
 
         $page = new Page();
-        $page->name = 'Cabinet Members';
+        $page->name = 'Directory';
         
         $members = Member::where('user_id', '<>', Auth()->user()->id);
 
