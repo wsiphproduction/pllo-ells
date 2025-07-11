@@ -131,5 +131,9 @@
     }
 </script>
 
+<!-- Bootstrap Data Table Plugin -->
+<script src="{{ asset('theme/js/components/bs-datatable.js') }}"></script>
+
+
 
 @yield('pagejs')

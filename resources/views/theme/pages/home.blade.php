@@ -225,11 +225,12 @@
                     </div>
 
                 {{--  --}}
+                
             </div>
             
         </div>
         
-        <div class="row">
+        <div class="row mb-5">
             <h4 class="custom-text-primary">LATEST PROPOSED BILL</h4>
 
             <div id="oc-team" class="owl-carousel team-carousel carousel-widget" data-margin="30" data-nav="true" data-pagi="true" data-items-xs="1" data-items-sm="1" data-items-lg="2" data-items-xl="2">

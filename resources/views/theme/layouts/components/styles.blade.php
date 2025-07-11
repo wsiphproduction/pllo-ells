@@ -42,6 +42,9 @@
     <link rel="stylesheet" href="{{ asset('theme/addons/include/rs-plugin/css/navigation.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ asset('theme/addons/css/custom.css') }}" type="text/css" />
 
+    <!-- Data Tables -->
+    <link rel="stylesheet" href="{{ asset('theme/css/components/bs-datatable.css') }}" type="text/css" />
+
 
     <!-- add-on css -->
     <!-- main color #144596 -->

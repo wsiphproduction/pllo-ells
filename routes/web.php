@@ -85,7 +85,8 @@ Route::get('/phpinfo', function () {
     //
 
     // Events
-        Route::resource('/events', EventController::class);
+        Route::resource('/events', EventController::class)->except('show');
+        Route::get('/events/previous', [EventController::class, 'previous'])->name('events.previous');
         Route::get('/events/view/{id}', [EventController::class, 'view'])->name('events.view');
         Route::get('/events/invitees/{id}', [EventController::class, 'invitees'])->name('events.invitees');
         Route::post('/events/cancel-event/{id}', [EventController::class, 'cancel_event'])->name('events.cancel-event');

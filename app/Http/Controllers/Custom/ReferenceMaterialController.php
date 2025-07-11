@@ -26,6 +26,7 @@ class ReferenceMaterialController extends Controller
         $page->name = 'Reference Materials';
 
         $clusters = Cluster::all();
+        $agencies = Agency::all();
 
         $reference_materials = ReferenceMaterial::query();
 
@@ -38,9 +39,31 @@ class ReferenceMaterialController extends Controller
             });
         }
 
-        $reference_materials = $reference_materials->orderByDesc('updated_at')->paginate($this->page_limit);
+        if (request('significance_level')) {
+            $reference_materials->where(function ($query) {
+                $search = request('significance_level');
+                $query->where('significance_level', 'like', "%{$search}%");
+            });
+        }
 
-        return view('theme.pages.reference-materials.index', compact('page', 'reference_materials', 'clusters'));
+        if (request('agency_id')) {
+            $reference_materials->where(function ($query) {
+                $search = request('agency_id');
+                $query->where('agency_id', 'like', "%{$search}%");
+            });
+        }
+
+        if (request('cluster_id')) {
+            $reference_materials->where(function ($query) {
+                $search = request('cluster_id');
+                $query->where('cluster_id', 'like', "%{$search}%");
+            });
+        }
+
+        $reference_materials = $reference_materials->orderByDesc('updated_at')->get();
+        // $reference_materials = $reference_materials->orderByDesc('updated_at')->paginate($this->page_limit);
+
+        return view('theme.pages.reference-materials.index', compact('page', 'reference_materials', 'clusters', 'agencies'));
     }
 
 
