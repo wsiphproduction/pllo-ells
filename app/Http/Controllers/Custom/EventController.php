@@ -10,9 +10,12 @@ use Facades\App\Helpers\FileHelper;
 use App\Models\{Page, Cluster, Agency, Member};
 use App\Models\Custom\{Event, EventInvite, EventParticipant};
 use Auth;
+use Carbon\Carbon;
 
 class EventController extends Controller
 {
+
+    private $page_limit = 4;
 
     public function index(){
 
@@ -21,11 +24,25 @@ class EventController extends Controller
         }
 
         $page = new Page();
-        $page->name = 'Events';
+        $page->name = 'Upcoming Events';
 
-        $events = Event::orderBy('created_at', 'desc')->get();
+        $events = Event::whereDate('date', '>=', Carbon::today())->orderBy('created_at', 'desc')->paginate($this->page_limit);
 
         return view('theme.pages.events.index', compact('page', 'events'));
+    }
+
+    public function previous(){
+
+        if(!Auth::user()){
+            return redirect()->route('home')->with('error', 'Access Denied');
+        }
+
+        $page = new Page();
+        $page->name = 'Previous Events';
+
+        $events = Event::whereDate('date', '<=', Carbon::today())->orderBy('created_at', 'desc')->paginate($this->page_limit);
+
+        return view('theme.pages.events.previous', compact('page', 'events'));
     }
 
     public function create(){
@@ -127,13 +144,14 @@ class EventController extends Controller
         }
 
         $event = Event::find($id);
+        $events = Event::where('id', '<>', $id)->whereDate('date', '<=', Carbon::today())->orderBy('created_at', 'desc')->take(4)->get();
 
         $page = new Page();
         $page->name = $event->title;
 
         $members = Member::all();
 
-        return view('theme.pages.events.view', compact('page', 'event', 'members'));
+        return view('theme.pages.events.view', compact('page', 'event', 'events', 'members'));
     }
 
     public function invitees($id){

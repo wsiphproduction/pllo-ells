@@ -54,4 +54,8 @@ class Agency extends Model
     public static function subAgency(){
         return $this->belongsTo(SubAgency::class, 'agency_id');
     }
+
+    public function reference_materials(){
+        return $this->hasMany(\App\Models\Custom\ReferenceMaterial::class)->withTrashed();
+    }
 }

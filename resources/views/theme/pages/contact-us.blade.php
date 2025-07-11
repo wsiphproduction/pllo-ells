@@ -120,6 +120,7 @@
             </div>
         </div>
         <div class="col-lg-8">
+
             @if(session()->has('success'))
                 <div class="style-msg successmsg">
                     <div class="sb-msg"><i class="icon-thumbs-up"></i><strong>Success!</strong> {{ session()->get('success') }}</div>
@@ -133,12 +134,15 @@
                     {{-- <button type="button" class="btn-close btn-sm" data-dismiss="alert" aria-hidden="true">&times;</button> --}}
                 </div>
             @endif
+
             <p>The purpose of the Contact Us page is to allow users to reach out for assistance or inquiries, and it is important that all information is entered accurately to ensure a prompt and effective response.</p>
             <br />
+
             <div class="form-style fs-sm">
                 <form id="contactUsForm" action="{{ route('contact-us') }}" method="POST">
                     @csrf
                     <div class="form-group">
+
                         <input type="text" id="fullName" class="form-control form-input" name="name" placeholder="Full Name" />
                     </div>
 
@@ -162,6 +166,7 @@
                         {{-- <div class="col-md-6">
                             <!-- <a href="javascript:void(0)" class="button button-circle button-dark border-bottom ms-0 text-initial nols fw-normal button-large d-block text-center" onclick="resetForm();">Reset</a> -->
                             <button name="reset" type="reset" id="reset-button" tabindex="5" class="button button-3d m-0 reset-button" href="javascript:void(0)" onclick="resetForm();">
+
                                 <i class="bi-arrow-counterclockwise" style="margin-right: 5px;"></i>Reset
                             </button>
                         </div> --}}
@@ -187,6 +192,7 @@
         <div class="col-lg-12 contact-map-container">
             {!! $page->contents !!}
         </div>
+
     </div>
     
     <!-- <div class="row contact-details">
