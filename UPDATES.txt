@@ -193,3 +193,42 @@ DATABASE:
 			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 		);
 
+		
+		CREATE TABLE `file_download` (
+			`id` bigint(20) UNSIGNED NOT NULL,
+			`version_no` text DEFAULT NULL,
+			`title` text NOT NULL,
+			`file_url` text DEFAULT NULL,
+			`status` varchar(191) NOT NULL,
+			`unique_hash` text NOT NULL,
+			`ra_jr` varchar(250) DEFAULT NULL,
+			`approved_on` date DEFAULT NULL,
+			`congress` varchar(250) DEFAULT NULL,
+			`source_priority_level` varchar(250) DEFAULT NULL,
+			`event_id` bigint(20) UNSIGNED DEFAULT NULL,
+			`created_at` timestamp NULL DEFAULT NULL,
+			`updated_at` timestamp NULL DEFAULT NULL,
+			`deleted_at` timestamp NULL DEFAULT NULL
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+			--
+			-- Indexes for dumped tables
+			--
+
+			--
+			-- Indexes for table `file_download`
+			--
+			ALTER TABLE `file_download`
+			ADD PRIMARY KEY (`id`);
+
+			--
+			-- AUTO_INCREMENT for dumped tables
+			--
+
+			--
+			-- AUTO_INCREMENT for table `file_download`
+			--
+			ALTER TABLE `file_download`
+			MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+			COMMIT;
+
