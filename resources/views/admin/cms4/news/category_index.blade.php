@@ -30,10 +30,10 @@
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb breadcrumb-style1 mg-b-5">
                         <li class="breadcrumb-item" aria-current="page"><a href="{{route('dashboard')}}">CMS</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">News Categories</li>
+                        <li class="breadcrumb-item active" aria-current="page">Policy Reform Categories</li>
                     </ol>
                 </nav>
-                <h4 class="mg-b-0 tx-spacing--1">Manage News Categories</h4>
+                <h4 class="mg-b-0 tx-spacing--1">Manage Policy Reform Categories</h4>
             </div>
         </div>
 
@@ -133,7 +133,7 @@
                                 </th>
                                 <th scope="col" width="30%">Category Name</th>
                                 <th scope="col" width="35%">Url</th>
-                                <th scope="col" width="10%">Total News</th>
+                                <th scope="col" width="10%">Total Policy Reform</th>
                                 <th scope="col" width="20%">Options</th>
                             </tr>
                             </thead>

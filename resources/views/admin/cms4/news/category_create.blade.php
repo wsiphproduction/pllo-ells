@@ -21,11 +21,11 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-style1 mg-b-10">
                     <li class="breadcrumb-item" aria-current="page"><a href="{{route('dashboard')}}">CMS</a></li>
-                    <li class="breadcrumb-item" aria-current="page"><a href="{{route('news-categories.index')}}">News Category</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Create News Category</li>
+                    <li class="breadcrumb-item" aria-current="page"><a href="{{route('news-categories.index')}}">Policy Reforms Category</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Create Policy Reform Category</li>
                 </ol>
             </nav>
-            <h4 class="mg-b-0 tx-spacing--1">Create News Category</h4>
+            <h4 class="mg-b-0 tx-spacing--1">Create Policy Reform Category</h4>
         </div>
     </div>
 

@@ -25,14 +25,14 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-style1 mg-b-10">
                     <li class="breadcrumb-item" aria-current="page"><a href="{{route('dashboard')}}">CMS</a></li>
-                    <li class="breadcrumb-item" aria-current="page"><a href="{{route('news.index')}}">News</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Edit a News</li>
+                    <li class="breadcrumb-item" aria-current="page"><a href="{{route('news.index')}}">Policy Reform</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Edit a Policy Reform</li>
                 </ol>
             </nav>
-            <h4 class="mg-b-0 tx-spacing--1">Edit a News</h4>
+            <h4 class="mg-b-0 tx-spacing--1">Edit a Policy Reform</h4>
         </div>
         <div>
-            <a class="btn btn-outline-primary btn-sm" href="{{ $news->get_url() }}" target="_blank">Preview News</a>
+            <a class="btn btn-outline-primary btn-sm" href="{{ $news->get_url() }}" target="_blank">Preview Policy Reform</a>
         </div>
     </div>
     <form id="editForm" method="post" action="{{ route('news.update',$news->id) }}" enctype="multipart/form-data">
