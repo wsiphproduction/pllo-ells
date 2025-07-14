@@ -150,8 +150,9 @@ class EventController extends Controller
         $page->name = $event->title;
 
         $members = Member::all();
+        $member = Member::getMemberInfo(Auth::check() ? Auth::user()->id : 0);
 
-        return view('theme.pages.events.view', compact('page', 'event', 'events', 'members'));
+        return view('theme.pages.events.view', compact('page', 'event', 'events', 'members', 'member'));
     }
 
     public function invitees($id){
