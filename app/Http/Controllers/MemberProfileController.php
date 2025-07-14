@@ -172,7 +172,7 @@ class MemberProfileController extends Controller
 	    }
 
 	    $members = $members->paginate($this->page_limit);
-
+	    // dd($members);
 	    return view('theme.pages.directory.cabinet', compact('page', 'members'));
 	}
 

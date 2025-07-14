@@ -181,7 +181,7 @@
 								<!-- Birthday -->
 
 									<!-- new birthday -->
-									<input type="text" id="datepicker" name="birthdate" class="form-control cursor-pointer" placeholder="BIRTHDAY">
+									<input type="text" id="datepicker" name="birthdate" class="form-control cursor-pointer" placeholder="BIRTHDAY" autocomplete="off">
 									<!-- end new birthday -->
 
 								{{-- <select class="form-select" aria-label="select month" name="month" style="width: 70%">
