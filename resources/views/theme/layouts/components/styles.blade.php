@@ -45,7 +45,6 @@
     <!-- Data Tables -->
     <link rel="stylesheet" href="{{ asset('theme/css/components/bs-datatable.css') }}" type="text/css" />
 
-
     <!-- add-on css -->
     <!-- main color #144596 -->
     <style type="text/css">

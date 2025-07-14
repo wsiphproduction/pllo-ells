@@ -83,4 +83,19 @@ class Official extends Model
         'child_profession',
 
     ];
+
+    public function getFullNameAttribute()
+    {
+        return $this->firstname . ' ' . $this->middle_initial . '. ' . $this->lastname;
+    }
+
+    public function is_contact_exist($contact) {
+
+        $is_exist = SavedContact::where('user_id', Auth()->user()->id)
+                                ->where('contact_id', $contact)
+                                ->first();
+        if ($is_exist) {
+            return true;
+        } return false;
+    }
 }

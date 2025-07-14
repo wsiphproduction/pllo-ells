@@ -9,8 +9,8 @@
         display: none;
         position: absolute;
         width: fit-content;
-        top: 40%;
-        left: 9%;
+        top: 30px;
+        left: 32px;
     }
 
     .member-list-view {
@@ -46,7 +46,7 @@
                                 <img src="{{ asset($member->photo) }}"
                                     onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';"
                                     class="img-fluid rounded-start"
-                                    style="height: 100%; width: 100%; object-fit: contain;"
+                                    style="height: 100%; width: 100%; object-fit: cover;"
                                     alt="Proposed Bill">
                             </div>
                             <div class="col-md-8">
@@ -74,11 +74,11 @@
                             </div>
                             @if(!@$member->is_contact_exist($member->id))
                             <button class="btn btn-primary btn-sm contact-btn-style add-contact-btn" data-id="{{ $member->id }}" data-bs-toggle="modal" data-bs-target="#addContactModal" title="Click to add contact">
-                                <i class="icon-user-plus mr-2"></i> &nbsp; <small>Add Contact</small>
+                                <i class="icon-user-plus mr-2"></i>
                             </button>
                             @else
                             <button class="btn btn-success btn-sm contact-btn-style saved-contact-btn" title="Contact already saved." disabled>
-                                <i class="icon-user-check mr-2"></i> &nbsp; <small>Contact Saved</small>
+                                <i class="icon-user-check mr-2"></i>
                             </button>
                             @endif
                         </div>

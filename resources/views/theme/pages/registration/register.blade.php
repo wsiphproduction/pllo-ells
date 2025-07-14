@@ -1,6 +1,24 @@
 @extends('theme.main')
 
 @section('pagecss')
+
+<!-- 7/14/2025 -->
+<!-- Style for new date picker on registration -->
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery UI CSS for the datepicker -->
+    <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+    <style>
+      /* Customize datepicker appearance */
+      .ui-datepicker-year, .ui-datepicker-day {
+        display: none;
+      }
+      .ui-datepicker-month {
+        font-weight: bold;
+      }
+    </style>
+<!-- End 7/14/2025 Style for new date picker on registration -->
+
 <style>
 	div#custom-alert {
 		width: 99%;
@@ -158,8 +176,15 @@
 									@endforeach
 								</select>
 							</div>
+
 							<div class="col-6 d-flex">
-								<select class="form-select" aria-label="select month" name="month" style="width: 70%">
+								<!-- Birthday -->
+
+									<!-- new birthday -->
+									<input type="text" id="datepicker" name="birthdate" class="form-control cursor-pointer" placeholder="BIRTHDAY" autocomplete="off">
+									<!-- end new birthday -->
+
+								{{-- <select class="form-select" aria-label="select month" name="month" style="width: 70%">
 								  	<option value="0">BIRTHMONTH</option>
 									@foreach(Config::get('months') as $month)
 								  	<option value="{{ $month }}">{{ $month }}</option>
@@ -171,7 +196,9 @@
 									@for($d = 1; $d <= 31; $d++)
 								  	<option value="{{ $d }}">{{ $d }}</option>
 									@endfor
-								</select>
+								</select> --}}
+
+								<!-- End Birthday -->
 							</div>
 						</div>
 
@@ -477,6 +504,21 @@
             }
         });
 
+  	  // Initialize the datepicker
+  	  $('#datepicker').datepicker({
+  	    dateFormat: 'mm/dd', // Format to show month and day
+  	    changeMonth: true,    // Allow the month to be changed
+  	    changeYear: false,    // Disable the year change
+  	    showButtonPanel: true, // Show button panel to close the calendar
+  	    minDate: null,        // Remove the minimum date restriction (allow previous months)
+  	    maxDate: null,        // No maximum date restriction
+  	    beforeShow: function(input, inst) {
+  	      // Hide the day of the month and year
+  	      $(inst.dpDiv).find('.ui-datepicker-year').hide();
+  	      $(inst.dpDiv).find('.ui-datepicker-day').hide();
+  	    }
+  	  });
+
     	// hide elements on first load of the registration page
         $("#designation_senator_dropdown").hide();
         $("#designation_hor_dropdown").hide();
@@ -711,4 +753,12 @@
     });
 
 </script>
+
+<!-- 7/14/2025 script for custom datepicker-->
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- jQuery UI JS for the datepicker -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<!-- End 7/14/2025 script for custom datepicker -->
+
 @endsection
