@@ -42,12 +42,49 @@
                 <tbody>
                     @forelse($downloads as $download)
                         <tr>
-                            <td><a href="{{ env('APP_URL').'/storage/downloadables/'.$download->file_url}}" target="_blank"><strong class="text-primary">{{ $download->ra_jr }}</strong></a></td>
+                            <td><a href="javascript:void(0);" onclick="$('#attachmentsModal{{ $download->id }}').modal('show')"><strong class="text-primary">{{ $download->ra_jr }}</strong></a></td>
                             <td>{{ $download->source_priority_level }}</td>
                             <td>{{ \Carbon\Carbon::parse($download->approved_on)->format('M d, Y') }}</td>
                             <td>{{ $download->congress }}</td>
                             <td>{{ $download->title }}</td>
                         </tr>
+
+                        {{-- ATTACHMENTS --}}
+                        <div class="modal fade" id="attachmentsModal{{ $download->id }}" tabindex="-1" aria-labelledby="attachmentsModalLabel{{ $download->id }}" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="attachmentsModalLabel{{ $download->id }}"><i class="uil-paperclip"></i> View Attachments</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    
+                                    <div class="modal-body">
+                                        <strong><small>Title:</small></strong>
+                                        <p class="mb-3">{{ $download->title }}</p>
+
+                                        <strong><small>Attachments:</small></strong>
+
+                                        @php
+                                            $attachments = json_decode($download->file_url, true);
+                                        @endphp
+
+                                        @if (!empty($attachments) && is_array($attachments))
+                                            <ul class="list-unstyled">
+                                                @foreach ($attachments as $file)
+                                                    <li>
+                                                        <a href="{{ asset($file) }}" target="_blank">
+                                                            {{ basename($file) }}
+                                                        </a>
+                                                    </li>
+                                                @endforeach
+                                            </ul>
+                                        @else
+                                            <p class="text-muted">No attachments found.</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     @empty
                         <tr>
                             <td colspan="100%" class="text-center">No data available</td>
@@ -117,10 +154,10 @@
 
                             <div class="form-group">
                                 <label class="d-block">File</label>
-                                <input type="file" name="file" class="form-control @error('file') is-invalid @enderror" required>
+                                <input type="file" name="file_url[]" class="form-control @error('file_url') is-invalid @enderror" accept=".pdf, .csv, .xlsx, .xls, .pdf" multiple required>
                                 {{-- <small>File type: PDF, CSV, XLSX, XLS<br/> Maximum file size: 2MB</small> --}}
                                 <br/>
-                                @error('file')
+                                @error('file_url')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>

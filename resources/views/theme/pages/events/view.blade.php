@@ -194,6 +194,13 @@
 				<div class="col-3 mt-1">
 					<img src="{{ asset($event->event_img)}}" width="100%" onerror="this.onerror=null; this.src='{{ asset('theme/addons/images/logos/pllo-logo.png') }}';" @if(!$event->event_img) hidden @endif>
 					
+					@if(Auth::check() && $event->created_by == Auth::id())
+						<button class="btn form-control mt-2 text-white bg-custom-primary" onclick="$('#creationModal').modal('show')">UPLOAD DOWNLOADABLES</button>
+					@endif
+					
+					@if(App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, $member->id) && App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, $member->id)->status == 1)
+						<button class="btn form-control mt-2 text-white bg-custom-primary" onclick="$('#feedbackModal').modal('show')">GIVE FEEDBACK</button>
+					@endif
 
 					@if(Auth::user()->role_id != 1 && !App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, \App\Models\Member::getMemberInfo(Auth::check() ? Auth::user()->id : 0)->id))
 						<button class="btn form-control mt-2 text-white bg-custom-primary" onclick="$('#registerModal').modal('show')">REGISTER NOW</button>
@@ -356,6 +363,80 @@
 								</div>
 							</div>
 						@endif
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{{-- MODALS --}}
+
+		<div class="modal fade" id="creationModal" tabindex="-1">
+			<div class="modal-dialog modal-lg">
+				<div class="modal-content">
+					<div class="modal-body">
+						<strong class="custom-text-primary">UPLOAD DOWNLOADABLE</strong><br>
+
+						<div class="row mt-3">
+							<form id="creation_form" action="{{ route('downloadables.front.store') }}" method="post" enctype="multipart/form-data">
+								@csrf
+								<div class="form-group">
+									<label class="d-block">Long Title *</label>
+									<input type="text" name="title" id="title" value="{{ old('title')}}" class="form-control @error('title') is-invalid @enderror" maxlength="150" required>
+									@error('title')
+										<span class="text-danger">{{ $message }}</span>
+									@enderror
+								</div>
+
+								<div class="form-group">
+									<label class="d-block">RA / JR Number *</label>
+									<input type="text" name="ra_jr" id="ra_jr" value="{{ old('ra_jr')}}" class="form-control @error('ra_jr') is-invalid @enderror" maxlength="150" required>
+									@error('ra_jr')
+										<span class="text-danger">{{ $message }}</span>
+									@enderror             
+								</div>
+
+								<div class="form-group">
+									<label class="d-block">Congress *</label>
+									<input type="text" name="congress" id="congress" value="{{ old('congress')}}" class="form-control @error('congress') is-invalid @enderror" maxlength="150" required>
+									@error('congress')
+										<span class="text-danger">{{ $message }}</span>
+									@enderror             
+								</div>
+
+								<div class="form-group">
+									<label class="d-block">Approved On *</label>
+									<input type="date" name="approved_on" id="approved_on" value="{{ old('approved_on')}}" class="form-control @error('approved_on') is-invalid @enderror" maxlength="150" required>
+									@error('approved_on')
+										<span class="text-danger">{{ $message }}</span>
+									@enderror             
+								</div>
+
+								<div class="form-group">
+									<label class="d-block">Source / Priority Level *</label>
+									<input type="text" name="source_priority_level" id="source_priority_level" value="{{ old('source_priority_level')}}" class="form-control @error('source_priority_level') is-invalid @enderror" maxlength="150" required>
+									@error('source_priority_level')
+										<span class="text-danger">{{ $message }}</span>
+									@enderror             
+								</div>
+
+								<div class="form-group">
+									<label class="d-block">File</label>
+									<input type="file" name="file_url[]" class="form-control @error('file_url') is-invalid @enderror" accept=".pdf, .csv, .xlsx, .xls, .pdf" multiple required>
+									{{-- <small>File type: PDF, CSV, XLSX, XLS<br/> Maximum file size: 2MB</small> --}}
+									<br/>
+									@error('file_url')
+										<span class="text-danger">{{ $message }}</span>
+									@enderror
+								</div>
+
+								<input type="hidden" name="event_id" value="{{ $event->id }}"/>
+								<button type="submit" class="btn bg-custom-primary text-white mt-3" onclick="document.getElementById('creation_form').submit();"><small>SUBMIT</small></button>
+								<button type="button" class="btn btn-secondary mt-3" data-bs-dismiss="modal"><small>CANCEL</small></button>
+
+							</form>
+						</div>
+						
 
 					</div>
 				</div>

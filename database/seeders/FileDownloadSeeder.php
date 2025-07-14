@@ -53,7 +53,7 @@ class FileDownloadSeeder extends Seeder
             $records[] = [
                 // 'title'                 => $faker->unique()->sentence(30),
                 'title'                => $titles[$i % count($titles)],
-                'file_url'              => '1751334143_Fast Moving Items.csv',
+                'file_url'              => '["1751334143_Fast Moving Items.csv"]',
                 'status'                => 1,
                 'unique_hash'           => Str::random(32),
                 'ra_jr'                 => (string) (11500 + $i),
