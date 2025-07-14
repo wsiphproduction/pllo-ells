@@ -8,6 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\ActivityLog;
 use App\Models\Cluster;
 use App\Models\Gender;
+use App\Models\UserType;
+use App\Models\Designation;
 use App\Models\User;
 use App\Models\Hor;
 
@@ -105,7 +107,7 @@ class Member extends Model
     }
 
     public function userType() {
-        return $this->belongsTo(userType::class, 'user_type');
+        return $this->belongsTo(UserType::class, 'user_type');
     }
 
     public function senator() {
