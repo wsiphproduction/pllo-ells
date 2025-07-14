@@ -535,7 +535,7 @@
                                                             <select class="form-select" aria-label="select month" name="month" style="width: 70%">
                                                                 <option value="0">BIRTHMONTH</option>
                                                                 @foreach(Config::get('months') as $key => $month)
-                                                                <option @if($month == $key) selected @endif value="{{ $key }}">{{ $month }}</option>
+                                                                <option @if($month == $month) selected @endif value="{{ $key }}">{{ $month }}</option>
                                                                 @endforeach
                                                             </select>
                                                             &nbsp;
@@ -1860,9 +1860,6 @@
                                             <div class="saved-container">
                                                 <div class="card border-0 card-saved-contacts cursor-pointer">
                                                     <div class="card-body">
-                                                        <!-- <div class="row mb-2">
-                                                            <small><b class="primary-text-color">CONGRESS COMMITTEE SECRETARY</b></small>
-                                                        </div> -->
                                                         <div class="col-12 d-flex">
                                                             <div class="col-3 text-center">
                                                                 <img class="rounded"
@@ -1902,8 +1899,8 @@
                                                                 </ul>
 
                                                                 <div class="utility-btns align-items-center gap-2">
-                                                                    <a href="#" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a>
-                                                                    <a href="#" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
+                                                                    <a data-bs-toggle="modal" data-bs-target="#sendMessageModal" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a>
+                                                                    <a href="tel:{{$saved_contact->member->contact_number}}" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
                                                                     <a class="cursor-pointer trash-contact-btn" data-bs-toggle="modal" data-bs-target="#removeContactModal" data-id="{{ $saved_contact->member->id }}" title="Remove" style="color: #ff4d4d !important;"><i class="icon-trash"></i></a>
                                                                 </div>
                                                             </div>
@@ -1988,6 +1985,18 @@
                                 <input type="hidden" name="contact_id" id="trash-contact-id">
                                 <button type="submit" class="btn btn-danger">Remove</button>
                             </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Send Message Modal -->
+                    <div class="modal fade" id="sendMessageModal" tabindex="-1" aria-labelledby="sendMessageModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="sendMessageModalLabel">Coming Soon..</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                         </div>
                       </div>

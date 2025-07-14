@@ -95,18 +95,6 @@ class RegistrationController extends Controller
             return Redirect::back()->withInput()->withErrors($validator);
         }
 
-        if ($request->month == 0) {
-            return redirect()->back()->withInput()->with('error', 'Invalid birthdate.');
-        }
-
-        if ($request->day == 0) {
-            return redirect()->back()->withInput()->with('error', 'Invalid birthdate.');
-        }
-
-        if ($request->gender == 0) {
-            return redirect()->back()->withInput()->with('error', 'Please select Gender.');
-        }
-
         if ($request->password != $request->confrim_password) {
             return redirect()->back()->withInput()->with('error', 'Password and Confirm Password do not match.');
         }
@@ -119,6 +107,19 @@ class RegistrationController extends Controller
             if ($request->agency == 0) {
                 return redirect()->back()->withInput()->with('error', 'Please select Agency.');
             } 
+        }
+        if ($request->birthdate == null) {
+            return redirect()->back()->withInput()->with('error', 'Invalid birthday.');
+        } else {
+            $birthdate = explode('/', $request->birthdate);
+            $month = $birthdate[0];
+            $day = $birthdate[1];
+
+            foreach(config('months') as $key => $month_name) {
+                if ( $key == $month) {
+                    $month = $month_name;
+                }
+            }
         }
         // End validation //
 
@@ -145,7 +146,7 @@ class RegistrationController extends Controller
         $requests['user_id'] = $user->id;
         $requests['type_number'] = implode("::", $request['type_number']);
         $requests['other_number'] = implode("::", $request['other_number']);
-        $requests['birthdate'] = $requests['month'] ." ". $requests['day'];
+        $requests['birthdate'] = $month ." ". $day;
         $requests['photo'] = $request->hasFile('office_id') ? FileHelper::move_to_folder($request->file('office_id'), 'photo')['url'] : null;
         $requests['logo'] = $request->hasFile('agency_logo') ? FileHelper::move_to_folder($request->file('agency_logo'), 'logo')['url'] : null;
 

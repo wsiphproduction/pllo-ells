@@ -9,8 +9,8 @@
         display: none;
         position: absolute;
         width: fit-content;
-        top: 40%;
-        left: 9%;
+        top: 30px;
+        left: 32px;
     }
 </style>
 @endsection

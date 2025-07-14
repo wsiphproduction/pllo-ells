@@ -18,6 +18,7 @@
     }
     .contact-map-container iframe {
         max-height: 400px !important;
+        min-height: 400px !important;
     }
     .contact-map-container .fluid-width-video-wrapper {
         padding-top: 28% !important;

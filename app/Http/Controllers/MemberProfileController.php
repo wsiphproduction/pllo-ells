@@ -24,6 +24,7 @@ use App\Models\Member;
 use App\Models\Senator;
 use App\Models\Article;
 use App\Models\Cluster;
+use App\Models\Official;
 use App\Models\UserType;
 use App\Models\SubAgency;
 use App\Models\Designation;
@@ -160,7 +161,7 @@ class MemberProfileController extends Controller
 	    $page = new Page();
 	    $page->name = 'Cabinet Members';
 	    
-	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id);
+	    $members = Official::query()->whereIn('position', ['president','vice-president','cabinet-member']);
 
 	    if (request('member_name')) {
 	        $members->where(function ($query) {
@@ -184,10 +185,12 @@ class MemberProfileController extends Controller
 	    $page = new Page();
 	    $page->name = 'LLS Members';
 	    
+	    $birthmonth = 0;
 	    $designations = Designation::where('user_type_id', 1)->get();
+	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id)
+	    						  ->where('user_type', 1);
 
-	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id);
-
+	    // filters
 	    if (request('member_name')) {
 	        $members->where(function ($query) {
 	            $name = request('member_name');
@@ -196,14 +199,31 @@ class MemberProfileController extends Controller
 	        });
 	    }
 
-	    // why this query is not working?
 	    if (request('designation')) {
-	        $members->where(function ($query) {
-	            $id = request('designation');
-	            $query->where('designation', '=', "%{$id}%");
-	        });
+	    	$designation = request('designation');
+	    	if ($designation) {
+		        $members = Member::where('user_id', '<>', Auth()->user()->id)
+		        				->where('user_type', 1)
+		        				->join('designation', 'designation.id', 'members.designation')
+		        				->where('designation.id', $designation)
+		        				->get();
+	    	} else {
+	    		$members = Member::where('user_id', '<>', Auth()->user()->id)
+		        				->where('user_type', 1)
+		        				->get();
+	    	}
 	    }
-		// dd($members);
+
+	    if (request('birthmonth')) {
+	    	$birthmonth = request('birthmonth');
+	    	if ($birthmonth) {
+	    		$members = Member::where('user_id', '<>', Auth()->user()->id)
+	    						->where('user_type', 1)
+		        				->where('birthdate', 'like', "%{$birthmonth}%")
+		        				->get();
+	    	}
+	    }
+	    // end filters
 
 	    $members = $members->paginate($this->page_limit);
 
