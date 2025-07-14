@@ -28,6 +28,10 @@
 <script src="{{ asset('theme/js/functions.js') }}"></script>
 <script src="{{ asset('js/notify.js') }}"></script>
 
+{{-- Sweet Alert --}}
+<script src="{{ asset('theme/js/swal2.js') }}"></script>
+
+
 <script>
 	jQuery(document).ready( function($){
 		function modeSwitcher( elementCheck, elementParent ) {
@@ -126,6 +130,10 @@
         $('#subscriber_email').val(email); // Set the value of the email input field in the modal form
     }
 </script>
+
+<!-- Bootstrap Data Table Plugin -->
+<script src="{{ asset('theme/js/components/bs-datatable.js') }}"></script>
+
 
 
 @yield('pagejs')

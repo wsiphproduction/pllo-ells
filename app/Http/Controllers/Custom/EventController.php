@@ -10,9 +10,12 @@ use Facades\App\Helpers\FileHelper;
 use App\Models\{Page, Cluster, Agency, Member};
 use App\Models\Custom\{Event, EventInvite, EventParticipant};
 use Auth;
+use Carbon\Carbon;
 
 class EventController extends Controller
 {
+
+    private $page_limit = 10;
 
     public function index(){
 
@@ -21,11 +24,25 @@ class EventController extends Controller
         }
 
         $page = new Page();
-        $page->name = 'Events';
+        $page->name = 'Upcoming Events';
 
-        $events = Event::orderBy('created_at', 'desc')->get();
+        $events = Event::whereDate('date', '>=', Carbon::today())->orderBy('created_at', 'desc')->paginate($this->page_limit);
 
         return view('theme.pages.events.index', compact('page', 'events'));
+    }
+
+    public function previous(){
+
+        if(!Auth::user()){
+            return redirect()->route('home')->with('error', 'Access Denied');
+        }
+
+        $page = new Page();
+        $page->name = 'Previous Events';
+
+        $events = Event::whereDate('date', '<=', Carbon::today())->orderBy('created_at', 'desc')->paginate($this->page_limit);
+
+        return view('theme.pages.events.previous', compact('page', 'events'));
     }
 
     public function create(){
@@ -122,15 +139,26 @@ class EventController extends Controller
 
     public function view($id){
 
+        if(!Auth::user()){
+            return redirect()->route('home')->with('error', 'Access Denied');
+        }
+
         $event = Event::find($id);
+        $events = Event::where('id', '<>', $id)->whereDate('date', '<=', Carbon::today())->orderBy('created_at', 'desc')->take(4)->get();
 
         $page = new Page();
         $page->name = $event->title;
 
-        return view('theme.pages.events.view', compact('page', 'event'));
+        $members = Member::all();
+
+        return view('theme.pages.events.view', compact('page', 'event', 'events', 'members'));
     }
 
     public function invitees($id){
+
+        if(!Auth::user()){
+            return redirect()->route('home')->with('error', 'Access Denied');
+        }
 
         $event = Event::find($id);
         $members = Member::all();
@@ -160,9 +188,9 @@ class EventController extends Controller
     }
 
     public function update(EventRequest $request, Event $event){
+
         $data = $request->validated();
 
-        // dd($data);
         //EVENT
        if ($request->hasFile('attachments')) {
             $attachments = [];
@@ -320,7 +348,7 @@ class EventController extends Controller
         //     }
         // }
 
-        return redirect()->back()->with('success', 'You successfully updated an event');
+        return redirect()->route('events.index')->with('success', 'You successfully updated an event');
     }
 
     public function cancel_event($id){
@@ -329,15 +357,27 @@ class EventController extends Controller
         return redirect()->route('events.index')->with('success', 'You successfully deleted an event');
     }
 
-    public function register_event($event_id){
+    public function register_event(Request $request, $event_id){
 
-        EventParticipant::create([
-            'event_id' => $event_id,
-            'member_id' => Member::getMemberInfo(Auth::user()->id)->id
-        ]);
+        foreach($request->member_id as $member_id){
+            EventParticipant::create([
+                'event_id' => $event_id,
+                'member_id' => $member_id
+            ]);
+        }
 
         return redirect()->back()->with('success', 'You successfully registered on this event');
     }
+
+    // public function register_event($event_id){
+
+    //     EventParticipant::create([
+    //         'event_id' => $event_id,
+    //         'member_id' => Member::getMemberInfo(Auth::user()->id)->id
+    //     ]);
+
+    //     return redirect()->back()->with('success', 'You successfully registered on this event');
+    // }
 
     public function decline_event($event_id){
 

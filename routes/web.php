@@ -6,7 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\SocialiteController;
 
 // CMS Controllers
-use App\Http\Controllers\{FileDownloadCategoryController, FileDownloadController, MemberController, PageModalController, SitemapController, FacebookDataDeletionController, GoogleDataDeletionController, FacebookController, QrCodeController, ResourceCategoryController, ResourceController, RegistrationController};
+use App\Http\Controllers\{FileDownloadCategoryController, FileDownloadController, MemberController, PageModalController, SitemapController, FacebookDataDeletionController, GoogleDataDeletionController, FacebookController, QrCodeController, ResourceCategoryController, ResourceController, RegistrationController,MemberProfileController};
 
 use App\Http\Controllers\Cms4Controllers\{
     ArticleCategoryController, ArticleFrontController, ArticleController, AlbumController, MobileAlbumController, PageController, MenuController, FileManagerController
@@ -25,7 +25,7 @@ use App\Http\Controllers\Ecommerce\{
 
 // Ecommerce Controller
 use App\Http\Controllers\Custom\{
-    EventController
+    EventController, ReferenceMaterialController
 };
 
 use App\Http\Controllers\MailingList\{SubscriberController, GroupController, CampaignController, SubscriberFrontController};
@@ -56,10 +56,21 @@ Route::get('/phpinfo', function () {
 
 // CMS4 Front Pages
     Route::get('/', [FrontController::class, 'home'])->name('home');
+
+    Route::get('/downloads', [FrontController::class, 'downloads'])->name('downloads');
+
+    // Route::get('/reference-materials', [FrontController::class, 'reference_materials'])->name('reference-materials');
+
     Route::get('/privacy-policy/', [FrontController::class, 'privacy_policy'])->name('privacy-policy');
     Route::post('/contact-us', [FrontController::class, 'contact_us'])->name('contact-us');
 
     Route::get('/search', [FrontController::class, 'search'])->name('search');
+
+
+    // Reference Materials
+    Route::resource('/reference-materials', ReferenceMaterialController::class)->except('show');
+    Route::post('/reference-materials/single-delete/{id}', [ReferenceMaterialController::class, 'single_delete'])->name('reference-materials.single-delete');
+
 
     //News Frontend
         Route::get('/news/', [ArticleFrontController::class, 'news_list'])->name('news.front.index');
@@ -72,7 +83,8 @@ Route::get('/phpinfo', function () {
     //
 
     // Events
-        Route::resource('/events', EventController::class);
+        Route::resource('/events', EventController::class)->except('show');
+        Route::get('/events/previous', [EventController::class, 'previous'])->name('events.previous');
         Route::get('/events/view/{id}', [EventController::class, 'view'])->name('events.view');
         Route::get('/events/invitees/{id}', [EventController::class, 'invitees'])->name('events.invitees');
         Route::post('/events/cancel-event/{id}', [EventController::class, 'cancel_event'])->name('events.cancel-event');
@@ -297,8 +309,7 @@ Route::group(['prefix' => 'admin-panel'], function (){
             // }
         //
 
-
-
+        
         ###### CMS4 Standard Routes ######
             //Pages
                 Route::resource('/pages', PageController::class);
@@ -379,224 +390,11 @@ Route::group(['prefix' => 'admin-panel'], function (){
             //
 
         ###### CMS4 Standard Routes ######
+        Route::resource('downloadables', FileDownloadController::class);
+        Route::post('downloadables/front-store', [FileDownloadController::class, 'front_store'])->name('downloadables.front.store');
+        Route::post('file-single-delete', [FileDownloadController::class, 'single_delete'])->name('file.single.delete');
+        Route::post('file-multiple-delete',[FileDownloadController::class, 'multiple_delete'])->name('file.multiple.delete');
 
-
-        ###### Ecommerce Routes ######
-            // Members
-                Route::get('members', [UserController::class, 'members'])->name('members.index');
-                Route::get('members/create', [UserController::class, 'member_create'])->name('members.create');
-                Route::post('store-member', [UserController::class, 'member_store'])->name('members.store');
-
-                Route::get('members/edit/{id}', [UserController::class, 'member_edit'])->name('members.edit');
-                Route::post('members-update', [UserController::class, 'member_update'])->name('members.update');
-
-                Route::post('member-multiple-change-status',[MemberController::class, 'multiple_change_status'])->name('member.multiple.change.status');
-                Route::get('/member/{id}/{status}', [MemberController::class, 'update_status'])->name('member.change-status');
-                Route::post('member-multiple-delete',[MemberController::class, 'multiple_delete'])->name('member.multiple.delete');
-                Route::post('member-single-delete', [MemberController::class, 'single_delete'])->name('member.single.delete');
-                Route::get('member-restore/{id}', [MemberController::class, 'restore'])->name('member.restore');
-            //
-
-            // Customers
-                Route::resource('/admin/customers', CustomerController::class);
-                Route::post('/customer/deactivate', [CustomerController::class, 'deactivate'])->name('customer.deactivate');
-                Route::post('/customer/activate', [CustomerController::class, 'activate'])->name('customer.activate');
-                Route::post('/customer/update', [CustomerController::class, 'update'])->name('customer.update');
-            //
-
-            // Product Categories
-                Route::resource('/admin/product-categories',ProductCategoryController::class);
-                Route::post('/admin/product-category-get-slug', [ProductCategoryController::class, 'get_slug'])->name('product.category.get-slug');
-                Route::post('/admin/product-categories-single-delete', [ProductCategoryController::class, 'single_delete'])->name('product.category.single.delete');
-                Route::get('/admin/product-category/search', [ProductCategoryController::class, 'search'])->name('product.category.search');
-                Route::get('/admin/product-category/restore/{id}', [ProductCategoryController::class, 'restore'])->name('product.category.restore');
-                Route::get('/admin/product-category/{id}/{status}', [ProductCategoryController::class, 'update_status'])->name('product.category.change-status');
-                Route::post('/admin/product-categories-multiple-change-status',[ProductCategoryController::class, 'multiple_change_status'])->name('product.category.multiple.change.status');
-                Route::post('/admin/product-category-multiple-delete',[ProductCategoryController::class, 'multiple_delete'])->name('product.category.multiple.delete');
-
-                Route::post('reorder-category', [ProductCategoryController::class, 'reorder_category'])->name('reorder-product-category');
-            //
-            
-
-            //Product Bundles
-                Route::get('/admin/products/create-bundle', [ProductController::class, 'create_bundle'])->name('product.create.bundle');
-                Route::get('/admin/products/edit-bundle/{id}', [ProductController::class, 'edit_bundle'])->name('product.edit.bundle');
-            // 
-
-            // Products
-                Route::resource('/admin/products', ProductController::class);
-                Route::get('/products-advance-search', [ProductController::class, 'advance_index'])->name('product.index.advance-search');
-                Route::post('/admin/product-get-slug', [ProductController::class, 'get_slug'])->name('product.get-slug');
-                Route::post('/admin/products/upload', [ProductController::class, 'upload'])->name('products.upload');
-
-                Route::get('/admin/product-change-status/{id}/{status}', [ProductController::class, 'change_status'])->name('product.single-change-status');
-                Route::post('/admin/product-single-delete', [ProductController::class, 'single_delete'])->name('product.single.delete');
-                Route::get('/admin/product/restore/{id}', [ProductController::class, 'restore'])->name('product.restore');
-                Route::post('/admin/product-multiple-change-status', [ProductController::class, 'multiple_change_status'])->name('product.multiple.change.status');
-                Route::post('/admin/product-multiple-delete', [ProductController::class, 'multiple_delete'])->name('products.multiple.delete');
-
-                Route::post('/product-add-inventory',[ ProductController::class, 'add_inventory'])->name('products.add-inventory');
-                Route::post('/product-deduct-inventory',[ ProductController::class, 'deduct_inventory'])->name('products.deduct-inventory');
-
-
-                Route::get('/product-download-template',[ProductController::class, 'download_template'])->name('product.download.template');
-                Route::post('/product-upload-template',[ProductController::class, 'upload_template'])->name('product.upload.template');
-
-                Route::get('/generate-file-qr-code', [QrCodeController::class, 'generate_file_qr'])->name('generate.file.qr');
-
-                Route::get('/ebook-customer-assignment/{id}', [ProductController::class, 'ebook_customer_assignment'])->name('product.ebook-customer-assignment');
-                Route::put('/ebook-customer-assignment-update/{id}', [ProductController::class, 'ebook_customer_assignment_update'])->name('product.ebook-customer-assignment-update');
-
-
-            //
-
-            // Brands
-                Route::resource('brands', BrandController::class);
-                Route::get('brand/{id}/{status}', [BrandController::class, 'update_status'])->name('brand.change-status');
-                Route::post('brand-single-delete', [BrandController::class, 'single_delete'])->name('brand.single.delete');
-                Route::get('/admin/brand/restore/{id}', [BrandController::class, 'restore'])->name('brand.restore');
-                Route::post('brand-multiple-change-status',[BrandController::class, 'multiple_change_status'])->name('brand.multiple.change.status');
-                Route::post('brand-multiple-delete',[BrandController::class, 'multiple_delete'])->name('brand.multiple.delete');
-
-                Route::get('brand-menu-order', [BrandController::class, 'menu_order'])->name('brand.menu-order');
-                Route::post('brand-update-nestable-menu', [BrandController::class, 'update_nestable_menu'])->name('brand.update-nestable-menu');
-
-                Route::post('reorder-brand', [BrandController::class, 'reorder_brand'])->name('reorder-brand');
-
-
-            //Inventory
-                Route::resource('/inventory',InventoryReceiverHeaderController::class);
-                Route::get('/inventory-download-template',[InventoryReceiverHeaderController::class, 'download_template'])->name('inventory.download.template');
-                Route::post('/inventory-upload-template',[InventoryReceiverHeaderController::class, 'upload_template'])->name('inventory.upload.template');
-                Route::get('/inventory-post/{id}',[InventoryReceiverHeaderController::class, 'post'])->name('inventory.post');
-                Route::get('/inventory-cancel/{id}',[InventoryReceiverHeaderController::class, 'cancel'])->name('inventory.cancel');
-                Route::get('/inventory-view/{id}',[InventoryReceiverHeaderController::class, 'view'])->name('inventory.view');
-            //
-
-            // Promos
-                Route::resource('/admin/promos', PromoController::class);
-                Route::get('/admin/promo/{id}/{status}', [PromoController::class, 'update_status'])->name('promo.change-status');
-                Route::post('/admin/promo-single-delete', [PromoController::class, 'single_delete'])->name('promo.single.delete');
-                Route::post('/admin/promo-multiple-change-status',[PromoController::class, 'multiple_change_status'])->name('promo.multiple.change.status');
-                Route::post('/admin/promo-multiple-delete',[PromoController::class, 'multiple_delete'])->name('promo.multiple.delete');
-                Route::get('/admin/promo-restore/{id}', [PromoController::class, 'restore'])->name('promo.restore');
-            //
-
-            // Delivery Rates
-                Route::resource('/locations', DeliverablecitiesController::class);
-                Route::get('/admin/location/{id}/{status}', [DeliverablecitiesController::class, 'update_status'])->name('location.change-status');
-                Route::post('/admin/location-single-delete', [DeliverablecitiesController::class, 'single_delete'])->name('location.single.delete');
-                Route::post('/admin/location-multiple-change-status',[DeliverablecitiesController::class, 'multiple_change_status'])->name('location.multiple.change.status');
-                Route::post('/admin/location-multiple-delete',[DeliverablecitiesController::class, 'multiple_delete'])->name('location.multiple.delete');
-                Route::get('/restore-rate/{id}', [DeliverablecitiesController::class, 'restore'])->name('location.restore');
-            //
-
-            // Coupon
-                Route::resource('/coupons',CouponController::class);
-                Route::get('/coupon/{id}/{status}', [CouponController::class, 'update_status'])->name('coupon.change-status');
-                Route::post('/coupon-single-delete', [CouponController::class, 'single_delete'])->name('coupon.single.delete');
-                Route::get('/coupon-restore/{id}', [CouponController::class, 'restore'])->name('coupon.restore');
-                Route::post('/coupon-multiple-change-status',[CouponController::class, 'multiple_change_status'])->name('coupon.multiple.change.status');
-                Route::post('/coupon-multiple-delete',[CouponController::class, 'multiple_delete'])->name('coupon.multiple.delete');
-
-                // Route::get('/get-product-brands', [CouponFrontController::class, 'get_brands'])->name('display.product-brands');
-                Route::get('/coupon-download-template', [CouponController::class, 'download_coupon_template'])->name('coupon.download.template');
-            //
-
-            // BannerAds
-                Route::resource('/ads',BannerAdController::class);
-                Route::post('/ads/delete/{id}',[BannerAdController::class, 'delete'])->name('ads.delete');
-                Route::post('/ads/restore/{id}',[BannerAdController::class, 'restore'])->name('ads.restore');
-            //
-
-            // Sales Transaction
-                Route::resource('/admin/sales-transaction', SalesController::class);
-                Route::post('/admin/sales-transaction/change-status', [SalesController::class, 'change_status'])->name('sales-transaction.change.status');
-                Route::post('/admin/sales-transaction/{sales}', [SalesController::class, 'quick_update'])->name('sales-transaction.quick_update');
-                Route::get('/admin/sales-transaction/view/{sales}', [SalesController::class, 'show'])->name('sales-transaction.view');
-                Route::post('/admin/change-delivery-status', [SalesController::class, 'delivery_status'])->name('sales-transaction.delivery_status');
-                Route::get('/admin/sales-transaction/print/{sales}', [SalesController::class, 'print'])->name('sales-transaction.print');
-
-
-                Route::get('/admin/sales-transaction/view-payment/{sales}', [SalesController::class, 'view_payment'])->name('sales-transaction.view_payment');
-                Route::post('/admin/sales-transaction/cancel-product', [SalesController::class, 'cancel_product'])->name('sales-transaction.cancel_product');
-                Route::get('/sales-advance-search/', [SalesController::class, 'advance_index'])->name('admin.sales.list.advance-search');
-
-
-                
-
-                Route::get('/admin/sales-transaction/view-payment/{sales}', [SalesController::class, 'view_payment'])->name('sales-transaction.view_payment');
-                Route::post('/admin/sales-transaction/cancel-product', [SalesController::class, 'cancel_product'])->name('sales-transaction.cancel_product');
-                
-                Route::get('/display-added-payments', [SalesController::class, 'display_payments'])->name('display.added-payments');
-                Route::get('/display-delivery-history', [SalesController::class, 'display_delivery'])->name('display.delivery-history');
-
-                Route::get('/sales/update-payment/{id}','EcommerceControllers\JoborderController@staff_edit_payment')->name('staff-edit-payment');
-                Route::post('/sales/update-payment','EcommerceControllers\JoborderController@staff_update_payment')->name('staff-update-payment');
-            //
-
-            // Form Attributes
-                Route::resource('product-attributes', FormAttributeController::class);
-                Route::post('product-attribute-delete', [FormAttributeController::class, 'single_delete'])->name('product-attribute.single.delete');
-                Route::get('/attribute-restore/{id}', [FormAttributeController::class, 'restore'])->name('product-attribute.restore');
-
-            // Mailing List
-                Route::resource('mailing-list/subscribers', SubscriberController::class, ['as' => 'mailing-list']);
-                Route::get('mailing-list/cancelled-subscribers', [SubscriberController::class, 'unsubscribe'])->name('mailing-list.subscribers.unsubscribe');
-                Route::post('mailing-list/subscribers-change-status', [SubscriberController::class, 'change_status'])->name('mailing-list.subscribers.change-status');
-
-                Route::resource('mailing-list/groups', GroupController::class, ['as' => 'mailing-list']);
-                Route::delete('delete/mailing-list/groups', [GroupController::class, 'destroy_many'])->name('mailing-list.groups.destroy_many');
-                Route::post('mailing-list-groups/{id}/restore', [GroupController::class, 'restore'])->name('mailing-list.groups.restore');
-
-                Route::resource('mailing-list/campaigns', CampaignController::class, ['as' => 'mailing-list']);
-                Route::get('mailing-list/forward-campaign/{id}', [CampaignController::class, 'forward_campaign'])->name('mailing-list.forward-campaign');
-                Route::get('mailing-list/sent-campaigns', [CampaignController::class, 'sent_campaigns'])->name('mailing-list.campaigns.sent-campaigns');
-                Route::delete('delete/mailing-list/campaign', [CampaignController::class, 'destroy_many'])->name('mailing-list.campaigns.destroy_many');
-                Route::post('campaigns/{id}/restore', [CampaignController::class, 'restore'])->name('mailing-list.campaigns.restore');
-
-                Route::post('sent-campaigns/{id}/delete', [CampaignController::class, 'delete_sent_campaign'])->name('mailing-list.sent-campaigns.delete');
-
-            //
-
-            // Page Modals
-                Route::resource('page-modals', PageModalController::class);
-                Route::get('modal/{id}/{status}', [PageModalController::class, 'update_status'])->name('modal.change-status');
-                Route::post('modal-delete', [PageModalController::class, 'single_delete'])->name('modal.single.delete');
-                Route::get('modal-restore/{id}', [PageModalController::class, 'restore'])->name('modal.restore');
-                Route::post('modals-multiple-change-status',[PageModalController::class, 'multiple_change_status'])->name('modals.multiple.change.status');
-                Route::post('modals-multiple-delete',[PageModalController::class, 'multiple_delete'])->name('modals.multiple.delete');
-
-
-            // Reports
-                Route::get('/report/best-sellers', [ReportsController::class, 'best_sellers'])->name('report.best-sellers');
-                Route::get('/report/sales-transaction', [ReportsController::class, 'sales_list'])->name('report.sales-transaction');
-                Route::get('/report/top-buyers', [ReportsController::class, 'top_buyers'])->name('report.top-buyers');
-                Route::get('/report/top-products', [ReportsController::class, 'top_products'])->name('report.top-products');
-
-                Route::get('/admin/report/sales_summary', [ReportsController::class, 'sales_summary'])->name('report.sales.summary');
-                Route::get('/admin/report/delivery_status', [ReportsController::class, 'delivery_status'])->name('admin.report.delivery_status');
-                Route::get('/admin/report/delivery_report/{id}', [ReportsController::class, 'delivery_report'])->name('admin.report.delivery_report');
-
-                Route::get('/report/inventory_reorder_point', [ReportsController::class, 'inventory_reorder_point'])->name('report.inventory.reorder_point');
-                Route::get('/report/coupon_list', [ReportsController::class, 'coupon_list'])->name('report.coupon.list');
-                Route::get('/report/product-list', [ReportsController::class, 'product_list'])->name('report.product-list');
-                Route::get('/report/customer-list', [ReportsController::class, 'customer_list'])->name('report.customer-list');
-
-                Route::get('/report/promo-list', [ReportsController::class, 'promo_list'])->name('report.promo-list');
-                Route::get('/report/payment-list', [ReportsController::class, 'payment_list'])->name('report.payment-list');
-
-                Route::get('/report/wishlist', [ReportsController::class, 'wishlist'])->name('report.wishlist');
-                Route::get('/report/favorites', [ReportsController::class, 'favorites'])->name('report.favorites');
-
-            // Mobile Reports
-                Route::get('/report/best-sellers/mobile', [ReportsController::class, 'best_sellers_mobile'])->name('report.best-sellers.mobile');
-                Route::get('/report/sales-transaction/mobile', [ReportsController::class, 'sales_list_mobile'])->name('report.sales-transaction.mobile');
-                Route::get('/report/top-buyers/mobile', [ReportsController::class, 'top_buyers_mobile'])->name('report.top-buyers.mobile');
-                Route::get('/report/top-products/mobile', [ReportsController::class, 'top_products_mobile'])->name('report.top-products.mobile');
-                Route::get('/report/subscribers/mobile', [ReportsController::class, 'subscribers_mobile'])->name('report.subscribers.mobile');
-            //
-        ###### Ecommerce Routes ######
     });
 });
 
@@ -619,7 +417,6 @@ Route::post('/register/register-store', [RegistrationController::class, 'registe
 Route::get('/member-login', [RegistrationController::class, 'login'])->name('member.login');
 Route::post('/member-online', [RegistrationController::class, 'online'])->name('member.online');
 Route::get('/member-logout', [RegistrationController::class, 'logout'])->name('member.logout');
-Route::get('/member-dashboard', [RegistrationController::class, 'memberDashboard'])->name('member.dashboard');
 Route::post('/member-profile-update', [RegistrationController::class, 'memberProfileUpdate'])->name('member.profile.update');
 Route::post('/member-resend-email', [RegistrationController::class, 'resendRegisterConfirmation'])->name('member.resend.email');
 Route::post('/member-upload-logo', [RegistrationController::class, 'uploadMemberLogo'])->name('member.upload.logo');
@@ -654,7 +451,30 @@ Route::get('/maintenance-dashboard', [RegistrationController::class, 'maintenanc
     Route::post('/maintenance-cluster-update/{id}', [RegistrationController::class, 'maintenanceClusterUpdate'])->name('maintenance.cluster.update');
     Route::post('/maintenance-cluster-delete', [RegistrationController::class, 'maintenanceClusterDelete'])->name('maintenance.cluster.delete');
 
+// Member Profile Routes
+    Route::get('/member-dashboard', [MemberProfileController::class, 'memberDashboard'])->name('member.dashboard');
 
+    Route::post('/member-profile-account-delete', [MemberProfileController::class, 'memberDelete'])->name('member.profile.account.delete');
+
+    Route::post('/member-profile-senator-update/{id}', [MemberProfileController::class, 'senatorProfileUpdate'])->name('member.profile.senator.update');
+    Route::post('/member-profile-hor-update/{id}', [MemberProfileController::class, 'horProfileUpdate'])->name('member.profile.hor.update');
+
+    Route::post('/member-profile-remove-contact', [MemberProfileController::class, 'profileRemoveContact'])->name('member.profile.remove.contact');
+    Route::post('/member-profile-add-contact', [MemberProfileController::class, 'profileAddContact'])->name('member.profile.add.contact');
+
+
+// Directory Routes
+    Route::get('/directory', [MemberProfileController::class, 'directory'])->name('directory');
+    Route::get('/directory/lls', [MemberProfileController::class, 'llsDirectory'])->name('directory.lls');
+    Route::get('/directory/pllo', [MemberProfileController::class, 'plloDirectory'])->name('directory.pllo');
+
+    Route::get('/directory/senators', [MemberProfileController::class, 'senartorsDirectory'])->name('directory.senators');
+    Route::get('/directory/senator-staff', [MemberProfileController::class, 'senartorStaffDirectory'])->name('directory.senator.staff');
+    Route::get('/directory/senators-committee-secretary', [MemberProfileController::class, 'senartorComSecDirectory'])->name('directory.senator.comsec');
+
+    Route::get('/directory/house-of-representatives', [MemberProfileController::class, 'horsDirectory'])->name('directory.hors');
+    Route::get('/directory/house-of-representatives-staff', [MemberProfileController::class, 'horStaffDirectory'])->name('directory.hor.staff');
+    Route::get('/directory/house-of-representatives-committee-secretary', [MemberProfileController::class, 'horComSecDirectory'])->name('directory.hor.comsec');
 
 // Pages Frontend
 Route::get('/{any}', [FrontController::class, 'page'])->where('any', '.*');

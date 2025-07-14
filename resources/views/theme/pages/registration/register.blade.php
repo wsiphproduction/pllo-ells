@@ -33,6 +33,34 @@
 		color: #005ded;
 		text-decoration: underline;
 	}
+
+	/*Loading Screen Css*/
+    #loadingScreen {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      color: #fff;
+    }
+    .spinner {
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #3498db;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 15px;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    /*End Loading Screen Css*/
 </style>
 @endsection
 
@@ -48,7 +76,7 @@
 					    <div class="text-danger mb-2">*{{ implode('', $errors->all(':message')) }}</div>
 					@endif
 
-					<form action="{{ route('register-store') }}" method="post" enctype="multipart/form-data">
+					<form action="{{ route('register-store') }}" method="post" enctype="multipart/form-data" id="registration-form-body">
 						
 						<div class="row form-group">
 							<div class="col-10">
@@ -113,7 +141,7 @@
 								  	<option value="4">Signal</option>
 								  	<option value="5">WeChat</option>
 								</select>
-								<input class="form-control" type="text" name="other_number[]" placeholder="" required style="padding-left: 140px;">
+								<input class="form-control" type="text" name="other_number[]" required style="padding-left: 140px;">
 								<div id="messaging_container">
 									<!-- area for additional fields -->
 								</div>
@@ -149,37 +177,158 @@
 
 						<div class="row form-group">
 							<div class="col-12">
-								<select class="form-select" aria-label="select system" name="system">
-									@foreach($systems as $system)
-								  	<option value="{{ $system->id }}">{{ $system->name }}</option>
+								<select class="form-select" aria-label="select user type" name="user_type" id="user_type">
+									@foreach($user_types as $user_type)
+								  	<option value="{{ $user_type->id }}">{{ $user_type->name }}</option>
 									@endforeach
 								</select>
 							</div>
 						</div>
 
-						<div class="row form-group">
+						<div class="row form-group" id="reg_agency_dropdown">
 							<div class="col-12">
-								<select class="form-select" aria-label="select agency" name="agency">
-									<option value="0">GOVERNMENT AGENCY</option>
-									@foreach($agencies as $agency)
-								  	<option value="{{ $agency->id }}">{{ $agency->agency_name }}</option>
-									@endforeach
+								<select class="form-select" aria-label="select agency" name="agency" id="agency">
+									<option value="0" selected disabled>GOVERNMENT AGENCY</option>
+
+									<div id="pllo_lls_agency_dropdown">
+										@foreach($pllo_lls_agencies as $agency)
+									  	<option value="{{ $agency->id }}">{{ $agency->agency_name }}</option>
+										@endforeach
+									</div>
+
+									<div id="op_agency_dropdown">
+										@foreach($op_agencies as $agency)
+									  	<option value="{{ $agency->id }}">{{ $agency->agency_name }}</option>
+										@endforeach
+									</div>
+
 								</select>
 							</div>
 						</div>
 
-						<div class="row form-group">
+						<div class="row form-group" id="reg_sub_agency_dropdown">
+							<div class="col-12">
+								<select class="form-select" aria-label="select sub agency" name="sub_agency">
+
+									<div id="op_subagency_dropdown">
+										@foreach($op_subagencies as $agency)
+									  	<option value="{{ $agency->id }}">{{ $agency->name }}</option>
+										@endforeach
+									</div>
+
+									<div id="cabinet_subagency_dropdown">
+										@foreach($cabinet_subagencies as $agency)
+									  	<option value="{{ $agency->id }}">{{ $agency->name }}</option>
+										@endforeach
+									</div>
+
+								</select>
+							</div>
+						</div>
+
+						<div class="row form-group" id="reg_designation_dropdown">
 							<div class="col-12">
 								<select class="form-select" aria-label="select designation" name="designation">
-									<option value="0">DESIGNATION</option>
-									@foreach($designations as $designation)
-								  	<option value="{{ $designation->id }}">{{ $designation->name }}</option>
+									<option value="0" selected disabled>DESIGNATION</option>
+
+									<div id="designation_lls_dropdown">
+										@foreach($designations_lls as $designation_lls)
+									  	<option value="{{ $designation_lls->id }}">{{ $designation_lls->name }}</option>
+										@endforeach
+									</div>
+
+									<div id="designation_senator_dropdown">
+										@foreach($designations_senators as $designation_senators)
+									  	<option value="{{ $designation_senators->id }}">{{ $designation_senators->name }}</option>
+										@endforeach
+									</div>
+
+									<div id="designation_hor_dropdown">
+										@foreach($designations_hor as $designation_hor)
+									  	<option value="{{ $designation_hor->id }}">{{ $designation_hor->name }}</option>
+										@endforeach
+									</div>
+
+									<div id="designation_op_dropdown">
+										@foreach($designations_op as $designation_op)
+									  	<option value="{{ $designation_op->id }}">{{ $designation_op->name }}</option>
+										@endforeach
+									</div>
+
+
+								</select>
+							</div>
+						</div>
+
+						<div class="row form-group" id="reg_senators_dropdown">
+							<div class="col-12">
+								<select class="form-select" aria-label="select senator" name="senator_id">
+									@foreach($senators as $senator)
+								  	<option value="{{ $senator->id }}">{{ $senator->sen_firstname }} @if($senator->sen_middle_initial) {{ $senator->sen_middle_initial }}. @endif {{ $senator->sen_lastname }} {{ $senator->sen_suffix }}</option>
 									@endforeach
 								</select>
 							</div>
 						</div>
 
-						<div class="row form-group">
+						<div class="row form-group" id="reg_hor_dropdown">
+							<div class="col-12">
+								<select class="form-select" aria-label="select hor" name="hor_id">
+									@foreach($hors as $hor)
+								  	<option value="{{ $hor->id }}">{{ $hor->hor_firstname }} {{ $hor->hor_middle_initial }}@if($hor->hor_middle_initial). @endif {{ $hor->hor_lastname }}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+
+						<div class="row form-group" id="reg_congsec_type_dropdown">
+							<div class="col-12">
+								<select class="form-select" aria-label="select congsec type" name="congsec_type" id="congsec_type">
+								  	<option value="Senate Committee Secretary">Senate Committee Secretary</option>
+								  	<option value="House of Representatives Committee Secretary">House of Representatives Committee Secretary</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="row form-group" id="reg_committee_type_dropdown">
+							<div class="col-12">
+								<select class="form-select" aria-label="select congsec committee type" name="committee_type" id="committee_type">
+								  	<option value="Standing Committee">Standing Committee</option>
+								  	<option value="Special Committee">Special Committee</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="row form-group" id="reg_standing_committee_dropdown">
+							<div class="col-12">
+								<select class="form-select" aria-label="select standing type" name="committee_standing" id="standing_committee_type">
+								  	<option value="1">Agrarian Reform</option>
+								  	<option value="2">Agriculture and Food</option>
+								  	<option value="3">Appropriations</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="row form-group" id="reg_special_committee_dropdown">
+							<div class="col-12">
+								<select class="form-select" aria-label="select special type" name="committee_special" id="special_committee_type">
+								  	<option value="1">Bases Conversion</option>
+								  	<option value="2">Food Security</option>
+								  	<option value="3">Land Use</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="row form-group" id="reg_chairperson_dropdown">
+							<div class="col-12">
+								<select class="form-select" aria-label="select hor member" name="chairperson" id="chairperson">
+									@foreach($hors as $hor)
+								  	<option value="{{ $hor->id }}">{{ $hor->hor_firstname }} {{ $hor->hor_middle_initial }}@if($hor->hor_middle_initial). @endif {{ $hor->hor_lastname }}</option>
+									@endforeach
+								</select>
+							</div>
+						</div>
+
+						<div class="row form-group" id="reg_cluster_dropdown">
 							<div class="col-12">
 								<select class="form-select" multiple aria-label="multiple select example" name="cluster[]">
 									@foreach($clusters as $cluster)
@@ -254,6 +403,12 @@
 		</div>
 		@endif
 
+		<!-- Loading screen -->
+		<div id="loadingScreen">
+			<div class="spinner"></div>
+			<div>Just a moment while we register your account...</div>
+		</div>
+
 	</section>
 @endsection
 
@@ -322,6 +477,21 @@
             }
         });
 
+    	// hide elements on first load of the registration page
+        $("#designation_senator_dropdown").hide();
+        $("#designation_hor_dropdown").hide();
+        $("#designation_op_dropdown").hide();
+        $("#op_agency_dropdown").hide();
+        $("#cabinet_subagency_dropdown").hide();
+				$("#reg_sub_agency_dropdown").hide();
+				$("#reg_senators_dropdown").hide();
+				$("#reg_hor_dropdown").hide();
+				$("#reg_congsec_type_dropdown").hide();
+				$("#reg_committee_type_dropdown").hide();
+				$("#reg_chairperson_dropdown").hide();
+				$("#reg_standing_committee_dropdown").hide();
+				$("#reg_special_committee_dropdown").hide();
+
 	});
 
 	$('#office_id').change(function() {
@@ -349,6 +519,196 @@
 	$('#exit-custom-alert').click(function(){
 	    $("#custom-alert").hide();
 	});
+
+	// Selections depends on user type
+    $('#user_type').on('change', function(){
+        let user_type = $(this).val();
+
+        if (user_type < 5) {
+        	$("#reg_designation_dropdown").show();
+
+        	// lls
+        	if (user_type == 1) {
+            	$("#designation_lls_dropdown").show();
+            	$("#designation_senator_dropdown").hide();
+            	$("#designation_hor_dropdown").hide();
+            	$("#designation_op_dropdown").hide();
+	        		$("#reg_cluster_dropdown").show();
+	        		$("#reg_agency_dropdown").show();
+	        		$("#pllo_lls_agency_dropdown").show();
+		    			$("#op_agency_dropdown").hide();
+		    			$("#reg_sub_agency_dropdown").hide();
+		    			$("#reg_senators_dropdown").hide();
+							$("#reg_hor_dropdown").hide();
+							$("#reg_congsec_type_dropdown").hide();
+							$("#reg_committee_type_dropdown").hide();
+							$("#reg_chairperson_dropdown").hide();
+							$("#reg_standing_committee_dropdown").hide();
+							$("#reg_special_committee_dropdown").hide();
+
+				$('#agency_logo_holder').attr('placeholder', 'UPLOAD GOVERNMENT AGENCY LOGO');
+        	}
+        	// senator staff
+        	if (user_type == 2) {
+        		$("#designation_lls_dropdown").hide();
+        		$("#designation_senator_dropdown").show();
+        		$("#designation_hor_dropdown").hide();
+        		$("#designation_op_dropdown").hide();
+        		$("#reg_cluster_dropdown").hide();
+        		$("#reg_agency_dropdown").hide();
+        		$("#op_agency_dropdown").hide();
+	    			$("#reg_sub_agency_dropdown").hide();
+	    			$("#reg_senators_dropdown").show();
+	    			$("#reg_hor_dropdown").hide();
+	    			$("#reg_congsec_type_dropdown").hide();
+						$("#reg_committee_type_dropdown").hide();
+						$("#reg_chairperson_dropdown").hide();
+						$("#reg_standing_committee_dropdown").hide();
+						$("#reg_special_committee_dropdown").hide();
+
+    				$('#agency_logo_holder').attr('placeholder', 'UPLOAD SENATE LOGO');
+        	}
+        	// hor staff
+        	if (user_type == 3) {
+        		$("#designation_lls_dropdown").hide();
+        		$("#designation_senator_dropdown").hide();
+        		$("#designation_hor_dropdown").show();
+        		$("#designation_op_dropdown").hide();
+        		$("#reg_cluster_dropdown").hide();
+        		$("#reg_agency_dropdown").hide();
+        		$("#op_agency_dropdown").hide();
+						$("#reg_sub_agency_dropdown").hide();
+	    			$("#reg_senators_dropdown").hide();
+	    			$("#reg_hor_dropdown").show();
+	    			$("#reg_congsec_type_dropdown").hide();
+	    			$("#reg_committee_type_dropdown").hide();
+	    			$("#reg_chairperson_dropdown").hide();
+	    			$("#reg_standing_committee_dropdown").hide();
+						$("#reg_special_committee_dropdown").hide();
+
+				$('#agency_logo_holder').attr('placeholder', 'UPLOAD HREP LOGO');
+        	}
+        	// op proper
+        	if (user_type == 4) {
+        		$("#designation_lls_dropdown").hide();
+        		$("#designation_senator_dropdown").hide();
+        		$("#designation_hor_dropdown").hide();
+        		$("#designation_op_dropdown").show();
+        		$("#reg_cluster_dropdown").hide();
+        		$("#reg_agency_dropdown").show();
+        		$("#pllo_lls_agency_dropdown").hide();
+        		$("#op_agency_dropdown").show();
+        		$("#op_subagency_dropdown").show();
+						$("#reg_sub_agency_dropdown").hide();
+	    			$("#reg_senators_dropdown").hide();
+	    			$("#reg_hor_dropdown").hide();
+	    			$("#reg_congsec_type_dropdown").hide();
+	    			$("#reg_committee_type_dropdown").hide();
+	    			$("#reg_chairperson_dropdown").hide();
+	    			$("#reg_standing_committee_dropdown").hide();
+						$("#reg_special_committee_dropdown").hide();
+
+				$('#agency_logo_holder').attr('placeholder', 'UPLOAD PHOTO (2X2 Picture with white background)');
+        	}
+        }
+        // pllo
+        else if(user_type == 6) {
+        	$("#reg_cluster_dropdown").show();
+        	$("#reg_designation_dropdown").show();
+        	$("#reg_agency_dropdown").show();
+        	$("#pllo_lls_agency_dropdown").show();
+    			$("#op_agency_dropdown").hide();
+					$("#reg_sub_agency_dropdown").hide(); 
+					$("#reg_senators_dropdown").hide();
+					$("#reg_hor_dropdown").hide();
+					$("#reg_congsec_type_dropdown").hide();
+					$("#reg_committee_type_dropdown").hide();
+					$("#reg_chairperson_dropdown").hide();
+					$("#reg_standing_committee_dropdown").hide();
+					$("#reg_special_committee_dropdown").hide();
+
+			$('#agency_logo_holder').attr('placeholder', 'UPLOAD PHOTO (2X2 Picture with white background)');
+    	}
+    	// congressional secretariat
+    	else if (user_type == 5) {
+    		$("#designation_lls_dropdown").hide();
+        $("#reg_designation_dropdown").hide();
+    		$("#designation_senator_dropdown").hide();
+    		$("#designation_hor_dropdown").hide();
+    		$("#designation_op_dropdown").hide();
+    		$("#reg_cluster_dropdown").hide();
+    		$("#reg_agency_dropdown").hide();
+    		$("#pllo_lls_agency_dropdown").hide();
+    		$("#op_agency_dropdown").hide();
+    		$("#op_subagency_dropdown").hide();
+				$("#reg_sub_agency_dropdown").hide();
+				$("#reg_senators_dropdown").hide();
+				$("#reg_hor_dropdown").hide();
+				$("#reg_congsec_type_dropdown").show();
+				$("#reg_committee_type_dropdown").show();
+				$("#reg_chairperson_dropdown").show();
+				$("#reg_standing_committee_dropdown").show();
+
+			$('#agency_logo_holder').attr('placeholder', 'UPLOAD PHOTO (2X2 Picture with white background)');
+        } else {
+        	$("#reg_designation_dropdown").hide();
+        	$("#reg_cluster_dropdown").hide();
+        	$("#reg_agency_dropdown").hide();
+        	$("#op_agency_dropdown").hide();
+					$("#reg_sub_agency_dropdown").hide();
+					$("#reg_senators_dropdown").hide();
+					$("#reg_hor_dropdown").hide();
+					$("#reg_congsec_type_dropdown").hide();
+					$("#reg_committee_type_dropdown").hide();
+					$("#reg_chairperson_dropdown").hide();
+					$("#reg_standing_committee_dropdown").hide();
+					$("#reg_special_committee_dropdown").hide();
+
+			$('#agency_logo_holder').attr('placeholder', 'UPLOAD PHOTO (2X2 Picture with white background)');
+        }
+    });
+
+    // Selections depends on user type
+    $('#agency').on('change', function(){
+        let agency_type = $(this).val();
+
+        if (agency_type == 9) {
+			$("#reg_sub_agency_dropdown").show();
+        	$("#op_subagency_dropdown").show();
+        	$("#cabinet_subagency_dropdown").hide();
+        }
+
+        if (agency_type == 10) {
+        	$("#reg_sub_agency_dropdown").show();
+        	$("#op_subagency_dropdown").hide();
+        	$("#cabinet_subagency_dropdown").show();
+        }
+
+        if (agency_type == 11) {
+        	$("#reg_sub_agency_dropdown").val('0');
+        	$("#reg_sub_agency_dropdown").hide();
+        }
+
+
+    });;
+
+    // Activate Loading Screen
+    $('#registration-form-body').submit(function(e) {
+    	$("#loadingScreen").css('display', 'flex');
+    });
+
+    $('#committee_type').on('change', function(){
+        let com_type = $(this).val();
+
+        if (com_type == 'Standing Committee') {
+        	$("#reg_standing_committee_dropdown").show();
+        	$("#reg_special_committee_dropdown").hide();
+        } else {
+        	$("#reg_standing_committee_dropdown").hide();
+        	$("#reg_special_committee_dropdown").show();
+        }
+
+    });
 
 </script>
 @endsection

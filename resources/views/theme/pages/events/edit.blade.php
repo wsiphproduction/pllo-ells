@@ -60,6 +60,7 @@
 				<form action="{{ route('events.update', $event->id) }}" method="post" enctype="multipart/form-data">
 					@method('put')
 					@csrf
+					
 					<div class="row p-4 mb-4">
 
 						<div class="col-6">
@@ -279,7 +280,7 @@
 						</div>
 
 						<div class="col-12 text-end mt-2">
-							<button class="btn btn-primary">SAVE ONLY</button>
+							<button class="btn btn-primary">SAVE</button>
 						</div>
 
 					</div>

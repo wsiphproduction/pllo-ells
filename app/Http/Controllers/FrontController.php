@@ -23,6 +23,9 @@ use App\Models\TemplateCategory;
 use App\Models\Template;
 use App\Models\EmailRecipient;
 use App\Models\ArticleCategory;
+use App\Models\Member;
+use App\Models\FileDownload;
+
 use App\Models\Ecommerce\{BannerAd, BannerAdPage, Product};
 
 use Auth;
@@ -33,6 +36,8 @@ use Session;
 
 class FrontController extends Controller
 {
+
+    private $page_limit = 10;
 
     public function registration()
     {
@@ -53,6 +58,56 @@ class FrontController extends Controller
         // condition here? by jeff p.
 
         return $this->page('home');
+    }
+
+    public function downloads(Request $request)
+    {
+        if(!Auth::user()){
+            return redirect()->route('home')->with('error', 'Access Denied');
+        }
+        
+        $page = new Page();
+        $page->name = 'Summary of Laws Passed';
+
+        $downloads = FileDownload::query();
+
+        if (request('search')) {
+            $downloads->where(function ($query) {
+                $search = request('search');
+                $query->where('ra_jr', 'like', "%{$search}%")
+                    ->orWhere('approved_on', 'like', "%{$search}%")
+                    ->orWhere('congress', 'like', "%{$search}%")
+                    ->orWhere('source_priority_level', 'like', "%{$search}%")
+                    ->orWhere('title', 'like', "%{$search}%");
+            });
+        }
+
+        $downloads = $downloads->orderByDesc('id')->paginate($this->page_limit);
+
+        return view('theme.pages.downloads', compact('page', 'downloads'));
+    }
+
+    public function reference_materials(Request $request)
+    {
+        $page = new Page();
+        $page->name = 'Reference Materials';
+
+        $downloads = FileDownload::query();
+
+        if (request('search')) {
+            $downloads->where(function ($query) {
+                $search = request('search');
+                $query->where('ra_jr', 'like', "%{$search}%")
+                    ->orWhere('approved_on', 'like', "%{$search}%")
+                    ->orWhere('congress', 'like', "%{$search}%")
+                    ->orWhere('source_priority_level', 'like', "%{$search}%")
+                    ->orWhere('title', 'like', "%{$search}%");
+            });
+        }
+
+        $downloads = $downloads->orderByDesc('id')->paginate($this->page_limit);
+
+        return view('theme.pages.reference-materials.index', compact('page', 'downloads'));
     }
 
     public function privacy_policy(){

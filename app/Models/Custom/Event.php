@@ -3,8 +3,8 @@
 namespace App\Models\Custom;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Event extends Model
 {
@@ -71,6 +71,28 @@ class Event extends Model
         }
 
         return false; // no match found
+    }
+
+    public static function isUserParticipated($user_id = 0, $event_id)
+    {
+        if (!$user_id || !$event_id) {
+            return false;
+        }
+
+        $member = \App\Models\Member::where('id', $user_id)->first();
+        if (!$member) {
+            return false;
+        }
+
+        $event_participant = EventParticipant::where('event_id', $event_id)->where('member_id', $member->id)->where('status', 1)->first();
+
+        if($event_participant){
+            return true; 
+        }
+        else{
+            return false; 
+        }
+
     }
 
 }

@@ -5,7 +5,7 @@
     }
 @endphp
 
-<section id="slider" class="slick-wrapper clearfix home-slider-banner" style="min-height: 460px !important; display: none;"><!--.include-header-->
+<section id="slider" class="slick-wrapper clearfix home-slider-banner" style="min-height: 480px !important;"><!--.include-header-->
 	<div class="banner-wrapper">
 		<div class="container-fluid">
 			<div class="row">
@@ -19,18 +19,16 @@
 								<div class="hero-slide dark">
 									<img src="{{ $banner->image_path }}" alt="{{ $banner->title }}">
 									<div class="banner-caption">
-										{{ $banner->url }}
 										<div class="container">
-											<div class="row align-items-center">
-												<div class="col-lg-12">
-													<h2 class="text-center slide-content">{{ $banner->title }}</h2>
-													<p class="d-none d-sm-block text-center mx-wd-750-f mx-auto slide-content2" data-delay="200">{{ $banner->description }}</p>
+											<div class="row align-items-center min-vh-100 pt-5 pb-4">
+												<div class="col-lg-6 text-start">
+													<h1 class="display-3 fw-bolder">{{ $banner->title }}</h1>
+													<p class="mt-4 mb-5 fw-light">{{ $banner->description }}</p>
 
 													@if($banner->url && $banner->button_text)
-														<div class="d-flex justify-content-center mt-5" data-delay="400">
-															<a href="{{ $banner->url }}" class="button button-large button-border">{{ $banner->button_text }}</a>
-					                                    </div>
+														<a href="{{ $banner->url }}" class="btn text-white rounded-1 py-3 px-5 fw-medium" style="background-color: #053487;">{{ $banner->button_text }}</a>
 					                                @endif
+													
 												</div>
 											</div>
 										</div>

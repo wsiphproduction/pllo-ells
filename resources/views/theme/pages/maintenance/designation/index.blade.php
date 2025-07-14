@@ -42,7 +42,8 @@
                         <table id="registrationsApproveTable" class="table table-hover table-striped table-bordered">
                             <thead class="bg-dark text-white">
                               <tr>
-                                <th width="55%"><b>Designation</b></th>
+                                <th width="30%"><b>Designation</b></th>
+                                <th width="25%"><b>User Type</b></th>
                                 <th width="25%"><b>Date/Time Added</b></th>
                                 <th width="20%"><b>Action</b></th>
                               </tr>
@@ -51,6 +52,7 @@
                                 @forelse($designations as $designation)
                                     <tr>
                                         <td class="text-capitalize">{{ $designation->name  }}</td>
+                                        <td>{{ $designation->userType->name  }}</td>
                                         <td>{{ $designation->created_at  }}</td>
                                         <td>
                                             <a href="{{ route('maintenance.designation.edit', $designation->id) }}" class="btn btn-secondary" title="Edit designation details">
@@ -88,6 +90,15 @@
                                         <div class="form-group">
                                             <label for="name">Designation Name</label>
                                             <input class="form-control" type="text" name="name" value="{{ old('name') }}" required>
+                                        </div>
+                                        <div class="form-group">
+                                            <label for="name">User Type</label>
+                                            <select class="form-control" name="user_type_id">
+                                                <option selected disabled value="0"> - Select User Type -</option>
+                                                @foreach($user_types as $user_type)
+                                                    <option value="{{ $user_type->id }}" @if($user_type->id > 7) disabled @endif>{{ $user_type->name }} @if($user_type->id > 7) <small>(No Designation)</small> @endif </option>
+                                                @endforeach
+                                            </select>
                                         </div>
                                         <div class="d-flex align-items-center justify-content-start gap-3 py-4">
                                             <button type="submit" class="btn btn-success">

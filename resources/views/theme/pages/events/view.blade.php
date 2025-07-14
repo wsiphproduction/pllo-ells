@@ -19,6 +19,15 @@
 		.text-roman {
 			font-family: 'Cinzel', serif !important;
 		}
+
+		.selectable-card {
+			transition: border 0.2s, box-shadow 0.2s;
+		}
+
+		.selectable-card.border-primary {
+			box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.5);
+		}
+
 	</style>
 @endsection
 
@@ -26,8 +35,24 @@
 	<section id="registration-form">
 		<div class="container">
 			<div class="row p-4 mb-4">
-				<div class="col-12 mb-5 d-flex justify-content-between align-items-center">
-					<h3 class="form-title m-0">{{ $page->name }}</h3>
+				<div class="col-12 mb-1 d-flex justify-content-between align-items-center">
+					<div class="row">
+						<h3 class="form-title m-0">{{ $page->name }}</h3>
+
+						<ul class="list-unstyled mb-2 small">
+							<li class="d-inline-block me-4">
+								<i class="bi-diagram-3 me-2"></i>Cluster: {{ $event->cluster->name }}
+							</li>
+							<li class="d-inline-block me-4">
+								<i class="bi-calendar-event me-2"></i>
+								Date: {{ \Carbon\Carbon::parse($event->date)->format('F d, Y') }}
+							</li>
+							<li class="d-inline-block">
+								<i class="bi-geo-alt me-2"></i>{{ $event->location }}
+							</li>
+						</ul>
+
+					</div>
 
 					<div class="btn-group">
 						<button type="button" class="btn btn-transparent dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -66,15 +91,72 @@
 						</div>
 
 						<div class="modal fade" id="registerModal" tabindex="-1">
-							<div class="modal-dialog">
+							<div class="modal-dialog modal-lg">
 								<div class="modal-content">
-									<div class="modal-body">Are you sure you want to register in this event?</div>
-									<div class="modal-footer">
-										<button class="btn btn-secondary" data-bs-dismiss="modal">No</button>
-										<form method="POST" action="{{ route('events.register-event', $event->id) }}">
-										@csrf
-											<button class="btn btn-primary">Yes</button>
+									<div class="modal-body">
+										<strong class="custom-text-primary">ACTIVITY REGISTRATION</strong><br>
+										<small class="text-muted">Select who will attend on the event (multiple selection).</small>
+										
+										<form id="registration_form" method="POST" action="{{ route('events.register-event', $event->id) }}">
+											<div id="portfolio" class="row g-1 mt-3">
+				
+												@csrf
+												@foreach($members as $member)
+													<article class="portfolio-item col-md-6 col-12 member-select" data-member-id="{{ $member->id }}">
+														<label class="card mb-0 p-3 border-0 w-100 selectable-card" style="cursor: pointer;">
+															
+															<input type="checkbox" name="member_id[]" value="{{ $member->id }}" class="d-none">
+
+															<div class="row g-0 align-items-center">
+																<div class="col-md-4 text-center">
+																	<img src="{{ asset($member->photo) }}"
+																		onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';"
+																		class="img-fluid rounded-circle"
+																		style="height: 70px; width: 70px; object-fit: cover;"
+																		alt="{{ $member->fullName }}">
+																</div>
+																<div class="col-md-8">
+																	<div class="card-body py-0">
+																		<h6 class="card-title mb-1 custom-text-primary fw-bold">{{ $member->fullName }}</h6>
+																		<span class="small">{{ $member->full_designation_name }}</span>
+																	</div>
+																</div>
+															</div>
+														</label>
+													</article>
+												@endforeach
+
+											</div>
+
+											<div class="row mt-2 mb-4">
+												<small class="text-muted mt-5">If you want to add a representative to stand in for you as the invvited participant, <a href="javascript:void(0)">click here</a>.</small>
+											</div>
+											<div class="form-group">
+												<div class="row">
+													<div class="col-6 mb-1">
+														<input class="form-control" type="text" nmae="fullname" placeholder="FULL NAME" />
+													</div>
+													<div class="col-6 mb-1">
+														<input class="form-control" type="text" nmae="designation" placeholder="DESIGNATION" />
+													</div>
+													<div class="col-6 mb-1">
+														<input class="form-control" type="text" nmae="email" placeholder="EMAIL ADDRESS" />
+													</div>
+													<div class="col-6 mb-1">
+														<input class="form-control" type="text" nmae="contact" placeholder="CONTACT NUMBER" />
+													</div>
+												</div>
+											</div>
+
+
 										</form>
+									
+										<div class="col-12 text-end">
+											<button type="button" class="btn btn-secondary mt-3" data-bs-dismiss="modal"><small>CANCEL</small></button>
+											<button type="submit" class="btn bg-custom-primary text-white mt-3" onclick="return validateSelection();"><small>REGISTER</small></button>
+										</div>
+
+
 									</div>
 								</div>
 							</div>
@@ -109,57 +191,174 @@
 					</div>
 				</div>
 
-				<div class="col-12 mt-5 text-center">
-					<div class="d-inline-flex justify-content-center align-items-center gap-3">
-						<img src="{{ asset('theme/addons/images/logos/bp-logo.png') }}" height="120">
-						<img src="{{ asset('theme/addons/images/logos/lls-logo.png') }}" height="120">
-						<img src="{{ asset('theme/addons/images/logos/pllo-logo.png') }}" height="120">
-					</div>
+				<div class="col-3 mt-1">
+					<img src="{{ asset($event->event_img)}}" width="100%" onerror="this.onerror=null; this.src='{{ asset('theme/addons/images/logos/pllo-logo.png') }}';" @if(!$event->event_img) hidden @endif>
 					
-					<h3 class="text-roman text-black m-0" style="font-size: 38px;">Legislative Liaison System</h2>
-					<h2 class="text-roman text-black mb-0" style="border-top: 1px solid #a1a1a1;">Presidential Legislative Liaison Office</h3>
-
-					<img src="{{ asset($event->event_img)}}" width="70%" @if(!$event->event_img) hidden @endif>
-				</div>
-
-				<div class="col-8 offset-2 mt-5 mb-3">
-
-					<p>Hi, Ferdinand Palaspas!</p>
-
-					<p>
-						I have the honor to inform the esteemed Secretaries that the Presidential
-						Legislative Liaison Office (PLLO) will conduct a Focus Group Discussion on
-						the proposed bill seeking to amend the Republic Act known as 
-						<span class="text-primary">{{ $event->title }}</span>.
-					</p>
-
-					<div style="padding-left: 0.5rem;">
-						<ul class="mb-0 ps-3">
-							<li><strong>Cluster</strong>: {{ $event->cluster->name }}</li>
-							<li><strong>Date</strong>: {{ \Carbon\Carbon::parse($event->date)->format('F d, Y') }}</li>
-							<li><strong>Time</strong>: {{ \Carbon\Carbon::parse($event->start_time)->format('h:i A') }} - {{ \Carbon\Carbon::parse($event->end_time)->format('h:i A') }}</li>
-
-							<li><strong>Location</strong>: {{ $event->location }}</li>
-						</ul>
-					</div>
-
-					<br>
-					<p>You can download the Invitation Letter and other Materials for the event.</p>
-
-					<div style="padding-left: 0.5rem;">
-						<ul class="mb-0 ps-3">
-							<li><a class="text-primary" href="#">Invitation Letter</a></li>
-							<li><a class="text-primary" href="#">Attachment 1</a></li>
-							<li><a class="text-primary" href="#">Attachment 2</a></li>
-						</ul>
-					</div>
 
 					@if(Auth::user()->role_id != 1 && !App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, \App\Models\Member::getMemberInfo(Auth::check() ? Auth::user()->id : 0)->id))
-						<button class="btn form-control mt-5 text-white bg-custom-primary" onclick="$('#registerModal').modal('show')">REGISTER NOW</button>
+						<button class="btn form-control mt-2 text-white bg-custom-primary" onclick="$('#registerModal').modal('show')">REGISTER NOW</button>
 					@endif
+				</div>
+				
+				<div class="col-9 mt-1">
+
+					<p>{{ $event->description }}</p>
+
+					<br>
+					
+					@php
+						$attachments = json_decode($event->attachments, true);
+					@endphp
+					@if (!empty($attachments))
+						<strong style="font-size:14px;">Event Materials</strong>
+
+						<div style="padding-left: 0.5rem;">
+							<ul class="mb-0 ps-3">
+								@foreach ($attachments as $index => $file)
+									<li>
+										<a class="text-primary" href="{{ asset($file) }}" target="_blank" download>
+											Attachment {{ $index + 1 }} : {{ basename($file) }}
+										</a>
+									</li>
+								@endforeach
+							</ul>
+						</div>
+						<br>
+					@endif
+					
+					@php
+						$other_links = json_decode($event->other_links, true);
+					@endphp
+					@if (!empty($other_links))
+						<strong style="font-size:14px;">Other Links</strong>
+
+						<div style="padding-left: 0.5rem;">
+							<ul class="mb-0 ps-3">
+								@foreach ($other_links as $index => $link)
+									<li>
+										<a class="text-primary" href="{{ $link }}" target="_blank">
+											{{ $link }}
+										</a>
+									</li>
+								@endforeach
+							</ul>
+						</div>
+						<br>
+					@endif
+
+					@php
+						$attachments = json_decode($event->attachments, true);
+					@endphp
+					@if (!empty($attachments))
+						<strong style="font-size:14px;">Post-Activity Downloadable Materials</strong>
+
+						<div style="padding-left: 0.5rem;">
+							<ul class="mb-0 ps-3">
+								@foreach ($attachments as $index => $file)
+									<li>
+										<a class="text-primary" href="{{ asset($file) }}" target="_blank" download>
+											Attachment {{ $index + 1 }} : {{ basename($file) }}
+										</a>
+									</li>
+								@endforeach
+							</ul>
+						</div>
+						<br>
+					@endif
+
+					{{-- @if(Auth::user()->role_id != 1 && !App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, \App\Models\Member::getMemberInfo(Auth::check() ? Auth::user()->id : 0)->id))
+						<button class="btn form-control mt-5 text-white bg-custom-primary" onclick="$('#registerModal').modal('show')">REGISTER NOW</button>
+					@endif --}}
 
 				</div>
 
+			</div>
+
+			
+			<div class="row mt-4">
+				<div class="col-12 mb-5">
+					<h3 class="form-title">PREVIOUS EVENTS</h3>
+
+					<div id="portfolio" class="row g-4">
+						
+						@php $show_event = 0; @endphp
+						@foreach($events as $prev_event)
+							@if(Auth::user()->role_id == 1 || App\Models\Custom\Event::isUserParticipated(App\Models\Member::where('user_id', Auth::check() ? Auth::id() : 0)->first()->id, $prev_event->id))
+								@php $show_event = 1; @endphp
+								
+								<article class="portfolio-item col-md-6 col-12">
+									<div class="card mb-4 p-3 border-0 shadow-sm">
+										<div class="row g-0">
+											<div class="col-md-4" style="height: 200px;">
+												<img src="{{ asset($prev_event->event_img ?? 'theme/addons/images/logos/pllo-logo.png')}}"
+													onerror="this.onerror=null; this.src='{{ asset('theme/addons/images/logos/pllo-logo.png') }}';"
+													class="img-fluid rounded-start"
+													style="height: 100%; width: 100%; object-fit: contain;"
+													alt="Event Image">
+											</div>
+											
+											<div class="col-md-8">
+												<div class="card-body">
+													<h6 class="card-title mb-2 text-primary fw-bold">{{ $prev_event->title }}</h6>
+
+													<ul class="list-unstyled mb-2 small">
+														<li style="display: -webkit-box; -webkit-line-clamp: 1; -webkit-box-orient: vertical; overflow: hidden; text-overflow: ellipsis;"><i class="bi-diagram-3 me-2"></i>Cluster: {{ $prev_event->cluster->name }}</li>
+														<li><i class="bi-calendar-event me-2"></i>Date: {{ \Carbon\Carbon::parse($prev_event->date)->format('F d, Y') .' at '. $prev_event->time}}</li>
+														<li><i class="bi-geo-alt me-2"></i>{{ $prev_event->location }}</li>
+													</ul>
+
+													<p class="card-text small text-muted mb-2" style="
+														display: -webkit-box;
+														-webkit-line-clamp: 2;
+														-webkit-box-orient: vertical;
+														overflow: hidden;
+														text-overflow: ellipsis;
+													">
+														{{ $prev_event->description }}
+													</p>
+
+													<div class="d-flex justify-content-between align-items-center">
+														@if(Auth::user()->role_id != 1)
+															@php
+																$member = \App\Models\Member::getMemberInfo(Auth::check() ? Auth::user()->id : 0);
+															@endphp
+															@if(App\Models\Custom\EventParticipant::hasRepliedInvitation($prev_event->id, $member->id) && App\Models\Custom\EventParticipant::hasRepliedInvitation($prev_event->id, $member->id)->status == 1)
+																<span class="badge badge-sm bg-success p-1 text-white rounded">CONFIRMED TO JOIN</span>
+															@elseif(App\Models\Custom\EventParticipant::hasRepliedInvitation($prev_event->id, $member->id) && App\Models\Custom\EventParticipant::hasRepliedInvitation($prev_event->id, $member->id)->status == 0)
+																<span class="badge badge-sm bg-danger p-1 text-white rounded">INVITATION DECLINED</span>
+															@else
+																<span class="badge badge-sm bg-secondary p-1 text-white rounded">AWAITING CONFIRMATION</span>
+															@endif
+														@else
+															<span class="badge badge-sm bg-transparent p-1 text-white rounded">&nbsp;</span>
+														@endif
+
+														<a href="{{ route('events.view', $prev_event->id) }}" class="fw-semibold small text-decoration-none text-primary">
+															VIEW <i class="bi-arrow-right-short align-middle"></i>
+														</a>
+													</div>
+
+												</div>
+											</div>
+										</div>
+									</div>
+								</article>
+
+							@endif
+						@endforeach
+
+						@if($show_event == 0)
+							<div class="promo promo-light p-4 p-md-5 mb-5">
+								<div class="row align-items-center">
+									<div class="col-12 col-lg">
+										<h3 class="text-center">No events yet. Stay tuned!</h3>
+									</div>
+								</div>
+							</div>
+						@endif
+
+					</div>
+				</div>
 			</div>
 		</div>
 
@@ -167,4 +366,53 @@
 @endsection
 
 @section('pagejs')
+	<script>
+		const SELECTION_LIMIT = 5;
+
+		function selectedCount () {
+			return document.querySelectorAll('.selectable-card input[type="checkbox"]:checked').length;
+		}
+
+		document.querySelectorAll('.selectable-card').forEach(card => {
+
+			card.addEventListener('click', function (e) {
+				const checkbox = this.querySelector('input[type="checkbox"]');
+				const willBeChecked = !checkbox.checked;    
+
+				if (willBeChecked && selectedCount() >= SELECTION_LIMIT) {
+					Swal.fire({
+						icon: 'warning',
+						title: 'Selection limit reached',
+						text: `You can only choose up to ${SELECTION_LIMIT} members.`,
+						timer: 2000,
+						showConfirmButton: false
+					});
+					return;
+				}
+
+				checkbox.checked = willBeChecked;
+				this.classList.toggle('border-primary', checkbox.checked);
+				this.classList.toggle('border', checkbox.checked);
+			});
+
+		});
+		
+		function validateSelection() {
+			if ($('input[name="member_id[]"]:checked').length === 0) {
+				Swal.fire({
+					icon: 'warning',
+					title: 'No member selected',
+					text: 'Please select at least one member before submitting.',
+					timer: 2000,
+					showConfirmButton: false
+				});
+				return false; // Prevent form submission
+			}
+
+			// Submit the form
+			$('#registration_form').submit();
+			return false; // Prevent default button behavior (if needed)
+		}
+	</script>
+
 @endsection

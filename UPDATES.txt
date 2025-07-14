@@ -39,6 +39,18 @@ DATABASE:
 		- created_at
 		- updated_at
 
+		reference_materials
+		- id
+		- subject
+		- significance_level
+		- cluster_id
+		- attachments
+		- remarks
+		- created_by
+		- created_at
+		- updated_at
+		- deleted_at
+
 
 		CREATE TABLE events (
 			id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -79,3 +91,105 @@ DATABASE:
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 		);
+
+		CREATE TABLE reference_materials (
+			id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+			subject VARCHAR(250) NOT NULL,
+			significance_level VARCHAR(50) NOT NULL,
+			cluster_id INT UNSIGNED DEFAULT NULL,
+			agency_id INT UNSIGNED DEFAULT NULL,
+			attachments TEXT,
+			remarks TEXT,
+			created_by INT UNSIGNED NOT NULL,
+			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			deleted_at TIMESTAMP NULL DEFAULT NULL
+		);
+
+
+		CREATE TABLE officials (
+			id INT AUTO_INCREMENT PRIMARY KEY,
+			position VARCHAR(20), -- 'hor' or 'senate'
+
+			-- Common fields
+			firstname VARCHAR(100) NULL,
+			middle_initial VARCHAR(10) NULL,
+			lastname VARCHAR(100) NULL,
+			nickname VARCHAR(100) NULL,
+			email VARCHAR(150) NULL,
+			email_agree BOOLEAN NULL,
+			landline VARCHAR(50) NULL,
+			landline_agree BOOLEAN NULL,
+			office_cellphone VARCHAR(50) NULL,
+			office_cellphone_agree BOOLEAN NULL,
+			gender VARCHAR(10) NULL,
+
+			month VARCHAR(10) NULL,  -- from hor_month
+			day VARCHAR(10) NULL,    -- from hor_day
+
+			facebook VARCHAR(255) NULL,
+			twitter VARCHAR(255) NULL,
+			instagram VARCHAR(255) NULL,
+			youtube VARCHAR(255) NULL,
+			
+			image_url VARCHAR(255) NULL,
+
+			-- House of Representatives fields
+			resident_address TEXT NULL,
+			resident_email VARCHAR(150) NULL,
+			resident_landline VARCHAR(50) NULL,
+			resident_cellphone VARCHAR(50) NULL,
+
+			province_address TEXT NULL,
+			province_email VARCHAR(150) NULL,
+			province_landline VARCHAR(50) NULL,
+			province_cellphone VARCHAR(50) NULL,
+
+			highest_education VARCHAR(150) NULL,
+			school VARCHAR(150) NULL,
+			prev_work_gov TEXT NULL,
+			prev_work_private TEXT NULL,
+			religion VARCHAR(100) NULL,
+			civic TEXT NULL,
+
+			-- Senate-specific fields
+			suffix VARCHAR(10) NULL,
+			`group` VARCHAR(100) NULL,
+			party VARCHAR(100) NULL,
+
+			main_room_number VARCHAR(50) NULL,
+			main_direct_line VARCHAR(50) NULL,
+			main_fax_number VARCHAR(50) NULL,
+			main_trunk_local_number VARCHAR(50) NULL,
+
+			extension_room_number VARCHAR(50) NULL,
+			extension_direct_line VARCHAR(50) NULL,
+			extension_fax_number VARCHAR(50) NULL,
+			extension_trunk_local_number VARCHAR(50) NULL,
+
+			-- Spouse fields (merged)
+			spouse_firstname VARCHAR(100) NULL,
+			spouse_middle_initial VARCHAR(10) NULL,
+			spouse_lastname VARCHAR(100) NULL,
+			spouse_suffix VARCHAR(10) NULL,
+			spouse_gender VARCHAR(10) NULL,
+			spouse_birthday DATE NULL,
+			spouse_profession VARCHAR(150) NULL,
+			spouse_civic TEXT NULL,
+			spouse_wedding_anniv DATE NULL,
+			spouse_office_address TEXT NULL,
+			spouse_email_address VARCHAR(150) NULL,
+			spouse_landline_number VARCHAR(50) NULL,
+			spouse_cellphone_number VARCHAR(50) NULL,
+
+			-- Child fields (house only)
+			child_name VARCHAR(150) NULL,
+			child_email VARCHAR(150) NULL,
+			child_landline VARCHAR(50) NULL,
+			child_cellphone VARCHAR(50) NULL,
+			child_profession VARCHAR(150) NULL,
+			
+			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+		);
+

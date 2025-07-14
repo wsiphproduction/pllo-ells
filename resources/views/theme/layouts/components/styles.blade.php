@@ -31,7 +31,7 @@
     <link rel="stylesheet" href="{{ asset('theme/css/custom.css') }}" type="text/css" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     
-    <!-- <link rel="icon" href="{{ asset('storage').'/icons/'.Setting::getFaviconLogo()->website_favicon }}" type="image/x-icon"> -->
+    <link rel="icon" href="{{ asset('storage').'/icons/'.Setting::getFaviconLogo()->website_favicon }}" type="image/x-icon">
     <!-- <link rel="stylesheet" href="{{ asset('theme/extra/drone.css') }}" type="text/css"  /> -->
  
     <link rel="stylesheet" href="{{ asset('theme/addons/css/style.css') }}" type="text/css" />
@@ -41,6 +41,9 @@
     <link rel="stylesheet" href="{{ asset('theme/addons/include/rs-plugin/css/layers.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ asset('theme/addons/include/rs-plugin/css/navigation.css') }}" type="text/css" />
     <link rel="stylesheet" href="{{ asset('theme/addons/css/custom.css') }}" type="text/css" />
+
+    <!-- Data Tables -->
+    <link rel="stylesheet" href="{{ asset('theme/css/components/bs-datatable.css') }}" type="text/css" />
 
 
     <!-- add-on css -->
@@ -531,6 +534,36 @@
         .btn-navs:hover {
             background-color: #405475;
             border: 1px solid #405475;
+        }
+
+        .custom-text-primary {
+            color: #053487 !important;
+        }
+
+        .custom-primary-bg {
+            background-color: #3c5d90 !important;
+        }
+
+        .btn-main-primary {
+            --bs-btn-color: #fff;
+            --bs-btn-bg: #3c5d90;
+            --bs-btn-border-color: #3c5d90;
+            --bs-btn-hover-color: #fff;
+            --bs-btn-hover-bg: #233451;
+            --bs-btn-hover-border-color: #3c5d90;
+            --bs-btn-focus-shadow-rgb: 49, 132, 253;
+            --bs-btn-active-color: #fff;
+            --bs-btn-active-bg: #3c5d90;
+            --bs-btn-active-border-color: #3c5d90;
+            --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+            --bs-btn-disabled-color: #fff;
+            --bs-btn-disabled-bg: #0d6efd;
+            --bs-btn-disabled-border-color: #0d6efd;
+        }
+        
+        /*quick fix*/
+        body {
+            padding: 0px !important;
         }
         
     </style>

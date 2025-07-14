@@ -38,10 +38,9 @@ class FileDownloadController extends Controller
      */
     public function create()
     {
-        $departments = FileDownloadCategory::where('type', 0)->orderBy('title','asc')->get();
-        $categories  = FileDownloadCategory::where('type', 1)->orderBy('title','asc')->get();
+      
 
-        return view('admin.ecommerce.downloadables.create', compact('departments','categories'));   
+        return view('admin.ecommerce.downloadables.create');   
     }
 
     /**
@@ -54,28 +53,42 @@ class FileDownloadController extends Controller
     {
         Validator::make($request->all(), [
             'title' => 'required|max:150',
-            'version_no' => 'required|max:150|unique:file_download,version_no',
-            'category_id' => 'required',
+            'ra_jr' => 'required|max:150',
+            'congress' => 'required',
             'file' => 'required|mimes:csv,xlsx,xls,pdf|max:2000',
-            'department_id' => 'required'
+            'approved_on' => 'required',
+            'source_priority_level' => 'required'
         ])->validate();
 
         $requestData = $request->all();
         $requestData['unique_hash'] = Str::random(32);
         $requestData['status'] = 1;
 
-        $arr_departments = [];
-        foreach($requestData['department_id'] as $dept){
-            array_push($arr_departments, $dept);
-        }
-
-        $requestData['department_id'] = json_encode($arr_departments);
-
         $file = FileDownload::create($requestData);
         $this->upload_photo($request,$file->id);
 
         return redirect(route('downloadables.index'))->with('success', 'Downloadable has been added.');
+    }
 
+    public function front_store(Request $request)
+    {
+        Validator::make($request->all(), [
+            'title' => 'required|max:150',
+            'ra_jr' => 'required|max:150',
+            'congress' => 'required',
+            'file' => 'required|mimes:csv,xlsx,xls,pdf|max:2000',
+            'approved_on' => 'required',
+            'source_priority_level' => 'required'
+        ])->validate();
+
+        $requestData = $request->all();
+        $requestData['unique_hash'] = Str::random(32);
+        $requestData['status'] = 1;
+
+        $file = FileDownload::create($requestData);
+        $this->upload_photo($request,$file->id);
+
+        return redirect()->back()->with('success', 'Downloadable has been added.');
     }
 
     public function upload_photo($request,$id)

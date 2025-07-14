@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 use App\Models\ActivityLog;
 use App\Models\Gender;
+use App\Models\SubAgency;
 
 class Agency extends Model
 {
@@ -15,6 +16,7 @@ class Agency extends Model
     public $table = 'agency';
 
     protected $fillable = [ 
+                            'user_type_id',
                             'agency_name',
                             'agency_address',
                             'agency_email',
@@ -43,5 +45,17 @@ class Agency extends Model
 
     public static function getAgencyName($id){
         return Agency::find($id);
+    }
+
+    public function userType() {
+        return $this->belongsTo(userType::class, 'user_type_id');
+    }
+
+    public static function subAgency(){
+        return $this->belongsTo(SubAgency::class, 'agency_id');
+    }
+
+    public function reference_materials(){
+        return $this->hasMany(\App\Models\Custom\ReferenceMaterial::class)->withTrashed();
     }
 }

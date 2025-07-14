@@ -17,43 +17,14 @@ class FileDownload extends Model
     protected $fillable = [
         'version_no',
         'title',
-        'category_id',
+        'ra_jr',
         'file_url',
         'status',
         'unique_hash',
-        'department_id'
+        'congress',
+        'approved_on',
+        'source_priority_level'
     ];
 
-    public function getCategoryAttribute()
-    {
-        $category = FileDownloadCategory::find($this->category_id);
-        if(isset($category)){
-            return $category->title;
-        } else {
-            return 'Uncategorized';
-        }
-    }
-
-    public function department($id)
-    {
-        $category = FileDownloadCategory::find($id);
-
-        return $category->title;
-    }
-
-    public function getDepartmentAttribute()
-    {
-        $arr_department = substr($this->department_id, 1, -1);
-        $department = explode(',', $arr_department);
-
-        $depts = "";
-        foreach($department as $dept){
-            $category = FileDownloadCategory::find(str_replace('"','',$dept));
-
-            $depts .= '<small class="badge badge-secondary">'.$category->title.'</small>&nbsp;';
-        }
-        
-
-        return $depts;
-    }
+    
 }

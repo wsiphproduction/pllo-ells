@@ -89,56 +89,10 @@
 															{{-- <td>{{ $registration_pending->is_active ? 'Approved' : 'Pending' }}</td> --}}
 															<td>{{ $registration_pending->created_at }}</td>
 															<td>
-																<button class="btn btn-success text-white mx-2 text-uppercase" data-bs-toggle="modal" data-bs-target="#regApproveModal"  title="Approve this Registration" {{ $registration_pending->is_active ? 'disabled' : '' }}><small>approve</small></button>
-																<button class="btn btn-danger text-white mx-2 text-uppercase" data-bs-toggle="modal" data-bs-target="#regDeleteModal" title="Delete this Registration" {{ $registration_pending->is_active ? 'disabled' : '' }}><small>delete</small></button>
+																<button class="btn btn-success text-white mx-2 text-uppercase approve-register-btn" data-id="{{ $registration_pending->user_id }}" data-bs-toggle="modal" data-bs-target="#regApproveModal"  title="Approve this Registration" {{ $registration_pending->is_active ? 'disabled' : '' }}><small>approve</small></button>
+																<button class="btn btn-danger text-white mx-2 text-uppercase delete-register-btn" data-id="{{ $registration_pending->user_id }}" data-bs-toggle="modal" data-bs-target="#regDeleteModal" title="Delete this Registration" {{ $registration_pending->is_active ? 'disabled' : '' }}><small>delete</small></button>
 															</td>
 														</tr>
-
-														<!-- Approve Modal -->
-														<div class="modal fade" id="regApproveModal" tabindex="-1" aria-labelledby="regApproveModalLabel" aria-hidden="true">
-														<div class="modal-dialog modal-dialog-centered">
-															<div class="modal-content">
-															<div class="modal-header">
-																<h5 class="modal-title" id="regApproveModalLabel">Registration Appproval</h5>
-																<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-															</div>
-															<div class="modal-body">
-																Are you sure you want to <span class="text-success">approve</span> this registration?
-															</div>
-															<div class="modal-footer">
-																<button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-																<form method="post" action="{{ route('admin.registration.approve') }}" enctype="multipart/form-data">
-																	@csrf
-																	<input type="hidden" name="reg_id_approve" value="{{ $registration_pending->user_id }}">
-																	<button type="submit" class="btn btn-success">APPROVE</button>
-																</form>
-															</div>
-															</div>
-														</div>
-														</div>
-
-														<!-- Delete Modal -->
-														<div class="modal fade" id="regDeleteModal" tabindex="-1" aria-labelledby="regDeleteModalLabel" aria-hidden="true">
-														<div class="modal-dialog modal-dialog-centered">
-															<div class="modal-content">
-															<div class="modal-header">
-																<h5 class="modal-title" id="regDeleteModalLabel">Registration Delete</h5>
-																<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-															</div>
-															<div class="modal-body">
-																Are you sure you want to <span class="text-danger">delete</span> this registrration?
-															</div>
-															<div class="modal-footer">
-																<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-																<form method="post" action="{{ route('admin.registration.approve') }}" enctype="multipart/form-data">
-																	@csrf
-																	<input type="hidden" name="reg_id_delete" value="{{ $registration_pending->user_id }}">
-																	<button type="submit" class="btn btn-danger">DELETE</button>
-																</form>
-															</div>
-															</div>
-														</div>
-														</div>
 													@empty
 														<tr>
 															<td colspan="4">No pending registrations found.</td>
@@ -355,12 +309,60 @@
 		</div>
 	</section>
 
+	<!-- Approve Modal -->
+	<div class="modal fade" id="regApproveModal" tabindex="-1" aria-labelledby="regApproveModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="regApproveModalLabel">Registration Appproval</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				Are you sure you want to <span class="text-success">approve</span> this registration?
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<form method="post" action="{{ route('admin.registration.approve') }}" enctype="multipart/form-data">
+					@csrf
+					<input type="hidden" name="reg_id_approve" id="reg_id_approve">
+					<button type="submit" class="btn btn-success">APPROVE</button>
+				</form>
+			</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- Delete Modal -->
+	<div class="modal fade" id="regDeleteModal" tabindex="-1" aria-labelledby="regDeleteModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered">
+			<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="regDeleteModalLabel">Registration Delete</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				Are you sure you want to <span class="text-danger">delete</span> this registrration?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<form method="post" action="{{ route('admin.registration.approve') }}" enctype="multipart/form-data">
+					@csrf
+					<input type="hidden" name="reg_id_delete" id="reg_id_delete">
+					<button type="submit" class="btn btn-danger">DELETE</button>
+				</form>
+			</div>
+			</div>
+		</div>
+	</div>
+
 
 @endsection
 
 @section('pagejs')
 <script>
 	$(document).ready( function () {
+        jQuery.fn.dataTable.ext.errMode = 'none';
+
 	    $('#registrationsPendingTable').DataTable({
 			// addons here
 	    });
@@ -377,6 +379,16 @@
 	$(document).on('click','.resend-email-btn',function(){
 	     let id = $(this).attr('data-id');
 	     $('#reg_id_resend').val(id);
+	});
+
+	$(document).on('click','.approve-register-btn',function(){
+	     let id = $(this).attr('data-id');
+	     $('#reg_id_approve').val(id);
+	});
+
+	$(document).on('click','.delete-register-btn',function(){
+	     let id = $(this).attr('data-id');
+	     $('#reg_id_delete').val(id);
 	});
 
 </script>

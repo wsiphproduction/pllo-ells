@@ -15,11 +15,14 @@ use Illuminate\Support\Facades\Hash;
 use App\Mail\RegisterMail;
 use App\Mail\RegisterConfirmationMail;
 
+use App\Models\Hor;
 use App\Models\User;
 use App\Models\Page;
 use App\Models\Gender;
 use App\Models\Agency;
-use App\Models\System;
+use App\Models\Senator;
+use App\Models\SubAgency;
+use App\Models\UserType;
 use App\Models\Cluster;
 use App\Models\Designation;
 use App\Models\Member;
@@ -38,20 +41,46 @@ class RegistrationController extends Controller
     private $searchFields = ['name'];
     
     public function register() {
+        
         $page = new Page();
-        $systems = System::all();
+        $user_types = UserType::all();
         $agencies = Agency::all();
         $clusters = Cluster::all();
         $genders = Gender::all();
         $designations = Designation::all();
         $messaging_numbers = MessagingNumber::all();
+        $senators = Senator::all();
+        $hors = Hor::all();
+
+        $designations_lls = Designation::where('user_type_id', 1)->get();
+        $designations_senators = Designation::where('user_type_id', 2)->get();
+        $designations_hor = Designation::where('user_type_id', 3)->get();
+        $designations_op = Designation::where('user_type_id', 4)->get();
+
+        $pllo_lls_agencies = Agency::where([
+                                            ['id', '<>', 9],
+                                            ['id', '<>', 10],
+                                            ['id', '<>', 11]
+                                           ])->get();
+
+        $op_agencies = Agency::whereIn('id', [9,10,11])->get();
+
+        $op_subagencies = DB::table('agency')->select('*')
+                                ->where('agency.agency_name', 'like', '%'.'op proper'.'%')
+                                ->join('sub_agency', 'sub_agency.agency_id', '=', 'agency.id')
+                                ->get();
+
+        $cabinet_subagencies = DB::table('agency')->select('*')
+                                ->where('agency.agency_name', 'like', '%'.'cabinet member'.'%')
+                                ->join('sub_agency', 'sub_agency.agency_id', '=', 'agency.id')
+                                ->get();
 
         $page->name = 'Registration';
 
         if (auth()->user()) {
             return back()->with('error', ('You are already logged in, please logout first to continue.'));
         } else {
-            return view('theme.pages.registration.register', compact('page', 'systems', 'agencies', 'clusters', 'genders', 'designations', 'messaging_numbers'));
+            return view('theme.pages.registration.register', compact('page', 'user_types', 'agencies', 'clusters', 'genders', 'designations', 'messaging_numbers', 'designations_lls', 'designations_senators', 'designations_hor', 'designations_op', 'pllo_lls_agencies', 'op_agencies', 'op_subagencies', 'cabinet_subagencies', 'senators', 'hors'));
         }
     }
 
@@ -78,17 +107,24 @@ class RegistrationController extends Controller
             return redirect()->back()->withInput()->with('error', 'Please select Gender.');
         }
 
-        if ($request->agency == 0) {
-            return redirect()->back()->withInput()->with('error', 'Please select Agency.');
-        }
-
-        if ($request->designation == 0) {
-            return redirect()->back()->withInput()->with('error', 'Please select Designation.');
-        }
-
         if ($request->password != $request->confrim_password) {
             return redirect()->back()->withInput()->with('error', 'Password and Confirm Password do not match.');
         }
+
+        if ($request->user_type == 1) {
+            if ($request->designation == 0) {
+                return redirect()->back()->withInput()->with('error', 'Please select Designation.');
+            }
+
+            if ($request->agency == 0) {
+                return redirect()->back()->withInput()->with('error', 'Please select Agency.');
+            } 
+        }
+        // End validation //
+
+        if ($request->user_type != 2) { $request['senator_id'] = null; }
+        if ($request->user_type != 3) { $request['hor_id'] = null; }
+        if ($request->user_type != 4) { $request['congsec_type'] = null; }
 
         // Parallel saving users to members table //
         $requests = $request->all();
@@ -96,26 +132,29 @@ class RegistrationController extends Controller
         $requests['mobile'] = $requests['contact_number'];
         $requests['role_id'] = '2';
         $requests['is_active'] = '0';
+        $requests['avatar'] = $request->hasFile('office_id') ? FileHelper::move_to_folder($request->file('office_id'), 'photo')['url'] : null;
         $requests['password'] = Hash::make($request->password);
 
         $user = User::create($requests);
 
         // Create new member //
+        if ($request->user_type == 1 || $request->user_type == 6) {
+            $requests['cluster'] = implode("::", $request['cluster']);
+        }
+
         $requests['user_id'] = $user->id;
         $requests['type_number'] = implode("::", $request['type_number']);
         $requests['other_number'] = implode("::", $request['other_number']);
-        $requests['cluster'] = implode("::", $request['cluster']);
         $requests['birthdate'] = $requests['month'] ." ". $requests['day'];
         $requests['photo'] = $request->hasFile('office_id') ? FileHelper::move_to_folder($request->file('office_id'), 'photo')['url'] : null;
         $requests['logo'] = $request->hasFile('agency_logo') ? FileHelper::move_to_folder($request->file('agency_logo'), 'logo')['url'] : null;
 
         Member::create($requests);
-
+        
         // Email condition //
         Mail::to($requests['email'])->send(new RegisterMail(Setting::info(), $user));
 
         return redirect()->back()->with("success","Registered Successfully!");
-
     }
 
     public function agencyList(Request $request)
@@ -253,9 +292,8 @@ class RegistrationController extends Controller
             return redirect(route('member.dashboard'));
 
         } else {
-            
-            return redirect(route('member.login.error'));
-
+            return back()->with('error', 'Incorrect username or password. Please try again.'); 
+            // return redirect(route('member.login.error'));
         }
     }
 
@@ -264,25 +302,6 @@ class RegistrationController extends Controller
          $page->name = 'Login Error';
          
          return view('theme.pages.login-error', compact('page'));
-    }
-
-    public function memberDashboard() {
-
-        $page = new Page();
-        $page->name = 'Member Dashboard';
-
-        $clustersList = Cluster::all();
-        $memberDetails = Member::where('user_id', Auth::user()->id)->first();
-        $memberAgency = Agency::find($memberDetails->agency);
-
-        $events  = EventParticipant::where('member_id', $memberDetails->id)->get();
-        // dd($events);
-        if (auth()->user()) {
-            return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency', 'events'));
-        } else {
-            return back()->with('error', ('Please login to your account.'));
-        }
-
     }
 
     public function memberProfileUpdate(Request $request) {
@@ -304,7 +323,7 @@ class RegistrationController extends Controller
 
             $image = $request->file('photo');
             $filename = time() . '.' . $image->getClientOriginalExtension();
-            $path = 'photo/' . $filename;
+            $path = 'storage/photo/' . $filename;
 
             Storage::disk('public')->putFileAs('photo', $image, $filename);
 
@@ -455,8 +474,9 @@ class RegistrationController extends Controller
         $page->name = "Manage Designations";
 
         $designations = Designation::all();
+        $user_types = UserType::all();
     
-        return view('theme.pages.maintenance.designation.index', compact('page', 'designations'));
+        return view('theme.pages.maintenance.designation.index', compact('page', 'designations', 'user_types'));
     }
 
     public function maintenanceDesignationStore(Request $request) {
@@ -472,14 +492,16 @@ class RegistrationController extends Controller
         $page = new Page;
         $page->name = 'Edit Designation';
         $designation = Designation::find($id);
+        $user_types = UserType::all();
 
-        return view('theme.pages.maintenance.designation.edit', compact('page', 'designation'));
+        return view('theme.pages.maintenance.designation.edit', compact('page', 'designation', 'user_types'));
     }
 
     public function maintenanceDesignationUpdate(Request $request, $id) {
 
         $designation = Designation::find($id);
         $designation->name = $request['name'];
+        $designation->name = $request['user_type_id'];
         $designation->save();
 
         return redirect()->route('maintenance.designation')->with('success', 'Designation updated successfully.');
@@ -559,19 +581,32 @@ class RegistrationController extends Controller
 
         if ($request->hasFile('logo')) {
 
-            $image = $request->file('logo');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            $path = 'logo/' . $filename;
+            if($member->user_type == 5) {
+                $image = $request->file('logo');
+                $filename = time() . '.' . $image->getClientOriginalExtension();
+                $path = 'storage/photo/' . $filename;
 
-            Storage::disk('public')->putFileAs('logo', $image, $filename);
+                Storage::disk('public')->putFileAs('photo', $image, $filename);
 
-            $member->logo = $path;
+                $member->photo = $path;
+            } else {
+                $image = $request->file('logo');
+                $filename = time() . '.' . $image->getClientOriginalExtension();
+                $path = 'storage/logo/' . $filename;
+
+                Storage::disk('public')->putFileAs('logo', $image, $filename);
+
+                $member->logo = $path;
+            }
 
             $member->save();
-            
+
         } else {
+
             return back()->with('error', 'No logo selected.');
+
         }
+
         return back()->with('success', 'New logo uploaded.');
     
     }

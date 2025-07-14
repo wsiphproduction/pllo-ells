@@ -28,7 +28,7 @@
 						<p class="mb-0">Incorrect username or password. Please try again.</p>
 					</div>
 					<div class="card-footer bg-white border-0 py-4">
-						<a href="{{ route('member.login') }}" id="exit-custom-alert" class="btn primary-button-color text-white w-100"><small>Login Again</small></a>
+						<button type="button" href="{{ route('home') }}" id="exit-custom-alert" class="btn primary-button-color text-white w-100"><small>Login Again</small></button>
 					</div>
 				</div>	
 			</div>
@@ -39,6 +39,9 @@
 
 @section('pagejs')
 <script>
-
+	$('#exit-custom-alert').on('click', function() {
+		alert()
+		$('#newLoginModalOpen').click();
+	});
 </script>
 @endsection
