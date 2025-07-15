@@ -612,5 +612,14 @@ class RegistrationController extends Controller
     
     }
 
+    public function registerViewMember($id)
+    {   
+        $page = new Page;
+        $page->name = 'Member Details';
+        $memberDetails = Member::find($id);
+
+        return view('theme.pages.registration.register-view-member', compact('page', 'memberDetails'));
+    }
+
 
 }
