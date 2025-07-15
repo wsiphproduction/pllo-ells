@@ -559,12 +559,20 @@
             --bs-btn-disabled-bg: #0d6efd;
             --bs-btn-disabled-border-color: #0d6efd;
         }
-        
+
         /*quick fix*/
         body {
             padding: 0px !important;
         }
-        
+
+        #faqs .toggle-content.text-white-50 {
+            color: #707070 !important;
+        }
+
+        #content main#iktp.content-wrap {
+            padding-top: 14px;
+        }
+
     </style>
 
     <style>
