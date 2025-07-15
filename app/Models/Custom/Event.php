@@ -5,6 +5,7 @@ namespace App\Models\Custom;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
 
 class Event extends Model
 {
@@ -26,6 +27,15 @@ class Event extends Model
 
     public function invites(){
         return $this->hasMany(\App\Models\Custom\EventInvite::class)->withTrashed();
+    }
+
+    public function getIsDoneAttribute(){
+        $eventEnd = Carbon::parse("{$this->date} {$this->end_time}");
+        return $eventEnd->isPast();
+    }
+
+    public function hasDoneFeedback($user_id){
+        return EventFeedback::where('event_id', $this->id)->where('member_id', $user_id)->exists();
     }
 
     public static function isUserInvited($user_id = 0, $event_id)

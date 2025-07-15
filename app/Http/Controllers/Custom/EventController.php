@@ -5,10 +5,11 @@ namespace App\Http\Controllers\Custom;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Requests\EventRequest;
+use App\Http\Requests\EventFeedbackRequest;
 use Facades\App\Helpers\FileHelper;
 
-use App\Models\{Page, Cluster, Agency, Member};
-use App\Models\Custom\{Event, EventInvite, EventParticipant};
+use App\Models\{Page, Cluster, Agency, Member, FileDownload};
+use App\Models\Custom\{Event, EventInvite, EventParticipant, EventFeedback};
 use Auth;
 use Carbon\Carbon;
 
@@ -150,9 +151,11 @@ class EventController extends Controller
         $page->name = $event->title;
 
         $members = Member::all();
-        $member = Member::getMemberInfo(Auth::check() ? Auth::user()->id : 0);
+        $user = Member::getMemberInfo(Auth::check() ? Auth::user()->id : 0);
 
-        return view('theme.pages.events.view', compact('page', 'event', 'events', 'members', 'member'));
+        $downloads = FileDownload::where('event_id', $id)->first();
+
+        return view('theme.pages.events.view', compact('page', 'event', 'events', 'members', 'user', 'downloads'));
     }
 
     public function invitees($id){
@@ -390,4 +393,13 @@ class EventController extends Controller
 
         return redirect()->back()->with('success', 'You successfully declined to participate on this event');
     }
+
+    public function submit_feedback(EventFeedbackRequest $request, $event_id){
+
+        $data = $request->validated();
+        $event = EventFeedback::create($data);
+
+        return redirect()->back()->with('success', 'You successfully submit a feedback, you can now see the downloadable files from the activity.');
+    }
+
 }
