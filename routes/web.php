@@ -90,6 +90,7 @@ Route::get('/phpinfo', function () {
         Route::post('/events/cancel-event/{id}', [EventController::class, 'cancel_event'])->name('events.cancel-event');
         Route::post('/events/register-event/{id}', [EventController::class, 'register_event'])->name('events.register-event');
         Route::post('/events/decline-event/{id}', [EventController::class, 'decline_event'])->name('events.decline-event');
+        Route::post('/events/submit-feedback/{id}', [EventController::class, 'submit_feedback'])->name('events.submit-feedback');
     //
 
     // Sitemap

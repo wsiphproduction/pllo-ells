@@ -90,6 +90,9 @@
 							</div>
 						</div>
 
+						{{-- MODALS --}}
+						{{-- REGISTER --}}
+
 						<div class="modal fade" id="registerModal" tabindex="-1">
 							<div class="modal-dialog modal-lg">
 								<div class="modal-content">
@@ -188,6 +191,132 @@
 							</div>
 						</div>
 
+						
+						{{-- FEEDBACK --}}
+						@if(Auth::user()->role_id != 1)
+							<div class="modal fade" id="feedbackModal" tabindex="-1">
+								<div class="modal-dialog modal-lg">
+									<div class="modal-content">
+										<div class="modal-body">
+											<strong class="custom-text-primary">FEEDBACK FORM</strong><br>
+											<small class="text-muted">Your feedback helps us improve a better presentations along the way.</small>
+
+											<br><br><br>
+											<form class="row me-3" id="feedback-form" method="POST" action="{{ route('events.submit-feedback', $event->id) }}">
+											@csrf
+
+												<div class="form-process">
+													<div class="css3-spinner">
+														<div class="css3-spinner-scaler"></div>
+													</div>
+												</div>
+
+												{{-- Question 1 --}}
+												<div class="col-12">
+													<div class="form-group">
+														<label>How would you rate the over-all quality of the services provided by the PLLO in this activity?</label>
+														<div class="btn-group d-flex" role="group">
+															<input type="radio" class="btn-check" name="q1" id="quality-3" value="3">
+															<label class="btn btn-outline-success" for="quality-3"><i class="bi-emoji-laughing"></i></label>
+
+															<input type="radio" class="btn-check" name="q1" id="quality-2" value="2">
+															<label class="btn btn-outline-warning" for="quality-2"><i class="bi-emoji-expressionless"></i></label>
+
+															<input type="radio" class="btn-check" name="q1" id="quality-1" value="1">
+															<label class="btn btn-outline-danger" for="quality-1"><i class="bi-emoji-frown"></i></label>
+														</div>
+													</div>
+												</div>
+
+												{{-- Question 2 --}}
+												<div class="col-12">
+													<div class="form-group">
+														<label>Did you find the facilities and materials provided sufficient and useful?</label>
+														<div class="btn-group d-flex" role="group">
+															<input type="radio" class="btn-check" name="q2" id="facilities-3" value="3">
+															<label class="btn btn-outline-success" for="facilities-3"><i class="bi-emoji-laughing"></i></label>
+
+															<input type="radio" class="btn-check" name="q2" id="facilities-2" value="2">
+															<label class="btn btn-outline-warning" for="facilities-2"><i class="bi-emoji-expressionless"></i></label>
+
+															<input type="radio" class="btn-check" name="q2" id="facilities-1" value="1">
+															<label class="btn btn-outline-danger" for="facilities-1"><i class="bi-emoji-frown"></i></label>
+														</div>
+													</div>
+												</div>
+
+												{{-- Question 3 --}}
+												<div class="col-12">
+													<div class="form-group">
+														<label>How would you rate the presentations / discussions?</label>
+														<div class="btn-group d-flex" role="group">
+															<input type="radio" class="btn-check" name="q3" id="presentations-3" value="3">
+															<label class="btn btn-outline-success" for="presentations-3"><i class="bi-emoji-laughing"></i></label>
+
+															<input type="radio" class="btn-check" name="q3" id="presentations-2" value="2">
+															<label class="btn btn-outline-warning" for="presentations-2"><i class="bi-emoji-expressionless"></i></label>
+
+															<input type="radio" class="btn-check" name="q3" id="presentations-1" value="1">
+															<label class="btn btn-outline-danger" for="presentations-1"><i class="bi-emoji-frown"></i></label>
+														</div>
+													</div>
+												</div>
+
+												{{-- Question 4 --}}
+												<div class="col-12">
+													<div class="form-group">
+														<label>Was the objective/s of the activity achieved?</label>
+														<div class="btn-group d-flex" role="group">
+															<input type="radio" class="btn-check" name="q4" id="objectives-3" value="3">
+															<label class="btn btn-outline-success" for="objectives-3"><i class="bi-emoji-laughing"></i></label>
+
+															<input type="radio" class="btn-check" name="q4" id="objectives-2" value="2">
+															<label class="btn btn-outline-warning" for="objectives-2"><i class="bi-emoji-expressionless"></i></label>
+
+															<input type="radio" class="btn-check" name="q4" id="objectives-1" value="1">
+															<label class="btn btn-outline-danger" for="objectives-1"><i class="bi-emoji-frown"></i></label>
+														</div>
+													</div>
+												</div>
+
+												{{-- Question 5 --}}
+												<div class="col-12">
+													<div class="form-group">
+														<label>How did you learn about PLLO?</label>
+														<select class="form-select" name="q5" id="q5" required>
+															<option value="" selected disabled>-- SELECT ONE --</option>
+															<option value="Google">Google</option>
+															<option value="Social Media">Social Media</option>
+															<option value="Friends">Friends</option>
+															<option value="Advertisement">Advertisement</option>
+															<option value="Others">Others</option>
+														</select>
+													</div>
+												</div>
+
+												{{-- Optional Comments --}}
+												<div class="col-12 form-group">
+													<label>Do you have any other comments / recommendations to improve future activities of the PLLO?</label>
+													<textarea name="comments" id="comments" class="form-control" cols="30" rows="8"></textarea>
+												</div>
+
+												{{-- Buttons --}}
+												<div class="col-12 text-end">
+													<button type="button" class="btn btn-secondary mt-3" data-bs-dismiss="modal"><small>CANCEL</small></button>
+													<button type="submit" class="btn bg-custom-primary text-white mt-3"><small>SUBMIT</small></button>
+												</div>
+
+												<input type="hidden" name="event_id" value="{{ $event->id }}"/>
+												<input type="hidden" name="member_id" value="{{ $user->id }}"/>
+
+											</form>
+
+										</div>
+									</div>
+								</div>
+							</div>
+						@endif
+
 					</div>
 				</div>
 
@@ -198,12 +327,21 @@
 						<button class="btn form-control mt-2 text-white bg-custom-primary" onclick="$('#creationModal').modal('show')">UPLOAD DOWNLOADABLES</button>
 					@endif
 					
-					@if(App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, $member->id) && App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, $member->id)->status == 1)
-						<button class="btn form-control mt-2 text-white bg-custom-primary" onclick="$('#feedbackModal').modal('show')">GIVE FEEDBACK</button>
-					@endif
+					
+					@if(Auth::user()->role_id != 1)
+						@php
+							$member = \App\Models\Member::getMemberInfo(Auth::check() ? Auth::user()->id : 0);
+						@endphp
 
-					@if(Auth::user()->role_id != 1 && !App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, \App\Models\Member::getMemberInfo(Auth::check() ? Auth::user()->id : 0)->id))
-						<button class="btn form-control mt-2 text-white bg-custom-primary" onclick="$('#registerModal').modal('show')">REGISTER NOW</button>
+						@if(App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, $member->id) && App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, $member->id)->status == 1)
+							@if($event->isDone && !$event->hasDoneFeedback($user->id))
+								<button class="btn form-control mt-2 text-white bg-custom-primary" onclick="$('#feedbackModal').modal('show')">GIVE FEEDBACK</button>
+							@endif
+						@endif
+
+						@if(Auth::user()->role_id != 1 && !App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, \App\Models\Member::getMemberInfo(Auth::check() ? Auth::user()->id : 0)->id))
+							<button class="btn form-control mt-2 text-white bg-custom-primary" onclick="$('#registerModal').modal('show')">REGISTER NOW</button>
+						@endif
 					@endif
 				</div>
 				
@@ -254,23 +392,26 @@
 					@endif
 
 					@php
-						$attachments = json_decode($event->attachments, true);
-					@endphp
-					@if (!empty($attachments))
-						<strong style="font-size:14px;">Post-Activity Downloadable Materials</strong>
 
-						<div style="padding-left: 0.5rem;">
-							<ul class="mb-0 ps-3">
-								@foreach ($attachments as $index => $file)
-									<li>
-										<a class="text-primary" href="{{ asset($file) }}" target="_blank" download>
-											Attachment {{ $index + 1 }} : {{ basename($file) }}
-										</a>
-									</li>
-								@endforeach
-							</ul>
-						</div>
-						<br>
+						$download = json_decode($downloads->file_url, true);
+					@endphp
+					@if (!empty($download))
+						@if(Auth::user()->role_id == 1 || ($event->isDone && $event->hasDoneFeedback($user->id)))
+							<strong style="font-size:14px;">Post-Activity Downloadable Materials</strong>
+
+							<div style="padding-left: 0.5rem;">
+								<ul class="mb-0 ps-3">
+									@foreach ($download as $index => $file)
+										<li>
+											<a class="text-primary" href="{{ asset($file) }}" target="_blank" download>
+												Attachment {{ $index + 1 }} : {{ basename($file) }}
+											</a>
+										</li>
+									@endforeach
+								</ul>
+							</div>
+							<br>
+						@endif
 					@endif
 
 					{{-- @if(Auth::user()->role_id != 1 && !App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, \App\Models\Member::getMemberInfo(Auth::check() ? Auth::user()->id : 0)->id))
@@ -375,46 +516,46 @@
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-body">
-						<strong class="custom-text-primary">UPLOAD DOWNLOADABLE</strong><br>
+						<strong class="custom-text-primary">UPLOAD DOWNLOADABLES</strong><br>
 
 						<div class="row mt-3">
 							<form id="creation_form" action="{{ route('downloadables.front.store') }}" method="post" enctype="multipart/form-data">
 								@csrf
-								<div class="form-group">
+								<div class="form-group" hidden>
 									<label class="d-block">Long Title *</label>
-									<input type="text" name="title" id="title" value="{{ old('title')}}" class="form-control @error('title') is-invalid @enderror" maxlength="150" required>
+									<input type="text" name="title" id="title" value="Downloadable" class="form-control @error('title') is-invalid @enderror" maxlength="150" required >
 									@error('title')
 										<span class="text-danger">{{ $message }}</span>
 									@enderror
 								</div>
 
-								<div class="form-group">
+								<div class="form-group" hidden>
 									<label class="d-block">RA / JR Number *</label>
-									<input type="text" name="ra_jr" id="ra_jr" value="{{ old('ra_jr')}}" class="form-control @error('ra_jr') is-invalid @enderror" maxlength="150" required>
+									<input type="text" name="ra_jr" id="ra_jr" value="N/A" class="form-control @error('ra_jr') is-invalid @enderror" maxlength="150" required >
 									@error('ra_jr')
 										<span class="text-danger">{{ $message }}</span>
 									@enderror             
 								</div>
 
-								<div class="form-group">
+								<div class="form-group" hidden>
 									<label class="d-block">Congress *</label>
-									<input type="text" name="congress" id="congress" value="{{ old('congress')}}" class="form-control @error('congress') is-invalid @enderror" maxlength="150" required>
+									<input type="text" name="congress" id="congress" value="N/A" class="form-control @error('congress') is-invalid @enderror" maxlength="150" required >
 									@error('congress')
 										<span class="text-danger">{{ $message }}</span>
 									@enderror             
 								</div>
 
-								<div class="form-group">
+								<div class="form-group" hidden>
 									<label class="d-block">Approved On *</label>
-									<input type="date" name="approved_on" id="approved_on" value="{{ old('approved_on')}}" class="form-control @error('approved_on') is-invalid @enderror" maxlength="150" required>
+									<input type="date" name="approved_on" id="approved_on" value="01/01/2001" class="form-control @error('approved_on') is-invalid @enderror" maxlength="150" required >
 									@error('approved_on')
 										<span class="text-danger">{{ $message }}</span>
 									@enderror             
 								</div>
 
-								<div class="form-group">
+								<div class="form-group" hidden>
 									<label class="d-block">Source / Priority Level *</label>
-									<input type="text" name="source_priority_level" id="source_priority_level" value="{{ old('source_priority_level')}}" class="form-control @error('source_priority_level') is-invalid @enderror" maxlength="150" required>
+									<input type="text" name="source_priority_level" id="source_priority_level" value="N/A" class="form-control @error('source_priority_level') is-invalid @enderror" maxlength="150" required >
 									@error('source_priority_level')
 										<span class="text-danger">{{ $message }}</span>
 									@enderror             
@@ -494,6 +635,31 @@
 			$('#registration_form').submit();
 			return false; // Prevent default button behavior (if needed)
 		}
+	</script>
+
+	<script>
+		$(document).ready(function () {
+			$('#feedback-form').on('submit', function (e) {
+				e.preventDefault(); // Prevent form from submitting
+
+				const q1 = $('input[name="q1"]:checked').val();
+				const q2 = $('input[name="q2"]:checked').val();
+				const q3 = $('input[name="q3"]:checked').val();
+				const q4 = $('input[name="q4"]:checked').val();
+				const q5 = $('#q5').val();
+
+				if (!q1 || !q2 || !q3 || !q4 || !q5) {
+					Swal.fire({
+						icon: 'warning',
+						title: 'Missing Answer',
+						text: 'Please answer all required questions before submitting.'
+					});
+					return false;
+				}
+
+				this.submit(); // Submit form if all are answered
+			});
+		});
 	</script>
 
 @endsection
