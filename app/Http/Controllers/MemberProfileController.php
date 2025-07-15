@@ -264,7 +264,19 @@ class MemberProfileController extends Controller
 	    $page = new Page();
 	    $page->name = 'Senators';
 
-		return view('theme.pages.directory.senator', compact('page'));
+	    $members = Official::query()->where('position', 'senator');
+
+	    if (request('member_name')) {
+	        $members->where(function ($query) {
+	            $name = request('member_name');
+	            $query->where('firstname', 'like', "%{$name}%")
+	                ->orWhere('lastname', 'like', "%{$name}%");
+	        });
+	    }
+
+	    $members = $members->paginate($this->page_limit);
+
+		return view('theme.pages.directory.senator', compact('page', 'members'));
 	}
 
 	public function senartorStaffDirectory(Request $request)
@@ -276,7 +288,20 @@ class MemberProfileController extends Controller
 	    $page = new Page();
 	    $page->name = 'Senators Staff';
 
-		return view('theme.pages.directory.senator-staff', compact('page'));
+	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id)
+	    					->where('user_type', 2);
+
+	    if (request('member_name')) {
+	        $members->where(function ($query) {
+	            $name = request('member_name');
+	            $query->where('firstname', 'like', "%{$name}%")
+	                ->orWhere('lastname', 'like', "%{$name}%");
+	        });
+	    }
+
+	    $members = $members->paginate($this->page_limit);
+
+		return view('theme.pages.directory.senator-staff', compact('page', 'members'));
 	}
 
 	public function senartorComSecDirectory(Request $request)
@@ -288,7 +313,23 @@ class MemberProfileController extends Controller
 	    $page = new Page();
 	    $page->name = 'Senators Committee Secretary';
 
-		return view('theme.pages.directory.senator-com-sec', compact('page'));
+	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id)
+	    					->join('designation', 'designation.id', 'members.designation')
+	    					->where('members.user_type', 2)
+	    					->where('designation.name', '=', 'Appointment Secretary');
+
+	    if (request('member_name')) {
+	        $members->where(function ($query) {
+	            $name = request('member_name');
+	            $query->where('firstname', 'like', "%{$name}%")
+	                ->orWhere('lastname', 'like', "%{$name}%");
+	        });
+	    }
+
+	    $members = $members->paginate($this->page_limit);
+
+
+		return view('theme.pages.directory.senator-com-sec', compact('page', 'members'));
 	}
 
 	public function horsDirectory(Request $request)
@@ -300,7 +341,19 @@ class MemberProfileController extends Controller
 	    $page = new Page();
 	    $page->name = 'House of Representatives';
 
-		return view('theme.pages.directory.hor', compact('page'));
+	    $members = Official::query()->where('position', 'hor');
+
+	    if (request('member_name')) {
+	        $members->where(function ($query) {
+	            $name = request('member_name');
+	            $query->where('firstname', 'like', "%{$name}%")
+	                ->orWhere('lastname', 'like', "%{$name}%");
+	        });
+	    }
+
+	    $members = $members->paginate($this->page_limit);
+
+		return view('theme.pages.directory.hor', compact('page', 'members'));
 	}
 
 	public function horStaffDirectory(Request $request)
@@ -312,7 +365,20 @@ class MemberProfileController extends Controller
 	    $page = new Page();
 	    $page->name = 'House of Representatives Staff';
 
-		return view('theme.pages.directory.hor-staff', compact('page'));
+	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id)
+	    					->where('user_type', 3);
+
+	    if (request('member_name')) {
+	        $members->where(function ($query) {
+	            $name = request('member_name');
+	            $query->where('firstname', 'like', "%{$name}%")
+	                ->orWhere('lastname', 'like', "%{$name}%");
+	        });
+	    }
+
+	    $members = $members->paginate($this->page_limit);
+
+		return view('theme.pages.directory.hor-staff', compact('page', 'members'));
 	}
 
 	public function horComSecDirectory(Request $request)
@@ -324,7 +390,23 @@ class MemberProfileController extends Controller
 	    $page = new Page();
 	    $page->name = 'House of Representatives Committee Secretary';
 
-		return view('theme.pages.directory.hor-com-sec', compact('page'));
+	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id)
+	    					->join('designation', 'designation.id', 'members.designation')
+	    					->where('members.user_type', 3)
+	    					->where('designation.name', '=', 'Appointment Secretary');
+
+	    if (request('member_name')) {
+	        $members->where(function ($query) {
+	            $name = request('member_name');
+	            $query->where('firstname', 'like', "%{$name}%")
+	                ->orWhere('lastname', 'like', "%{$name}%");
+	        });
+	    }
+
+	    $members = $members->paginate($this->page_limit);
+
+
+		return view('theme.pages.directory.hor-com-sec', compact('page', 'members'));
 	}
 
 }
