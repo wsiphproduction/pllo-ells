@@ -402,6 +402,7 @@ Route::group(['prefix' => 'admin-panel'], function (){
 // USER REGISTRAION
 Route::get('/register', [RegistrationController::class, 'register'])->name('register');
 Route::post('/register/register-store', [RegistrationController::class, 'registerStore'])->name('register-store');
+Route::get('/register/register-view-member/{id}', [RegistrationController::class, 'registerViewMember'])->name('register.view.member');
     
     // Agency
         Route::get('/registration/agency-list', [RegistrationController::class, 'agencyList'])->name('registration.agency-list');

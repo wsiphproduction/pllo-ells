@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 use App\Models\Role;
+use App\Models\UserType;
 
 class User extends Authenticatable implements MustVerifyEmail
 {
@@ -351,6 +352,14 @@ class User extends Authenticatable implements MustVerifyEmail
     public function users_subscription()
     {
         return $this->hasMany(UsersSubscription::class);
+    }
+
+    public function userType() {
+        return $this->belongsTo(UserType::class, 'user_type');
+    }
+
+    public function designationDetails() {
+        return $this->belongsTo(Designation::class, 'designation');
     }
 
 

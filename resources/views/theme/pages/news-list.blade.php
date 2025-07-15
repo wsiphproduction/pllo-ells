@@ -79,11 +79,11 @@
                                     </button>
                                     {!! $categories !!}
 
-                                    @if(auth()->user())
+                                    {{-- @if(auth()->user())
                                         <button class="btn btn-main-primary">
                                             PROPOSE A BILL
                                         </button>
-                                    @endif
+                                    @endif --}}
 
                                 </div>
                             </div>

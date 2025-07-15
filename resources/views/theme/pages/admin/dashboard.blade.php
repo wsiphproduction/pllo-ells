@@ -85,7 +85,14 @@
 												<tbody>
 													@forelse($registrations_pending as $registration_pending)
 														<tr>
-															<td>{{ $registration_pending->email }}</td>
+															<td>
+																<a href="{{ route('register.view.member', $registration_pending->id ) }}" class="cursor-pointer">
+																	{{ $registration_pending->email }}
+																</a>
+																{{-- <a type="button" class="cursor-pointer" data-bs-target="#showDetailsModal{{$registration_pending->user_id}}" data-bs-toggle="modal">
+																	{{ $registration_pending->email }}
+																</a> --}}
+															</td>
 															{{-- <td>{{ $registration_pending->is_active ? 'Approved' : 'Pending' }}</td> --}}
 															<td>{{ $registration_pending->created_at }}</td>
 															<td>
@@ -93,6 +100,49 @@
 																<button class="btn btn-danger text-white mx-2 text-uppercase delete-register-btn" data-id="{{ $registration_pending->user_id }}" data-bs-toggle="modal" data-bs-target="#regDeleteModal" title="Delete this Registration" {{ $registration_pending->is_active ? 'disabled' : '' }}><small>delete</small></button>
 															</td>
 														</tr>
+
+														<!-- Show Member Details Modal -->
+														<div class="modal fade" id="showDetailsModal{{$registration_pending->user_id}}" tabindex="-1" aria-labelledby="showDetailsModalLabel{{$registration_pending->user_id}}" aria-hidden="true">
+															<div class="modal-dialog modal-dialog-centered">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<h5 class="modal-title" id="showDetailsModalLabel{{$registration_pending->user_id}}">Member Details</h5>
+																		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+																	</div>
+																	<div class="modal-body">
+																		<div class="d-flex flex-column">
+																			<small class="my-2">
+																				<b>Registering As:</b> {{ $registration_pending->userType->name }}	
+																			</small>
+																			@if(!empty( $registration_pending->designationDetails ))
+																				<small class="my-2">
+																					<b>For Designation:</b> {{ $registration_pending->designationDetails->name }}
+																				</small>
+																			@endif
+																			<small class="my-2">
+																				<b>Name:</b> {{ $registration_pending->name }}	
+																			</small>
+																			<small class="my-2">
+																				<b>Email Address:</b> {{ $registration_pending->email }}	
+																			</small>
+																			<small class="my-2">
+																				<b>Contact Number:</b> {{ $registration_pending->contact_number }}	
+																			</small>
+																			<small class="my-2">
+																				<b>Birthdate:</b> {{ $registration_pending->birthdate }}	
+																			</small>
+																			<small class="my-2">
+																				<b>Gender:</b> @if($registration_pending->gender == 1) Male @elseif($registration_pending->gender == 2) Female @else Others @endif	
+																			</small>
+																			<br />
+																		</div>
+																	<div class="modal-footer">
+																		<button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+
 													@empty
 														<tr>
 															<td colspan="4">No pending registrations found.</td>

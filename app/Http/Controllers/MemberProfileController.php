@@ -188,6 +188,7 @@ class MemberProfileController extends Controller
 	    $birthmonth = 0;
 	    $designations = Designation::where('user_type_id', 1)->get();
 	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id)
+	    						  ->where('is_verified', 1)
 	    						  ->where('user_type', 1);
 
 	    // filters
@@ -240,6 +241,7 @@ class MemberProfileController extends Controller
 	    $page->name = 'PLLO';
 	    
 	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id)
+	    					->where('is_verified', 1)
 	    					->where('user_type', 6);
 
 	    if (request('member_name')) {
@@ -289,6 +291,7 @@ class MemberProfileController extends Controller
 	    $page->name = 'Senators Staff';
 
 	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id)
+	    					->where('is_verified', 1)
 	    					->where('user_type', 2);
 
 	    if (request('member_name')) {
@@ -315,6 +318,7 @@ class MemberProfileController extends Controller
 
 	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id)
 	    					->join('designation', 'designation.id', 'members.designation')
+	    					->where('members.is_verified', 1)
 	    					->where('members.user_type', 2)
 	    					->where('designation.name', '=', 'Appointment Secretary');
 
@@ -366,6 +370,7 @@ class MemberProfileController extends Controller
 	    $page->name = 'House of Representatives Staff';
 
 	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id)
+	    					->where('is_verified', 1)
 	    					->where('user_type', 3);
 
 	    if (request('member_name')) {
@@ -393,6 +398,7 @@ class MemberProfileController extends Controller
 	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id)
 	    					->join('designation', 'designation.id', 'members.designation')
 	    					->where('members.user_type', 3)
+	    					->where('members.is_verified', 1)
 	    					->where('designation.name', '=', 'Appointment Secretary');
 
 	    if (request('member_name')) {
