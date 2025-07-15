@@ -392,9 +392,11 @@
 					@endif
 
 					@php
-
-						$download = json_decode($downloads->file_url, true);
+						if($downloads){
+							$download = json_decode($downloads->file_url ?? [], true);
+						}
 					@endphp
+
 					@if (!empty($download))
 						@if(Auth::user()->role_id == 1 || ($event->isDone && $event->hasDoneFeedback($user->id)))
 							<strong style="font-size:14px;">Post-Activity Downloadable Materials</strong>
