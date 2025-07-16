@@ -18,5 +18,7 @@ class DemoSeeder extends Seeder
             ReferenceMaterialSeeder::class,
             OfficialSeeder::class,
         ]);
+
+        EventFeedback::truncate();
     }
 }

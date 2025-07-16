@@ -132,25 +132,13 @@
 											</div>
 
 											<div class="row mt-2 mb-4">
-												<small class="text-muted mt-5">If you want to add a representative to stand in for you as the invvited participant, <a href="javascript:void(0)">click here</a>.</small>
-											</div>
-											<div class="form-group">
-												<div class="row">
-													<div class="col-6 mb-1">
-														<input class="form-control" type="text" nmae="fullname" placeholder="FULL NAME" />
-													</div>
-													<div class="col-6 mb-1">
-														<input class="form-control" type="text" nmae="designation" placeholder="DESIGNATION" />
-													</div>
-													<div class="col-6 mb-1">
-														<input class="form-control" type="text" nmae="email" placeholder="EMAIL ADDRESS" />
-													</div>
-													<div class="col-6 mb-1">
-														<input class="form-control" type="text" nmae="contact" placeholder="CONTACT NUMBER" />
-													</div>
-												</div>
+												<small class="text-muted mt-5">
+													If you want to add a representative to stand in for you as the invited participant,
+													<a href="javascript:void(0)" id="add-representative">click here</a>.
+												</small>
 											</div>
 
+											<div id="representatives-container"></div>
 
 										</form>
 									
@@ -549,7 +537,7 @@
 
 								<div class="form-group" hidden>
 									<label class="d-block">Approved On *</label>
-									<input type="date" name="approved_on" id="approved_on" value="01/01/2001" class="form-control @error('approved_on') is-invalid @enderror" maxlength="150" required >
+									<input type="date" name="approved_on" id="approved_on" value="2001-01-01" class="form-control @error('approved_on') is-invalid @enderror" maxlength="150" required >
 									@error('approved_on')
 										<span class="text-danger">{{ $message }}</span>
 									@enderror             
@@ -620,8 +608,9 @@
 			});
 
 		});
-		
+
 		function validateSelection() {
+			// Check if at least one member is selected
 			if ($('input[name="member_id[]"]:checked').length === 0) {
 				Swal.fire({
 					icon: 'warning',
@@ -630,13 +619,57 @@
 					timer: 2000,
 					showConfirmButton: false
 				});
-				return false; // Prevent form submission
+				return false;
 			}
 
-			// Submit the form
+			// Validate dynamically added representative fields
+			let hasInvalid = false;
+
+			$('.representative-entry').each(function () {
+				const fullname = $(this).find('input[name="fullname[]"]').val()?.trim();
+				const designation = $(this).find('input[name="designation[]"]').val()?.trim();
+				const email = $(this).find('input[name="email[]"]').val()?.trim();
+				const contact = $(this).find('input[name="contact[]"]').val()?.trim();
+
+				if (!fullname || !designation || !email || !contact) {
+					hasInvalid = true;
+					return false; // exit .each loop early
+				}
+			});
+
+			if (hasInvalid) {
+				Swal.fire({
+					icon: 'warning',
+					title: 'Incomplete representative info',
+					text: 'Please complete all representative fields (Full Name, Designation, Email, Contact).',
+					timer: 2500,
+					showConfirmButton: false
+				});
+				return false;
+			}
+
+			// All good – submit the form
 			$('#registration_form').submit();
-			return false; // Prevent default button behavior (if needed)
+			return false;
 		}
+
+		
+		// function validateSelection() {
+		// 	if ($('input[name="member_id[]"]:checked').length === 0) {
+		// 		Swal.fire({
+		// 			icon: 'warning',
+		// 			title: 'No member selected',
+		// 			text: 'Please select at least one member before submitting.',
+		// 			timer: 2000,
+		// 			showConfirmButton: false
+		// 		});
+		// 		return false; // Prevent form submission
+		// 	}
+
+		// 	// Submit the form
+		// 	$('#registration_form').submit();
+		// 	return false; // Prevent default button behavior (if needed)
+		// }
 	</script>
 
 	<script>
@@ -663,5 +696,40 @@
 			});
 		});
 	</script>
+
+	<script>
+		$(document).ready(function () {
+			$('#add-representative').on('click', function () {
+				const fieldset = `
+					<div class="form-group representative-entry mb-3 bg-light p-2">
+						<div class="d-flex justify-content-end">
+							<button type="button" class="btn btn-sm btn-transparent text-danger remove-rep">&times; Remove</button>
+						</div>
+						<div class="row">
+							<div class="col-6 mb-2">
+								<input class="form-control" type="text" name="fullname[]" placeholder="FULL NAME" required />
+							</div>
+							<div class="col-6 mb-2">
+								<input class="form-control" type="text" name="designation[]" placeholder="DESIGNATION" required />
+							</div>
+							<div class="col-6 mb-2">
+								<input class="form-control" type="email" name="email[]" placeholder="EMAIL ADDRESS" required />
+							</div>
+							<div class="col-6 mb-2">
+								<input class="form-control" type="text" name="contact[]" placeholder="CONTACT NUMBER" required />
+							</div>
+						</div>
+					</div>
+				`;
+				$('#representatives-container').prepend(fieldset);
+			});
+
+			// Remove representative entry
+			$(document).on('click', '.remove-rep', function () {
+				$(this).closest('.representative-entry').remove();
+			});
+		});
+	</script>
+
 
 @endsection

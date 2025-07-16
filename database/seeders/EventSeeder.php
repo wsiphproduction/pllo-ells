@@ -58,6 +58,7 @@ class EventSeeder extends Seeder
                 'attachments' => json_encode([]),
                 'other_links' => json_encode([]),
                 'event_img' => $randomImage,
+                'invitation_file' => 'storage/events/' . $event->id . '/invitation/sample.jpg',
                 'created_by' => 1,
             ]);
 
