@@ -13,15 +13,15 @@ return new class extends Migration
     {
         Schema::create('policy_reforms', function (Blueprint $table) {
             $table->id();
-            $table->string('member_id');
-            $table->string('title');
-            $table->string('category');
-            $table->longText('description');
-            $table->string('photo');
-            $table->integer('like');
-            $table->integer('dislike');
-            $table->integer('target_votes');
-            $table->date('until');
+            $table->string('member_id')->nullable();
+            $table->string('title')->nullable();
+            $table->string('category')->nullable();
+            $table->longText('description')->nullable();
+            $table->string('photo')->nullable();
+            $table->integer('like')->default(0);
+            $table->integer('dislike')->default(0);
+            $table->integer('target_votes')->default(0);
+            $table->date('until')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

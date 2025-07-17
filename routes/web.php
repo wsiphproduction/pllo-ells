@@ -480,6 +480,9 @@ Route::get('/maintenance-dashboard', [RegistrationController::class, 'maintenanc
 
 // Policy Reform
     Route::get('/policy-reform', [PolicyReformController::class, 'index'])->name('policyreform.index');
+    Route::get('/policy-reform-view/{id}', [PolicyReformController::class, 'view'])->name('policyreform.view');
+    Route::get('/policy-reform-create', [PolicyReformController::class, 'create'])->name('policyreform.create');
+    Route::post('/policy-reform-store', [PolicyReformController::class, 'store'])->name('policyreform.store');
 
 // Pages Frontend
 Route::get('/{any}', [FrontController::class, 'page'])->where('any', '.*');
