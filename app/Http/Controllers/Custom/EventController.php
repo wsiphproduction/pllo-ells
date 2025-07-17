@@ -7,6 +7,9 @@ use Illuminate\Http\Request;
 use App\Http\Requests\EventRequest;
 use App\Http\Requests\EventFeedbackRequest;
 use Facades\App\Helpers\FileHelper;
+use App\Helpers\Setting;
+
+use App\Mail\{EventInvitationMail, FeedbackMail};
 
 use App\Models\{Page, Cluster, Agency, Member, FileDownload};
 use App\Models\Custom\{Event, EventInvite, EventParticipant, EventFeedback};
@@ -27,7 +30,19 @@ class EventController extends Controller
         $page = new Page();
         $page->name = 'Upcoming Events';
 
-        $events = Event::whereDate('date', '>=', Carbon::today())->orderBy('created_at', 'desc')->paginate($this->page_limit);
+        // $events = Event::whereDate('date', '>=', Carbon::today())->orderBy('created_at', 'desc')->paginate($this->page_limit);
+
+        $events = Event::whereDate('date', '>=', Carbon::today())
+            ->where(function ($query) {
+                $query->whereDate('date', '>', Carbon::today())
+                    ->orWhere(function ($q) {
+                        $q->whereDate('date', Carbon::today())
+                            ->whereTime('end_time', '>=', Carbon::now()->toTimeString());
+                    });
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate($this->page_limit);
+
 
         return view('theme.pages.events.index', compact('page', 'events'));
     }
@@ -41,7 +56,18 @@ class EventController extends Controller
         $page = new Page();
         $page->name = 'Previous Events';
 
-        $events = Event::whereDate('date', '<=', Carbon::today())->orderBy('created_at', 'desc')->paginate($this->page_limit);
+        // $events = Event::whereDate('date', '<=', Carbon::today())->orderBy('created_at', 'desc')->paginate($this->page_limit);
+
+        $events = Event::whereDate('date', '<=', Carbon::today())
+            ->where(function ($query) {
+                $query->whereDate('date', '<', Carbon::today())
+                    ->orWhere(function ($q) {
+                        $q->whereDate('date', Carbon::today())
+                            ->whereTime('end_time', '<=', Carbon::now()->toTimeString());
+                    });
+            })
+            ->orderBy('created_at', 'desc')
+            ->paginate($this->page_limit);
 
         return view('theme.pages.events.previous', compact('page', 'events'));
     }
@@ -64,11 +90,15 @@ class EventController extends Controller
 
     public function store(EventRequest $request){
         $data = $request->validated();
-
+        
         //EVENT
         $data['created_by'] = Auth::user()->id;
         $event = Event::create($data);
 
+        // INVITATION FILE
+        $invitation_file = $request->hasFile('invitation_file') ? FileHelper::move_to_folder($request->file('invitation_file'), 'events/'. $event->id .'/invitation')['url'] : null;
+        $data['invitation_file'] = $invitation_file;
+        
        if ($request->hasFile('attachments')) {
             $attachments = [];
 
@@ -96,9 +126,8 @@ class EventController extends Controller
 
 
         //INVITES
-        $invitation_file = $request->hasFile('invitation_file') ? FileHelper::move_to_folder($request->file('invitation_file'), 'events/'. $event->id .'/invitation')['url'] : null;
         
-       if($request->cluster_id) {
+        if($request->cluster_id) {
             foreach ($request->cluster_id as $id) {
                 EventInvite::create([
                     'event_id' => $event->id,
@@ -195,6 +224,12 @@ class EventController extends Controller
 
         $data = $request->validated();
 
+        // INVITATION FILE
+        if ($request->hasFile('invitation_file')) {
+            $invitation_file = $request->hasFile('invitation_file') ? FileHelper::move_to_folder($request->file('invitation_file'), 'events/'. $event->id .'/invitation')['url'] : null;
+            $data['invitation_file'] = $invitation_file;
+        }
+
         //EVENT
        if ($request->hasFile('attachments')) {
             $attachments = [];
@@ -225,9 +260,6 @@ class EventController extends Controller
 
 
         //INVITES
-        if ($request->hasFile('invitation_file')) {
-            $invitation_file = $request->hasFile('invitation_file') ? FileHelper::move_to_folder($request->file('invitation_file'), 'events/'. $event->id .'/invitation')['url'] : null;
-        }
 
         EventInvite::where('event_id', $event->id)->delete();
 
@@ -363,11 +395,29 @@ class EventController extends Controller
 
     public function register_event(Request $request, $event_id){
 
+        $event = Event::find($event_id);
+
         foreach($request->member_id as $member_id){
             EventParticipant::create([
                 'event_id' => $event_id,
                 'member_id' => $member_id
             ]);
+
+            $member = Member::find($member_id);
+            \Mail::to($member->email)->send(new EventInvitationMail(Setting::info(), $member, $event));
+        }
+
+        if ($request->email) {
+            foreach ($request->email as $index => $email) {
+                $representative = (object)[
+                    'firstname' => $request->fullname[$index] ?? null,
+                    'designation' => $request->designation[$index] ?? null,
+                    'email' => $email,
+                    'contact_number' => $request->contact[$index] ?? null,
+                ];
+
+                \Mail::to($email)->send(new EventInvitationMail(Setting::info(), $representative, $event));
+            }
         }
 
         return redirect()->back()->with('success', 'You successfully registered on this event');
@@ -398,6 +448,12 @@ class EventController extends Controller
 
         $data = $request->validated();
         $event = EventFeedback::create($data);
+
+        $member = Member::find($request->member_id);
+        $event = Event::find($event_id);
+        $downloadables = FileDownload::where('event_id', $event_id)->first();
+
+        \Mail::to($member->email)->send(new FeedbackMail(Setting::info(), $member, $event, $downloadables));
 
         return redirect()->back()->with('success', 'You successfully submit a feedback, you can now see the downloadable files from the activity.');
     }

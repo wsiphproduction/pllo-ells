@@ -64,6 +64,7 @@ DATABASE:
 			attachments TEXT,
 			other_links TEXT,
 			event_img VARCHAR(255),
+			invitation_file TEXT,
 			created_by INT UNSIGNED,
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
