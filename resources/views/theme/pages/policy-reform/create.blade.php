@@ -66,7 +66,7 @@
                 </div>
 
                 <!-- Hidden values -->
-                <input type="hidden" name="member_id" value="{{ auth()->user()->memberDetails->id }}">
+                <input type="hidden" name="member_id" value="{{ auth()->user()->id }}">
 
                 <div class="bill-actions">
                     <button class="btn btn-success mt-4 mx-2"><small><i class="icon-news"></i>&nbsp;&nbsp;Propose Bill</small></button>

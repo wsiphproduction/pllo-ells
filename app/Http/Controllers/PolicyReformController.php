@@ -36,7 +36,7 @@ class PolicyReformController extends Controller
         if(request('category_select')) {
             $bills->where(function ($query) {
                 $word = request('category_select');
-                $query->where('category', 'like', "%{$word}%");
+                $query->where('category', $word);
             });
         }
 
