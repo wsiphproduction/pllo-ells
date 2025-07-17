@@ -6,7 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\SocialiteController;
 
 // CMS Controllers
-use App\Http\Controllers\{FileDownloadCategoryController, FileDownloadController, MemberController, PageModalController, SitemapController, FacebookDataDeletionController, GoogleDataDeletionController, FacebookController, QrCodeController, ResourceCategoryController, ResourceController, RegistrationController,MemberProfileController};
+use App\Http\Controllers\{FileDownloadCategoryController, FileDownloadController, MemberController, PageModalController, SitemapController, FacebookDataDeletionController, GoogleDataDeletionController, FacebookController, QrCodeController, ResourceCategoryController, ResourceController, RegistrationController,MemberProfileController,PolicyReformController};
 
 use App\Http\Controllers\Cms4Controllers\{
     ArticleCategoryController, ArticleFrontController, ArticleController, AlbumController, MobileAlbumController, PageController, MenuController, FileManagerController
@@ -477,6 +477,12 @@ Route::get('/maintenance-dashboard', [RegistrationController::class, 'maintenanc
     Route::get('/directory/house-of-representatives', [MemberProfileController::class, 'horsDirectory'])->name('directory.hors');
     Route::get('/directory/house-of-representatives-staff', [MemberProfileController::class, 'horStaffDirectory'])->name('directory.hor.staff');
     Route::get('/directory/house-of-representatives-committee-secretary', [MemberProfileController::class, 'horComSecDirectory'])->name('directory.hor.comsec');
+
+// Policy Reform
+    Route::get('/policy-reform', [PolicyReformController::class, 'index'])->name('policyreform.index');
+    Route::get('/policy-reform-view/{id}', [PolicyReformController::class, 'view'])->name('policyreform.view');
+    Route::get('/policy-reform-create', [PolicyReformController::class, 'create'])->name('policyreform.create');
+    Route::post('/policy-reform-store', [PolicyReformController::class, 'store'])->name('policyreform.store');
 
 // Pages Frontend
 Route::get('/{any}', [FrontController::class, 'page'])->where('any', '.*');

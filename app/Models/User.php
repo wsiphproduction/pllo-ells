@@ -362,6 +362,10 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->belongsTo(Designation::class, 'designation');
     }
 
+    public function memberDetails() {
+        return $this->belongsTo(Member::class, 'user_id');
+    }
+
 
 
 
