@@ -106,8 +106,9 @@
 												@csrf
 												@foreach($members as $member)
 													@if(App\Models\Custom\Event::isUserInvited($member->id, $event->id))
-														<article class="portfolio-item col-md-6 col-12 member-select" data-member-id="{{ $member->id }}">
-															<label class="card mb-0 p-3 border-0 w-100 selectable-card" style="cursor: pointer;">
+
+														<article class="portfolio-item col-md-6 col-12 member-select" data-member-id="{{ $member->id }}" title="Agency: {{ \App\Models\Agency::getAgencyName($member->agency)->agency_name ?? 'N/A' }}">
+															<label class="card mb-0 p-3 border-0 w-100 selectable-card" style="cursor: pointer;" data-agency-id="{{ $member->agency }}">
 																
 																<input type="checkbox" name="member_id[]" value="{{ $member->id }}" class="d-none">
 
@@ -128,6 +129,7 @@
 																</div>
 															</label>
 														</article>
+
 													@endif
 												@endforeach
 
@@ -580,37 +582,43 @@
 @endsection
 
 @section('pagejs')
-	<script>
-		const SELECTION_LIMIT = 5;
 
-		function selectedCount () {
-			return document.querySelectorAll('.selectable-card input[type="checkbox"]:checked').length;
+	<script>
+		const AGENCY_LIMITS = @json($event_agencies->pluck('participant_limit', 'invited'));
+
+		function selectedCountByAgency(agencyId) {
+			return document.querySelectorAll(`.selectable-card[data-agency-id="${agencyId}"] input[type="checkbox"]:checked`).length;
 		}
 
 		document.querySelectorAll('.selectable-card').forEach(card => {
-
-			card.addEventListener('click', function (e) {
+			card.addEventListener('click', function () {
 				const checkbox = this.querySelector('input[type="checkbox"]');
-				const willBeChecked = !checkbox.checked;    
+				const willBeChecked = !checkbox.checked;
+				const agencyId = parseInt(this.dataset.agencyId);
 
-				if (willBeChecked && selectedCount() >= SELECTION_LIMIT) {
-					Swal.fire({
-						icon: 'warning',
-						title: 'Selection limit reached',
-						text: `You can only choose up to ${SELECTION_LIMIT} members.`,
-						timer: 2000,
-						showConfirmButton: false
-					});
-					return;
+				if (AGENCY_LIMITS.hasOwnProperty(agencyId)) {
+					const limit = parseInt(AGENCY_LIMITS[agencyId]);
+
+					if (limit > 0 && willBeChecked && selectedCountByAgency(agencyId) >= limit) {
+						Swal.fire({
+							icon: 'warning',
+							title: 'Selection limit reached',
+							text: `You can only choose up to ${limit} members from this agency.`,
+							timer: 2000,
+							showConfirmButton: false
+						});
+						return;
+					}
 				}
-
+				// Proceed with toggle
 				checkbox.checked = willBeChecked;
 				this.classList.toggle('border-primary', checkbox.checked);
 				this.classList.toggle('border', checkbox.checked);
 			});
-
 		});
+	</script>
 
+	<script>
 		function validateSelection() {
 			// Check if at least one member is selected
 			if ($('input[name="member_id[]"]:checked').length === 0) {
@@ -655,23 +663,6 @@
 			return false;
 		}
 
-		
-		// function validateSelection() {
-		// 	if ($('input[name="member_id[]"]:checked').length === 0) {
-		// 		Swal.fire({
-		// 			icon: 'warning',
-		// 			title: 'No member selected',
-		// 			text: 'Please select at least one member before submitting.',
-		// 			timer: 2000,
-		// 			showConfirmButton: false
-		// 		});
-		// 		return false; // Prevent form submission
-		// 	}
-
-		// 	// Submit the form
-		// 	$('#registration_form').submit();
-		// 	return false; // Prevent default button behavior (if needed)
-		// }
 	</script>
 
 	<script>

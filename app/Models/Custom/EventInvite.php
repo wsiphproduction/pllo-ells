@@ -28,4 +28,17 @@ class Eventinvite extends Model
             default   => null,
         };
     }
+
+    public static function getInvitationUrl($event_id, $agency_id){
+        $hasAgency = EventInvite::where('event_id', $event_id)->where('type', 'agency')->where('invited', $agency_id)->first();
+
+        if($hasAgency){
+            return $hasAgency->invitation_file;
+        }
+        else{
+            $event = Event::find($event_id);
+
+            return $event->invitation_file;
+        }
+    }
 }

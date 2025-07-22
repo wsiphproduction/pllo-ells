@@ -117,7 +117,8 @@
             @endphp
 
 			<ul>
-				<li><a href="{{ asset($event->invitation_file) }}" download>Invitation Letter</a></li>
+				<li><a href="{{ asset(\App\Models\Custom\EventInvite::getInvitationUrl($event->id, $recipient->agency)) }}" download>Invitation Letter</a></li>
+				{{-- <li><a href="{{ asset($event->invitation_file) }}" download>Invitation Letter</a></li> --}}
                 
                 @if (!empty($attachments))
                     @foreach ($attachments as $index => $file)
