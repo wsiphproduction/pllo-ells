@@ -175,6 +175,9 @@ class EventController extends Controller
 
         $event = Event::find($id);
         $events = Event::where('id', '<>', $id)->whereDate('date', '<=', Carbon::today())->orderBy('created_at', 'desc')->take(4)->get();
+        $event_agencies = EventInvite::where('event_id', $id)->where('type', 'agency')->get();
+
+        // dd($event_agencies);
 
         $page = new Page();
         $page->name = $event->title;
@@ -184,11 +187,10 @@ class EventController extends Controller
 
         $downloads = FileDownload::where('event_id', $id)->first();
 
-        return view('theme.pages.events.view', compact('page', 'event', 'events', 'members', 'user', 'downloads'));
+        return view('theme.pages.events.view', compact('page', 'event', 'events', 'members', 'user', 'downloads', 'event_agencies'));
     }
 
     public function invitees($id){
-
         if(!Auth::user()){
             return redirect()->route('home')->with('error', 'Access Denied');
         }
@@ -265,8 +267,6 @@ class EventController extends Controller
 
         $exisiting_invites = EventInvite::where('event_id', $event->id)->withTrashed()->get();
 
-        // dd($exisiting_invites->where('type', 'cluster'));
-
        if($request->cluster_id) {
             $exisiting_cluster = $exisiting_invites->where('type', 'cluster')->pluck('invited')->toArray();
 
@@ -319,7 +319,8 @@ class EventController extends Controller
 
                         $invite->update([
                             'invited_by' => $event->created_by,
-                            'invitation_file' => $invitation_file,
+                            'invitation_file' => isset($request->individual_invitation_file[$id]) ? FileHelper::move_to_folder($request->file('individual_invitation_file')[$id], 'events/'. $event->id .'/invitation/custom/'. $id )['url'] : $invitation_file,
+                            'participant_limit' => $request->participant_limit[$index]
                         ]);
                     }
                 }
@@ -334,6 +335,7 @@ class EventController extends Controller
                     ]);
                 }
             }
+            
         }
 
         if($request->member_id) {
@@ -371,19 +373,6 @@ class EventController extends Controller
             }
         }
 
-        // if($request->agency_id) {
-        //     foreach ($request->agency_id as $index => $id) {
-        //         EventInvite::create([
-        //             'event_id' => $event->id,
-        //             'type' => 'agency',
-        //             'invitation_file' => isset($request->individual_invitation_file[$id]) ? FileHelper::move_to_folder($request->file('individual_invitation_file')[$id], 'events/'. $event->id .'/invitation/custom/'. $id )['url'] : $invitation_file,
-        //             'invited' =>  $id,
-        //             'invited_by' => $event->created_by,
-        //             'participant_limit' => $request->participant_limit[$index]
-        //         ]);
-        //     }
-        // }
-
         return redirect()->route('events.index')->with('success', 'You successfully updated an event');
     }
 
@@ -398,10 +387,10 @@ class EventController extends Controller
         $event = Event::find($event_id);
 
         foreach($request->member_id as $member_id){
-            // EventParticipant::create([
-            //     'event_id' => $event_id,
-            //     'member_id' => $member_id
-            // ]);
+            EventParticipant::create([
+                'event_id' => $event_id,
+                'member_id' => $member_id
+            ]);
 
             $member = Member::find($member_id);
             \Mail::to($member->email)->send(new EventInvitationMail(Setting::info(), $member, $event));
@@ -422,16 +411,6 @@ class EventController extends Controller
 
         return redirect()->back()->with('success', 'You successfully registered on this event');
     }
-
-    // public function register_event($event_id){
-
-    //     EventParticipant::create([
-    //         'event_id' => $event_id,
-    //         'member_id' => Member::getMemberInfo(Auth::user()->id)->id
-    //     ]);
-
-    //     return redirect()->back()->with('success', 'You successfully registered on this event');
-    // }
 
     public function decline_event($event_id){
 
