@@ -398,10 +398,10 @@ class EventController extends Controller
         $event = Event::find($event_id);
 
         foreach($request->member_id as $member_id){
-            EventParticipant::create([
-                'event_id' => $event_id,
-                'member_id' => $member_id
-            ]);
+            // EventParticipant::create([
+            //     'event_id' => $event_id,
+            //     'member_id' => $member_id
+            // ]);
 
             $member = Member::find($member_id);
             \Mail::to($member->email)->send(new EventInvitationMail(Setting::info(), $member, $event));

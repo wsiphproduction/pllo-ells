@@ -131,8 +131,13 @@
 			</ul>
 
 			<div class="text-center">
+				{{ QrCode::size(200)->generate(route('events.view', $event->id)) }}
+			</div>
+
+			<div class="text-center">
 				<a href="{{ route('events.view', $event->id) }}" class="btn">VIEW EVENT</a>
 			</div>
+
 
 			<div class="footer">
 				Presidential Legislative Liaison Office <br>

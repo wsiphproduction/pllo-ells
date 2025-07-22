@@ -105,28 +105,30 @@
 				
 												@csrf
 												@foreach($members as $member)
-													<article class="portfolio-item col-md-6 col-12 member-select" data-member-id="{{ $member->id }}">
-														<label class="card mb-0 p-3 border-0 w-100 selectable-card" style="cursor: pointer;">
-															
-															<input type="checkbox" name="member_id[]" value="{{ $member->id }}" class="d-none">
+													@if(App\Models\Custom\Event::isUserInvited($member->id, $event->id))
+														<article class="portfolio-item col-md-6 col-12 member-select" data-member-id="{{ $member->id }}">
+															<label class="card mb-0 p-3 border-0 w-100 selectable-card" style="cursor: pointer;">
+																
+																<input type="checkbox" name="member_id[]" value="{{ $member->id }}" class="d-none">
 
-															<div class="row g-0 align-items-center">
-																<div class="col-md-4 text-center">
-																	<img src="{{ asset($member->photo) }}"
-																		onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';"
-																		class="img-fluid rounded-circle"
-																		style="height: 70px; width: 70px; object-fit: cover;"
-																		alt="{{ $member->fullName }}">
-																</div>
-																<div class="col-md-8">
-																	<div class="card-body py-0">
-																		<h6 class="card-title mb-1 custom-text-primary fw-bold">{{ $member->fullName }}</h6>
-																		<span class="small">{{ $member->full_designation_name }}</span>
+																<div class="row g-0 align-items-center">
+																	<div class="col-md-4 text-center">
+																		<img src="{{ asset($member->photo) }}"
+																			onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';"
+																			class="img-fluid rounded-circle"
+																			style="height: 70px; width: 70px; object-fit: cover;"
+																			alt="{{ $member->fullName }}">
+																	</div>
+																	<div class="col-md-8">
+																		<div class="card-body py-0">
+																			<h6 class="card-title mb-1 custom-text-primary fw-bold">{{ $member->fullName }}</h6>
+																			<span class="small">{{ $member->full_designation_name }}</span>
+																		</div>
 																	</div>
 																</div>
-															</div>
-														</label>
-													</article>
+															</label>
+														</article>
+													@endif
 												@endforeach
 
 											</div>

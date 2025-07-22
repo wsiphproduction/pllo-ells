@@ -17,9 +17,9 @@
                 <small>Summary status Update as of {{ \Carbon\Carbon::parse(now())->format('M d, Y') }}</small>
             </div>
 
-            <form method="get" action="{{ route('downloads') }}">
+            <form method="get" action="{{ route('event-downloadables') }}">
                 <div class="d-flex justify-content-between align-items-center">
-                    <a href="{{ route('downloads') }}" type="button" class="btn btn-transparent p-1"><i class="fa-solid fa-refresh fa-1x custom-text-primary"></i></a>
+                    <a href="{{ route('event-downloadables') }}" type="button" class="btn btn-transparent p-1"><i class="fa-solid fa-refresh fa-1x custom-text-primary"></i></a>
                     {{-- <button type="button" class="btn btn-transparent p-1"><i class="fa-solid fa-filter fa-1x custom-text-primary"></i></button> --}}
                     
                     <input class="form-control" placeholder="Search" name="search" value="{{ request('search') }}"/>&nbsp;&nbsp;
