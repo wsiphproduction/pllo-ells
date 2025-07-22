@@ -27,6 +27,7 @@ use App\Models\Cluster;
 use App\Models\Official;
 use App\Models\UserType;
 use App\Models\SubAgency;
+use App\Models\MemberStaff;
 use App\Models\Designation;
 use App\Models\SavedContact;
 use App\Models\Custom\Event;
@@ -63,12 +64,103 @@ class MemberProfileController extends Controller
 	    							->where('user_id', '<>', Auth::user()->id)
 	    							->get();
 
+	    if ($memberDetails->user_type == 2) { $staffs = MemberStaff::where('member_id', $memberDetails->id)->get(); } else { $staffs = null; }
+
 	    if (auth()->user()) {
-	        return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency', 'events', 'genders', 'userTypeMembers', 'saved_contacts', 'policy_reforms'));
+	        return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency', 'events', 'genders', 'userTypeMembers', 'saved_contacts', 'policy_reforms', 'staffs'));
 	    } else {
 	        return back()->with('error', ('Please login to your account.'));
 	    }
 
+	}
+
+	public function memberProfileUpdate(Request $request) {
+		// dd($request->all());
+	    $member = Member::where('user_id', auth()->user()->id)->first();
+	    $user = User::find(auth()->user()->id);
+	    
+	    if(auth()->user()->password == $request->password) {
+	        $requests['password'] = auth()->user()->password;
+	    } else {
+	        $member->password = Hash::make($request->password);
+	        $user->password = $member->password;
+	        if($request->password != $request->alt_password) {
+	            return back()->with('error', ('Password and Confirm Password do not match.'));
+	        }
+	    }
+
+	    if ($request->hasFile('photo')) {
+
+	        $image = $request->file('photo');
+	        $filename = time() . '.' . $image->getClientOriginalExtension();
+	        $path = 'storage/photo/' . $filename;
+
+	        Storage::disk('public')->putFileAs('photo', $image, $filename);
+
+	        $member->photo = $path;
+	        $user->avatar = $path;
+
+	    }
+
+	    $user->email = $request['email'];
+
+	    // Cluster Algo //
+	    if ($member->user_type == 1 || $member->user_type == 6) {
+	         $member->cluster = implode("::", $request['cluster']);
+	    }
+
+	    $member->email = $request['email'];
+	    $member->alt_email = $request['alt_email'];
+	    $member->firstname = $request['firstname'];
+	    $member->lastname = $request['lastname'];
+	    $member->middle_initial = $request['middle_initial'];
+	    $member->suffix = $request['suffix'];
+	    $member->nickname = $request['nickname'];
+	    $member->contact_number = $request['contact_number'];
+	    $member->gender = $request['gender'];
+	    // --> birthday new code on saving
+
+	    if($member->user_type == 2) {
+	    	foreach ($request->staff as $staff) {
+
+	    			if($staff['type_number'] > 0 && $staff['other_number'] !== null ) {
+		    			$staff_type_number = implode('::', $staff['type_number']);
+		    			$staff_other_number = implode('::', $staff['other_number']);
+	    			} else { $staff['type_number'] = null; $staff['other_number'] == null; }
+
+	    			$staffAgreeEmail = $staff['agree_email'] ?? null;
+	    			$staffAgreeContactNumber = $staff['agree_contact_number'] ?? null;
+
+	    			if ($staffAgreeEmail == 'on') {
+	    				$staffAgreeEmail = 1;
+	    			} else { $staffAgreeEmail = 0; }
+	    			if ($staffAgreeContactNumber == 'on') {
+	    				$staffAgreeContactNumber = 1;
+	    			} else { $staffAgreeContactNumber = 0; }
+
+	    	        $memberStaff = MemberStaff::find($staff['staff_id']);
+                    $memberStaff->firstname = $staff['firstname'];
+                    $memberStaff->lastname = $staff['lastname'];
+                    $memberStaff->middle_initial = $staff['middle_initial'];
+                    $memberStaff->suffix = $staff['suffix'] ?? null;
+                    $memberStaff->nickname = $staff['nickname'];
+                    $memberStaff->gender = $staff['gender'] ?? null;;
+                    $memberStaff->birthday = $staff['month'] . ' ' . $staff['day'];
+                    $memberStaff->email = $staff['email'];
+                    $memberStaff->agree_email = $staffAgreeEmail;
+                    $memberStaff->contact_number = $staff['contact_number'];
+                    $memberStaff->agree_contact_number = $staffAgreeContactNumber;
+                    $memberStaff->type_number = $staff_type_number;
+                    $memberStaff->other_number = $staff_other_number;
+                    // $memberStaff->photo = $staff['photo'];
+	    	        $memberStaff->save();
+	    	    }
+	    }
+	    // dd($memberStaff);
+	    $member->save();
+	    $user->save();
+	    
+	    return back()->with('success', ('Profile updated successfully.'));
 	}
 
 	// Delete User Account
@@ -413,6 +505,24 @@ class MemberProfileController extends Controller
 
 
 		return view('theme.pages.directory.hor-com-sec', compact('page', 'members'));
+	}
+
+	public function profileStaffUpdate(Request $request ,$id)
+	{
+		if ($request['agree_email'] == 'on') {
+			$request['agree_email'] = 1;
+		} else { $request['agree_email'] = 0; }
+		if ($request['agree_contact_number'] == 'on') {
+			$request['agree_contact_number'] = 1;
+		} else { $request['agree_contact_number'] = 0; }
+
+		$requests = $request->all();
+		unset($requests['_token']);
+		unset($requests['month']);
+		unset($requests['day']);
+		MemberStaff::where('id', $id)->update($requests);
+
+		return back()->with('success', ('Profile updated successfully.'));
 	}
 
 }

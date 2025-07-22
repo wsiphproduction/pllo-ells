@@ -26,6 +26,7 @@ use App\Models\UserType;
 use App\Models\Cluster;
 use App\Models\Designation;
 use App\Models\Member;
+use App\Models\MemberStaff;
 use App\Models\MessagingNumber;
 use App\Models\Custom\EventParticipant;
 use App\Models\Custom\Event;
@@ -150,7 +151,27 @@ class RegistrationController extends Controller
         $requests['photo'] = $request->hasFile('office_id') ? FileHelper::move_to_folder($request->file('office_id'), 'photo')['url'] : null;
         $requests['logo'] = $request->hasFile('agency_logo') ? FileHelper::move_to_folder($request->file('agency_logo'), 'logo')['url'] : null;
 
-        Member::create($requests);
+        $member = Member::create($requests);
+
+        // Prallel saving on members staff table if registered as senator staff
+        if($request->user_type == 2) {
+
+            for ($i=1; $i<4; $i++) { 
+
+                $staff = new MemberStaff();
+
+                if ($i == 1) {
+                    $staff->designation = 'CHIEF OF STAFF';
+                } else if($i == 2) {
+                    $staff->designation = 'APPOINTMENT SECRETARY';
+                } else {
+                    $staff->designation = 'CHIEF LEGIS OFFICER';
+                }
+
+                $staff->member_id = $member->id;
+                $staff->save();
+            }
+        }
         
         // Email condition //
         Mail::to($requests['email'])->send(new RegisterMail(Setting::info(), $user));
@@ -303,46 +324,6 @@ class RegistrationController extends Controller
          $page->name = 'Login Error';
          
          return view('theme.pages.login-error', compact('page'));
-    }
-
-    public function memberProfileUpdate(Request $request) {
-
-        $member = Member::where('user_id', auth()->user()->id)->first();
-        $user = User::find(auth()->user()->id);
-        
-        if(auth()->user()->password == $request->password) {
-            $requests['password'] = auth()->user()->password;
-        } else {
-            $member->password = Hash::make($request->password);
-            $user->password = $member->password;
-            if($request->password != $request->alt_password) {
-                return back()->with('error', ('Password and Confirm Password do not match.'));
-            }
-        }
-
-        if ($request->hasFile('photo')) {
-
-            $image = $request->file('photo');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            $path = 'storage/photo/' . $filename;
-
-            Storage::disk('public')->putFileAs('photo', $image, $filename);
-
-            $member->photo = $path;
-            $user->avatar = $path;
-
-        }
-
-        $member->email = $request['email'];
-        $member->alt_email = $request['alt_email'];
-        $member->cluster = implode('::', $request['cluster']);
-
-        $user->email = $request['email'];
-
-        $member->save();
-        $user->save();
-        
-        return back()->with('success', ('Profile updated successfully.'));
     }
 
     public function logout() {
