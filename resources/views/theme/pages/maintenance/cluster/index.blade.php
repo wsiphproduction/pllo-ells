@@ -87,6 +87,15 @@
                                             <label for="name">Cluster Name</label>
                                             <input class="form-control" type="text" name="name" value="{{ old('name') }}" required>
                                         </div>
+                                        <div class="form-group">
+                                            <label for="name">Approved By</label>
+                                            <select class="form-select" aria-label="select approver" name="approved_by" required>
+                                                <option value="0" selected diabled>- Select Approver -</option>
+                                                @foreach($approvers as $approver)
+                                                    <option value="{{ $approver->id }}">{{ $approver->firstname . ' ' . $approver->lastname }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                         <div class="d-flex align-items-center justify-content-start gap-3 py-4">
                                             <button type="submit" class="btn btn-success">
                                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">

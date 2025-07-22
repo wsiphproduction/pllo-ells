@@ -111,6 +111,15 @@
                                             <label for="name">Office Cellphone Number</label>
                                             <input class="form-control" type="text" name="agency_cellphone" value="{{ old('agency_cellphone') }}">
                                         </div>
+                                        <div class="form-group">
+                                            <label for="name">Approved By</label>
+                                            <select class="form-select" aria-label="select approver" name="approved_by" required>
+                                                <option value="0" selected diabled>- Select Approver -</option>
+                                                @foreach($approvers as $approver)
+                                                    <option value="{{ $approver->id }}">{{ $approver->firstname . ' ' . $approver->lastname }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
                                         <div class="d-flex align-items-center justify-content-start gap-3 py-4">
                                             <button type="submit" class="btn btn-success">
                                                 <svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
@@ -139,7 +148,7 @@
                                         <div class="form-group">
                                             <label for="head_gender">Gender</label>
                                                 <select class="form-select" aria-label="select gender" name="head_gender" required>
-                                                    <option value="0" selected>- Select Gender -</option>
+                                                    <option value="0" selected disabled>- Select Gender -</option>
                                                     @foreach($genders as $gender)
                                                     <option value="{{ $gender->id }}">{{ $gender->name }}</option>
                                                     @endforeach
