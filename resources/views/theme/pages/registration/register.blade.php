@@ -452,21 +452,21 @@
 			$("#agency_logo").click();
 		});
 
-	  	$("#add_messaging").click(function() {
-		    var newFieldHtml = `<div style="position: relative; margin-top: 4px;"><select id="select_number" class="form-select select-type-number" aria-label="select type of number" name="type_number[]" style="left: 0px;">
-									<option value="1">Viber</option>
-								  	<option value="2">WhatsApp</option>
-								  	<option value="3">Telegram</option>
-								  	<option value="4">Signal</option>
-								  	<option value="5">WeChat</option>
-								</select>
-								<input class="form-control" type="text" name="other_number[]" placeholder="" required style="padding-left: 140px;">
-		    					<svg id="remove_new_field" style="position: absolute;right: 12px; top: 12px; cursor: pointer;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24">
-		    					  <path stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-		    					</svg>
-								</div>
-								`;
-		    $("#messaging_container").append(newFieldHtml);
+  	$("#add_messaging").click(function() {
+	    var newFieldHtml = `<div style="position: relative; margin-top: 4px;"><select id="select_number" class="form-select select-type-number" aria-label="select type of number" name="type_number[]" style="left: 0px;">
+								<option value="1">Viber</option>
+							  	<option value="2">WhatsApp</option>
+							  	<option value="3">Telegram</option>
+							  	<option value="4">Signal</option>
+							  	<option value="5">WeChat</option>
+							</select>
+							<input class="form-control" type="text" name="other_number[]" placeholder="" required style="padding-left: 140px;">
+	    					<svg id="remove_new_field" style="position: absolute;right: 12px; top: 12px; cursor: pointer;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24">
+	    					  <path stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+	    					</svg>
+							</div>
+							`;
+	    $("#messaging_container").append(newFieldHtml);
 		});
 
 		$('body').on('click', '#remove_new_field', function(e){

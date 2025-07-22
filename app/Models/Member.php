@@ -10,6 +10,7 @@ use App\Models\Cluster;
 use App\Models\Gender;
 use App\Models\UserType;
 use App\Models\Designation;
+use App\Models\MemberStaff;
 use App\Models\User;
 use App\Models\Hor;
 
@@ -138,5 +139,9 @@ class Member extends Model
         if ($is_exist) {
             return true;
         } return false;
+    }
+
+    public function memberStaff() {
+        return $this->hasMany(MemberStaff::class, 'member_id' , 'id');
     }
 }

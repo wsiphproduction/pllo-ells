@@ -426,7 +426,6 @@ Route::get('/register/register-view-member/{id}', [RegistrationController::class
 Route::get('/member-login', [RegistrationController::class, 'login'])->name('member.login');
 Route::post('/member-online', [RegistrationController::class, 'online'])->name('member.online');
 Route::get('/member-logout', [RegistrationController::class, 'logout'])->name('member.logout');
-Route::post('/member-profile-update', [RegistrationController::class, 'memberProfileUpdate'])->name('member.profile.update');
 Route::post('/member-resend-email', [RegistrationController::class, 'resendRegisterConfirmation'])->name('member.resend.email');
 Route::post('/member-upload-logo', [RegistrationController::class, 'uploadMemberLogo'])->name('member.upload.logo');
 Route::get('/member-login-error', [RegistrationController::class, 'loginError'])->name('member.login.error');
@@ -469,35 +468,38 @@ Route::get('/maintenance-dashboard', [MaintenanceController::class, 'maintenance
     
 
 // Member Profile Routes
-    Route::get('/member-dashboard', [MemberProfileController::class, 'memberDashboard'])->name('member.dashboard');
+Route::get('/member-dashboard', [MemberProfileController::class, 'memberDashboard'])->name('member.dashboard');
+Route::post('/member-profile-update', [MemberProfileController::class, 'memberProfileUpdate'])->name('member.profile.update');
+Route::post('/member-profile-account-delete', [MemberProfileController::class, 'memberDelete'])->name('member.profile.account.delete');
 
-    Route::post('/member-profile-account-delete', [MemberProfileController::class, 'memberDelete'])->name('member.profile.account.delete');
+Route::post('/member-profile-senator-update/{id}', [MemberProfileController::class, 'senatorProfileUpdate'])->name('member.profile.senator.update');
+Route::post('/member-profile-hor-update/{id}', [MemberProfileController::class, 'horProfileUpdate'])->name('member.profile.hor.update');
 
-    Route::post('/member-profile-senator-update/{id}', [MemberProfileController::class, 'senatorProfileUpdate'])->name('member.profile.senator.update');
-    Route::post('/member-profile-hor-update/{id}', [MemberProfileController::class, 'horProfileUpdate'])->name('member.profile.hor.update');
+Route::post('/member-profile-remove-contact', [MemberProfileController::class, 'profileRemoveContact'])->name('member.profile.remove.contact');
+Route::post('/member-profile-add-contact', [MemberProfileController::class, 'profileAddContact'])->name('member.profile.add.contact');
 
-    Route::post('/member-profile-remove-contact', [MemberProfileController::class, 'profileRemoveContact'])->name('member.profile.remove.contact');
-    Route::post('/member-profile-add-contact', [MemberProfileController::class, 'profileAddContact'])->name('member.profile.add.contact');
+Route::post('/member-staff-update/{id}', [MemberProfileController::class, 'profileStaffUpdate'])->name('member.staff.update');
+
 
 
 // Directory Routes
-    Route::get('/directory', [MemberProfileController::class, 'directory'])->name('directory');
-    Route::get('/directory/lls', [MemberProfileController::class, 'llsDirectory'])->name('directory.lls');
-    Route::get('/directory/pllo', [MemberProfileController::class, 'plloDirectory'])->name('directory.pllo');
+Route::get('/directory', [MemberProfileController::class, 'directory'])->name('directory');
+Route::get('/directory/lls', [MemberProfileController::class, 'llsDirectory'])->name('directory.lls');
+Route::get('/directory/pllo', [MemberProfileController::class, 'plloDirectory'])->name('directory.pllo');
 
-    Route::get('/directory/senators', [MemberProfileController::class, 'senartorsDirectory'])->name('directory.senators');
-    Route::get('/directory/senator-staff', [MemberProfileController::class, 'senartorStaffDirectory'])->name('directory.senator.staff');
-    Route::get('/directory/senators-committee-secretary', [MemberProfileController::class, 'senartorComSecDirectory'])->name('directory.senator.comsec');
+Route::get('/directory/senators', [MemberProfileController::class, 'senartorsDirectory'])->name('directory.senators');
+Route::get('/directory/senator-staff', [MemberProfileController::class, 'senartorStaffDirectory'])->name('directory.senator.staff');
+Route::get('/directory/senators-committee-secretary', [MemberProfileController::class, 'senartorComSecDirectory'])->name('directory.senator.comsec');
 
-    Route::get('/directory/house-of-representatives', [MemberProfileController::class, 'horsDirectory'])->name('directory.hors');
-    Route::get('/directory/house-of-representatives-staff', [MemberProfileController::class, 'horStaffDirectory'])->name('directory.hor.staff');
-    Route::get('/directory/house-of-representatives-committee-secretary', [MemberProfileController::class, 'horComSecDirectory'])->name('directory.hor.comsec');
+Route::get('/directory/house-of-representatives', [MemberProfileController::class, 'horsDirectory'])->name('directory.hors');
+Route::get('/directory/house-of-representatives-staff', [MemberProfileController::class, 'horStaffDirectory'])->name('directory.hor.staff');
+Route::get('/directory/house-of-representatives-committee-secretary', [MemberProfileController::class, 'horComSecDirectory'])->name('directory.hor.comsec');
 
 // Policy Reform
-    Route::get('/policy-reform', [PolicyReformController::class, 'index'])->name('policyreform.index');
-    Route::get('/policy-reform-view/{id}', [PolicyReformController::class, 'view'])->name('policyreform.view');
-    Route::get('/policy-reform-create', [PolicyReformController::class, 'create'])->name('policyreform.create');
-    Route::post('/policy-reform-store', [PolicyReformController::class, 'store'])->name('policyreform.store');
+Route::get('/policy-reform', [PolicyReformController::class, 'index'])->name('policyreform.index');
+Route::get('/policy-reform-view/{id}', [PolicyReformController::class, 'view'])->name('policyreform.view');
+Route::get('/policy-reform-create', [PolicyReformController::class, 'create'])->name('policyreform.create');
+Route::post('/policy-reform-store', [PolicyReformController::class, 'store'])->name('policyreform.store');
 
 // Pages Frontend
 Route::get('/{any}', [FrontController::class, 'page'])->where('any', '.*');
