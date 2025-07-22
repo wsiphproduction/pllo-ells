@@ -25,7 +25,7 @@ use App\Http\Controllers\Ecommerce\{
 
 // Ecommerce Controller
 use App\Http\Controllers\Custom\{
-    EventController, ReferenceMaterialController
+    EventController, ReferenceMaterialController, DownloadableController
 };
 
 use App\Http\Controllers\MailingList\{SubscriberController, GroupController, CampaignController, SubscriberFrontController};
@@ -57,7 +57,7 @@ Route::get('/phpinfo', function () {
 // CMS4 Front Pages
     Route::get('/', [FrontController::class, 'home'])->name('home');
 
-    Route::get('/downloads', [FrontController::class, 'downloads'])->name('downloads');
+    Route::get('/event-downloadables', [FrontController::class, 'downloads'])->name('event-downloadables');
 
     // Route::get('/reference-materials', [FrontController::class, 'reference_materials'])->name('reference-materials');
 
@@ -65,22 +65,7 @@ Route::get('/phpinfo', function () {
     Route::post('/contact-us', [FrontController::class, 'contact_us'])->name('contact-us');
 
     Route::get('/search', [FrontController::class, 'search'])->name('search');
-
-
-    // Reference Materials
-    Route::resource('/reference-materials', ReferenceMaterialController::class)->except('show');
-    Route::post('/reference-materials/single-delete/{id}', [ReferenceMaterialController::class, 'single_delete'])->name('reference-materials.single-delete');
-
-
-    //News Frontend
-        Route::get('/news/', [ArticleFrontController::class, 'news_list'])->name('news.front.index');
-        Route::get('/news/{slug}', [ArticleFrontController::class, 'news_view'])->name('news.front.show');
-        Route::get('/news/{slug}/print', [ArticleFrontController::class, 'news_print'])->name('news.front.print');
-        Route::post('/news/{slug}/share', [ArticleFrontController::class, 'news_share'])->name('news.front.share');
-
-        Route::get('/albums/preview', [FrontController::class, 'test'])->name('albums.preview');
-        Route::get('/search-result', [FrontController::class, 'seach_result'])->name('search.result');
-    //
+    
 
     // Events
         Route::resource('/events', EventController::class)->except('show');
@@ -91,6 +76,28 @@ Route::get('/phpinfo', function () {
         Route::post('/events/register-event/{id}', [EventController::class, 'register_event'])->name('events.register-event');
         Route::post('/events/decline-event/{id}', [EventController::class, 'decline_event'])->name('events.decline-event');
         Route::post('/events/submit-feedback/{id}', [EventController::class, 'submit_feedback'])->name('events.submit-feedback');
+    //
+
+    // Reference Materials
+        Route::resource('/reference-materials', ReferenceMaterialController::class)->except('show');
+        Route::post('/reference-materials/single-delete/{id}', [ReferenceMaterialController::class, 'single_delete'])->name('reference-materials.single-delete');
+    //
+    
+    // Downloads
+        Route::resource('/downloads', DownloadableController::class)->except('show');
+        Route::get('/downloads/republic-acts', [DownloadableController::class, 'republic_acts'])->name('downloads.republic-acts');
+        Route::get('/downloads/bills-certified', [DownloadableController::class, 'bills_certified'])->name('downloads.bills-certified');
+        Route::get('/downloads/legislative-priorities', [DownloadableController::class, 'legislative_priorities'])->name('downloads.legislative-priorities');
+    //
+    
+    //News Frontend
+        Route::get('/news/', [ArticleFrontController::class, 'news_list'])->name('news.front.index');
+        Route::get('/news/{slug}', [ArticleFrontController::class, 'news_view'])->name('news.front.show');
+        Route::get('/news/{slug}/print', [ArticleFrontController::class, 'news_print'])->name('news.front.print');
+        Route::post('/news/{slug}/share', [ArticleFrontController::class, 'news_share'])->name('news.front.share');
+
+        Route::get('/albums/preview', [FrontController::class, 'test'])->name('albums.preview');
+        Route::get('/search-result', [FrontController::class, 'seach_result'])->name('search.result');
     //
 
     // Sitemap

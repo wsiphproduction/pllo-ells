@@ -1,5 +1,33 @@
 UPDATES
 
+NEW 7-17-25
+
+	DOWNLOADS
+
+	Republic Act (RA)
+		-ra_jr_no
+		-source_priority_level
+		-approved_on
+		-congress
+		-long_title
+		-attachments
+		-status
+
+
+	Bills Certified
+		-proposed_measure
+		-priority_level
+		-bill_no
+		-status(VARCHAR)
+
+	Presidential Legislative Priorities (PLP)
+		-proposed_measure
+		-priority_level
+		-status(VARCHAR)
+
+	
+
+
 DATABASE:
 
 	TABLES
@@ -46,6 +74,24 @@ DATABASE:
 		- cluster_id
 		- attachments
 		- remarks
+		- created_by
+		- created_at
+		- updated_at
+		- deleted_at
+
+		downloadables
+		- id
+		- type(RA, BC, PLP)
+		- ra_jr_no
+		- source_priority_level
+		- approved_on
+		- congress
+		- long_title
+		- attachments
+		- bill_no
+		- proposed_measure
+		- priority_level
+		- status(VARCHAR)
 		- created_by
 		- created_at
 		- updated_at
@@ -208,6 +254,25 @@ DATABASE:
 			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 		);
 
+		CREATE TABLE downloadables (
+			id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+			type VARCHAR(20) DEFAULT NULL,
+			ra_jr_no VARCHAR(50) DEFAULT NULL,
+			source_priority_level VARCHAR(250) DEFAULT NULL,
+			approved_on DATE DEFAULT NULL,
+			congress VARCHAR(250) DEFAULT NULL,
+			long_title TEXT DEFAULT NULL,
+			attachments TEXT DEFAULT NULL,
+
+			bill_no VARCHAR(50) DEFAULT NULL,
+			proposed_measure TEXT DEFAULT NULL,
+			status TEXT DEFAULT NULL,
+
+			created_by INT UNSIGNED NOT NULL,
+			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			deleted_at TIMESTAMP NULL DEFAULT NULL
+		);
 		
 		CREATE TABLE `file_download` (
 			`id` bigint(20) UNSIGNED NOT NULL,
