@@ -47,8 +47,9 @@ class MaintenanceController extends Controller
 
 	    $genders = Gender::all();
 	    $agencies = Agency::all();
+	    $approvers = Member::all();
 
-	    return view('theme.pages.maintenance.agency.index', compact('page', 'agencies', 'genders'));
+	    return view('theme.pages.maintenance.agency.index', compact('page', 'agencies', 'genders', 'approvers'));
 	}
 
 	public function maintenanceAgencyStore(Request $request) {
@@ -65,8 +66,9 @@ class MaintenanceController extends Controller
 	    $page->name = 'Edit Agency';
 	    $agency = Agency::find($id);
 	    $genders = Gender::all();
+	    $approvers = Member::all();
 
-	    return view('theme.pages.maintenance.agency.edit', compact('page', 'agency', 'genders'));
+	    return view('theme.pages.maintenance.agency.edit', compact('page', 'agency', 'genders', 'approvers'));
 	}
 
 	public function maintenanceAgencyUpdate(Request $request, $id) {
@@ -85,6 +87,7 @@ class MaintenanceController extends Controller
 	    $agency->head_email = $request['head_email'];
 	    $agency->head_office_email = $request['head_office_email'];
 	    $agency->head_cellphone = $request['head_cellphone'];
+	    $agency->approved_by = $request['approved_by'];
 	    $agency->save();
 
 	    return redirect()->route('maintenance.dashboard')->with('success', 'Agency updated successfully.');
@@ -103,8 +106,9 @@ class MaintenanceController extends Controller
 	    $page = new Page;
 	    $page->name = "View Agency Details";
 	    $agency = Agency::find($id);
+		$approver = Member::find($agency->approved_by);
 
-	    return view('theme.pages.maintenance.agency.view', compact('page', 'agency'));
+	    return view('theme.pages.maintenance.agency.view', compact('page', 'agency', 'approver'));
 	}
 
 	// Designation
@@ -159,11 +163,12 @@ class MaintenanceController extends Controller
 	public function maintenanceCluster() {
 
 	    $page = new Page();
-	    $page->name = "Manage Designations";
+	    $page->name = "Manage Clusters";
 
 	    $clusters = Cluster::all();
+	    $approvers = Member::all();
 	
-	    return view('theme.pages.maintenance.cluster.index', compact('page', 'clusters'));
+	    return view('theme.pages.maintenance.cluster.index', compact('page', 'clusters', 'approvers'));
 	}
 
 	public function maintenanceClusterStore(Request $request) {
@@ -178,15 +183,18 @@ class MaintenanceController extends Controller
 
 	    $page = new Page;
 	    $page->name = 'Edit Cluster';
-	    $cluster = Cluster::find($id);
 
-	    return view('theme.pages.maintenance.cluster.edit', compact('page', 'cluster'));
+	    $cluster = Cluster::find($id);
+	    $approvers = Member::all();
+
+	    return view('theme.pages.maintenance.cluster.edit', compact('page', 'cluster', 'approvers'));
 	}
 
 	public function maintenanceClusterUpdate(Request $request, $id) {
 
 	    $cluster = Cluster::find($id);
 	    $cluster->name = $request['name'];
+	    $cluster->approved_by = $request['approved_by'];
 	    $cluster->save();
 
 	    return redirect()->route('maintenance.cluster')->with('success', 'Cluster updated successfully.');
