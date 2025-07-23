@@ -394,6 +394,8 @@
                                                             <span>
                                                                 @if($staff->birthday == '0 0')
                                                                     ---
+                                                                @elseif($staff->birthday == '12 0')
+                                                                    ---
                                                                 @else
                                                                     {{ $staff->birthday }}
                                                                 @endif
@@ -415,7 +417,9 @@
                                                         <td>
                                                             <span class="d-flex justify-content-between">
                                                                 {{ $staff->email }}
-                                                                <a href="mailto:{{ $staff->email }}" title="send an email"><i class="icon-envelope px-1"></i></a>
+                                                                @if(!empty($staff->contact_number))
+                                                                    <a href="mailto:{{ $staff->email }}" title="send an email"><i class="icon-envelope px-1"></i></a>
+                                                                @endif
                                                             </span>
                                                         </td>
                                                     </tr>
@@ -424,28 +428,30 @@
                                                         <td>
                                                             <span class="d-flex justify-content-between">
                                                                 {{ $staff->contact_number }}
-                                                                <a href="tel:{{ $staff->contact_number }}" title="Call"><i class="icon-mobile px-2"></i></a>
+                                                                @if(!empty($staff->contact_number))
+                                                                    <a href="tel:{{ $staff->contact_number }}" title="Call"><i class="icon-mobile px-2"></i></a>
+                                                                @endif
                                                             </span>
                                                         </td>
                                                     </tr>
                                                     @if(!empty($staff->other_number))
-                                                    <tr>
-                                                        <!-- explode here -->
                                                         @php
+                                                            $number_arrs = explode('::', $staff->other_number);
+                                                            $type_arrs = explode('::', $staff->type_number);
                                                             $type_number_name = config('numbertype.'.$staff->type_number);
-                                                        @endphp 
+                                                            $count = count($number_arrs);
+                                                        @endphp
 
-                                                        <td><span class="profile-label">Viber Number:</span></td>
-                                                        <td>
-                                                            <span>
-                                                                @if($type_number_name == 'Viber' ) {{ $staff->other_number }} @else --- @endif
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span class="profile-label">Telegram Number:</span></td>
-                                                        <td><span>@if($type_number_name == 'Telegram' ) {{ $staff->other_number }} @else --- @endif</span></td>
-                                                    </tr>
+                                                        @for($a = 0; $a < $count; $a++)
+                                                        <tr>
+                                                            <td><span class="profile-label">{{config('numbertype.'.$type_arrs[$a])}} Number:</span></td>
+                                                            <td>
+                                                                <span>
+                                                                    {{$number_arrs[$a]}}
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        @endfor
                                                     @endif
                                                 </table>
                                             </div>
@@ -716,14 +722,27 @@
                                                             <b class="text-uppercase">{{ $staff->designation }}</b>
                                                         </small>
                                                         <div class="col-12 col-md-2 d-flex align-items-start justify-content-center">
-                                                            <img class="mt-4" width="120" style="border-radius: 100%;
-                                                                                border-radius: 100%;
-                                                                                min-width: 120px;
-                                                                                height: 120px;
-                                                                                background-image: url('{{ $staff->photo ? asset('/' . $staff->photo) : asset('images/user.png') }}');
-                                                                                background-size: cover;
-                                                                                background-repeat: no-repeat;
-                                                                                background-position: center;">
+                                                            <div class="text-center mb-4 position-relative">
+                                                                <div class="file-input-wrapper photo">
+                                                                    <input type="file" class="form-control" id="photo{{$index}}" name="staff[{{$index}}][photo]" accept="image/*">
+                                                                    <label for="photo" class="file-input-label">
+                                                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                                          <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8a1 1 0 0 1 1-1h1.5l1.707-1.707A1 1 0 0 1 8.914 5h6.172a1 1 0 0 1 .707.293L17.5 7H19a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/>
+                                                                          <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                                        </svg>
+                                                                    </label>
+                                                                </div>
+                                                                <div class="profile-pic-preview-container">
+                                                                    <img id="imagePreviewPhoto{{$index}}"
+                                                                         src="{{ $staff->photo ? asset('/' . $staff->photo) : asset('images/user.png') }}"
+                                                                         class="profile-pic-preview" alt="Profile Picture Preview"
+                                                                         style="border-radius: 100%;">
+
+                                                                </div>
+                                                                @error('photo')
+                                                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
+                                                                @enderror
+                                                            </div>
                                                         </div>
                                                         <div class="col-12 col-md-5">
                                                             <div class="form-group">
@@ -835,10 +854,30 @@
 
                                                             @if(!empty($staff->other_number))
                                                                 @php
+                                                                    $type_arrs = explode('::', $staff->type_number);
+                                                                    $number_arrs = explode('::', $staff->other_number);
                                                                     $type_number_name = config('numbertype.'.$staff->type_number);
-                                                                @endphp 
-                                                            @endif
+                                                                    $count = count($number_arrs);
+                                                                @endphp
 
+                                                                @for($ar = 0; $ar < $count; $ar++)
+                                                                <div class="row form-group">
+                                                                    <div class="col-12 relative">
+                                                                        <select id="select_number_solo{{$index}}" class="form-select select-type-number" aria-label="select type of number" name="staff[{{$index}}][type_number][]">
+                                                                            <option @if($type_arrs[$ar] == 1) selected @endif value="1">Viber</option>
+                                                                            <option @if($type_arrs[$ar] == 2) selected @endif value="2">WhatsApp</option>
+                                                                            <option @if($type_arrs[$ar] == 3) selected @endif value="3">Telegram</option>
+                                                                            <option @if($type_arrs[$ar] == 4) selected @endif value="4">Signal</option>
+                                                                            <option @if($type_arrs[$ar] == 5) selected @endif value="5">WeChat</option>
+                                                                        </select>
+                                                                        <input class="form-control" type="text" name="staff[{{$index}}][other_number][]" required style="padding-left: 140px;" value="{{$number_arrs[$ar]}}">
+                                                                        <div id="messaging_container{{$index}}">
+                                                                            <!-- area for additional fields -->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                @endfor
+                                                            @else
                                                             <div class="row form-group">
                                                                 <div class="col-12 relative">
                                                                     <select id="select_number_solo{{$index}}" class="form-select select-type-number" aria-label="select type of number" name="staff[{{$index}}][type_number][]">
@@ -852,10 +891,10 @@
                                                                     <div id="messaging_container{{$index}}">
                                                                         <!-- area for additional fields -->
                                                                     </div>
-                                                                    <small onclick="add_messaging({{$index}})" id="add_messaging" class="primary-text-color float-end pt-1 cursor-pointer">Add Instant Messaging Number</small>
                                                                 </div>
                                                             </div>
-                                                            
+                                                            @endif
+                                                            <small onclick="add_messaging({{$index}})" id="add_messaging" class="primary-text-color float-end pt-1 cursor-pointer">Add Instant Messaging Number</small>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2322,7 +2361,7 @@
                 }
             });
 
-                    // Listen for changes on the file input on Logo
+            // Listen for changes on the file input on Logo
             photoInput.on('change', function() {
                 // Get the selected file
                 const file = this.files[0];

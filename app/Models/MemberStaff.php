@@ -40,4 +40,9 @@ class MemberStaff extends Model
         return $this->belongsTo(Gender::class, 'gender');
     }
 
+    public function type_number()
+    {
+        return $this->belongsTo(Gender::class, 'type_number');
+    }
+
 }
