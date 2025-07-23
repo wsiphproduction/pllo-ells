@@ -349,118 +349,123 @@
                                     @endif
                                 </div>
 
-                                <!-- Senators Staff and HoR Staff only -->
-                                @if($memberDetails->user_type == 2)
-                                    @foreach($staffs as $staff)
-                                    <div class="tab-content">
-                                        <div class="row mt-4">
-                                            <small class="form-title my-0" style="transform: translate(0px, 16px);">
-                                                <b class="text-uppercase">{{ $staff->designation }}</b>
-                                            </small>
-                                            <div class="col-12 col-md-2 d-flex align-items-start justify-content-center">
-                                                <img class="mt-4" width="120" style="border-radius: 100%;
-                                                                    border-radius: 100%;
-                                                                    min-width: 120px;
-                                                                    height: 120px;
-                                                                    background-image: url('{{ $staff->photo ? asset('/' . $staff->photo) : asset('images/user.png') }}');
-                                                                    background-size: cover;
-                                                                    background-repeat: no-repeat;
-                                                                    background-position: center;">
-                                            </div>
-                                            <div class="col-12 col-md-5">
-                                                <table class="table-dotted table-striped">
-                                                    <tr>&nbsp;</tr>
-                                                    <tr>
-                                                        <td><span class="profile-label">Name:</span></td>
-                                                        <td><span>{{ $staff->firstname }}  {{ $staff->suffix }} @if(!empty($staff->suffix)) . @endif {{ $staff->lastname }}</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span class="profile-label">Nickname:</span></td>
-                                                        <td><span>{{ $staff->nickname }}</span></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span class="profile-label">Gender:</span></td>
-                                                        <td>
-                                                            <span>
-                                                                @if(!empty($staff->gender))
-                                                                {{ $staff->personGender->name }}
-                                                                @endif
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span class="profile-label">Birthday:</span></td>
-                                                        <td>
-                                                            <span>
-                                                                @if($staff->birthday == '0 0')
-                                                                    ---
-                                                                @elseif($staff->birthday == '12 0')
-                                                                    ---
-                                                                @else
-                                                                    {{ $staff->birthday }}
-                                                                @endif
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                </table>
-                                            </div>
-                                            <div class="col-12 col-md-5">
-                                                @if(!empty($staff->other_number))
-                                                    @php
-                                                        $type_number_name = config('numbertype.'.$staff->type_number);
-                                                    @endphp 
-                                                @endif
-                                                <table class="table-dotted table-striped">
-                                                    <tr>&nbsp;</tr>
-                                                    <tr>
-                                                        <td><span class="profile-label">Email Address:</span></td>
-                                                        <td>
-                                                            <span class="d-flex justify-content-between">
-                                                                {{ $staff->email }}
-                                                                @if(!empty($staff->contact_number))
-                                                                    <a href="mailto:{{ $staff->email }}" title="send an email"><i class="icon-envelope px-1"></i></a>
-                                                                @endif
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td><span class="profile-label">Cellphone Number:</span></td>
-                                                        <td>
-                                                            <span class="d-flex justify-content-between">
-                                                                {{ $staff->contact_number }}
-                                                                @if(!empty($staff->contact_number))
-                                                                    <a href="tel:{{ $staff->contact_number }}" title="Call"><i class="icon-mobile px-2"></i></a>
-                                                                @endif
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                    @if(!empty($staff->other_number))
-                                                        @php
-                                                            $number_arrs = explode('::', $staff->other_number);
-                                                            $type_arrs = explode('::', $staff->type_number);
-                                                            $type_number_name = config('numbertype.'.$staff->type_number);
-                                                            $count = count($number_arrs);
-                                                        @endphp
-
-                                                        @for($a = 0; $a < $count; $a++)
+                                <!-- For usertype that has staff only -->
+                                @if($memberDetails->user_type < 5)
+                                    @if(!empty($staffs))
+                                        @foreach($staffs as $staff)
+                                        <div class="tab-content">
+                                            <div class="row mt-4">
+                                                <small class="form-title my-0" style="transform: translate(0px, 16px);">
+                                                    <b class="text-uppercase">{{ $staff->designation }}</b>
+                                                </small>
+                                                <div class="col-12 col-md-2 d-flex align-items-start justify-content-center">
+                                                    <img class="mt-4" width="120" style="border-radius: 100%;
+                                                                        border-radius: 100%;
+                                                                        min-width: 120px;
+                                                                        height: 120px;
+                                                                        background-image: url('{{ $staff->photo ? asset('/' . $staff->photo) : asset('images/user.png') }}');
+                                                                        background-size: cover;
+                                                                        background-repeat: no-repeat;
+                                                                        background-position: center;">
+                                                </div>
+                                                <div class="col-12 col-md-5">
+                                                    <table class="table-dotted table-striped">
+                                                        <tr>&nbsp;</tr>
                                                         <tr>
-                                                            <td><span class="profile-label">{{config('numbertype.'.$type_arrs[$a])}} Number:</span></td>
+                                                            <td><span class="profile-label">Name:</span></td>
+                                                            <td><span>{{ $staff->firstname }}  {{ $staff->suffix }} @if(!empty($staff->suffix)) . @endif {{ $staff->lastname }}</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span class="profile-label">Nickname:</span></td>
+                                                            <td><span>{{ $staff->nickname }}</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span class="profile-label">Gender:</span></td>
                                                             <td>
                                                                 <span>
-                                                                    {{$number_arrs[$a]}}
+                                                                    @if(!empty($staff->gender))
+                                                                    {{ $staff->personGender->name }}
+                                                                    @endif
                                                                 </span>
                                                             </td>
                                                         </tr>
-                                                        @endfor
+                                                        <tr>
+                                                            <td><span class="profile-label">Birthday:</span></td>
+                                                            <td>
+                                                                <span>
+                                                                    @if($staff->birthday == '0 0')
+                                                                        ---
+                                                                    @elseif($staff->birthday == '12 0')
+                                                                        ---
+                                                                    @else
+                                                                        {{ $staff->birthday }}
+                                                                    @endif
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="col-12 col-md-5">
+                                                    @if(!empty($staff->other_number))
+                                                        @php
+                                                            $type_number_name = config('numbertype.'.$staff->type_number);
+                                                        @endphp 
                                                     @endif
-                                                </table>
+                                                    <table class="table-dotted table-striped">
+                                                        <tr>&nbsp;</tr>
+                                                        <tr>
+                                                            <td><span class="profile-label">Email Address:</span></td>
+                                                            <td>
+                                                                <span class="d-flex justify-content-between">
+                                                                    {{ $staff->email }}
+                                                                    @if(!empty($staff->contact_number))
+                                                                        <a href="mailto:{{ $staff->email }}" title="send an email"><i class="icon-envelope px-1"></i></a>
+                                                                    @endif
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span class="profile-label">Cellphone Number:</span></td>
+                                                            <td>
+                                                                <span class="d-flex justify-content-between">
+                                                                    {{ $staff->contact_number }}
+                                                                    @if(!empty($staff->contact_number))
+                                                                        <a href="tel:{{ $staff->contact_number }}" title="Call"><i class="icon-mobile px-2"></i></a>
+                                                                    @endif
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        @if(!empty($staff->other_number))
+                                                            @php
+                                                                $number_arrs = explode('::', $staff->other_number);
+                                                                $type_arrs = explode('::', $staff->type_number);
+                                                                $type_number_name = config('numbertype.'.$staff->type_number);
+                                                                $count = count($number_arrs);
+                                                            @endphp
+
+                                                            @for($a = 0; $a < $count; $a++)
+                                                            <tr>
+                                                                <td><span class="profile-label">{{config('numbertype.'.$type_arrs[$a])}} Number:</span></td>
+                                                                <td>
+                                                                    <span>
+                                                                        {{$number_arrs[$a]}}
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                            @endfor
+                                                        @endif
+                                                    </table>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    @endforeach
+                                        @endforeach
+                                    @else
+                                    <p>No staff for this old user.</p>
+                                    @endif
                                 @endif
 
-                                @if($memberDetails->user_type != 5 && $memberDetails->user_type != 2)
+                                <!-- For usertype no staff only -->
+                                @if($memberDetails->user_type > 4)
                                     @foreach($userTypeMembers as $userTypeMember)
                                     <div class="tab-content">
                                         <div class="row mt-4">
@@ -712,193 +717,197 @@
 
                                         </div>
 
-                                        <!-- Edit Senators Staff and HoR Staff only -->
-                                        @if($memberDetails->user_type == 2)
-                                            @foreach($staffs as $index => $staff)
-                                                <div class="tab-content">
-                                                    <div class="row mt-4">
-                                                        <input type="hidden" name="staff[{{$index}}][staff_id]" value="{{ $staff->id }}">
-                                                        <small class="form-title my-0" style="transform: translate(0px, 16px);">
-                                                            <b class="text-uppercase">{{ $staff->designation }}</b>
-                                                        </small>
-                                                        <div class="col-12 col-md-2 d-flex align-items-start justify-content-center">
-                                                            <div class="text-center mb-4 position-relative">
-                                                                <div class="file-input-wrapper photo">
-                                                                    <input type="file" class="form-control" id="photo{{$index}}" name="staff[{{$index}}][photo]" accept="image/*">
-                                                                    <label for="photo" class="file-input-label">
-                                                                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                                          <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8a1 1 0 0 1 1-1h1.5l1.707-1.707A1 1 0 0 1 8.914 5h6.172a1 1 0 0 1 .707.293L17.5 7H19a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/>
-                                                                          <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                                                        </svg>
-                                                                    </label>
-                                                                </div>
-                                                                <div class="profile-pic-preview-container">
-                                                                    <img id="imagePreviewPhoto{{$index}}"
-                                                                         src="{{ $staff->photo ? asset('/' . $staff->photo) : asset('images/user.png') }}"
-                                                                         class="profile-pic-preview" alt="Profile Picture Preview"
-                                                                         style="border-radius: 100%;">
+                                        <!-- Edit for usertypes that has staff only -->
+                                        @if($memberDetails->user_type < 5)
+                                            @if(!empty($staffs))
+                                                @foreach($staffs as $index => $staff)
+                                                    <div class="tab-content">
+                                                        <div class="row mt-4">
+                                                            <input type="hidden" id="staffProfPic{{$index}}" name="staff[{{$index}}][staff_id]" value="{{ $staff->id }}">
+                                                            <small class="form-title my-0" style="transform: translate(0px, 16px);">
+                                                                <b class="text-uppercase">{{ $staff->designation }}</b>
+                                                            </small>
+                                                            <div class="col-12 col-md-2 d-flex align-items-start justify-content-center">
+                                                                <div class="text-center mb-4 position-relative">
+                                                                    <div class="file-input-wrapper photo">
+                                                                        <input type="file" class="form-control staff-prof-pic" data-index="{{ $index }}" id="photo{{$index}}" name="staff[{{$index}}][photo]" accept="image/*">
+                                                                        <label for="photo" class="file-input-label">
+                                                                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                                              <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8a1 1 0 0 1 1-1h1.5l1.707-1.707A1 1 0 0 1 8.914 5h6.172a1 1 0 0 1 .707.293L17.5 7H19a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/>
+                                                                              <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                                            </svg>
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="profile-pic-preview-container">
+                                                                        <img id="imagePreviewPhoto{{$index}}"
+                                                                             src="{{ $staff->photo ? asset('/' . $staff->photo) : asset('images/user.png') }}"
+                                                                             class="profile-pic-preview" alt="Profile Picture Preview"
+                                                                             style="border-radius: 100%;">
 
-                                                                </div>
-                                                                @error('photo')
-                                                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
-                                                                @enderror
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12 col-md-5">
-                                                            <div class="form-group">
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input class="form-control" type="text" name="staff[{{$index}}][firstname]" value="{{ $staff->firstname }}" placeholder="FIRST NAME">
                                                                     </div>
-                                                                    <div class="col-2" style="padding-left: 0px;">
-                                                                        <input class="form-control" type="text" name="staff[{{$index}}][middle_initial]" value="{{ $staff->middle_initial }}" placeholder="M.I.">
-                                                                    </div>
+                                                                    @error('photo')
+                                                                        <div class="alert alert-danger mt-2">{{ $message }}</div>
+                                                                    @enderror
                                                                 </div>
                                                             </div>
-
-                                                            <div class="form-group">
-                                                                <div class="row">
-                                                                    <div class="col-10">
-                                                                        <input class="form-control" type="text" name="staff[{{$index}}][lastname]" value="{{ $staff->lastname }}" placeholder="LAST NAME">
-                                                                    </div>
-                                                                    <div class="col-2" style="padding-left: 0px;">
-                                                                        <select class="form-select" name="staff[{{$index}}][suffix]">
-                                                                            <option selected disabled value="">SUFFIX</option>
-                                                                            <option @if($staff->suffix == 'Jr') selected  @endif>Jr</option>
-                                                                            <option @if($staff->suffix == 'Sr') selected  @endif>Sr</option>
-                                                                        </select>
+                                                            <div class="col-12 col-md-5">
+                                                                <div class="form-group">
+                                                                    <div class="row">
+                                                                        <div class="col-10">
+                                                                            <input class="form-control" type="text" name="staff[{{$index}}][firstname]" value="{{ $staff->firstname }}" placeholder="FIRST NAME">
+                                                                        </div>
+                                                                        <div class="col-2" style="padding-left: 0px;">
+                                                                            <input class="form-control" type="text" name="staff[{{$index}}][middle_initial]" value="{{ $staff->middle_initial }}" placeholder="M.I.">
+                                                                        </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
 
-                                                            <div class="form-group">
-                                                                <div class="row">
-                                                                    <div class="col-12">
-                                                                        <input class="form-control" type="text" name="staff[{{$index}}][nickname]" value="{{ $staff->nickname }}" placeholder="NICKNAME">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-
-                                                            <div class="form-group">
-                                                                <div class="row">
-                                                                    @if(!empty($staff->birthday))
-                                                                        @php
-                                                                            $bday = explode(' ',$staff->birthday);
-                                                                            $month = $bday[0];
-                                                                            $day = $bday[1];
-                                                                        @endphp
-                                                                    @endif
-                                                                    <div class="col-6">
-                                                                        <select class="form-select" name="staff[{{$index}}][gender]">
-                                                                            <option selected disabled value="0">GENDER</option>
-                                                                            @if(!empty($staff->gender))
-                                                                                @foreach($genders as $gender)
-                                                                                    <option @if($staff->gender == $gender->id) selected @endif value="{{ $gender->id }}" >{{$gender->name}}</option>
-                                                                                @endforeach
-                                                                            @else
-                                                                                @foreach($genders as $gender)
-                                                                                    <option value="{{ $gender->id }}" >{{$gender->name}}</option>
-                                                                                @endforeach
-                                                                            @endif
-                                                                        </select>
-                                                                    </div>
-                                                                    <div class="col-6" style="padding-left: 0px;">
-                                                                        <div class="d-flex">
-                                                                            <select class="form-select" aria-label="select month" name="staff[{{$index}}][month]" style="width: 70%">
-                                                                                <option @if($month == 0) selected @endif value="0">BIRTHMONTH</option>
-                                                                                @if(!empty($staff->birthday))
-                                                                                    @foreach(Config::get('months') as $key => $month)
-                                                                                        <option @if($month == $month) selected @endif value="{{ $key }}">{{ $month }}</option>
-                                                                                    @endforeach
-                                                                                @else
-                                                                                    @foreach(Config::get('months') as $key => $month)
-                                                                                        <option value="{{ $key }}">{{ $month }}</option>
-                                                                                    @endforeach
-                                                                                @endif
-                                                                            </select>
-                                                                            &nbsp;
-                                                                            <select class="form-select" aria-label="select day" name="staff[{{$index}}][day]" style="width: 30%">
-                                                                                <option value="0">BIRTHDAY</option>
-                                                                                @if(!empty($staff->birthday))
-                                                                                    @for($d = 1; $d <= 31; $d++)
-                                                                                        <option @if($day == $d) selected @endif value="{{ $d }}">{{ $d }}</option>
-                                                                                    @endfor
-                                                                                @else
-                                                                                    @for($d = 1; $d <= 31; $d++)
-                                                                                        <option value="{{ $d }}">{{ $d }}</option>
-                                                                                    @endfor
-                                                                                @endif
+                                                                <div class="form-group">
+                                                                    <div class="row">
+                                                                        <div class="col-10">
+                                                                            <input class="form-control" type="text" name="staff[{{$index}}][lastname]" value="{{ $staff->lastname }}" placeholder="LAST NAME">
+                                                                        </div>
+                                                                        <div class="col-2" style="padding-left: 0px;">
+                                                                            <select class="form-select" name="staff[{{$index}}][suffix]">
+                                                                                <option selected disabled value="">SUFFIX</option>
+                                                                                <option @if($staff->suffix == 'Jr') selected  @endif>Jr</option>
+                                                                                <option @if($staff->suffix == 'Sr') selected  @endif>Sr</option>
                                                                             </select>
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="col-12 col-md-5">
 
-                                                            <input class="form-control" type="text" name="staff[{{$index}}][email]" value="{{ $staff->email }}">
-                                                            <div class="row mb-3">
-                                                                <div class="col-12 d-flex align-items-center justify-content-start gap-2">
-                                                                    <input type="checkbox" name="staff[{{$index}}][agree_email]" @if($staff->agree_email) checked @endif>
-                                                                    <small class="my-2">Agree to show in <span class="text-primary ">Directory</span></small>
+                                                                <div class="form-group">
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <input class="form-control" type="text" name="staff[{{$index}}][nickname]" value="{{ $staff->nickname }}" placeholder="NICKNAME">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <div class="row">
+                                                                        @if(!empty($staff->birthday))
+                                                                            @php
+                                                                                $bday = explode(' ',$staff->birthday);
+                                                                                $month = $bday[0];
+                                                                                $day = $bday[1];
+                                                                            @endphp
+                                                                        @endif
+                                                                        <div class="col-6">
+                                                                            <select class="form-select" name="staff[{{$index}}][gender]">
+                                                                                <option selected disabled value="0">GENDER</option>
+                                                                                @if(!empty($staff->gender))
+                                                                                    @foreach($genders as $gender)
+                                                                                        <option @if($staff->gender == $gender->id) selected @endif value="{{ $gender->id }}" >{{$gender->name}}</option>
+                                                                                    @endforeach
+                                                                                @else
+                                                                                    @foreach($genders as $gender)
+                                                                                        <option value="{{ $gender->id }}" >{{$gender->name}}</option>
+                                                                                    @endforeach
+                                                                                @endif
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="col-6" style="padding-left: 0px;">
+                                                                            <div class="d-flex">
+                                                                                <select class="form-select" aria-label="select month" name="staff[{{$index}}][month]" style="width: 70%">
+                                                                                    <option @if($month == 0) selected @endif value="0">BIRTHMONTH</option>
+                                                                                    @if(!empty($staff->birthday))
+                                                                                        @foreach(Config::get('months') as $key => $month)
+                                                                                            <option @if($month == $month) selected @endif value="{{ $key }}">{{ $month }}</option>
+                                                                                        @endforeach
+                                                                                    @else
+                                                                                        @foreach(Config::get('months') as $key => $month)
+                                                                                            <option value="{{ $key }}">{{ $month }}</option>
+                                                                                        @endforeach
+                                                                                    @endif
+                                                                                </select>
+                                                                                &nbsp;
+                                                                                <select class="form-select" aria-label="select day" name="staff[{{$index}}][day]" style="width: 30%">
+                                                                                    <option value="0">BIRTHDAY</option>
+                                                                                    @if(!empty($staff->birthday))
+                                                                                        @for($d = 1; $d <= 31; $d++)
+                                                                                            <option @if($day == $d) selected @endif value="{{ $d }}">{{ $d }}</option>
+                                                                                        @endfor
+                                                                                    @else
+                                                                                        @for($d = 1; $d <= 31; $d++)
+                                                                                            <option value="{{ $d }}">{{ $d }}</option>
+                                                                                        @endfor
+                                                                                    @endif
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
+                                                            <div class="col-12 col-md-5">
 
-                                                            <input class="form-control" type="text" name="staff[{{$index}}][contact_number]" value="{{ $staff->contact_number }}">
-                                                            <div class="row mb-3">
-                                                                <div class="col-12 d-flex align-items-center justify-content-start gap-2">
-                                                                    <input type="checkbox" name="staff[{{$index}}][agree_contact_number]" @if($staff->agree_contact_number) checked @endif>
-                                                                    <small class="my-2">Agree to show in <span class="text-primary ">Directory</span></small>
+                                                                <input class="form-control" type="text" name="staff[{{$index}}][email]" value="{{ $staff->email }}">
+                                                                <div class="row mb-3">
+                                                                    <div class="col-12 d-flex align-items-center justify-content-start gap-2">
+                                                                        <input type="checkbox" name="staff[{{$index}}][agree_email]" @if($staff->agree_email) checked @endif>
+                                                                        <small class="my-2">Agree to show in <span class="text-primary ">Directory</span></small>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
 
-                                                            @if(!empty($staff->other_number))
-                                                                @php
-                                                                    $type_arrs = explode('::', $staff->type_number);
-                                                                    $number_arrs = explode('::', $staff->other_number);
-                                                                    $type_number_name = config('numbertype.'.$staff->type_number);
-                                                                    $count = count($number_arrs);
-                                                                @endphp
+                                                                <input class="form-control" type="text" name="staff[{{$index}}][contact_number]" value="{{ $staff->contact_number }}">
+                                                                <div class="row mb-3">
+                                                                    <div class="col-12 d-flex align-items-center justify-content-start gap-2">
+                                                                        <input type="checkbox" name="staff[{{$index}}][agree_contact_number]" @if($staff->agree_contact_number) checked @endif>
+                                                                        <small class="my-2">Agree to show in <span class="text-primary ">Directory</span></small>
+                                                                    </div>
+                                                                </div>
 
-                                                                @for($ar = 0; $ar < $count; $ar++)
+                                                                @if(!empty($staff->other_number))
+                                                                    @php
+                                                                        $type_arrs = explode('::', $staff->type_number);
+                                                                        $number_arrs = explode('::', $staff->other_number);
+                                                                        $type_number_name = config('numbertype.'.$staff->type_number);
+                                                                        $count = count($number_arrs);
+                                                                    @endphp
+
+                                                                    @for($ar = 0; $ar < $count; $ar++)
+                                                                    <div class="row form-group">
+                                                                        <div class="col-12 relative">
+                                                                            <select id="select_number_solo{{$index}}" class="form-select select-type-number" aria-label="select type of number" name="staff[{{$index}}][type_number][]">
+                                                                                <option @if($type_arrs[$ar] == 1) selected @endif value="1">Viber</option>
+                                                                                <option @if($type_arrs[$ar] == 2) selected @endif value="2">WhatsApp</option>
+                                                                                <option @if($type_arrs[$ar] == 3) selected @endif value="3">Telegram</option>
+                                                                                <option @if($type_arrs[$ar] == 4) selected @endif value="4">Signal</option>
+                                                                                <option @if($type_arrs[$ar] == 5) selected @endif value="5">WeChat</option>
+                                                                            </select>
+                                                                            <input class="form-control" type="text" name="staff[{{$index}}][other_number][]" required style="padding-left: 140px;" value="{{$number_arrs[$ar]}}">
+                                                                            <div id="messaging_container{{$index}}">
+                                                                                <!-- area for additional fields -->
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    @endfor
+                                                                @else
                                                                 <div class="row form-group">
                                                                     <div class="col-12 relative">
                                                                         <select id="select_number_solo{{$index}}" class="form-select select-type-number" aria-label="select type of number" name="staff[{{$index}}][type_number][]">
-                                                                            <option @if($type_arrs[$ar] == 1) selected @endif value="1">Viber</option>
-                                                                            <option @if($type_arrs[$ar] == 2) selected @endif value="2">WhatsApp</option>
-                                                                            <option @if($type_arrs[$ar] == 3) selected @endif value="3">Telegram</option>
-                                                                            <option @if($type_arrs[$ar] == 4) selected @endif value="4">Signal</option>
-                                                                            <option @if($type_arrs[$ar] == 5) selected @endif value="5">WeChat</option>
+                                                                            <option value="1">Viber</option>
+                                                                            <option value="2">WhatsApp</option>
+                                                                            <option value="3">Telegram</option>
+                                                                            <option value="4">Signal</option>
+                                                                            <option value="5">WeChat</option>
                                                                         </select>
-                                                                        <input class="form-control" type="text" name="staff[{{$index}}][other_number][]" required style="padding-left: 140px;" value="{{$number_arrs[$ar]}}">
+                                                                        <input class="form-control" type="text" name="staff[{{$index}}][other_number][]" required style="padding-left: 140px;">
                                                                         <div id="messaging_container{{$index}}">
                                                                             <!-- area for additional fields -->
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                @endfor
-                                                            @else
-                                                            <div class="row form-group">
-                                                                <div class="col-12 relative">
-                                                                    <select id="select_number_solo{{$index}}" class="form-select select-type-number" aria-label="select type of number" name="staff[{{$index}}][type_number][]">
-                                                                        <option value="1">Viber</option>
-                                                                        <option value="2">WhatsApp</option>
-                                                                        <option value="3">Telegram</option>
-                                                                        <option value="4">Signal</option>
-                                                                        <option value="5">WeChat</option>
-                                                                    </select>
-                                                                    <input class="form-control" type="text" name="staff[{{$index}}][other_number][]" required style="padding-left: 140px;">
-                                                                    <div id="messaging_container{{$index}}">
-                                                                        <!-- area for additional fields -->
-                                                                    </div>
-                                                                </div>
+                                                                @endif
+                                                                <small onclick="add_messaging({{$index}})" id="add_messaging" class="primary-text-color float-end pt-1 cursor-pointer">Add Instant Messaging Number</small>
                                                             </div>
-                                                            @endif
-                                                            <small onclick="add_messaging({{$index}})" id="add_messaging" class="primary-text-color float-end pt-1 cursor-pointer">Add Instant Messaging Number</small>
                                                         </div>
                                                     </div>
-                                                </div>
-                                            @endforeach
+                                                @endforeach
+                                            @else
+                                            <p>No staff for this old user.</p>
+                                            @endif
                                         @endif
                                         <!-- End Edit Senators Staff and HoR Staff only -->
 
@@ -2457,6 +2466,7 @@
             $('#trash-contact-id').val(num);
         });
 
+        // add new field for dynamic staff
         function add_messaging(id) {
                 var newFieldHtml = `<div style="position: relative; margin-top: 4px;"><select id="select_number" class="form-select select-type-number" aria-label="select type of number" name="staff[`+id+`][type_number][]" style="left: 0px;">
                                         <option value="1">Viber</option>
@@ -2473,6 +2483,25 @@
                                     `;
             $("#messaging_container"+id).append(newFieldHtml);
         }
+
+        // dynamic change profipic for staff --- pak this code takes too much brain cells!
+        document.querySelectorAll('.staff-prof-pic').forEach(input => {
+            input.addEventListener('change', function () {
+                const index = this.dataset.index;
+                const file = this.files[0];
+                const preview = document.getElementById('imagePreviewPhoto' + index);
+
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        preview.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    preview.src = '/images/user.png'; // fallback image
+                }
+            });
+        });
 
 	</script>
 @endsection
