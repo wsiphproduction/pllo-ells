@@ -31,7 +31,12 @@ class DownloadableRequest extends FormRequest
             // 'attachments' => 'nullable',
             'bill_no' => 'nullable',
             'proposed_measure' => 'nullable',
-            'status' => 'nullable'
+            'bill_status' => 'nullable',
+            'hor_status' => 'nullable',
+            'sen_status' => 'nullable',
+            'status' => 'nullable',
+            'agency' => 'nullable',
+            'cluster' => 'nullable'
         ];
     }
 }

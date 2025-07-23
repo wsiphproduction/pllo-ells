@@ -87,7 +87,7 @@ class MaintenanceController extends Controller
 	    $agency->head_email = $request['head_email'];
 	    $agency->head_office_email = $request['head_office_email'];
 	    $agency->head_cellphone = $request['head_cellphone'];
-	    $agency->approved_by = $request['approved_by'];
+	    $agency->approver = $request['approver'];
 	    $agency->save();
 
 	    return redirect()->route('maintenance.dashboard')->with('success', 'Agency updated successfully.');
@@ -106,7 +106,7 @@ class MaintenanceController extends Controller
 	    $page = new Page;
 	    $page->name = "View Agency Details";
 	    $agency = Agency::find($id);
-		$approver = Member::find($agency->approved_by);
+		$approver = Member::find($agency->approver);
 
 	    return view('theme.pages.maintenance.agency.view', compact('page', 'agency', 'approver'));
 	}
@@ -194,7 +194,7 @@ class MaintenanceController extends Controller
 
 	    $cluster = Cluster::find($id);
 	    $cluster->name = $request['name'];
-	    $cluster->approved_by = $request['approved_by'];
+	    $cluster->approver = $request['approver'];
 	    $cluster->save();
 
 	    return redirect()->route('maintenance.cluster')->with('success', 'Cluster updated successfully.');

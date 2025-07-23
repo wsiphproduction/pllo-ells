@@ -66,7 +66,7 @@
                                         <td><span><small>{{ $agency->agency_cellphone }}</small></span></td>
                                     </tr>
                                     <tr>
-                                        <td><span class="profile-label"><small>Approved By:</small></span></td>
+                                        <td><span class="profile-label"><small>Approver:</small></span></td>
                                         <td><span><small>{{ $approver->fullname ?? 'Unknown' }}</small></span></td>
                                     </tr>
                                 </table>

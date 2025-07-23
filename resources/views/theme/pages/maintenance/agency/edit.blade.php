@@ -60,11 +60,11 @@
                                             <input class="form-control" type="text" name="agency_cellphone" value="{{ $agency->agency_cellphone }}">
                                         </div>
                                         <div class="form-group">
-                                            <label for="name">Approved By</label>
-                                            <select class="form-select" aria-label="select approver" name="approved_by" required>
-                                                <option value="0" @if(!$agency->approved_by) selected @endif disabled>- Select Approver -</option>
+                                            <label for="name">Approver</label>
+                                            <select class="form-select" aria-label="select approver" name="approver" required>
+                                                <option value="0" @if(!$agency->approver) selected @endif disabled>- Select Approver -</option>
                                                 @foreach($approvers as $approver)
-                                                    <option value="{{ $approver->id }}" @if($approver->id == $agency->approved_by) selected @endif>{{ $approver->firstname . ' ' . $approver->lastname }}</option>
+                                                    <option value="{{ $approver->id }}" @if($approver->id == $agency->approver) selected @endif>{{ $approver->firstname . ' ' . $approver->lastname }}</option>
                                                 @endforeach
                                             </select>
                                         </div>

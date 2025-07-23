@@ -30,7 +30,7 @@ class Agency extends Model
                             'head_email',
                             'head_office_email',
                             'head_cellphone',
-                            'approved_by'
+                            'approver'
                         ];
 
     public function events(){

@@ -13,6 +13,7 @@ use App\Models\{Page};
 use App\Models\Custom\{Downloadable};
 
 use Auth;
+use Carbon\Carbon;
 
 class DownloadableController extends Controller
 {
@@ -146,6 +147,13 @@ class DownloadableController extends Controller
         $requestData = $request->validated();
         $requestData['created_by'] = Auth::user()->id;
 
+        if(Downloadable::hasApprover($request->agency, $request->cluster)){
+            $requestData['status'] = 'FOR APPROVAL';
+        }
+        else{
+            $requestData['approved_on'] = Carbon::today();
+        }
+
         $downloadable = Downloadable::create($requestData);
 
         if ($request->hasFile('attachments')) {
@@ -157,12 +165,21 @@ class DownloadableController extends Controller
                     $attachments[] = $file['url'];
                 }
             }
-            $data['attachments'] = json_encode($attachments);
+            $requestData['attachments'] = json_encode($attachments);
         }
 
-        $downloadable->update($data);
+        $downloadable->update($requestData);
 
         return redirect()->back()->with('success', 'Downloadable has been added.');
+    }
+
+    public function update(DownloadableRequest $request, Downloadable $download)
+    {
+        $requestData = $request->validated();
+
+        $download->update($requestData);
+
+        return redirect()->back()->with('success', 'Downloadable has been updated.');
     }
 
 }
