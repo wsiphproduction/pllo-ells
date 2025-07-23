@@ -154,12 +154,27 @@ class RegistrationController extends Controller
         $member = Member::create($requests);
 
         // Prallel saving on members staff table if registered as senator staff
-        if($request->user_type == 2) {
-
-            for ($i=1; $i<4; $i++) { 
-
+        // LLS Member
+        if($request->user_type == 1) {
+            for ($i=1; $i<5; $i++) { 
                 $staff = new MemberStaff();
-
+                if ($i == 1) {
+                    $staff->designation = 'APPOINTMENT SECRETARY';
+                } else if($i == 2) {
+                    $staff->designation = 'DLLO: DEPARTMENT LEGISLATIVE LIASION OFFICER';
+                } else if($i == 3) {
+                    $staff->designation = 'DLLS-SENATE: DEPARTMENT LEGISLATIVE LIAISON STAFF';
+                } else {
+                    $staff->designation = 'DLLS-HREP: DEPARTMENT LEGISLATIVE LIAISON STAFF';
+                }
+                $staff->member_id = $member->id;
+                $staff->save();
+            }
+        }
+        // Senators Staff
+        if($request->user_type == 2) {
+            for ($i=1; $i<4; $i++) { 
+                $staff = new MemberStaff();
                 if ($i == 1) {
                     $staff->designation = 'CHIEF OF STAFF';
                 } else if($i == 2) {
@@ -167,12 +182,33 @@ class RegistrationController extends Controller
                 } else {
                     $staff->designation = 'CHIEF LEGIS OFFICER';
                 }
-
                 $staff->member_id = $member->id;
                 $staff->save();
             }
         }
-        
+        // HoR Staff
+        if($request->user_type == 3) {
+            for ($i=1; $i<4; $i++) { 
+                $staff = new MemberStaff();
+                if ($i == 1) {
+                    $staff->designation = 'CHIEF OF STAFF';
+                } else if($i == 2) {
+                    $staff->designation = 'APPOINTMENT SECRETARY';
+                } else {
+                    $staff->designation = 'STAFF';
+                }
+                $staff->member_id = $member->id;
+                $staff->save();
+            }
+        }
+        // OP Proper
+        if($request->user_type == 4) {
+                $staff = new MemberStaff();
+                $staff->designation = 'APPOINTMENT SECRETARY';
+                $staff->member_id = $member->id;
+                $staff->save();
+        }
+
         // Email condition //
         Mail::to($requests['email'])->send(new RegisterMail(Setting::info(), $user));
 

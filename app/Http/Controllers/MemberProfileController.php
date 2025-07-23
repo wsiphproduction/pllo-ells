@@ -64,7 +64,7 @@ class MemberProfileController extends Controller
 	    							->where('user_id', '<>', Auth::user()->id)
 	    							->get();
 
-	    if ($memberDetails->user_type == 2) { $staffs = MemberStaff::where('member_id', $memberDetails->id)->get(); } else { $staffs = null; }
+	    if ($memberDetails->user_type < 5) { $staffs = MemberStaff::where('member_id', $memberDetails->id)->get(); } else { $staffs = null; }
 
 	    if (auth()->user()) {
 	        return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency', 'events', 'genders', 'userTypeMembers', 'saved_contacts', 'policy_reforms', 'staffs'));
@@ -121,7 +121,7 @@ class MemberProfileController extends Controller
 	    // --> birthday new code on saving
 
 	    if($member->user_type == 2) {
-	    	foreach ($request->staff as $staff) {
+	    	foreach ($request->staff as $index => $staff) {
 
 	    			if($staff['type_number'] > 0 && $staff['other_number'] !== null ) {
 		    			$staff_type_number = implode('::', $staff['type_number']);
@@ -138,6 +138,17 @@ class MemberProfileController extends Controller
 	    				$staffAgreeContactNumber = 1;
 	    			} else { $staffAgreeContactNumber = 0; }
 
+	    			if ($request->hasFile("staff.".$index.".photo")) {
+
+	    			    $image = $request->file("staff.".$index.".photo");
+	    			    $filename = time() . '.' . $image->getClientOriginalExtension();
+	    			    $path = 'storage/photo/' . $filename;
+
+	    			    Storage::disk('public')->putFileAs('photo', $image, $filename);
+
+	    			    $staff['photo'] = $path;
+	    			}
+
 	    	        $memberStaff = MemberStaff::find($staff['staff_id']);
                     $memberStaff->firstname = $staff['firstname'];
                     $memberStaff->lastname = $staff['lastname'];
@@ -152,11 +163,11 @@ class MemberProfileController extends Controller
                     $memberStaff->agree_contact_number = $staffAgreeContactNumber;
                     $memberStaff->type_number = $staff_type_number;
                     $memberStaff->other_number = $staff_other_number;
-                    // $memberStaff->photo = $staff['photo'];
+                    $memberStaff->photo = $staff['photo'] ?? $memberStaff->photo;
 	    	        $memberStaff->save();
 	    	    }
 	    }
-	    // dd($memberStaff);
+
 	    $member->save();
 	    $user->save();
 	    
