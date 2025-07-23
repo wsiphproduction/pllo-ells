@@ -83,53 +83,92 @@
                         <th>SOURCE / PRIORITY LEVEL</th>
                         <th>BILL NO. REFERENCE</th>
                         <th>STATUS</th>
+                        {{-- <th></th> --}}
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($bills_certified as $bill)
-                        <tr>
-                            <td><a href="javascript:void(0);" onclick="$('#attachmentsModal{{ $bill->id }}').modal('show')"><strong class="text-primary">{{ $bill->proposed_measure }}</strong></a></td>
-                            <td>{{ $bill->source_priority_level }}</td>
-                            <td>{{ $bill->bill_no }}</td>
-                            <td>{{ $bill->status }}</td>
-                        </tr>
+                        @if($bill->status == 'APPROVED' || \App\Models\Custom\Downloadable::userIsApprover($bill->agency, $bill->cluster))
 
-                        {{-- ATTACHMENTS --}}
-                        <div class="modal fade" id="attachmentsModal{{ $bill->id }}" tabindex="-1" aria-labelledby="attachmentsModalLabel{{ $bill->id }}" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="attachmentsModalLabel{{ $bill->id }}"><i class="uil-paperclip"></i> View Attachments</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    
-                                    <div class="modal-body">
-                                        <strong><small>Title:</small></strong>
-                                        <p class="mb-3">{{ $bill->proposed_measure }}</p>
+                            <tr>
+                                <td><a href="javascript:void(0);" onclick="$('#attachmentsModal{{ $bill->id }}').modal('show')"><strong class="text-primary">{{ $bill->proposed_measure }}</strong></a></td>
+                                <td>{{ $bill->source_priority_level }}</td>
+                                <td>{{ $bill->bill_no }}</td>
+                                <td>{{ $bill->bill_status }}</td>
+                                {{-- <td>
+                                    @if($bill->status == 'FOR APPROVAL' && \App\Models\Custom\Downloadable::userIsApprover($bill->agency, $bill->cluster))
+                                        <button class="btn btn-success btn-sm" onclick="$('#approveModal{{ $bill->id }}').modal('show')"><i class="uil-check"></i></button>
+                                    @endif
+                                </td> --}}
+                            </tr>
 
-                                        <strong><small>Attachments:</small></strong>
+                            {{-- ATTACHMENTS --}}
+                            <div class="modal fade" id="attachmentsModal{{ $bill->id }}" tabindex="-1" aria-labelledby="attachmentsModalLabel{{ $bill->id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="attachmentsModalLabel{{ $bill->id }}"><i class="uil-paperclip"></i> View Attachments</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        
+                                        <div class="modal-body">
+                                            <strong><small>Title:</small></strong>
+                                            <p class="mb-3">{{ $bill->proposed_measure }}</p>
 
-                                        @php
-                                            $attachments = json_decode($bill->attachments, true);
-                                        @endphp
+                                            <strong><small>Attachments:</small></strong>
 
-                                        @if (!empty($attachments) && is_array($attachments))
-                                            <ul class="list-unstyled">
-                                                @foreach ($attachments as $file)
-                                                    <li>
-                                                        <a href="{{ asset($file) }}" target="_blank">
-                                                            {{ basename($file) }}
-                                                        </a>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        @else
-                                            <p class="text-muted">No attachments found.</p>
-                                        @endif
+                                            @php
+                                                $attachments = json_decode($bill->attachments, true);
+                                            @endphp
+
+                                            @if (!empty($attachments) && is_array($attachments))
+                                                <ul class="list-unstyled">
+                                                    @foreach ($attachments as $file)
+                                                        <li>
+                                                            <a href="{{ asset($file) }}" target="_blank">
+                                                                {{ basename($file) }}
+                                                            </a>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @else
+                                                <p class="text-muted">No attachments found.</p>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+
+
+                            {{-- APPROVE MODAL --}}
+
+                            <div class="modal fade" id="approveModal{{ $bill->id }}" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">Are you sure you want to approve this item?</div>
+                                        <div class="modal-footer">
+                                            <form method="POST" action="{{ route('downloads.update', $bill->id) }}">
+                                                @method('put')
+                                                @csrf
+                                                <input type="hidden" name="status" value="APPROVED" class="form-control" required>
+
+                                                <div class="form-group" hidden>
+                                                    <label class="d-block">Approved On *</label>
+                                                    <input type="date" name="approved_on" id="approved_on" value="{{ \Carbon\Carbon::now()->toDateString() }}" class="form-control @error('approved_on') is-invalid @enderror" maxlength="150" required>
+                                                    @error('approved_on')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror             
+                                                </div>
+
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                                <button class="btn btn-success">Yes</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        @endif
                     @empty
                         <tr>
                             <td colspan="100%" class="text-center">No data available</td>
@@ -183,8 +222,8 @@
 
                             <div class="form-group">
                                 <label class="d-block">Status *</label>
-                                <input type="text" name="status" id="status" value="{{ old('status')}}" class="form-control @error('status') is-invalid @enderror" maxlength="150" required>
-                                @error('status')
+                                <input type="text" name="bill_status" id="bill_status" value="{{ old('bill_status')}}" class="form-control @error('bill_status') is-invalid @enderror" maxlength="150" required>
+                                @error('bill_status')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
@@ -201,8 +240,10 @@
 
                             {{-- TYPE --}}
                             <input type="hidden" name="type" value="BC" class="form-control" required>
+                            {{-- <input type="hidden" name="agency" value="{{ \App\Models\Member::getMemberInfo(Auth::user()->id)->agency ?? null }}" class="form-control" required>
+                            <input type="hidden" name="cluster" value="{{ \App\Models\Member::getMemberInfo(Auth::user()->id)->cluster ?? null }}" class="form-control" required> --}}
                             
-                            <button type="submit" class="btn bg-custom-primary text-white mt-3" onclick="document.getElementById('creation_form').submit();"><small>SUBMIT</small></button>
+                            <button type="submit" class="btn bg-custom-primary text-white mt-3"><small>SUBMIT</small></button>
                             <button type="button" class="btn btn-secondary mt-3" data-bs-dismiss="modal"><small>CANCEL</small></button>
 
                         </form>

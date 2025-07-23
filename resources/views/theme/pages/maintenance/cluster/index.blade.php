@@ -88,8 +88,8 @@
                                             <input class="form-control" type="text" name="name" value="{{ old('name') }}" required>
                                         </div>
                                         <div class="form-group">
-                                            <label for="name">Approved By</label>
-                                            <select class="form-select" aria-label="select approver" name="approved_by" required>
+                                            <label for="name">Approver</label>
+                                            <select class="form-select" aria-label="select approver" name="approver" required>
                                                 <option value="0" selected diabled>- Select Approver -</option>
                                                 @foreach($approvers as $approver)
                                                     <option value="{{ $approver->id }}">{{ $approver->firstname . ' ' . $approver->lastname }}</option>

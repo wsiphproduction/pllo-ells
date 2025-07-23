@@ -64,52 +64,6 @@
 
             </div>
         </div>
-                
-        {{-- <div class="col-12 mb-5 d-flex justify-content-between align-items-center">
-            <div class="col-4">
-                <h3 class="form-title text-uppercase">{{ $page->name }}</h3>
-                <small>Summary status Update as of {{ \Carbon\Carbon::parse(now())->format('M d, Y') }}</small>
-            </div>
-
-            <form method="get" action="{{ route('downloads.republic-acts') }}">
-                <div class="d-flex align-items-center">
-
-                    <input class="form-control me-2" placeholder="SEARCH" name="search" value="{{ request('search') }}"/>
-
-                    <select class="form-control me-2" name="source_priority_level">
-                        <option disabled {{ !request('source_priority_level') ? 'selected' : '' }}>SOURCE</option>
-                        @foreach ($republic_acts->pluck('source_priority_level')->unique()->filter()->sort() as $level)
-                            <option value="{{ $level }}" {{ request('source_priority_level') == $level ? 'selected' : '' }}>
-                                {{ $level }}
-                            </option>
-                        @endforeach
-                    </select>
-
-                    <select class="form-control me-2" name="approved_on">
-                        <option disabled {{ !request('approved_on') ? 'selected' : '' }}>APPROVED ON</option>
-                        @foreach ($republic_acts->pluck('approved_on')->unique()->filter()->sort() as $date)
-                            <option value="{{ $date }}" {{ request('approved_on') == $date ? 'selected' : '' }}>
-                                {{ \Carbon\Carbon::parse($date)->format('F d, Y') }}
-                            </option>
-                        @endforeach
-                    </select>
-
-                    <select class="form-control me-2" name="congress">
-                        <option disabled {{ !request('congress') ? 'selected' : '' }}>CONGRESS</option>
-                        @foreach ($republic_acts->pluck('congress')->unique()->filter()->sort() as $congress)
-                            <option value="{{ $congress }}" {{ request('congress') == $congress ? 'selected' : '' }}>
-                                {{ $congress }}
-                            </option>
-                        @endforeach
-                    </select>
-
-                    <button type="submit" class="btn btn-success me-2"><i class="uil-search"></i></button>
-                    <a href="{{ route('downloads.republic-acts') }}" type="button" class="btn btn-light btn-outline-success me-1">Clear</a>
-                    <button type="button" class="form-control btn text-white bg-custom-primary" onclick="$('#creationModal').modal('show')"><i class="uil-upload"></i> UPLOAD</button>
-
-                </div>
-            </form>
-        </div> --}}
 
         <div class="col-12 mb-5">
             <table id="datatable" class="table table-hover text-start" cellspacing="0" width="100%">
@@ -120,54 +74,92 @@
                         <th>APPROVED ON</th>
                         <th>CONGRESS</th>
                         <th width="50%">LONG TITLE</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($republic_acts as $republic_act)
-                        <tr>
-                            <td><a href="javascript:void(0);" onclick="$('#attachmentsModal{{ $republic_act->id }}').modal('show')"><strong class="text-primary">{{ $republic_act->ra_jr_no }}</strong></a></td>
-                            <td>{{ $republic_act->source_priority_level }}</td>
-                            <td>{{ \Carbon\Carbon::parse($republic_act->approved_on)->format('F d, Y') }}</td>
-                            <td>{{ $republic_act->congress }}</td>
-                            <td>{{ $republic_act->long_title }}</td>
-                        </tr>
+                        @if($republic_act->status == 'APPROVED' || \App\Models\Custom\Downloadable::userIsApprover($republic_act->agency, $republic_act->cluster))
+                        
+                            <tr>
+                                <td><a href="javascript:void(0);" onclick="$('#attachmentsModal{{ $republic_act->id }}').modal('show')"><strong class="text-primary">{{ $republic_act->ra_jr_no }}</strong></a></td>
+                                <td>{{ $republic_act->source_priority_level }}</td>
+                                <td>{{ \Carbon\Carbon::parse($republic_act->approved_on)->format('F d, Y') }}</td>
+                                <td>{{ $republic_act->congress }}</td>
+                                <td>{{ $republic_act->long_title }}</td>
+                                <td>
+                                    @if($republic_act->status == 'FOR APPROVAL' && \App\Models\Custom\Downloadable::userIsApprover($republic_act->agency, $republic_act->cluster))
+                                        <button class="btn btn-success btn-sm" onclick="$('#approveModal{{ $republic_act->id }}').modal('show')"><i class="uil-check"></i></button>
+                                    @endif
+                                </td>
+                            </tr>
 
-                        {{-- ATTACHMENTS --}}
-                        <div class="modal fade" id="attachmentsModal{{ $republic_act->id }}" tabindex="-1" aria-labelledby="attachmentsModalLabel{{ $republic_act->id }}" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="attachmentsModalLabel{{ $republic_act->id }}"><i class="uil-paperclip"></i> View Attachments</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    
-                                    <div class="modal-body">
-                                        <strong><small>Title:</small></strong>
-                                        <p class="mb-3">{{ $republic_act->long_title }}</p>
+                            {{-- ATTACHMENTS --}}
+                            <div class="modal fade" id="attachmentsModal{{ $republic_act->id }}" tabindex="-1" aria-labelledby="attachmentsModalLabel{{ $republic_act->id }}" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="attachmentsModalLabel{{ $republic_act->id }}"><i class="uil-paperclip"></i> View Attachments</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        
+                                        <div class="modal-body">
+                                            <strong><small>Title:</small></strong>
+                                            <p class="mb-3">{{ $republic_act->long_title }}</p>
 
-                                        <strong><small>Attachments:</small></strong>
+                                            <strong><small>Attachments:</small></strong>
 
-                                        @php
-                                            $attachments = json_decode($republic_act->attachments, true);
-                                        @endphp
+                                            @php
+                                                $attachments = json_decode($republic_act->attachments, true);
+                                            @endphp
 
-                                        @if (!empty($attachments) && is_array($attachments))
-                                            <ul class="list-unstyled">
-                                                @foreach ($attachments as $file)
-                                                    <li>
-                                                        <a href="{{ asset($file) }}" target="_blank">
-                                                            {{ basename($file) }}
-                                                        </a>
-                                                    </li>
-                                                @endforeach
-                                            </ul>
-                                        @else
-                                            <p class="text-muted">No attachments found.</p>
-                                        @endif
+                                            @if (!empty($attachments) && is_array($attachments))
+                                                <ul class="list-unstyled">
+                                                    @foreach ($attachments as $file)
+                                                        <li>
+                                                            <a href="{{ asset($file) }}" target="_blank">
+                                                                {{ basename($file) }}
+                                                            </a>
+                                                        </li>
+                                                    @endforeach
+                                                </ul>
+                                            @else
+                                                <p class="text-muted">No attachments found.</p>
+                                            @endif
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+
+                            {{-- APPROVE MODAL --}}
+
+                            <div class="modal fade" id="approveModal{{ $republic_act->id }}" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">Are you sure you want to approve this item?</div>
+                                        <div class="modal-footer">
+                                            <form method="POST" action="{{ route('downloads.update', $republic_act->id) }}">
+                                                @method('put')
+                                                @csrf
+                                                <input type="hidden" name="status" value="APPROVED" class="form-control" required>
+
+                                                <div class="form-group" hidden>
+                                                    <label class="d-block">Approved On *</label>
+                                                    <input type="date" name="approved_on" id="approved_on" value="{{ \Carbon\Carbon::now()->toDateString() }}" class="form-control @error('approved_on') is-invalid @enderror" maxlength="150" required>
+                                                    @error('approved_on')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror             
+                                                </div>
+
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                                <button class="btn btn-success">Yes</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        @endif
                     @empty
                         <tr>
                             <td colspan="100%" class="text-center">No data available</td>
@@ -219,13 +211,13 @@
                                 @enderror             
                             </div>
 
-                            <div class="form-group">
+                            {{-- <div class="form-group">
                                 <label class="d-block">Approved On *</label>
                                 <input type="date" name="approved_on" id="approved_on" value="{{ \Carbon\Carbon::now()->toDateString() }}" class="form-control @error('approved_on') is-invalid @enderror" maxlength="150" required>
                                 @error('approved_on')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror             
-                            </div>
+                            </div> --}}
 
                             <div class="form-group">
                                 <label class="d-block">Source / Priority Level *</label>
@@ -247,8 +239,10 @@
 
                             {{-- TYPE --}}
                             <input type="hidden" name="type" value="RA" class="form-control" required>
+                            <input type="hidden" name="agency" value="{{ \App\Models\Member::getMemberInfo(Auth::user()->id)->agency ?? null }}" class="form-control" required>
+                            <input type="hidden" name="cluster" value="{{ \App\Models\Member::getMemberInfo(Auth::user()->id)->cluster ?? null }}" class="form-control" required>
                             
-                            <button type="submit" class="btn bg-custom-primary text-white mt-3" onclick="document.getElementById('creation_form').submit();"><small>SUBMIT</small></button>
+                            <button type="submit" class="btn bg-custom-primary text-white mt-3"><small>SUBMIT</small></button>
                             <button type="button" class="btn btn-secondary mt-3" data-bs-dismiss="modal"><small>CANCEL</small></button>
 
                         </form>

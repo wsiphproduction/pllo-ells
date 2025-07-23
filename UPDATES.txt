@@ -266,7 +266,13 @@ DATABASE:
 
 			bill_no VARCHAR(50) DEFAULT NULL,
 			proposed_measure TEXT DEFAULT NULL,
-			status TEXT DEFAULT NULL,
+			bill_status TEXT DEFAULT NULL,
+			hor_status TEXT DEFAULT NULL,
+			sen_status TEXT DEFAULT NULL,
+
+			status TEXT DEFAULT 'APPROVED',
+			agency INT UNSIGNED DEFAULT NULL,
+			cluster VARCHAR(50) DEFAULT NULL,
 
 			created_by INT UNSIGNED NOT NULL,
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
