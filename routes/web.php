@@ -506,5 +506,11 @@ Route::get('/policy-reform-view/{id}', [PolicyReformController::class, 'view'])-
 Route::get('/policy-reform-create', [PolicyReformController::class, 'create'])->name('policyreform.create');
 Route::post('/policy-reform-store', [PolicyReformController::class, 'store'])->name('policyreform.store');
 
+Route::post('/policy-reform-bookmark', [PolicyReformController::class, 'bookmark'])->name('policyreform.bookmark');
+Route::post('/policy-reform-unbookmark', [PolicyReformController::class, 'unbookmark'])->name('policyreform.unbookmark');
+Route::post('/policy-reform-like', [PolicyReformController::class, 'like'])->name('policyreform.like');
+Route::post('/policy-reform-dislike', [PolicyReformController::class, 'dislike'])->name('policyreform.dislike');
+Route::post('/policy-reform-comment', [PolicyReformController::class, 'comment'])->name('policyreform.comment');
+
 // Pages Frontend
 Route::get('/{any}', [FrontController::class, 'page'])->where('any', '.*');

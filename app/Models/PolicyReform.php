@@ -20,4 +20,9 @@ class PolicyReform extends Model
         return $this->belongsTo(PolicyReformCategory::class, 'category');
     }
 
+    public function member()
+    {
+        return $this->belongsTo(Member::class, 'member_id');
+    }
+
 }
