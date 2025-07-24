@@ -30,6 +30,8 @@ use App\Models\SubAgency;
 use App\Models\MemberStaff;
 use App\Models\Designation;
 use App\Models\SavedContact;
+use App\Models\SavedContactStaff;
+use App\Models\SavedContactOfficial;
 use App\Models\Custom\Event;
 use App\Models\MessagingNumber;
 use App\Models\Custom\EventParticipant;
@@ -59,6 +61,8 @@ class MemberProfileController extends Controller
 	    $policy_reforms = Article::all();
 	    $memberAgency = Agency::find($memberDetails->agency);
 	    $saved_contacts = SavedContact::where('user_id', $memberDetails->user_id)->get();
+	    $saved_contacts_official = SavedContactOfficial::where('user_id', $memberDetails->user_id)->get();
+	    $saved_contacts_staff = SavedContactStaff::where('user_id', $memberDetails->user_id)->get();
 	    $events  = EventParticipant::where('member_id', $memberDetails->id)->get();
 	    $userTypeMembers = Member::where('user_type', $memberDetails->user_type)
 	    							->where('user_id', '<>', Auth::user()->id)
@@ -67,7 +71,7 @@ class MemberProfileController extends Controller
 	    if ($memberDetails->user_type < 5) { $staffs = MemberStaff::where('member_id', $memberDetails->id)->get(); } else { $staffs = null; }
 
 	    if (auth()->user()) {
-	        return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency', 'events', 'genders', 'userTypeMembers', 'saved_contacts', 'policy_reforms', 'staffs'));
+	        return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency', 'events', 'genders', 'userTypeMembers', 'saved_contacts', 'saved_contacts_official', 'saved_contacts_staff', 'policy_reforms', 'staffs'));
 	    } else {
 	        return back()->with('error', ('Please login to your account.'));
 	    }
@@ -243,6 +247,24 @@ class MemberProfileController extends Controller
 
 	}
 
+	public function profileAddContactOfficial(Request $request) {
+// dd($request);
+		$requests = $request->all();
+		$contact = SavedContactOfficial::create($requests);
+
+		return back()->with('success', 'Contact added.');
+
+	}
+
+	public function profileAddContactStaff(Request $request) {
+
+		$requests = $request->all();
+		$contact = SavedContactStaff::create($requests);
+
+		return back()->with('success', 'Contact added.');
+
+	}
+
 	public function profileRemoveContact(Request $request) {
 
 		$saved_contact = SavedContact::where('user_id', Auth()->user()->id)
@@ -250,7 +272,29 @@ class MemberProfileController extends Controller
 									 ->first();
 		$saved_contact->delete();
 
-		return back()->with('success', 'Contact removed.');
+		return back()->with('error', 'Contact removed.');
+
+	}
+
+	public function profileRemoveContactOfficial(Request $request) {
+
+		$saved_contact = SavedContactOfficial::where('user_id', $request->user_id)
+									 ->where('official_id', $request->official_id)
+									 ->first();
+		$saved_contact->delete();
+
+		return back()->with('error', 'Contact removed.');
+
+	}
+
+	public function profileRemoveContactStaff(Request $request) {
+
+		$saved_contact = SavedContactStaff::where('user_id', $request->user_id)
+									 ->where('staff_id', $request->official_id)
+									 ->first();
+		$saved_contact->delete();
+
+		return back()->with('error', 'Contact removed.');
 
 	}
 
@@ -275,7 +319,7 @@ class MemberProfileController extends Controller
 	    }
 
 	    $members = $members->paginate($this->page_limit);
-	    // dd($members);
+
 	    return view('theme.pages.directory.cabinet', compact('page', 'members'));
 	}
 
