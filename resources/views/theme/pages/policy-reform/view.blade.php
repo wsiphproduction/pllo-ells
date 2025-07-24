@@ -63,10 +63,14 @@
                     <div class="d-flex flex-column">
                         <p class="pb-4">Proposed by:</p>
                         <div class="d-flex pb-3" style="border-bottom: 1px dotted gray;">
-                            <img class="rounded" src="{{ asset('/' . Auth::user()->avatar ) }}" style="width: 75px; height: 75px; object-fit: cover;">
+                            <img class="rounded" src="{{ asset('/' . $bill->member->photo ) }}" style="width: 75px; height: 75px; object-fit: cover;">
                             <div class="d-flex flex-column ms-3">
-                                <b>William</b>
-                                <small>Private Citizen</small>
+                                <b>{{ $bill->member->FullName }}</b>
+                                @if(!empty($bill->member->designation))
+                                    <small>{{ $bill->member->designationDetails->name }}</small>
+                                @else
+                                    <!-- nothing for now -->
+                                @endif
                             </div>
                         </div>
                         <div class="aside-votes pt-3 pb-2">
@@ -80,31 +84,48 @@
                             <div class="progress-bar" role="progressbar" style="width: {{$val}}%; height: 8px;" aria-valuenow="{{$val}}" aria-valuemin="0" aria-valuemax="{{ $bill->target_votes }}"></div>
                         </div>
                         <div class="d-flex gap-2 py-3">
-                            <button class="btn custom-primary-bg text-white w-100">Like</button>
-                            <button class="btn btn-secondary w-100">Dislike</button>
+                            @if($bill->like != $bill->target_votes)
+                                @if(empty($like))
+                                    <button class="btn custom-primary-bg text-white w-100 btn-like" data-id="{{ $bill->id }}" data-bs-toggle="modal" data-bs-target="#likeModal">Like</button>
+                                @else
+                                    <button class="btn custom-primary-bg text-white w-100"disabled>Liked</button>
+                                @endif
+                                @if(empty($dislike))
+                                    <button class="btn btn-secondary w-100 btn-dislike" data-id="{{ $bill->id }}" data-bs-toggle="modal" data-bs-target="#dislikeModal">Dislike</button>
+                                @else
+                                    <button class="btn btn-secondary w-100" disabled>Disliked</button>
+                                @endif
+                            @else
+                                <button class="btn btn-success text-white w-100" disabled>VOTING COMPLETED</button>
+                            @endif
                         </div>
                         <div class="aside-utils">
                             <div class="d-flex flex-column gap-2">
-                                <button class="d-flex align-items-center gap-2 border-0 bg-white btn-bookmark"><i class="icon-bookmark"></i> <small>Bookmark</small></button>
+                                @if(empty($bookmark))
+                                    <button class="d-flex align-items-center gap-2 border-0 bg-white btn-bookmark" data-id="{{ $bill->id }}" data-bs-toggle="modal" data-bs-target="#bookmarkModal">
+                                        <i class="icon-bookmark"></i> <small>Bookmark</small>
+                                    </button>
+                                @else
+                                    <button class="d-flex align-items-center gap-2 border-0 bg-white btn-unbookmark" data-id="{{ $bill->id }}" data-bs-toggle="modal" data-bs-target="#unbookmarkModal">
+                                        <i class="icon-bookmark-empty"></i> <small>Unbookmark</small>
+                                    </button>
+                                @endif
                                 <button class="d-flex align-items-center gap-1 border-0 bg-white btn-refresh"><i class="icon-refresh"></i> <small>Update Status</small></button>
                             </div>
                         </div>
                         <div class="d-flex flex-column py-3">
                             <h5 class="mb-2">Latest Likers</h5>
-                            <div class="d-flex py-2" style="border-bottom: 1px dotted gray;">
-                                <img class="rounded" src="{{ asset('/' . Auth::user()->avatar ) }}" style="width: 75px; height: 75px; object-fit: cover;">
-                                <div class="d-flex flex-column ms-3">
-                                    <b>William</b>
-                                    <small>Private Citizen</small>
+                            @forelse($likers as $liker)
+                                <div class="d-flex py-2" style="border-bottom: 1px dotted gray;">
+                                    <img class="rounded" src="{{ asset('/' . $liker->photo ) }}" style="width: 75px; height: 75px; object-fit: cover;">
+                                    <div class="d-flex flex-column ms-3">
+                                        <b>{{$liker->firstname}} {{$liker->lastname}}</b>
+                                        <small>{{$liker->name}}</small>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="d-flex py-2" style="border-bottom: 1px dotted gray;">
-                                <img class="rounded" src="{{ asset('/' . Auth::user()->avatar ) }}" style="width: 75px; height: 75px; object-fit: cover;">
-                                <div class="d-flex flex-column ms-3">
-                                    <b>William</b>
-                                    <small>Private Citizen</small>
-                                </div>
-                            </div>
+                            @empty
+                            <small style="opacity: .7"><i>No likers for now.</i></small>
+                            @endforelse
                         </div>
                         <h5 class="mb-2">Share this!</h5>
                         <div class="d-flex aside-socials gap-2">
@@ -152,20 +173,24 @@
                     <h5 class="pt-4 pb-2" style="border-bottom: 1px dotted black;">Comments | Suggestions | Message</h5>
 
                     <div class="feedback-items-conteiner d-flex flex-column gap-3">
-                        <div class="feedback-item d-flex">
-                            <div class="col-1">
-                                <img class="rounded shadow" src="{{ asset('/' . Auth::user()->avatar ) }}" style="width: 75px; height: 75px; object-fit: cover;">
-                            </div>
-                            <div class="col-11">
-                                <div class="card shadow p-4">
-                                    <div class="d-flex justify-content-between mb-2">
-                                        <p><b>Leo Andrew Del Monte</b></p>
-                                        <p><b>April 25, 2023</b></p>
+                        @forelse($comments as $comment)
+                            <div class="feedback-item d-flex">
+                                <div class="col-1">
+                                    <img class="rounded shadow" src="{{ asset('/' . $comment->member->photo ) }}" style="width: 75px; height: 75px; object-fit: cover;">
+                                </div>
+                                <div class="col-11">
+                                    <div class="card shadow p-4">
+                                        <div class="d-flex justify-content-between mb-2">
+                                            <p><b class="text-capitalize">{{ $comment->member->FullName }}</b></p>
+                                            <p><b>{{ date('F d, Y', strtotime($comment->created_at)) }}</b></p>
+                                        </div>
+                                        <p>{{ $comment->comment }}</p>
                                     </div>
-                                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
                                 </div>
                             </div>
-                        </div>
+                        @empty
+                        <!-- nothing for now -->
+                        @endforelse
                     </div>
                 </div>
 
@@ -174,9 +199,10 @@
                         <img class="rounded shadow" src="{{ asset('/' . Auth::user()->avatar ) }}" style="width: 75px; height: 75px; object-fit: cover;">
                     </div>
                     <div class="col-11">
-                        <form action="#" method="post" class="d-flex align-items-center gap-2">
+                        <form action="{{ route('policyreform.comment') }}" method="post" class="d-flex align-items-center gap-2">
                         @csrf
-                            <input type="text" name="feedback" class="form-control shadow" placeholder="Enter your coments..">
+                            <input type="text" name="comment" class="form-control shadow" placeholder="Enter your coments..">
+                            <input type="hidden" name="bill_id" id="bill_id" value="{{ $bill->id }}">
                             <button class="btn custom-primary-bg text-white w-25 shadow">Submit</button>
                         </form>
                     </div>
@@ -189,9 +215,136 @@
 
 </div>
 
+<!-- Bookmark Modal -->
+<div class="modal fade" id="bookmarkModal" tabindex="-1" aria-labelledby="bookmarkLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="bookmarkModalLabel">Bookmark Policy Reform</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to bookmark this Policy Reform?
+      </div>
+      <div class="modal-footer">
+        <form method="post" action="{{ route('policyreform.bookmark') }}" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="member_id" value="{{ auth()->user()->id }}">
+            <input type="hidden" name="policy_reform_id" id="policy_reform_id">
+            <button type="submit" class="btn btn-success">Yes, Bookmark this!</button>
+        </form>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Bookmark Modal -->
+<div class="modal fade" id="unbookmarkModal" tabindex="-1" aria-labelledby="unbookmarkLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="unbookmarkModalLabel">Unbookmark Policy Reform</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to unbookmark this Policy Reform?
+      </div>
+      <div class="modal-footer">
+        <form method="post" action="{{ route('policyreform.unbookmark') }}" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="member_id" value="{{ auth()->user()->id }}">
+            <input type="hidden" name="bookmark_id" id="bookmark_id">
+            <button type="submit" class="btn btn-warning">Yes, Unbookmark this!</button>
+        </form>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Like Modal -->
+<div class="modal fade" id="likeModal" tabindex="-1" aria-labelledby="likeLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="likeModalLabel">Like Policy Reform</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to like this Policy Reform?
+      </div>
+      <div class="modal-footer">
+        <form method="post" action="{{ route('policyreform.like') }}" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="member_id" value="{{ auth()->user()->id }}">
+            <input type="hidden" name="like_id" id="like_id">
+            <button type="submit" class="btn btn-primary">Yes, I like it!!</button>
+        </form>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Like Modal -->
+<div class="modal fade" id="dislikeModal" tabindex="-1" aria-labelledby="dislikeLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="dislikeModalLabel">Dislike Policy Reform</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        Are you sure you want to dislike this Policy Reform?
+      </div>
+      <div class="modal-footer">
+        <form method="post" action="{{ route('policyreform.dislike') }}" enctype="multipart/form-data">
+            @csrf
+            <input type="hidden" name="member_id" value="{{ auth()->user()->id }}">
+            <input type="hidden" name="dislike_id" id="dislike_id">
+            <button type="submit" class="btn btn-warning">Dislike</button>
+        </form>
+        <button class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 @endsection
 
 @section('pagejs')
+<script>
 
+    // bookmark
+    $('.btn-bookmark').on('click', function() {
+        let num = $(this).attr('data-id');
+        $('#policy_reform_id').val(num);
+    });
+
+    // unbookmark
+    $('.btn-unbookmark').on('click', function() {
+        let num = $(this).attr('data-id');
+        $('#bookmark_id').val(num);
+    });
+
+    // refresh page
+    $('.btn-refresh').on('click', function() {
+        location.reload();
+    });
+
+    // like
+    $('.btn-like').on('click', function() {
+        let num = $(this).attr('data-id');
+        $('#like_id').val(num);
+    });
+
+    // dislike
+    $('.btn-dislike').on('click', function() {
+        let num = $(this).attr('data-id');
+        $('#dislike_id').val(num);
+    });
+
+</script>
 @endsection
 
