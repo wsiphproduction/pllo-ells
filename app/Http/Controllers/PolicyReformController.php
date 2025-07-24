@@ -20,6 +20,10 @@ class PolicyReformController extends Controller
     
     public function index()
     {
+        if(!Auth::user()){
+            return redirect()->route('home')->with('error', 'Access Denied');
+        }
+        
         $page = new Page;
         $page->name = 'Policy Reforms';
         $categories = PolicyReformCategory::all();
@@ -47,6 +51,10 @@ class PolicyReformController extends Controller
 
     public function view($id)
     {
+        if(!Auth::user()){
+            return redirect()->route('home')->with('error', 'Access Denied');
+        }
+
         $page = new Page;
         $page->name = 'View Policy Reform';
 
@@ -58,6 +66,10 @@ class PolicyReformController extends Controller
 
     public function create()
     {
+        if(!Auth::user()){
+            return redirect()->route('home')->with('error', 'Access Denied');
+        }
+
         $page = new Page;
         $page->name = 'PROPOSE A BILL';
 
