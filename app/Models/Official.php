@@ -5,6 +5,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\SavedContactOfficial;
+
 class Official extends Model
 {
     use HasFactory;
@@ -89,10 +91,10 @@ class Official extends Model
         return $this->firstname . ' ' . $this->middle_initial . '. ' . $this->lastname;
     }
 
-    public function is_contact_exist($contact) {
+    public function is_contact_exist($official) {
 
-        $is_exist = SavedContact::where('user_id', Auth()->user()->id)
-                                ->where('contact_id', $contact)
+        $is_exist = SavedContactOfficial::where('user_id', Auth()->user()->id)
+                                ->where('official_id', $official)
                                 ->first();
         if ($is_exist) {
             return true;

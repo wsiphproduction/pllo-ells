@@ -55,7 +55,7 @@
                                 </div>
                             </div>
                             @if(!@$member->is_contact_exist($member->id))
-                            <button class="btn btn-primary btn-sm contact-btn-style add-contact-btn" data-id="{{ $member->id }}" data-bs-toggle="modal" data-bs-target="#addContactModal" title="Click to add contact" disabled>
+                            <button class="btn btn-primary btn-sm contact-btn-style add-contact-btn" data-id="{{ $member->id }}" data-bs-toggle="modal" data-bs-target="#addContactModal" title="Click to add contact">
                                 <i class="icon-user-plus mr-2"></i>
                             </button>
                             @else
@@ -72,6 +72,30 @@
 
     </div>
 
+    <!-- Add Contact -->
+    <div class="modal fade" id="addContactModal" tabindex="-1" aria-labelledby="addContactLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="addContactModalLabel">Add Contact</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            Are you sure you want to add this contact?
+          </div>
+          <div class="modal-footer">
+            <form method="post" action="{{ route('member.profile.add.contact.official') }}" enctype="multipart/form-data">
+                @csrf
+                <input type="hidden" name="user_id" id="add-user-id" value="{{ auth()->user()->id }}">
+                <input type="hidden" name="official_id" id="add-contact-id">
+                <button type="submit" class="btn btn-primary">Yes</button>
+            </form>
+            <button class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
    
 
 @endsection
@@ -79,7 +103,11 @@
 @section('pagejs')
 <script>
 
-  
+  // add a contact
+  $('.add-contact-btn').on('click', function() {
+      let num = $(this).attr('data-id');
+      $('#add-contact-id').val(num);
+  });
 
 </script>
 @endsection

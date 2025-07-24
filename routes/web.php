@@ -475,8 +475,13 @@ Route::post('/member-profile-account-delete', [MemberProfileController::class, '
 Route::post('/member-profile-senator-update/{id}', [MemberProfileController::class, 'senatorProfileUpdate'])->name('member.profile.senator.update');
 Route::post('/member-profile-hor-update/{id}', [MemberProfileController::class, 'horProfileUpdate'])->name('member.profile.hor.update');
 
-Route::post('/member-profile-remove-contact', [MemberProfileController::class, 'profileRemoveContact'])->name('member.profile.remove.contact');
 Route::post('/member-profile-add-contact', [MemberProfileController::class, 'profileAddContact'])->name('member.profile.add.contact');
+Route::post('/member-profile-add-contact-official', [MemberProfileController::class, 'profileAddContactOfficial'])->name('member.profile.add.contact.official');
+Route::post('/member-profile-add-contact-staff', [MemberProfileController::class, 'profileAddContactStaff'])->name('member.profile.add.contact.staff');
+
+Route::post('/member-profile-remove-contact', [MemberProfileController::class, 'profileRemoveContact'])->name('member.profile.remove.contact');
+Route::post('/member-profile-remove-contact-official', [MemberProfileController::class, 'profileRemoveContactOfficial'])->name('member.profile.remove.contact.official');
+Route::post('/member-profile-remove-contact-staff', [MemberProfileController::class, 'profileRemoveContactStaff'])->name('member.profile.remove.contact.staff');
 
 Route::post('/member-staff-update/{id}', [MemberProfileController::class, 'profileStaffUpdate'])->name('member.staff.update');
 

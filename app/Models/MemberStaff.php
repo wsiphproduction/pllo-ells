@@ -45,4 +45,18 @@ class MemberStaff extends Model
         return $this->belongsTo(Gender::class, 'type_number');
     }
 
+    public function is_contact_exist($staff) {
+
+        $is_exist = SavedContactOfficial::where('user_id', Auth()->user()->id)
+                                ->where('staff_id', $staff)
+                                ->first();
+        if ($is_exist) {
+            return true;
+        } return false;
+    }
+
+    public function getFullNameAttribute()
+    {
+        return $this->firstname . ' ' . $this->middle_initial . '. ' . $this->lastname;
+    }
 }

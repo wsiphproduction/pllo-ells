@@ -2179,6 +2179,8 @@
                                 <br>
                                 </small>
                                 <div class="my-2 d-flex flex-wrap">
+
+                                    <!-- Members normal users list of contacts -->
                                     @forelse($saved_contacts as $saved_contact)
                                         <div class="col-6">
                                             <div class="saved-container">
@@ -2186,9 +2188,14 @@
                                                     <div class="card-body">
                                                         <div class="col-12 d-flex">
                                                             <div class="col-3 text-center">
-                                                                <img class="rounded"
-                                                                src="{{ $saved_contact->member->photo ? asset('/' . $saved_contact->member->photo) : asset('images/user.png') }}"
-                                                                width="120px">
+                                                                <img class="rounded border-none shadow" width="120" style="border-radius: 100%;
+                                                                                    min-width: 120px;
+                                                                                    height: 120px;
+                                                                                    background-image: url('{{ $saved_contact->member->photo ? asset('/' . $saved_contact->member->photo) : asset('images/user.png') }}');
+                                                                                    background-size: cover;
+                                                                                    background-repeat: no-repeat;
+                                                                                    background-position: center;
+                                                                                    ">
                                                             </div>
                                                             <div class="col-9">
                                                                 <ul class="list-unstyled">
@@ -2223,7 +2230,7 @@
                                                                 </ul>
 
                                                                 <div class="utility-btns align-items-center gap-2">
-                                                                    <a data-bs-toggle="modal" data-bs-target="#sendMessageModal" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a>
+                                                                    <!-- <a data-bs-toggle="modal" data-bs-target="#sendMessageModal" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a> -->
                                                                     <a href="tel:{{$saved_contact->member->contact_number}}" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
                                                                     <a class="cursor-pointer trash-contact-btn" data-bs-toggle="modal" data-bs-target="#removeContactModal" data-id="{{ $saved_contact->member->id }}" title="Remove" style="color: #ff4d4d !important;"><i class="icon-trash"></i></a>
                                                                 </div>
@@ -2234,8 +2241,118 @@
                                             </div>
                                         </div>
                                     @empty
-                                        <p>No saved contacts for now.</p>
+                                        <!-- nothing for now -->
                                     @endforelse
+
+                                    <!-- Officials list of cantacts-->
+                                    @forelse($saved_contacts_official as $saved_contact_official)
+                                        <div class="col-6">
+                                            <div class="saved-container">
+                                                <div class="card border-0 card-saved-contacts cursor-pointer">
+                                                    <div class="card-body">
+                                                        <div class="col-12 d-flex">
+                                                            <div class="col-3 text-center">
+                                                                <img class="rounded border-none shadow" width="120" style="border-radius: 100%;
+                                                                                    min-width: 120px;
+                                                                                    height: 120px;
+                                                                                    background-image: url('{{ $saved_contact_official->official->image_url ? asset('/' . $saved_contact_official->official->image_url) : asset('images/user.png') }}');
+                                                                                    background-size: cover;
+                                                                                    background-repeat: no-repeat;
+                                                                                    background-position: center;
+                                                                                    ">
+                                                            </div>
+                                                            <div class="col-9">
+                                                                <ul class="list-unstyled">
+                                                                    <li>
+                                                                        <small>
+                                                                            <b class="primary-text-color text-uppercase">{{ $saved_contact_official->official->position }}</b>
+                                                                        </small>
+                                                                    </li>
+                                                                    <li>
+                                                                        <i class="icon-user" style="font-size: 14px; color: gray;"></i>
+                                                                        &nbsp; <small class="primary-text-color text-capitalize">{{ $saved_contact_official->official->FullName }}</small>
+                                                                    </li>
+                                                                    <li>
+                                                                        <i class="icon-call" style="font-size: 14px; color: gray;"></i>
+                                                                        &nbsp;<small>{{ $saved_contact_official->official->office_cellphone }}</small>
+                                                                    </li>
+                                                                    <li>
+                                                                        <i class="icon-envelope" style="font-size: 14px; color: gray;"></i>
+                                                                        &nbsp; <small class="primary-text-color">{{ $saved_contact_official->official->email }}</small>
+                                                                    </li>
+                                                                </ul>
+
+                                                                <div class="utility-btns align-items-center gap-2">
+                                                                    <!-- <a data-bs-toggle="modal" data-bs-target="#sendMessageModal" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a> -->
+                                                                    <a href="tel:{{$saved_contact_official->official->office_cellphone}}" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
+                                                                    <a class="cursor-pointer trash-contact-official-btn" data-bs-toggle="modal" data-bs-target="#removeContactOfficialModal" data-id="{{ $saved_contact_official->official->id }}" title="Remove" style="color: #ff4d4d !important;"><i class="icon-trash"></i></a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @empty
+                                        <!-- nothing for now -->
+                                    @endforelse
+
+                                    <!-- Staffs list of contacts -->
+                                    @forelse($saved_contacts_staff as $saved_contact_staff)
+                                        <div class="col-6">
+                                            <div class="saved-container">
+                                                <div class="card border-0 card-saved-contacts cursor-pointer">
+                                                    <div class="card-body">
+                                                        <div class="col-12 d-flex">
+                                                            <div class="col-3 text-center">
+                                                                <img class="rounded border-none shadow" width="120" style="border-radius: 100%;
+                                                                                    min-width: 120px;
+                                                                                    height: 120px;
+                                                                                    background-image: url('{{ $saved_contacts_staff->staff->image_url ? asset('/' . $saved_contacts_staff->staff->image_url) : asset('images/user.png') }}');
+                                                                                    background-size: cover;
+                                                                                    background-repeat: no-repeat;
+                                                                                    background-position: center;
+                                                                                    ">
+                                                            </div>
+                                                            <div class="col-9">
+                                                                <ul class="list-unstyled">
+                                                                    <li>
+                                                                        <small>
+                                                                            <b class="primary-text-color text-uppercase">{{ saved_contacts_staff->staff->position }}</b>
+                                                                        </small>
+                                                                    </li>
+                                                                    <li>
+                                                                        <i class="icon-user" style="font-size: 14px; color: gray;"></i>
+                                                                        &nbsp; <small class="primary-text-color text-capitalize">{{ saved_contacts_staff->staff->FullName }}</small>
+                                                                    </li>
+                                                                    <li>
+                                                                        <i class="icon-call" style="font-size: 14px; color: gray;"></i>
+                                                                        &nbsp;<small>{{ saved_contacts_staff->staff->office_cellphone }}</small>
+                                                                    </li>
+                                                                    <li>
+                                                                        <i class="icon-envelope" style="font-size: 14px; color: gray;"></i>
+                                                                        &nbsp; <small class="primary-text-color">{{ saved_contacts_staff->staff->email }}</small>
+                                                                    </li>
+                                                                </ul>
+
+                                                                <div class="utility-btns align-items-center gap-2">
+                                                                    <!-- <a data-bs-toggle="modal" data-bs-target="#sendMessageModal" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a> -->
+                                                                    <a href="tel:{{saved_contacts_staff->staff->office_cellphone}}" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
+                                                                    <a class="cursor-pointer trash-contact-official-btn" data-bs-toggle="modal" data-bs-target="#removeContactStaffModal" data-id="{{ saved_contacts_staff->staff->id }}" title="Remove" style="color: #ff4d4d !important;"><i class="icon-trash"></i></a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @empty
+                                        <!-- nothing for now -->
+                                    @endforelse
+
+                                    @if(count($saved_contacts) < 1 && count($saved_contacts_official) < 1 && count($saved_contacts_staff) < 1)
+                                        <p>No contacts saved for now.</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
@@ -2307,6 +2424,54 @@
                                 @csrf
                                 <input type="hidden" name="user_id" id="trash-user-id" value="{{ auth()->user()->id }}">
                                 <input type="hidden" name="contact_id" id="trash-contact-id">
+                                <button type="submit" class="btn btn-danger">Remove</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Trash Contact Official -->
+                    <div class="modal fade" id="removeContactOfficialModal" tabindex="-1" aria-labelledby="removeContactOfficialLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="removeContactOfficialModalLabel">Remove Contact</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            Are you sure you want to remove this contact?
+                          </div>
+                          <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <form method="post" action="{{ route('member.profile.remove.contact.official') }}" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="user_id" id="trash-user-id" value="{{ auth()->user()->id }}">
+                                <input type="hidden" name="official_id" id="trash-contact-official-id">
+                                <button type="submit" class="btn btn-danger">Remove</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Trash Contact Staff -->
+                    <div class="modal fade" id="removeContactStaffModal" tabindex="-1" aria-labelledby="removeContactStaffLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="removeContactStaffModalLabel">Remove Contact</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            Are you sure you want to remove this contact?
+                          </div>
+                          <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <form method="post" action="{{ route('member.profile.remove.contact.official') }}" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="user_id" id="trash-user-id" value="{{ auth()->user()->id }}">
+                                <input type="hidden" name="staff_id" id="trash-contact-staff-id">
                                 <button type="submit" class="btn btn-danger">Remove</button>
                             </form>
                           </div>
@@ -2464,6 +2629,18 @@
         $('.trash-contact-btn').on('click', function() {
             let num = $(this).attr('data-id');
             $('#trash-contact-id').val(num);
+        });
+
+        // trash a contact official
+        $('.trash-contact-official-btn').on('click', function() {
+            let num = $(this).attr('data-id');
+            $('#trash-contact-official-id').val(num);
+        });
+
+        // trash a contact official
+        $('.trash-contact-staff-btn').on('click', function() {
+            let num = $(this).attr('data-id');
+            $('#trash-contact-staff-id').val(num);
         });
 
         // add new field for dynamic staff
