@@ -9,6 +9,7 @@ use App\Models\ActivityLog;
 use App\Models\Cluster;
 use App\Models\Gender;
 use App\Models\UserType;
+use App\Models\Official;
 use App\Models\Designation;
 use App\Models\MemberStaff;
 use App\Models\User;
@@ -143,5 +144,13 @@ class Member extends Model
 
     public function memberStaff() {
         return $this->hasMany(MemberStaff::class, 'member_id' , 'id');
+    }
+
+    public function senatorOfficial() {
+        return $this->belongsTo(Official::class, 'senator_id');
+    }
+
+    public function horOfficial() {
+        return $this->belongsTo(Official::class, 'hor_id');
     }
 }

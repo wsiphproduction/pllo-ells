@@ -21,6 +21,7 @@ use App\Models\Page;
 use App\Models\Gender;
 use App\Models\Agency;
 use App\Models\Senator;
+use App\Models\Official;
 use App\Models\SubAgency;
 use App\Models\UserType;
 use App\Models\Cluster;
@@ -50,8 +51,8 @@ class RegistrationController extends Controller
         $genders = Gender::all();
         $designations = Designation::all();
         $messaging_numbers = MessagingNumber::all();
-        $senators = Senator::all();
-        $hors = Hor::all();
+        $senators = Official::where('position', 'senator')->get();
+        $hors = Official::where('position', 'hor')->get();
 
         $designations_lls = Designation::where('user_type_id', 1)->get();
         $designations_senators = Designation::where('user_type_id', 2)->get();

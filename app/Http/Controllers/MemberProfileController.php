@@ -30,11 +30,13 @@ use App\Models\SubAgency;
 use App\Models\MemberStaff;
 use App\Models\Designation;
 use App\Models\SavedContact;
-use App\Models\SavedContactStaff;
-use App\Models\SavedContactOfficial;
 use App\Models\Custom\Event;
 use App\Models\MessagingNumber;
+use App\Models\SavedContactStaff;
+use App\Models\SavedContactOfficial;
+use App\Models\PolicyReformBookmark;
 use App\Models\Custom\EventParticipant;
+use App\Models\Custom\ReferenceMaterial;
 
 use DB;
 use Auth;
@@ -58,12 +60,13 @@ class MemberProfileController extends Controller
 
 	    $genders = Gender::all();
 	    $clustersList = Cluster::all();
-	    $policy_reforms = Article::all();
 	    $memberAgency = Agency::find($memberDetails->agency);
 	    $saved_contacts = SavedContact::where('user_id', $memberDetails->user_id)->get();
 	    $saved_contacts_official = SavedContactOfficial::where('user_id', $memberDetails->user_id)->get();
 	    $saved_contacts_staff = SavedContactStaff::where('user_id', $memberDetails->user_id)->get();
 	    $events  = EventParticipant::where('member_id', $memberDetails->id)->get();
+	    $policy_reforms = PolicyReformBookmark::where('member_id', $memberDetails->id)->get();
+	    $references = ReferenceMaterial::where('created_by', auth()->user()->id)->get();
 	    $userTypeMembers = Member::where('user_type', $memberDetails->user_type)
 	    							->where('user_id', '<>', Auth::user()->id)
 	    							->get();
@@ -71,7 +74,7 @@ class MemberProfileController extends Controller
 	    if ($memberDetails->user_type < 5) { $staffs = MemberStaff::where('member_id', $memberDetails->id)->get(); } else { $staffs = null; }
 
 	    if (auth()->user()) {
-	        return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency', 'events', 'genders', 'userTypeMembers', 'saved_contacts', 'saved_contacts_official', 'saved_contacts_staff', 'policy_reforms', 'staffs'));
+	        return view('theme.pages.member.dashboard', compact('page', 'memberDetails', 'clustersList', 'memberAgency', 'events', 'genders', 'userTypeMembers', 'saved_contacts', 'saved_contacts_official', 'saved_contacts_staff', 'policy_reforms', 'staffs', 'references'));
 	    } else {
 	        return back()->with('error', ('Please login to your account.'));
 	    }
@@ -193,47 +196,40 @@ class MemberProfileController extends Controller
 
 	public function senatorProfileUpdate(Request $request, $id) {
 
-		$birth_arr = [$request['sen_month'], $request['sen_day']];
-		$sen_birthday = implode('::', $birth_arr);
-
-		if ($request['sen_email_agree'] == 'on') {
-			$request['sen_email_agree'] = 1;
-		} else { $request['sen_email_agree'] = 0; }
-		if ($request['sen_landline_agree'] == 'on') {
-			$request['sen_landline_agree'] = 1;
-		} else { $request['sen_landline_agree'] = 0; }
-		if ($request['sen_office_cellphone_agree'] == 'on') {
-			$request['sen_office_cellphone_agree'] = 1;
-		} else { $request['sen_office_cellphone_agree'] = 0; }
+		if ($request['email_agree'] == 'on') {
+			$request['email_agree'] = 1;
+		} else { $request['email_agree'] = 0; }
+		if ($request['landline_agree'] == 'on') {
+			$request['landline_agree'] = 1;
+		} else { $request['landline_agree'] = 0; }
+		if ($request['office_cellphone_agree'] == 'on') {
+			$request['office_cellphone_agree'] = 1;
+		} else { $request['office_cellphone_agree'] = 0; }
 
 		$requests = $request->all();
 		unset($requests['_token']);
-		unset($requests['sen_month']);
-		unset($requests['sen_day']);
-		Senator::where('id', $id)->update($requests);
+
+		Official::where('id', $id)->update($requests);
 
 		return back()->with('success', 'Senator details updated.');
 	}
 
 	public function horProfileUpdate(Request $request, $id) {
 
-		if ($request['hor_email_agree'] == 'on') {
-			$request['hor_email_agree'] = 1;
-		} else { $request['hor_email_agree'] = 0; }
-		if ($request['hor_landline_agree'] == 'on') {
-			$request['hor_landline_agree'] = 1;
-		} else { $request['hor_landline_agree'] = 0; }
-		if ($request['hor_office_cellphone_agree'] == 'on') {
-			$request['hor_office_cellphone_agree'] = 1;
-		} else { $request['hor_office_cellphone_agree'] = 0; }
-
-		$request['hor_birthday'] = $request['hor_month']."::".$request['hor_day'];
+		if ($request['email_agree'] == 'on') {
+			$request['email_agree'] = 1;
+		} else { $request['email_agree'] = 0; }
+		if ($request['landline_agree'] == 'on') {
+			$request['landline_agree'] = 1;
+		} else { $request['landline_agree'] = 0; }
+		if ($request['office_cellphone_agree'] == 'on') {
+			$request['office_cellphone_agree'] = 1;
+		} else { $request['office_cellphone_agree'] = 0; }
 		
 		$requests = $request->all();
 		unset($requests['_token']);
-		unset($requests['hor_month']);
-		unset($requests['hor_day']);
-		Hor::where('id', $id)->update($requests);
+
+		Official::where('id', $id)->update($requests);
 
 		return back()->with('success', 'Representative details updated.');
 	}
@@ -318,7 +314,25 @@ class MemberProfileController extends Controller
 	        });
 	    }
 
+
 	    $members = $members->paginate($this->page_limit);
+
+	    // fetch staff
+	    foreach($members as $member ) {
+	    	if($member->position == 'president') {
+	    		$president_staff = Member::where('user_type', 4)
+							    		->where('agency', 9)
+							    		->where('designation', 16)
+							    		->first();
+				if($president_staff) {
+					$member->has_staff = true;
+					$member->staff_of = 'president';
+					$member->staff_name = $president_staff->FullName;
+					$member->staff_number = $president_staff->contact_number;
+					$member->staff_email = $president_staff->email;
+				}
+	    	}
+	    }
 
 	    return view('theme.pages.directory.cabinet', compact('page', 'members'));
 	}

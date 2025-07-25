@@ -56,6 +56,10 @@
                                         data-position="{{ $member->position }}"
                                         data-number="{{ $member->office_cellphone }}"
                                         data-email="{{ $member->email }}"
+                                        data-has_staff="{{ $member->has_staff }}"
+                                        data-sname="{{ $member->staff_name }}"
+                                        data-snumber="{{ $member->staff_number }}"
+                                        data-semail="{{ $member->staff_email }}"
                                     >
                                         {{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }} 
                                     </h6>
@@ -168,10 +172,10 @@
                         </button>
                     </li>
                     <!-- staff trigger tab -->
-                    <!-- <li class="nav-item" role="presentation">
+                    <li class="nav-item" role="presentation" id="staff-tab-container" style="display: none;">
                         <button class="nav-link" id="staff-tab-trigger" data-bs-toggle="pill" data-bs-target="#staff-tab" type="button" role="tab" aria-controls="staff-tab" aria-selected="true">Appointment Secretary
                         </button>
-                    </li> -->
+                    </li>
                 </ul>
                 <div class="tab-content mb-3 relative">
 
@@ -200,7 +204,21 @@
 
                     <!-- Staff Tab -->
                     <div class="tab-pane fade" id="staff-tab" role="tabpanel" aria-labelledby="staff-tab" tabindex="0">
-                        staff info
+                        <table class="table-dotted table-striped">
+                            <tr>&nbsp;</tr>
+                            <tr>
+                                <td><span class="profile-label">Name:</span></td>
+                                <td><span class="view-info-sname"></span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="profile-label">Contact Number:</span></td>
+                                <td><span id="view-info-snumber"></span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="profile-label">Email Address:</span></td>
+                                <td><span id="view-info-semail"></span></td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -240,10 +258,28 @@
         let number = $(this).attr('data-number');
         let email = $(this).attr('data-email');
 
+        let has_staff = $(this).attr('data-has_staff');
+        
+        if (has_staff)
+        {
+            $('#staff-tab-container').show();
+        } else {
+            $('#staff-tab-container').hide();
+        }
+
+        let sname = $(this).attr('data-sname');
+        let snumber = $(this).attr('data-snumber');
+        let semail = $(this).attr('data-semail');
+
+
         $('.view-info-name').text(name);
         $('.view-info-position').text(position);
         $('#view-info-number').text(number);
         $('#view-info-email').text(email);
+
+        $('.view-info-sname').text(sname);
+        $('#view-info-snumber').text(snumber);
+        $('#view-info-semail').text(semail);
     });
 
 </script>

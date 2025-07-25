@@ -218,7 +218,7 @@
                         @if(!empty($memberDetails->senator_id))
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="tab-senator-border-tab" data-bs-toggle="pill" data-bs-target="#senator-border" type="button" role="tab" aria-controls="tab-senator-border" aria-selected="false" onclick="tabSwitch(3)">
-                                <small><b class="text-uppercase">{{ $memberDetails->senator->sen_firstname }} @if($memberDetails->senator->sen_middle_initial) {{ $memberDetails->senator->sen_middle_initial }}. @endif {{ $memberDetails->senator->sen_lastname }} {{ $memberDetails->senator->sen_suffix }}</b></small>
+                                <small><b class="text-uppercase">Sen. {{ $memberDetails->senatorOfficial->firstname }} @if($memberDetails->senatorOfficial->middle_initial) {{ $memberDetails->senatorOfficial->middle_initial }}. @endif {{ $memberDetails->senatorOfficial->lastname }} {{ $memberDetails->senatorOfficial->suffix }}</b></small>
                             </button>
                         </li>
                         @endif
@@ -227,7 +227,7 @@
                         @if(!empty($memberDetails->hor_id))
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="tab-hor-border-tab" data-bs-toggle="pill" data-bs-target="#hor-border" type="button" role="tab" aria-controls="tab-hor-border" aria-selected="false" onclick="tabSwitch(4)">
-                                <small><b class="text-uppercase">Cong. {{ $memberDetails->hor->hor_firstname }} {{ $memberDetails->hor->hor_middle_initial }} @if($memberDetails->hor->hor_middle_initial) . @endif {{ $memberDetails->hor->hor_lastname }}  {{ $memberDetails->hor->hor_suffix }}</b></small>
+                                <small><b class="text-uppercase">Cong. {{ $memberDetails->horOfficial->firstname }} {{ $memberDetails->horOfficial->middle_initial }} @if($memberDetails->horOfficial->middle_initial) . @endif {{ $memberDetails->horOfficial->lastname }}  {{ $memberDetails->horOfficial->suffix }}</b></small>
                             </button>
                         </li>
                         @endif
@@ -1000,14 +1000,14 @@
                                     <table class="table-dotted table-striped">
                                         <tr>
                                             <td><span class="profile-label"><small>Nickname:</small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_nickname }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->nickname }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Office Email Addres:</small></span></td>
                                             <td>
                                                 <span>
-                                                    @if($memberDetails->senator->sen_email_agree)
-                                                        <small class="form-title"><b>{{ $memberDetails->senator->sen_email }}</b></small>
+                                                    @if($memberDetails->senatorOfficial->email_agree)
+                                                        <small class="form-title"><b>{{ $memberDetails->senatorOfficial->email }}</b></small>
                                                     @else
                                                         <small class="form-title">
                                                             <i disabled>(<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
@@ -1024,8 +1024,8 @@
                                             <td><span class="profile-label"><small>Office Landline Number:</small></span></td>
                                             <td>
                                                 <span>
-                                                    @if($memberDetails->senator->sen_landline_agree)
-                                                        <small>{{ $memberDetails->senator->sen_landline }}</small>
+                                                    @if($memberDetails->senatorOfficial->landline_agree)
+                                                        <small>{{ $memberDetails->senatorOfficial->landline }}</small>
                                                     @else
                                                         <small class="form-title">
                                                             <i disabled>(<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
@@ -1042,8 +1042,8 @@
                                             <td><span class="profile-label"><small>Office Cellphone Number:</small></span></td>
                                             <td>
                                                 <span>
-                                                    @if($memberDetails->senator->sen_office_cellphone_agree)
-                                                        <small>{{ $memberDetails->senator->sen_office_cellphone }}</small>
+                                                    @if($memberDetails->senatorOfficial->office_cellphone_agree)
+                                                        <small>{{ $memberDetails->senatorOfficial->office_cellphone }}</small>
                                                     @else
                                                         <small class="form-title">
                                                             <i disabled>(<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
@@ -1062,39 +1062,39 @@
                                     <table class="table-dotted table-striped mt-2">
                                         <tr>
                                             <td><span class="profile-label"><small>Room Number: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_main_room_number }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->main_room_number }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Direct Line: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_main_direct_line }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->main_direct_line }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Fax Number: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_main_fax_number }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->main_fax_number }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Trunk Local Number: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_main_trunk_local_number }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->main_trunk_local_number }}</small></span></td>
                                         </tr>
                                     </table>
 
                                     <small class="form-title"><b class="text-uppercase">Social Media</b></small>
                                     <table class="table-dotted table-striped mt-2">
                                         <tr>
-                                            <td><span class="profile-label"><small>Faceebook: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_facebook }}</small></span></td>
+                                            <td><span class="profile-label"><small>Facebook: </small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->facebook }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Twitter: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_twitter }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->twitter }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Instagram: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_instagram }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->instagram }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Youtube: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_youtube }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->youtube }}</small></span></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -1102,28 +1102,23 @@
                                     <table class="table-dotted table-striped">
                                         <tr>
                                             <td><span class="profile-label"><small>Senate Group:</small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_group }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->group }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Political Party:</small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_party }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->party }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Gender: </small></span></td>
-                                            <td><span><small>@if(!empty($memberDetails->senator->senGender->name)){{ $memberDetails->senator->senGender->name }}@endif</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->gender }}</small></span></td>
                                         </tr>
-                                        @if(!empty($memberDetails->senator->sen_birthday))
+                                        @if(!empty($memberDetails->senatorOfficial->month) && !empty($memberDetails->senatorOfficial->day))
                                         <tr>
-                                            @php
-                                                $sen_bday = explode('::',$memberDetails->senator->sen_birthday);
-                                                $sen_month = $sen_bday[0];
-                                                $sen_day = $sen_bday[1];
-                                            @endphp
                                             <td><span class="profile-label"><small>BirthDate: </small></span></td>
                                             <td>
                                                 <span>
                                                     <small>
-                                                        {{ config('months.'.$sen_month) }} &nbsp; {{ $sen_day }}
+                                                        {{ config('months.'.$memberDetails->senatorOfficial->month) }} &nbsp; {{ $memberDetails->senatorOfficial->day }}
                                                     </small>
                                                 </span>
                                             </td>
@@ -1135,19 +1130,19 @@
                                     <table class="table-dotted table-striped mt-2">
                                         <tr>
                                             <td><span class="profile-label"><small>Room Number: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_extension_room_number }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->extension_room_number }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Direct Line: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_extension_direct_line }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->extension_direct_line }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Fax Number: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_extension_fax_number }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->extension_fax_number }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Trunk Local Number: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_extension_trunk_local_number }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->extension_trunk_local_number }}</small></span></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -1166,10 +1161,10 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="sen_firstname" value="{{ $memberDetails->senator->sen_firstname }}" placeholder="FIRST NAME">
+                                                            <input class="form-control" type="text" name="firstname" value="{{ $memberDetails->senatorOfficial->firstname }}" placeholder="FIRST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
-                                                            <input class="form-control" type="text" name="sen_middle_initial" value="{{ $memberDetails->senator->sen_middle_initial }}" placeholder="M.I.">
+                                                            <input class="form-control" type="text" name="middle_initial" value="{{ $memberDetails->senatorOfficial->middle_initial }}" placeholder="M.I.">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1177,13 +1172,13 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="sen_lastname" value="{{ $memberDetails->senator->sen_lastname }}" placeholder="LAST NAME">
+                                                            <input class="form-control" type="text" name="lastname" value="{{ $memberDetails->senatorOfficial->lastname }}" placeholder="LAST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
-                                                            <select class="form-select" name="sen_suffix">
+                                                            <select class="form-select" name="suffix">
                                                                 <option selected disabled>SUFFIX</option>
-                                                                <option @if($memberDetails->senator->sen_nickname == 'Jr') selected  @endif>Jr</option>
-                                                                <option @if($memberDetails->senator->sen_nickname == 'Sr') selected  @endif>Sr</option>
+                                                                <option @if($memberDetails-> senatorOfficial->suffix == 'Jr') selected  @endif>Jr</option>
+                                                                <option @if($memberDetails-> senatorOfficial->suffix == 'Sr') selected  @endif>Sr</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -1192,7 +1187,7 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_nickname" value="{{ $memberDetails->senator->sen_nickname }}" placeholder="NICKNAME">
+                                                            <input class="form-control" type="text" name="nickname" value="{{ $memberDetails->senatorOfficial->nickname }}" placeholder="NICKNAME">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1200,36 +1195,36 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_email" value="{{ $memberDetails->senator->sen_email }}" placeholder="EMAIL ADDRESS*" required>
+                                                            <input class="form-control" type="text" name="email" value="{{ $memberDetails->senatorOfficial->email }}" placeholder="EMAIL ADDRESS*" required>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-12 d-flex align-items-center justify-content-start gap-2">
-                                                            <input type="checkbox" name="sen_email_agree" @if($memberDetails->senator->sen_email_agree) checked @endif>
+                                                            <input type="checkbox" name="email_agree" @if($memberDetails->senatorOfficial->email_agree) checked @endif>
                                                             <small class="my-2">Agree to show in <span class="text-primary ">Senator's Directory</span></small>
                                                         </div>
                                                     </div>
                                                     
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_landline" value="{{ $memberDetails->senator->sen_landline }}" placeholder="OFFICE LANDLINE NUMBER*" required>
+                                                            <input class="form-control" type="text" name="landline" value="{{ $memberDetails->senatorOfficial->landline }}" placeholder="OFFICE LANDLINE NUMBER*" required>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-12 d-flex align-items-center justify-content-start gap-2">
-                                                            <input type="checkbox" name="sen_landline_agree" @if($memberDetails->senator->sen_landline_agree) checked @endif>
+                                                            <input type="checkbox" name="landline_agree" @if($memberDetails->senatorOfficial->sen_landline_agree) checked @endif>
                                                             <small class="my-2">Agree to show in <span class="text-primary ">Senator's Directory</span></small>
                                                         </div>
                                                     </div>
 
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_office_cellphone" value="{{ $memberDetails->senator->sen_office_cellphone }}" placeholder="OFFICE CELLPHONE NUMBER">
+                                                            <input class="form-control" type="text" name="office_cellphone" value="{{ $memberDetails->senatorOfficial->office_cellphone }}" placeholder="OFFICE CELLPHONE NUMBER">
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-12 d-flex align-items-center justify-content-start gap-2">
-                                                            <input type="checkbox" name="sen_office_cellphone_agree" @if($memberDetails->senator->sen_office_cellphone_agree) checked @endif>
+                                                            <input type="checkbox" name="office_cellphone_agree" @if($memberDetails->senatorOfficial->office_cellphone_agree) checked @endif>
                                                             <small class="my-2">Agree to show in <span class="text-primary ">Senator's Directory</span></small>
                                                         </div>
                                                     </div>
@@ -1238,49 +1233,44 @@
 
                                             <div class="col-6 px-4">
                                                 <div class="form-group">
-                                                    <select class="form-select" name="sen_group">
+                                                    <select class="form-select" name="group">
                                                         <option selected disabled>MAJORITY/MINORITY/INDEPENDENT</option>
-                                                        <option @if($memberDetails->senator->sen_group == 'MAJORITY') selected  @endif>MAJORITY</option>
-                                                        <option @if($memberDetails->senator->sen_group == 'MINORITY') selected  @endif>MINORITY</option>
-                                                        <option @if($memberDetails->senator->sen_group == 'INDEPENDENT') selected  @endif>INDEPENDENT</option>
+                                                        <option @if($memberDetails->senatorOfficial->group == 'MAJORITY') selected  @endif>MAJORITY</option>
+                                                        <option @if($memberDetails->senatorOfficial->group == 'MINORITY') selected  @endif>MINORITY</option>
+                                                        <option @if($memberDetails->senatorOfficial->group == 'INDEPENDENT') selected  @endif>INDEPENDENT</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <select class="form-select" name="sen_party">
+                                                    <select class="form-select" name="party">
                                                         <option selected disabled>POLITICAL PARTY</option>
-                                                        <option>PDP</option>
-                                                        <option>LIBERAL</option>
+                                                        <option @if($memberDetails->senatorOfficial->party == 'PDP') selected  @endif>PDP</option>
+                                                        <option @if($memberDetails->senatorOfficial->party == 'LIBERAL') selected  @endif>LIBERAL</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-6">
-                                                            <select class="form-select" name="sen_gender">
+                                                            <select class="form-select" name="gender">
                                                                 <option selected disabled>GENDER</option>
                                                                 @foreach($genders as $gender)
-                                                                    <option @if($memberDetails->senator->sen_gender == $gender->id) selected @endif value="{{ $gender->id }}" >{{$gender->name}}</option>
+                                                                    <option @if($memberDetails->senatorOfficial->gender == $gender->name) selected @endif value="{{ $gender->name }}" >{{$gender->name}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
-                                                        @if(!empty($memberDetails->senator->sen_birthday))
-                                                        @php
-                                                            $sen_bday = explode('::',$memberDetails->senator->sen_birthday);
-                                                            $sen_month = $sen_bday[0];
-                                                            $sen_day = $sen_bday[1];
-                                                        @endphp
+                                                        @if(!empty($memberDetails->senatorOfficial->month))
                                                         <div class="col-6" style="padding-left: 0px;">
                                                             <div class="d-flex">
-                                                                <select class="form-select" aria-label="select month" name="sen_month" style="width: 70%">
+                                                                <select class="form-select" aria-label="select month" name="month" style="width: 70%">
                                                                     <option value="0">BIRTHMONTH</option>
-                                                                    @foreach(Config::get('months') as $key => $month)
-                                                                    <option @if($sen_month == $key) selected @endif value="{{ $month }}">{{ $month }}</option>
+                                                                    @foreach(Config::get('months') as $key => $cmonth)
+                                                                    <option @if($month == $cmonth) selected @endif value="{{ $month }}">{{ $cmonth }}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 &nbsp;
-                                                                <select class="form-select" aria-label="select day" name="sen_day" style="width: 30%">
+                                                                <select class="form-select" aria-label="select day" name="day" style="width: 30%">
                                                                     <option value="0">BIRTHDAY</option>
                                                                     @for($d = 1; $d <= 31; $d++)
-                                                                    <option @if($sen_day == $d) selected @endif value="{{ $d }}">{{ $d }}</option>
+                                                                    <option @if($day == $d) selected @endif value="{{ $d }}">{{ $d }}</option>
                                                                     @endfor
                                                                 </select>
                                                             </div>
@@ -1300,14 +1290,14 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_facebook" value="{{ $memberDetails->senator->sen_facebook }}" placeholder="FACEBOOK">
+                                                            <input class="form-control" type="text" name="facebook" value="{{ $memberDetails->senatorOfficial->facebook }}" placeholder="FACEBOOK">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_twitter" value="{{ $memberDetails->senator->sen_twitter }}" placeholder="TWITTER">
+                                                            <input class="form-control" type="text" name="twitter" value="{{ $memberDetails->senatorOfficial->twitter }}" placeholder="TWITTER">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1316,14 +1306,14 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_instagram" value="{{ $memberDetails->senator->sen_instagram }}" placeholder="INSTAGRAM">
+                                                            <input class="form-control" type="text" name="instagram" value="{{ $memberDetails->senatorOfficial->instagram }}" placeholder="INSTAGRAM">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_youtube" value="{{ $memberDetails->senator->sen_youtube }}" placeholder="YOUTUBE">
+                                                            <input class="form-control" type="text" name="youtube" value="{{ $memberDetails->senatorOfficial->youtube }}" placeholder="YOUTUBE">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1338,28 +1328,28 @@
                                                 <div class="form-group mt-2">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_main_room_number" value="{{ $memberDetails->senator->sen_main_room_number }}" placeholder="ROOM NUMBER">
+                                                            <input class="form-control" type="text" name="main_room_number" value="{{ $memberDetails->senatorOfficial->main_room_number }}" placeholder="ROOM NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_main_direct_line" value="{{ $memberDetails->senator->sen_main_direct_line }}" placeholder="DIRECT LINE">
+                                                            <input class="form-control" type="text" name="main_direct_line" value="{{ $memberDetails->senatorOfficial->main_direct_line }}" placeholder="DIRECT LINE">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_main_fax_number" value="{{ $memberDetails->senator->sen_main_fax_number }}" placeholder="FAX NUMBER">
+                                                            <input class="form-control" type="text" name="main_fax_number" value="{{ $memberDetails->senatorOfficial->main_fax_number }}" placeholder="FAX NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_main_trunk_local_number" value="{{ $memberDetails->senator->sen_main_trunk_local_number }}" placeholder="TRUNK LOCAL NUMBER">
+                                                            <input class="form-control" type="text" name="main_trunk_local_number" value="{{ $memberDetails->senatorOfficial->main_trunk_local_number }}" placeholder="TRUNK LOCAL NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1370,28 +1360,28 @@
                                                 <div class="form-group mt-2">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_extension_room_number" value="{{ $memberDetails->senator->sen_extension_room_number }}" placeholder="ROOM NUMBER">
+                                                            <input class="form-control" type="text" name="extension_room_number" value="{{ $memberDetails->senatorOfficial->extension_room_number }}" placeholder="ROOM NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_extension_direct_line" value="{{ $memberDetails->senator->sen_extension_direct_line }}" placeholder="DIRECT LINE">
+                                                            <input class="form-control" type="text" name="extension_direct_line" value="{{ $memberDetails->senatorOfficial->extension_direct_line }}" placeholder="DIRECT LINE">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_extension_fax_number" value="{{ $memberDetails->senator->sen_extension_fax_number }}" placeholder="FAX NUMBER">
+                                                            <input class="form-control" type="text" name="extension_fax_number" value="{{ $memberDetails->senatorOfficial->extension_fax_number }}" placeholder="FAX NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_extension_trunk_local_number" value="{{ $memberDetails->senator->sen_extension_trunk_local_number }}" placeholder="TRUNK LOCAL NUMBER">
+                                                            <input class="form-control" type="text" name="extension_trunk_local_number" value="{{ $memberDetails->senatorOfficial->extension_trunk_local_number }}" placeholder="TRUNK LOCAL NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1409,10 +1399,10 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="sen_spouse_firstname" value="{{ $memberDetails->senator->sen_spouse_firstname }}" placeholder="FIRST NAME">
+                                                            <input class="form-control" type="text" name="spouse_firstname" value="{{ $memberDetails->senatorOfficial->spouse_firstname }}" placeholder="FIRST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
-                                                            <input class="form-control" type="text" name="sen_spouse_middle_initial" value="{{ $memberDetails->senator->sen_spouse_middle_initial }}" placeholder="M.I.">
+                                                            <input class="form-control" type="text" name="spouse_middle_initial" value="{{ $memberDetails->senatorOfficial->spouse_middle_initial }}" placeholder="M.I.">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1420,7 +1410,7 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="sen_spouse_lastname" value="{{ $memberDetails->senator->sen_spouse_lastname }}" placeholder="LAST NAME">
+                                                            <input class="form-control" type="text" name="spouse_lastname" value="{{ $memberDetails->senatorOfficial->spouse_lastname }}" placeholder="LAST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
                                                             <select class="form-select" name="sen_spouse_suffix">
@@ -1435,26 +1425,26 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-6">
-                                                            <select class="form-select" name="sen_spouse_gender">
+                                                            <select class="form-select" name="spouse_gender">
                                                                 <option selected disabled>GENDER</option>
                                                                 @foreach($genders as $gender)
-                                                                    <option @if($memberDetails->senator->sen_spouse_gender == $gender->id) selected @endif value="{{ $gender->id }}" >{{$gender->name}}</option>
+                                                                    <option @if($memberDetails->senatorOfficial->spouse_gender == $gender->name) selected @endif value="{{ $gender->name }}" >{{$gender->name}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
                                                         <div class="col-6" style="padding-left: 0px;">
-                                                            <input class="form-control" type="text" name="sen_spouse_birthday" value="{{ $memberDetails->senator->sen_spouse_birthday }}" placeholder="BIRTHDAY">
+                                                            <input class="form-control" type="text" name="spouse_birthday" value="{{ $memberDetails->senatorOfficial->spouse_birthday }}" placeholder="BIRTHDAY">
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <!-- need changes here soon -->
                                                 <div class="form-group">
-                                                    <select class="form-select" name="sen_spouse_profession">
+                                                    <select class="form-select" name="spouse_profession">
                                                         <option selected disabled>PROFESSION</option>
-                                                        <option>TEACHER</option>
-                                                        <option>TECHNOLOGY</option>
-                                                        <option>GOVERNMENT</option>
+                                                        <option value="TEACHE">TEACHER</option>
+                                                        <option value="TECHNOLOG">TECHNOLOGY</option>
+                                                        <option value="GOVERNMEN">GOVERNMENT</option>
                                                     </select>
                                                 </div>
                                                
@@ -1464,28 +1454,28 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_spouse_office_address" value="{{ $memberDetails->senator->sen_spouse_office_address }}" placeholder="OFFICE ADDRESS*" required>
+                                                            <input class="form-control" type="text" name="spouse_office_address" value="{{ $memberDetails->senatorOfficial->spouse_office_address }}" placeholder="OFFICE ADDRESS*" required>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_spouse_email_address" value="{{ $memberDetails->senator->sen_spouse_email_address }}" placeholder="EMAIL ADDRESS*" required>
+                                                            <input class="form-control" type="text" name="spouse_email_address" value="{{ $memberDetails->senatorOfficial->spouse_email_address }}" placeholder="EMAIL ADDRESS*" required>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_spouse_landline_number" value="{{ $memberDetails->senator->sen_spouse_landline_number }}" placeholder="LANDLINE NUMBER*" required>
+                                                            <input class="form-control" type="text" name="spouse_landline_number" value="{{ $memberDetails->senatorOfficial->spouse_landline_number }}" placeholder="LANDLINE NUMBER*" required>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_spouse_cellphone_number" value="{{ $memberDetails->senator->sen_spouse_cellphone_number }}" placeholder="CELLPHONE NUMBER*" required>
+                                                            <input class="form-control" type="text" name="spouse_cellphone_number" value="{{ $memberDetails->senatorOfficial->spouse_cellphone_number }}" placeholder="CELLPHONE NUMBER*" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1506,14 +1496,14 @@
                                     <table class="table-dotted table-striped">
                                         <tr>
                                             <td><span class="profile-label"><small>Nickname:</small></span></td>
-                                            <td><span><small>{{ $memberDetails->hor->hor_nickname }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->nickname }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Office Email Addres:</small></span></td>
                                             <td>
                                                 <span>
-                                                    @if($memberDetails->hor->hor_email_agree)
-                                                        <small class="form-title"><b>{{ $memberDetails->hor->hor_email }}</b></small>
+                                                    @if($memberDetails->horOfficial->email_agree)
+                                                        <small class="form-title"><b>{{ $memberDetails->horOfficial->email }}</b></small>
                                                     @else
                                                         <small class="form-title">
                                                             <i disabled>(<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
@@ -1530,8 +1520,8 @@
                                             <td><span class="profile-label"><small>Office Landline Number:</small></span></td>
                                             <td>
                                                 <span>
-                                                    @if($memberDetails->hor->hor_landline_agree)
-                                                        <small>{{ $memberDetails->hor->hor_landline }}</small>
+                                                    @if($memberDetails->horOfficial->landline_agree)
+                                                        <small>{{ $memberDetails->horOfficial->landline }}</small>
                                                     @else
                                                         <small class="form-title">
                                                             <i disabled>(<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
@@ -1548,8 +1538,8 @@
                                             <td><span class="profile-label"><small>Office Cellphone Number:</small></span></td>
                                             <td>
                                                 <span>
-                                                    @if($memberDetails->hor->hor_office_cellphone_agree)
-                                                        <small>{{ $memberDetails->hor->hor_office_cellphone }}</small>
+                                                    @if($memberDetails->horOfficial->office_cellphone_agree)
+                                                        <small>{{ $memberDetails->horOfficial->office_cellphone }}</small>
                                                     @else
                                                         <small class="form-title">
                                                             <i disabled>(<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
@@ -1568,19 +1558,19 @@
                                     <table class="table-dotted table-striped mt-2">
                                         <tr>
                                             <td><span class="profile-label"><small>Faceebook: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->hor->hor_facebook }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->facebook }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Twitter: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->hor->hor_twitter }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->twitter }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Instagram: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->hor->hor_instagram }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->instagram }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Youtube: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->hor->hor_youtube }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->youtube }}</small></span></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -1589,36 +1579,31 @@
                                     <table class="table-dotted table-striped">
                                         <tr>
                                             <td><span class="profile-label"><small>Province | Partylist:</small></span></td>
-                                            <td><span><small>{{ $memberDetails->hor->hor_province }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->province }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>District:</small></span></td>
-                                            <td><span><small>{{ $memberDetails->hor->hor_district }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->district }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Region:</small></span></td>
-                                            <td><span><small>{{ $memberDetails->hor->hor_region }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->region }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Senate Group:</small></span></td>
-                                            <td><span><small>{{ $memberDetails->hor->hor_group }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->group }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Political Party:</small></span></td>
-                                            <td><span><small>{{ $memberDetails->hor->hor_party }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->party }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Gender: </small></span></td>
-                                            <td><span><small>@if(!empty($memberDetails->hor->gender->name)){{ $memberDetails->hor->gender->name }}@endif</small></span></td>
+                                            <td><span><small>@if(!empty($memberDetails->horOfficial->gender)){{ $memberDetails->horOfficial->gender}}@endif</small></span></td>
                                         </tr>
                                         <tr>
-                                            @php
-                                                $hor_bday = explode('::',$memberDetails->hor->hor_birthday);
-                                                $hor_month = $hor_bday[0];
-                                                $hor_day = $hor_bday[1];
-                                            @endphp
                                             <td><span class="profile-label"><small>BirthDate: </small></span></td>
-                                            <td><span><small>{{ $hor_month }} &nbsp; {{ $hor_day }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->month }} &nbsp; {{ $memberDetails->horOfficial->day }}</small></span></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -1626,7 +1611,7 @@
                             </div>
 
                             <div class="row" id="edit_hor_panel" style="display: none;">
-                                <form id="hor_update_form" action="{{ route('member.profile.hor.update', $memberDetails->hor->id ) }}" method="post" enctype="multipart/form-data">
+                                <form id="hor_update_form" action="{{ route('member.profile.hor.update', $memberDetails->horOfficial->id ) }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
                                         <small class="form-title"><b>DETAILS THAT ARE VISIBLE IN DIRECTORY</b></small>
@@ -1638,10 +1623,10 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="hor_firstname" value="{{ $memberDetails->hor->hor_firstname }}" placeholder="FIRST NAME">
+                                                            <input class="form-control" type="text" name="firstname" value="{{ $memberDetails->horOfficial->firstname }}" placeholder="FIRST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
-                                                            <input class="form-control" type="text" name="hor_middle_initial" value="{{ $memberDetails->hor->hor_middle_initial }}" placeholder="M.I.">
+                                                            <input class="form-control" type="text" name="middle_initial" value="{{ $memberDetails->horOfficial->middle_initial }}" placeholder="M.I.">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1649,13 +1634,13 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="hor_lastname" value="{{ $memberDetails->hor->hor_lastname }}" placeholder="LAST NAME">
+                                                            <input class="form-control" type="text" name="lastname" value="{{ $memberDetails->horOfficial->lastname }}" placeholder="LAST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
-                                                            <select class="form-select" name="hor_suffix">
+                                                            <select class="form-select" name="suffix">
                                                                 <option selected disabled>SUFFIX</option>
-                                                                <option @if($memberDetails->hor->sen_nickname == 'Jr') selected  @endif>Jr</option>
-                                                                <option @if($memberDetails->hor->sen_nickname == 'Sr') selected  @endif>Sr</option>
+                                                                <option @if($memberDetails->horOfficial->suffix == 'Jr') selected  @endif>Jr</option>
+                                                                <option @if($memberDetails->horOfficial->suffix == 'Sr') selected  @endif>Sr</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -1664,7 +1649,7 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_nickname" value="{{ $memberDetails->hor->hor_nickname }}" placeholder="NICKNAME">
+                                                            <input class="form-control" type="text" name="nickname" value="{{ $memberDetails->horOfficial->nickname }}" placeholder="NICKNAME">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1672,36 +1657,36 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_email" value="{{ $memberDetails->hor->hor_email }}" placeholder="EMAIL ADDRESS*" required>
+                                                            <input class="form-control" type="text" name="email" value="{{ $memberDetails->horOfficial->email }}" placeholder="EMAIL ADDRESS*" required>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-12 d-flex align-items-center justify-content-start gap-2">
-                                                            <input type="checkbox" name="hor_email_agree" @if($memberDetails->hor->hor_email_agree) checked @endif>
+                                                            <input type="checkbox" name="email_agree" @if($memberDetails->horOfficial->email_agree) checked @endif>
                                                             <small class="my-2">Agree to show in <span class="text-primary ">Senator's Directory</span></small>
                                                         </div>
                                                     </div>
                                                     
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_landline" value="{{ $memberDetails->hor->hor_landline }}" placeholder="OFFICE LANDLINE NUMBER*" required>
+                                                            <input class="form-control" type="text" name="landline" value="{{ $memberDetails->horOfficial->landline }}" placeholder="OFFICE LANDLINE NUMBER*" required>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-12 d-flex align-items-center justify-content-start gap-2">
-                                                            <input type="checkbox" name="hor_landline_agree" @if($memberDetails->hor->hor_landline_agree) checked @endif>
+                                                            <input type="checkbox" name="landline_agree" @if($memberDetails->horOfficial->landline_agree) checked @endif>
                                                             <small class="my-2">Agree to show in <span class="text-primary ">Senator's Directory</span></small>
                                                         </div>
                                                     </div>
 
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_office_cellphone" value="{{ $memberDetails->hor->hor_office_cellphone }}" placeholder="OFFICE CELLPHONE NUMBER">
+                                                            <input class="form-control" type="text" name="office_cellphone" value="{{ $memberDetails->horOfficial->office_cellphone }}" placeholder="OFFICE CELLPHONE NUMBER">
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-12 d-flex align-items-center justify-content-start gap-2">
-                                                            <input type="checkbox" name="hor_office_cellphone_agree" @if($memberDetails->hor->hor_office_cellphone_agree) checked @endif>
+                                                            <input type="checkbox" name="office_cellphone_agree" @if($memberDetails->horOfficial->office_cellphone_agree) checked @endif>
                                                             <small class="my-2">Agree to show in <span class="text-primary ">Senator's Directory</span></small>
                                                         </div>
                                                     </div>
@@ -1710,48 +1695,43 @@
 
                                             <div class="col-6 px-4">
                                                 <div class="form-group">
-                                                    <select class="form-select" name="hor_group">
+                                                    <select class="form-select" name="group">
                                                         <option selected disabled>MAJORITY/MINORITY/INDEPENDENT</option>
-                                                        <option @if($memberDetails->hor->sen_group == 'MAJORITY') selected  @endif>MAJORITY</option>
-                                                        <option @if($memberDetails->hor->sen_group == 'MINORITY') selected  @endif>MINORITY</option>
-                                                        <option @if($memberDetails->hor->sen_group == 'INDEPENDENT') selected  @endif>INDEPENDENT</option>
+                                                        <option @if($memberDetails->horOfficial->group == 'MAJORITY') selected  @endif>MAJORITY</option>
+                                                        <option @if($memberDetails->horOfficial->group == 'MINORITY') selected  @endif>MINORITY</option>
+                                                        <option @if($memberDetails->horOfficial->group == 'INDEPENDENT') selected  @endif>INDEPENDENT</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <select class="form-select" name="hor_party">
+                                                    <select class="form-select" name="party">
                                                         <option selected disabled>POLITICAL PARTY</option>
-                                                        <option>PDP</option>
-                                                        <option>LIBERAL</option>
+                                                        <option value="PDP">PDP</option>
+                                                        <option value="LIBERAL">LIBERAL</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
-                                                        @php
-                                                            $hor_bday = explode('::',$memberDetails->hor->hor_birthday);
-                                                            $hor_month = $hor_bday[0];
-                                                            $hor_day = $hor_bday[1];
-                                                        @endphp
                                                         <div class="col-6">
-                                                            <select class="form-select" name="hor_gender">
+                                                            <select class="form-select" name="gender">
                                                                 <option selected disabled>GENDER</option>
                                                                 @foreach($genders as $gender)
-                                                                    <option @if($memberDetails->hor->hor_gender == $gender->id) selected @endif value="{{ $gender->id }}" >{{$gender->name}}</option>
+                                                                    <option @if($memberDetails->horOfficial->gender == $gender->name) selected @endif value="{{ $gender->name }}" >{{$gender->name}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
                                                         <div class="col-6" style="padding-left: 0px;">
                                                             <div class="d-flex">
-                                                                <select class="form-select" aria-label="select month" name="hor_month" style="width: 70%">
+                                                                <select class="form-select" aria-label="select month" name="month" style="width: 70%">
                                                                     <option value="0">BIRTHMONTH</option>
-                                                                    @foreach(Config::get('months') as $month)
-                                                                    <option @if($hor_month == $month) selected @endif value="{{ $month }}">{{ $month }}</option>
+                                                                    @foreach(Config::get('months') as $cmonth)
+                                                                    <option @if($memberDetails->horOfficial->$month == $cmonth) selected @endif value="{{ $cmonth }}">{{ $cmonth }}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 &nbsp;
-                                                                <select class="form-select" aria-label="select day" name="hor_day" style="width: 30%">
+                                                                <select class="form-select" aria-label="select day" name="day" style="width: 30%">
                                                                     <option value="0">BIRTHDAY</option>
                                                                     @for($d = 1; $d <= 31; $d++)
-                                                                    <option @if($hor_day == $d) selected @endif value="{{ $d }}">{{ $d }}</option>
+                                                                    <option @if($memberDetails->horOfficial->$day == $d) selected @endif value="{{ $d }}">{{ $d }}</option>
                                                                     @endfor
                                                                 </select>
                                                             </div>
@@ -1770,14 +1750,14 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_facebook" value="{{ $memberDetails->hor->hor_facebook }}" placeholder="FACEBOOK">
+                                                            <input class="form-control" type="text" name="facebook" value="{{ $memberDetails->horOfficial->facebook }}" placeholder="FACEBOOK">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_twitter" value="{{ $memberDetails->hor->hor_twitter }}" placeholder="TWITTER">
+                                                            <input class="form-control" type="text" name="twitter" value="{{ $memberDetails->horOfficial->twitter }}" placeholder="TWITTER">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1786,14 +1766,14 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_instagram" value="{{ $memberDetails->hor->hor_instagram }}" placeholder="INSTAGRAM">
+                                                            <input class="form-control" type="text" name="instagram" value="{{ $memberDetails->horOfficial->instagram }}" placeholder="INSTAGRAM">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_youtube" value="{{ $memberDetails->hor->hor_youtube }}" placeholder="YOUTUBE">
+                                                            <input class="form-control" type="text" name="youtube" value="{{ $memberDetails->horOfficial->youtube }}" placeholder="YOUTUBE">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1808,28 +1788,28 @@
                                                 <div class="form-group mt-2">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_resident_adress" value="{{ $memberDetails->hor->hor_resident_adress }}" placeholder="ADDRESS">
+                                                            <input class="form-control" type="text" name="resident_address" value="{{ $memberDetails->horOfficial->resident_address }}" placeholder="ADDRESS">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_resident_email" value="{{ $memberDetails->hor->hor_resident_email }}" placeholder="EMAIL ADDRESS">
+                                                            <input class="form-control" type="text" name="resident_email" value="{{ $memberDetails->horOfficial->resident_email }}" placeholder="EMAIL ADDRESS">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_resident_landline" value="{{ $memberDetails->hor->hor_resident_landline }}" placeholder="LANDLINE NUMBER">
+                                                            <input class="form-control" type="text" name="resident_landline" value="{{ $memberDetails->horOfficial->resident_landline }}" placeholder="LANDLINE NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_resident_cellphone" value="{{ $memberDetails->hor->hor_resident_cellphone }}" placeholder="CELLPHONE NUMBER">
+                                                            <input class="form-control" type="text" name="resident_cellphone" value="{{ $memberDetails->horOfficial->resident_cellphone }}" placeholder="CELLPHONE NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1840,28 +1820,28 @@
                                                 <div class="form-group mt-2">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_province_address" value="{{ $memberDetails->hor->hor_province_address }}" placeholder="ADDRESS">
+                                                            <input class="form-control" type="text" name="province_address" value="{{ $memberDetails->horOfficial->province_address }}" placeholder="ADDRESS">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_province_email" value="{{ $memberDetails->hor->hor_province_email }}" placeholder="EMAIL ADDRESS">
+                                                            <input class="form-control" type="text" name="province_email" value="{{ $memberDetails->horOfficial->province_email }}" placeholder="EMAIL ADDRESS">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_province_landline" value="{{ $memberDetails->hor->hor_province_landline }}" placeholder="LANDLINE NUMBER">
+                                                            <input class="form-control" type="text" name="province_landline" value="{{ $memberDetails->horOfficial->province_landline }}" placeholder="LANDLINE NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_province_cellphone" value="{{ $memberDetails->hor->hor_province_cellphone }}" placeholder="CELLPHONE NUMBER">
+                                                            <input class="form-control" type="text" name="province_cellphone" value="{{ $memberDetails->horOfficial->province_cellphone }}" placeholder="CELLPHONE NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1875,14 +1855,14 @@
                                                 <div class="form-group mt-2">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_resident_adress" value="{{ $memberDetails->hor->hor_resident_adress }}" placeholder="ADDRESS">
+                                                            <input class="form-control" type="text" name="resident_address" value="{{ $memberDetails->horOfficial->resident_address }}" placeholder="ADDRESS">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_resident_email" value="{{ $memberDetails->hor->hor_resident_email }}" placeholder="EMAIL ADDRESS">
+                                                            <input class="form-control" type="text" name="resident_email" value="{{ $memberDetails->horOfficial->resident_email }}" placeholder="EMAIL ADDRESS">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1891,14 +1871,14 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_province_landline" value="{{ $memberDetails->hor->hor_province_landline }}" placeholder="LANDLINE NUMBER">
+                                                            <input class="form-control" type="text" name="province_landline" value="{{ $memberDetails->horOfficial->province_landline }}" placeholder="LANDLINE NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_province_cellphone" value="{{ $memberDetails->hor->hor_province_cellphone }}" placeholder="CELLPHONE NUMBER">
+                                                            <input class="form-control" type="text" name="province_cellphone" value="{{ $memberDetails->horOfficial->province_cellphone }}" placeholder="CELLPHONE NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1912,42 +1892,42 @@
                                                 <div class="form-group mt-2">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_highest_education" value="{{ $memberDetails->hor->hor_highest_education }}" placeholder="HIGHEST EDUCATIONAL ATTAINMENT COURSE">
+                                                            <input class="form-control" type="text" name="highest_education" value="{{ $memberDetails->horOfficial->highest_education }}" placeholder="HIGHEST EDUCATIONAL ATTAINMENT COURSE">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_school" value="{{ $memberDetails->hor->hor_school }}" placeholder="SCHOOL">
+                                                            <input class="form-control" type="text" name="school" value="{{ $memberDetails->horOfficial->school }}" placeholder="SCHOOL">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_prev_work_gov" value="{{ $memberDetails->hor->hor_prev_work_gov }}" placeholder="PREVIOUS WORK: GOVERNMENT">
+                                                            <input class="form-control" type="text" name="prev_work_gov" value="{{ $memberDetails->horOfficial->prev_work_gov }}" placeholder="PREVIOUS WORK: GOVERNMENT">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_prev_work_private" value="{{ $memberDetails->hor->hor_prev_work_private }}" placeholder="PREVIOUS WORK: PRIVATE">
+                                                            <input class="form-control" type="text" name="prev_work_private" value="{{ $memberDetails->horOfficial->prev_work_private }}" placeholder="PREVIOUS WORK: PRIVATE">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_religion" value="{{ $memberDetails->hor->hor_religion }}" placeholder="RELIGION">
+                                                            <input class="form-control" type="text" name="religion" value="{{ $memberDetails->horOfficial->religion }}" placeholder="RELIGION">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_civic" value="{{ $memberDetails->hor->hor_civic }}" placeholder="CIVIC ORGANIZATIONAL AFFILIATION">
+                                                            <input class="form-control" type="text" name="civic" value="{{ $memberDetails->horOfficial->civic }}" placeholder="CIVIC ORGANIZATIONAL AFFILIATION">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1958,10 +1938,10 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="hor_spouse_firstname" value="{{ $memberDetails->hor->hor_spouse_firstname }}" placeholder="FIRST NAME">
+                                                            <input class="form-control" type="text" name="spouse_firstname" value="{{ $memberDetails->horOfficial->spouse_firstname }}" placeholder="FIRST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
-                                                            <input class="form-control" type="text" name="hor_spouse_middle_initial" value="{{ $memberDetails->hor->hor_spouse_middle_initial }}" placeholder="M.I.">
+                                                            <input class="form-control" type="text" name="spouse_middle_initial" value="{{ $memberDetails->horOfficial->spouse_middle_initial }}" placeholder="M.I.">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1969,10 +1949,10 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="hor_spouse_lastname" value="{{ $memberDetails->hor->hor_spouse_lastname }}" placeholder="LAST NAME">
+                                                            <input class="form-control" type="text" name="spouse_lastname" value="{{ $memberDetails->horOfficial->spouse_lastname }}" placeholder="LAST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
-                                                            <select class="form-select" name="hor_spouse_suffix">
+                                                            <select class="form-select" name="spouse_suffix">
                                                                 <option selected disabled>SUFFIX</option>
                                                                 <option>Jr</option>
                                                                 <option>Sr</option>
@@ -1982,12 +1962,13 @@
                                                 </div>
 
                                                 <div class="form-group">
+                                                    <small><i>Wedding Aniversary</i></small>
                                                     <div class="row">
                                                         <div class="col-6">
-                                                            <input class="form-control" type="date" name="hor_spouse_wedding_aniv" value="{{ $memberDetails->hor->hor_spouse_wedding_aniv }}" placeholder="WEDDING ANNIVERSARY">
+                                                            <input class="form-control" type="date" name="spouse_wedding_aniv" value="{{ $memberDetails->horOfficial->spouse_wedding_aniv }}" placeholder="WEDDING ANNIVERSARY">
                                                         </div>
                                                         <div class="col-6" style="padding-left: 0px;">
-                                                            <input class="form-control" type="text" name="hor_spouse_birthday" value="{{ $memberDetails->hor->hor_spouse_birthday }}" placeholder="BIRTHDAY">
+                                                            <input class="form-control" type="text" name="spouse_birthday" value="{{ $memberDetails->horOfficial->spouse_birthday }}" placeholder="BIRTHDAY">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1995,13 +1976,13 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_spouse_civic" value="{{ $memberDetails->hor->hor_spouse_civic }}" placeholder="CIVIC ORGANIZATIONAL AFFILIATION">
+                                                            <input class="form-control" type="text" name="spouse_civic" value="{{ $memberDetails->horOfficial->spouse_civic }}" placeholder="CIVIC ORGANIZATIONAL AFFILIATION">
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                   <input class="form-control" type="text" name="hor_spouse_profession" value="{{ $memberDetails->hor->hor_spouse_profession }}" placeholder="PROFESSION">
+                                                   <input class="form-control" type="text" name="spouse_profession" value="{{ $memberDetails->horOfficial->spouse_profession }}" placeholder="PROFESSION">
                                                 </div>
                                                
                                             </div>
@@ -2015,35 +1996,35 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_child_name" value="{{ $memberDetails->hor->hor_child_name }}" placeholder="NAME">
+                                                            <input class="form-control" type="text" name="child_name" value="{{ $memberDetails->horOfficial->child_name }}" placeholder="NAME">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_child_email" value="{{ $memberDetails->hor->hor_child_email }}" placeholder="EMAIL ADDRESS">
+                                                            <input class="form-control" type="text" name="child_email" value="{{ $memberDetails->horOfficial->child_email }}" placeholder="EMAIL ADDRESS">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_child_landline" value="{{ $memberDetails->hor->hor_child_landline }}" placeholder="LANDLINE NUMBER">
+                                                            <input class="form-control" type="text" name="child_landline" value="{{ $memberDetails->horOfficial->child_landline }}" placeholder="LANDLINE NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_child_cellphone" value="{{ $memberDetails->hor->hor_child_cellphone }}" placeholder="CELLPHONE NUMBER">
+                                                            <input class="form-control" type="text" name="child_cellphone" value="{{ $memberDetails->horOfficial->child_cellphone }}" placeholder="CELLPHONE NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_child_profession" value="{{ $memberDetails->hor->hor_child_profession }}" placeholder="PROFESSION">
+                                                            <input class="form-control" type="text" name="child_profession" value="{{ $memberDetails->horOfficial->child_profession }}" placeholder="PROFESSION">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -2051,7 +2032,7 @@
                                         </div>
                                         <br />
                                         <div class="col-12 d-flex">
-                                            <button class="w-100 btn btn-secondary rounded shadow text-center"> ADD CHILDREN </button>
+                                            <button type="button" class="w-100 btn btn-secondary rounded shadow text-center"> ADD CHILDREN </button>
                                         </div>
                                     </div>
                                 </form>
@@ -2074,7 +2055,13 @@
                                     @forelse($events as $event)
                                     <tr>
                                         <td><span><small>{{ $event->event->date }}</small></span></td>
-                                        <td><span class="primary-text-color"><small>{{ $event->event->title }}</small></span></td>
+                                        <td>
+                                            <span class="primary-text-color">
+                                                <small>
+                                                    <a href="/events/view/{{ $event->event->id }}">{{ $event->event->title }}</a>
+                                                </small>
+                                            </span>
+                                        </td>
                                     </tr>
                                     @empty
                                     <tr>
@@ -2098,39 +2085,18 @@
                                         &nbsp;
                                         </small>
                                     </tr>
-                                    
+                                    @forelse($references as $reference)
                                     <tr>
-                                        <td><span><small>March 3, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">SSS Position on House Joint Resolution (HJR) No. 1 Mandating the implementat ion of the second tranche increase in pension</a></small></span></td>
+                                        <td><span><small>{{ date('F d, Y', strtotime($reference->created_at)) }}</small></span></td>
+                                        <td><span class="primary-text-color"><small class="primary-text-color">{{ $reference->subject }}</small></span></td>
                                     </tr>
+                                    @empty
                                     <tr>
-                                        <td><span><small>March 11, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">Department of Finance-Bureau of Local Government Finance Real Property Valuaঞon Bil</a></small></span></td>
+                                        <td>
+                                            <small><i>No reference materials for now.</i></small>
+                                        </td>
                                     </tr>
-                                    <tr>
-                                        <td><span><small>March 29, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">Act Requiring Local Government Units to Allocate Land for the Establishment of Muslim Filipino Public Cemetery</a></small></span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span><small>June 5, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">New Emancipation Act / New Agrarian Emancipation Act / Agrarian Reform Emancipation and Condonation of Land Amortization act</a></small></span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span><small>June 19, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">Expand the purposes and application of the Special Education Fund (SEF)</a></small></span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span><small>June 26, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">Postponement of the December 2022 Barangay and Sangguniang Kabataan Election</a></small></span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span><small>July 15, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">Unified System of Separation, Retirement and Pension - Military and Uniformed Personnel (MUP</a></small></span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span><small>July 30, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">BSP Proposed Amendment to Section 3 of the Consolidated Common Dra[ E-Governance / EGovernment Legislative Measures</a></small></span></td>
-                                    </tr>
+                                    @endforelse
                                 </table>
                             </div>
                         </div>
@@ -2153,19 +2119,16 @@
                                         <td>
                                             <span class="primary-text-color">
                                                 <small>
-                                                    <a href="news/{{ $policy_reform->slug }}" class="primary-text-color">
-                                                        {{ $policy_reform->name }}
+                                                    <a href="/policy-reform-view/{{ $policy_reform->policyReform->id }}" class="primary-text-color">
+                                                        {{ $policy_reform->policyReform->title }}
                                                     </a>
                                                 </small>
                                             </span>
                                         </td>
                                     </tr>
                                     @empty
-                                    <tr>
-                                        <td>
-                                            <span class="primary-text-color"><small><a href="#" class="primary-text-color">Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicab</a></small></span>
-                                        </td>
-                                    </tr>
+                                    <br />
+                                    <small><i style="opacity: .7;">No saved bill/s for now.</i></small>
                                     @endforelse
                                 </table>
                             </div>

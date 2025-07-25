@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Gender;
 use App\Models\SavedContactOfficial;
+
 
 class Official extends Model
 {
@@ -99,5 +101,9 @@ class Official extends Model
         if ($is_exist) {
             return true;
         } return false;
+    }
+
+    public function genderName() {
+        return $this->belongsTo(Gender::class, 'gender');
     }
 }
