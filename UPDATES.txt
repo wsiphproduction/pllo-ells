@@ -97,6 +97,18 @@ DATABASE:
 		- updated_at
 		- deleted_at
 
+		event_downloadables
+		- id
+		- type(Material, Certifiate)
+		- event_id
+		- member_id
+		- attachments
+		- created_by
+		- created_at
+		- updated_at
+		- deleted_at
+
+
 
 		CREATE TABLE events (
 			id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -274,6 +286,18 @@ DATABASE:
 			agency INT UNSIGNED DEFAULT NULL,
 			cluster VARCHAR(50) DEFAULT NULL,
 
+			created_by INT UNSIGNED NOT NULL,
+			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			deleted_at TIMESTAMP NULL DEFAULT NULL
+		);
+
+		CREATE TABLE event_downloadables (
+			id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+			type VARCHAR(20) DEFAULT NULL,
+			event_id INT UNSIGNED DEFAULT NULL,
+			member_id LONGTEXT DEFAULT NULL,
+			attachments LONGTEXT DEFAULT NULL,
 			created_by INT UNSIGNED NOT NULL,
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
