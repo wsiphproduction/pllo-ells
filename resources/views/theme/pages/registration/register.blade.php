@@ -291,7 +291,7 @@
 							<div class="col-12">
 								<select class="form-select" aria-label="select senator" name="senator_id">
 									@foreach($senators as $senator)
-								  	<option value="{{ $senator->id }}">{{ $senator->sen_firstname }} @if($senator->sen_middle_initial) {{ $senator->sen_middle_initial }}. @endif {{ $senator->sen_lastname }} {{ $senator->sen_suffix }}</option>
+								  	<option value="{{ $senator->id }}">Sen. {{ $senator->FullName }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -301,7 +301,7 @@
 							<div class="col-12">
 								<select class="form-select" aria-label="select hor" name="hor_id">
 									@foreach($hors as $hor)
-								  	<option value="{{ $hor->id }}">{{ $hor->hor_firstname }} {{ $hor->hor_middle_initial }}@if($hor->hor_middle_initial). @endif {{ $hor->hor_lastname }}</option>
+								  	<option value="{{ $hor->id }}">{{ $hor->firstname }} {{ $hor->middle_initial }}@if($hor->middle_initial). @endif {{ $hor->lastname }}</option>
 									@endforeach
 								</select>
 							</div>
