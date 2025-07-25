@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 24, 2025 at 10:39 AM
+-- Generation Time: Jul 25, 2025 at 09:08 AM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.2.12
 
@@ -1818,7 +1818,23 @@ INSERT INTO `cms_activity_logs` (`id`, `log_by`, `activity_type`, `dashboard_act
 (1346, '1', 'update', 'updated the user firstname', 'updated the user firstname of lls M. member  from Lls to lls', '2025-07-23 11:13:59', 'users', 'Lls', 'lls', '52285'),
 (1347, '1', 'update', 'updated the user lastname', 'updated the user lastname of lls M. member  from Member to member', '2025-07-23 11:13:59', 'users', 'Member', 'member', '52285'),
 (1348, '1', 'update', 'updated the user status', 'updated the user status of lls M. member  from 1 to 0', '2025-07-23 11:13:59', 'users', '1', '0', '52285'),
-(1349, '43', 'update', 'updated the user avatar', 'updated the user avatar of Raven H. Stark  from storage/photo/1753258109.png to ', '2025-07-23 16:08:29', 'users', 'storage/photo/1753258109.png', NULL, '43');
+(1349, '43', 'update', 'updated the user avatar', 'updated the user avatar of Raven H. Stark  from storage/photo/1753258109.png to ', '2025-07-23 16:08:29', 'users', 'storage/photo/1753258109.png', NULL, '43'),
+(1350, NULL, 'insert', 'created a new user', 'created the user Staff ni Pres S. legit ', '2025-07-25 09:50:13', 'users', '', 'Staff ni Pres S. legit ', '52286'),
+(1351, NULL, 'update', 'updated the user lastname', 'updated the user lastname of Staff ni Pres S. legit  from Legit to legit', '2025-07-25 09:51:05', 'users', 'Legit', 'legit', '52286'),
+(1352, '1', 'update', 'updated the user lastname', 'updated the user lastname of Staff ni Pres S. legit  from Legit to legit', '2025-07-25 09:51:34', 'users', 'Legit', 'legit', '52286'),
+(1353, '1', 'update', 'updated the user status', 'updated the user status of Staff ni Pres S. legit  from 1 to 0', '2025-07-25 09:51:34', 'users', '1', '0', '52286'),
+(1354, NULL, 'insert', 'created a new user', 'created the user test for senator C. staff ', '2025-07-25 10:36:57', 'users', '', 'test for senator C. staff ', '52287'),
+(1355, NULL, 'update', 'updated the user firstname', 'updated the user firstname of test for senator C. staff  from Test for senator to test for senator', '2025-07-25 10:37:21', 'users', 'Test for senator', 'test for senator', '52287'),
+(1356, NULL, 'update', 'updated the user lastname', 'updated the user lastname of test for senator C. staff  from Staff to staff', '2025-07-25 10:37:21', 'users', 'Staff', 'staff', '52287'),
+(1357, '1', 'update', 'updated the user firstname', 'updated the user firstname of test for senator C. staff  from Test for senator to test for senator', '2025-07-25 10:37:34', 'users', 'Test for senator', 'test for senator', '52287'),
+(1358, '1', 'update', 'updated the user lastname', 'updated the user lastname of test for senator C. staff  from Staff to staff', '2025-07-25 10:37:34', 'users', 'Staff', 'staff', '52287'),
+(1359, '1', 'update', 'updated the user status', 'updated the user status of test for senator C. staff  from 1 to 0', '2025-07-25 10:37:34', 'users', '1', '0', '52287'),
+(1360, NULL, 'insert', 'created a new user', 'created the user hortest L. represent ', '2025-07-25 14:25:22', 'users', '', 'hortest L. represent ', '52288'),
+(1361, '1', 'update', 'updated the user firstname', 'updated the user firstname of hortest L. represent  from Hortest to hortest', '2025-07-25 14:26:03', 'users', 'Hortest', 'hortest', '52288'),
+(1362, '1', 'update', 'updated the user lastname', 'updated the user lastname of hortest L. represent  from Represent to represent', '2025-07-25 14:26:03', 'users', 'Represent', 'represent', '52288'),
+(1363, '1', 'update', 'updated the user firstname', 'updated the user firstname of hortest L. represent  from Hortest to hortest', '2025-07-25 14:26:25', 'users', 'Hortest', 'hortest', '52288'),
+(1364, '1', 'update', 'updated the user lastname', 'updated the user lastname of hortest L. represent  from Represent to represent', '2025-07-25 14:26:25', 'users', 'Represent', 'represent', '52288'),
+(1365, '1', 'update', 'updated the user status', 'updated the user status of hortest L. represent  from 1 to 0', '2025-07-25 14:26:25', 'users', '1', '0', '52288');
 
 -- --------------------------------------------------------
 
@@ -1873,6 +1889,35 @@ INSERT INTO `designation` (`id`, `user_type_id`, `name`, `created_at`, `updated_
 (14, 3, 'Chief Legis Officer', '2025-07-02 00:50:27', '2025-07-02 00:50:27', NULL),
 (15, 3, 'Staff', '2025-07-02 00:50:39', '2025-07-02 00:50:39', NULL),
 (16, 4, 'Appointment Secretary', '2025-07-02 00:51:39', '2025-07-02 00:51:39', NULL);
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `downloadables`
+--
+
+CREATE TABLE `downloadables` (
+  `id` int(10) UNSIGNED NOT NULL,
+  `type` varchar(20) DEFAULT NULL,
+  `ra_jr_no` varchar(50) DEFAULT NULL,
+  `source_priority_level` varchar(250) DEFAULT NULL,
+  `approved_on` date DEFAULT NULL,
+  `congress` varchar(250) DEFAULT NULL,
+  `long_title` text DEFAULT NULL,
+  `attachments` text DEFAULT NULL,
+  `bill_no` varchar(50) DEFAULT NULL,
+  `proposed_measure` text DEFAULT NULL,
+  `bill_status` text DEFAULT NULL,
+  `hor_status` text DEFAULT NULL,
+  `sen_status` text DEFAULT NULL,
+  `status` text DEFAULT 'APPROVED',
+  `agency` int(10) UNSIGNED DEFAULT NULL,
+  `cluster` varchar(50) DEFAULT NULL,
+  `created_by` int(10) UNSIGNED NOT NULL,
+  `created_at` timestamp NOT NULL DEFAULT current_timestamp(),
+  `updated_at` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
+  `deleted_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -1941,7 +1986,9 @@ INSERT INTO `events` (`id`, `title`, `description`, `event_cluster_id`, `date`, 
 (13, 'Testooo', 'Testooo', 1, '2025-07-24', '08:00', '12:00', 'LUXENT HOTEL, TIMOG AVENUE, QUEZON CITY', NULL, NULL, NULL, 'storage/events/13/invitation/Untitled-2.html', 1, '2025-07-24 02:04:43', '2025-07-24 02:04:43', NULL),
 (14, 'Testooo', 'Testooo', 1, '2025-07-24', '08:00', '12:00', 'LUXENT HOTEL, TIMOG AVENUE, QUEZON CITY', NULL, NULL, NULL, 'storage/events/14/invitation/Untitled-2.html', 1, '2025-07-24 02:05:09', '2025-07-24 02:05:09', NULL),
 (15, 'Republican Records', 'Republican Records', 1, '2025-07-24', '08:00', '12:00', 'LUXENT HOTEL, TIMOG AVENUE, QUEZON CITY', NULL, NULL, 'storage/events/15/cover/received_380833990953784.jpeg', 'storage/events/15/invitation/Untitled-2 (2).html', 1, '2025-07-24 02:48:22', '2025-07-24 02:52:40', NULL),
-(16, 'Flood Control Projects', 'Flood Control Projects', 7, '2025-07-24', '08:00', '12:00', 'LUXENT HOTEL, TIMOG AVENUE, QUEZON CITY', NULL, NULL, 'storage/events/16/cover/pictest.jpg', 'storage/events/16/invitation/Untitled-2.html', 1, '2025-07-24 03:03:02', '2025-07-24 03:03:02', NULL);
+(16, 'Flood Control Projects', 'Flood Control Projects', 7, '2025-07-24', '08:00', '12:00', 'LUXENT HOTEL, TIMOG AVENUE, QUEZON CITY', NULL, NULL, 'storage/events/16/cover/pictest.jpg', 'storage/events/16/invitation/Untitled-2.html', 1, '2025-07-24 03:03:02', '2025-07-24 03:03:02', NULL),
+(17, 'Tutel', 'Tutut', 2, '2025-07-25', '08:00', '12:00', 'LUXENT HOTEL, TIMOG AVENUE, QUEZON CITY', NULL, NULL, 'storage/events/17/cover/image4.jpg', 'storage/events/17/invitation/farmingdrone1.jpg', 1, '2025-07-25 00:48:54', '2025-07-25 00:48:54', NULL),
+(18, 'No to Anti Semitism', 'No Hate', 1, '2025-07-25', '08:00', '10:00', 'Israel', NULL, NULL, 'storage/events/18/cover/image7.jpg', 'storage/events/18/invitation/Untitled-2.html', 1, '2025-07-25 00:57:49', '2025-07-25 02:39:26', NULL);
 
 -- --------------------------------------------------------
 
@@ -1967,7 +2014,9 @@ CREATE TABLE `event_downloadables` (
 
 INSERT INTO `event_downloadables` (`id`, `type`, `event_id`, `member_id`, `attachments`, `created_by`, `created_at`, `updated_at`, `deleted_at`) VALUES
 (1, 'Certificates', 12, '[\"34\",\"52\",\"64\",\"67\",\"72\",\"73\"]', '[\"storage\\/events\\/12\\/downloadables\\/Certificates\\/1751330632_1749088632_Audit Trail (2).csv\",\"storage\\/events\\/12\\/downloadables\\/Certificates\\/1751334143_Fast Moving Items.csv\",\"storage\\/events\\/12\\/downloadables\\/Certificates\\/1751334143_Fast Moving Items (2).csv\",\"storage\\/events\\/12\\/downloadables\\/Certificates\\/1751330632_1749088632_Audit Trail.csv\",\"storage\\/events\\/12\\/downloadables\\/Certificates\\/1751330632_1749088632_Audit Trail (3).csv\",\"storage\\/events\\/12\\/downloadables\\/Certificates\\/1751330632_1749088632_Audit Trail (4).csv\"]', 1, '2025-07-24 08:20:14', '2025-07-24 08:20:14', NULL),
-(2, 'Materials', 12, NULL, '[\"storage\\/events\\/12\\/downloadables\\/Materials\\/1751330632_1749088632_Audit Trail (2) (2).csv\"]', 1, '2025-07-24 08:22:33', '2025-07-24 08:22:33', NULL);
+(2, 'Materials', 12, NULL, '[\"storage\\/events\\/12\\/downloadables\\/Materials\\/1751330632_1749088632_Audit Trail (2) (2).csv\"]', 1, '2025-07-24 08:22:33', '2025-07-24 08:22:33', NULL),
+(3, 'Materials', 18, NULL, '[\"storage\\/events\\/18\\/downloadables\\/Materials\\/MARIBEL ESPINOSA RESUME.pdf\"]', 1, '2025-07-25 02:37:17', '2025-07-25 02:50:30', NULL),
+(4, 'Certificates', 18, '[\"34\"]', '[\"storage\\/events\\/18\\/downloadables\\/Certificates\\/1751330632_1749088632_Audit Trail (2).csv\"]', 1, '2025-07-25 02:37:30', '2025-07-25 02:37:30', NULL);
 
 -- --------------------------------------------------------
 
@@ -1995,7 +2044,8 @@ CREATE TABLE `event_feedbacks` (
 
 INSERT INTO `event_feedbacks` (`id`, `event_id`, `member_id`, `q1`, `q2`, `q3`, `q4`, `q5`, `comments`, `created_at`, `updated_at`) VALUES
 (1, 11, 34, 3, 3, 3, 2, 'Advertisement', 'TEST', '2025-07-16 07:08:50', '2025-07-16 07:08:50'),
-(2, 12, 34, 3, 2, 2, 2, 'Google', NULL, '2025-07-24 01:41:25', '2025-07-24 01:41:25');
+(2, 12, 34, 3, 2, 2, 2, 'Google', NULL, '2025-07-24 01:41:25', '2025-07-24 01:41:25'),
+(3, 18, 34, 3, 3, 3, 3, 'Social Media', 'HAHAHA', '2025-07-25 03:16:47', '2025-07-25 03:16:47');
 
 -- --------------------------------------------------------
 
@@ -2083,7 +2133,10 @@ INSERT INTO `event_invites` (`id`, `event_id`, `type`, `invitation_file`, `invit
 (60, 15, 'agency', 'storage/events/15/invitation/Untitled-2 (2).html', 4, 1, 1, '2025-07-24 02:48:22', '2025-07-24 02:52:40', NULL),
 (61, 15, 'cluster', 'storage/events/15/invitation/Untitled-2 (2).html', 2, 1, 0, '2025-07-24 02:52:40', '2025-07-24 02:52:40', NULL),
 (62, 16, 'agency', 'storage/events/16/invitation/Untitled-2.html', 4, 1, 2, '2025-07-24 03:03:02', '2025-07-24 03:03:02', NULL),
-(63, 16, 'agency', 'storage/events/16/invitation/Untitled-2.html', 3, 1, 2, '2025-07-24 03:03:02', '2025-07-24 03:03:02', NULL);
+(63, 16, 'agency', 'storage/events/16/invitation/Untitled-2.html', 3, 1, 2, '2025-07-24 03:03:02', '2025-07-24 03:03:02', NULL),
+(64, 17, 'agency', 'storage/events/17/invitation/farmingdrone1.jpg', 4, 1, 0, '2025-07-25 00:48:54', '2025-07-25 00:48:54', NULL),
+(65, 18, 'cluster', 'storage/events/18/invitation/Untitled-2.html', 2, 1, 0, '2025-07-25 00:57:49', '2025-07-25 02:39:26', NULL),
+(66, 18, 'agency', 'storage/events/18/invitation/Untitled-2.html', 4, 1, 2, '2025-07-25 00:57:49', '2025-07-25 02:39:26', NULL);
 
 -- --------------------------------------------------------
 
@@ -2128,7 +2181,9 @@ INSERT INTO `event_participants` (`id`, `event_id`, `member_id`, `status`, `crea
 (21, 12, 67, 1, '2025-07-24 01:37:25', '2025-07-24 01:37:25'),
 (22, 12, 72, 1, '2025-07-24 01:37:26', '2025-07-24 01:37:26'),
 (23, 12, 73, 1, '2025-07-24 01:37:28', '2025-07-24 01:37:28'),
-(24, 15, 34, 1, '2025-07-24 02:54:20', '2025-07-24 02:54:20');
+(24, 15, 34, 1, '2025-07-24 02:54:20', '2025-07-24 02:54:20'),
+(25, 17, 34, 1, '2025-07-25 00:53:02', '2025-07-25 00:53:02'),
+(26, 18, 34, 1, '2025-07-25 02:36:41', '2025-07-25 02:36:41');
 
 -- --------------------------------------------------------
 
@@ -2358,7 +2413,10 @@ INSERT INTO `members` (`id`, `user_id`, `firstname`, `lastname`, `middle_initial
 (67, 52279, 'Alberto', 'Goo', 'C', NULL, NULL, 'al@gmail.com', 'a2l@gmail.com', '$2y$10$VomG3Omca5nBpgw5UAmRz.EnQdqFR1dlqloKiduHkYRoKVmvtjbKO', '1231231234', '1', '9789789789', 1, 'July 16', 6, 4, 1, 15, '2::3::4', NULL, NULL, NULL, 'Standing Committee', 1, 1, 1, 'storage/logo/dict-logo (14).png', 'storage/photo/user2 (9).jpg', 1, '2025-07-14 00:44:06', '2025-07-14 00:44:25', NULL),
 (68, 52280, 'Link', 'Click', 'B', 'Sr', NULL, 'link@mail.com', 'link2@mail.com', '$2y$10$t2R0p6titUAoFU.P9laS2.PqYX0Nz.azPMHFFBjiOdH6z5nvTi6ze', '0982827362', '4', '09789789781', 1, 'July 07', 2, NULL, 1, 12, NULL, 1, NULL, NULL, 'Standing Committee', 1, 1, 1, 'storage/logo/dict-logo (16).png', 'storage/photo/pr6 (6).png', 1, '2025-07-15 02:38:40', '2025-07-15 02:40:35', NULL),
 (72, 52284, 'Senhaw', 'Natorator', 'Z', 'Jr', 'ngenge', 'sensen@gmail.com', 'sensen2@gmail.com', '$2y$10$uaJBY/.ZginfG2Bd.v6T2uxc0lLjjxuWFUdC5wIQihiOFB7/GXJtW', '1231231234', '2::5', '45454545::9789789789', 1, 'July 01', 2, 4, 1, 10, NULL, 1, NULL, NULL, 'Standing Committee', 1, 1, 1, 'storage/logo/1753234041.png', 'storage/photo/bnj (3).jpg', 1, '2025-07-22 01:38:05', '2025-07-23 01:27:21', NULL),
-(73, 52285, 'lls', 'member', 'M', NULL, NULL, 'llsmember@gmail.com', 'llsmember2@gmail.com', '$2y$10$ciU01cHgoq0g4YLg94eA3efJ88EJCeGCfHY8phzlyxasZx8BNApKm', '0982827362', '3::5', '09789789789::09454545561', 2, 'March 04', 1, 5, 1, 8, '3::4::5', NULL, NULL, NULL, 'Standing Committee', 1, 1, 1, 'storage/logo/lls-logo (17).png', 'storage/photo/msgfromsecimg1 (10).png', 1, '2025-07-23 03:13:22', '2025-07-23 03:13:42', NULL);
+(73, 52285, 'lls', 'member', 'M', NULL, NULL, 'llsmember@gmail.com', 'llsmember2@gmail.com', '$2y$10$ciU01cHgoq0g4YLg94eA3efJ88EJCeGCfHY8phzlyxasZx8BNApKm', '0982827362', '3::5', '09789789789::09454545561', 2, 'March 04', 1, 5, 1, 8, '3::4::5', NULL, NULL, NULL, 'Standing Committee', 1, 1, 1, 'storage/logo/lls-logo (17).png', 'storage/photo/msgfromsecimg1 (10).png', 1, '2025-07-23 03:13:22', '2025-07-23 03:13:42', NULL),
+(74, 52286, 'Staff ni Pres', 'legit', 'S', NULL, NULL, 'staffpres@mail.com', 'staffpres2@mail.com', '$2y$10$RqDEELpTRgqS9IAW1.xm5emKegebLHiGjKB79C869rdlveJyhszGS', '0982827362', '4', '9789789789', 1, 'July 02', 4, 9, 1, 16, NULL, NULL, NULL, 'Senate Committee Secretary', 'Standing Committee', 1, 1, 1, 'storage/logo/bp (14).png', 'storage/photo/w2 (2).jpg', 1, '2025-07-25 01:50:13', '2025-07-25 01:51:05', NULL),
+(75, 52287, 'test for senator', 'staff', 'C', NULL, NULL, 'sentest@mail.com', 'sentest2@mail.com', '$2y$10$CH5iaMSZRB3FP73FNBAHBO/LzLX2Ddn3YdA2mdGlKB5kv1A8XkW6q', '0982827362', '2', '9789789789', 0, 'July 05', 2, NULL, 1, 10, NULL, 8, NULL, NULL, 'Standing Committee', 1, 1, 1, 'storage/logo/lls-logo (18).png', 'storage/photo/pr4 (8).png', 1, '2025-07-25 02:36:57', '2025-07-25 02:37:21', NULL),
+(76, 52288, 'hortest', 'represent', 'L', NULL, NULL, 'hortest@mail.com', 'hortest2@mail.com', '$2y$10$sgbu3KcigrSXxSccX2A30uIUfk62p.9jUTZFqsjXTEAeZI6kFOcCq', '0982827362', '5', '09123348413', 1, 'October 07', 3, NULL, 1, 13, NULL, NULL, 17, NULL, 'Standing Committee', 1, 1, 16, 'storage/logo/hret-logo (4).png', 'storage/photo/pr3 (4).png', 1, '2025-07-25 06:25:22', '2025-07-25 06:26:03', NULL);
 
 -- --------------------------------------------------------
 
@@ -2400,7 +2458,14 @@ INSERT INTO `members_staff` (`id`, `member_id`, `designation`, `firstname`, `las
 (4, 73, 'APPOINTMENT SECRETARY', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, '2025-07-23 03:13:22', '2025-07-23 03:13:22', NULL),
 (5, 73, 'DLLO: DEPARTMENT LEGISLATIVE LIASION OFFICER', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, '2025-07-23 03:13:22', '2025-07-23 03:13:22', NULL),
 (6, 73, 'DLLS-SENATE: DEPARTMENT LEGISLATIVE LIAISON STAFF', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, '2025-07-23 03:13:22', '2025-07-23 03:13:22', NULL),
-(7, 73, 'DLLS-HREP: DEPARTMENT LEGISLATIVE LIAISON STAFF', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, '2025-07-23 03:13:22', '2025-07-23 03:13:22', NULL);
+(7, 73, 'DLLS-HREP: DEPARTMENT LEGISLATIVE LIAISON STAFF', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, '2025-07-23 03:13:22', '2025-07-23 03:13:22', NULL),
+(8, 74, 'APPOINTMENT SECRETARY', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, '2025-07-25 01:50:13', '2025-07-25 01:50:13', NULL),
+(9, 75, 'CHIEF OF STAFF', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, '2025-07-25 02:36:57', '2025-07-25 02:36:57', NULL),
+(10, 75, 'APPOINTMENT SECRETARY', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, '2025-07-25 02:36:57', '2025-07-25 02:36:57', NULL),
+(11, 75, 'CHIEF LEGIS OFFICER', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, '2025-07-25 02:36:57', '2025-07-25 02:36:57', NULL),
+(12, 76, 'CHIEF OF STAFF', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, '2025-07-25 06:25:22', '2025-07-25 06:25:22', NULL),
+(13, 76, 'APPOINTMENT SECRETARY', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, '2025-07-25 06:25:22', '2025-07-25 06:25:22', NULL),
+(14, 76, 'STAFF', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, 0, NULL, NULL, NULL, '2025-07-25 06:25:22', '2025-07-25 06:25:22', NULL);
 
 -- --------------------------------------------------------
 
@@ -3468,6 +3533,7 @@ CREATE TABLE `officials` (
   `spouse_email_address` varchar(150) DEFAULT NULL,
   `spouse_landline_number` varchar(50) DEFAULT NULL,
   `spouse_cellphone_number` varchar(50) DEFAULT NULL,
+  `spouse_wedding_aniv` date DEFAULT NULL,
   `child_name` varchar(150) DEFAULT NULL,
   `child_email` varchar(150) DEFAULT NULL,
   `child_landline` varchar(50) DEFAULT NULL,
@@ -3481,25 +3547,25 @@ CREATE TABLE `officials` (
 -- Dumping data for table `officials`
 --
 
-INSERT INTO `officials` (`id`, `position`, `firstname`, `middle_initial`, `lastname`, `nickname`, `email`, `email_agree`, `landline`, `landline_agree`, `office_cellphone`, `office_cellphone_agree`, `gender`, `month`, `day`, `facebook`, `twitter`, `instagram`, `youtube`, `image_url`, `resident_address`, `resident_email`, `resident_landline`, `resident_cellphone`, `province_address`, `province_email`, `province_landline`, `province_cellphone`, `highest_education`, `school`, `prev_work_gov`, `prev_work_private`, `religion`, `civic`, `suffix`, `group`, `party`, `main_room_number`, `main_direct_line`, `main_fax_number`, `main_trunk_local_number`, `extension_room_number`, `extension_direct_line`, `extension_fax_number`, `extension_trunk_local_number`, `spouse_firstname`, `spouse_middle_initial`, `spouse_lastname`, `spouse_suffix`, `spouse_gender`, `spouse_birthday`, `spouse_profession`, `spouse_civic`, `spouse_wedding_anniv`, `spouse_office_address`, `spouse_email_address`, `spouse_landline_number`, `spouse_cellphone_number`, `child_name`, `child_email`, `child_landline`, `child_cellphone`, `child_profession`, `created_at`, `updated_at`) VALUES
-(1, 'president', 'Ferdinand', 'R', 'Marcos Jr.', 'BBM', 'president.info@gmail.com', NULL, NULL, NULL, '09876673798', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'storage/photo/bbm.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-14 03:22:40'),
-(2, 'vice-president', 'Sara', NULL, 'Duterte', 'Inday', 'vp.info@gmail.com', NULL, NULL, NULL, '09876673798', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 'storage/photo/vp.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-14 03:22:40'),
-(3, 'cabinet-member', 'Enrique', NULL, 'Manalo', 'Ricky', 'enrique@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'storage/photo/enm.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-14 03:22:40'),
-(4, 'cabinet-member', 'Benjamin', NULL, 'Diokno', 'Ben', 'diokno@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'storage/photo/bnj.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-14 03:22:40'),
-(5, 'cabinet-member', 'Jesus Crispin', NULL, 'Remulla', NULL, 'jess@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'storage/photo/rem.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-14 03:22:40'),
-(6, 'senator', 'Francis', 'G', 'Escudero', 'Chiz', 'frans111@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'https://source.unsplash.com/featured/200x200?senator', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'PDP–Laban', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:27:06'),
-(7, 'senator', 'Risa', NULL, 'Hontiveros', NULL, 'risah@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 'https://source.unsplash.com/featured/200x200?senator', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Akbayan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:27:09'),
-(8, 'senator', 'Robinhood', NULL, 'Padilla', 'Robin', 'robinhood@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'https://source.unsplash.com/featured/200x200?senator', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'PDP–Laban', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:27:10'),
-(9, 'senator', 'Imee', 'R', 'Marcos', NULL, 'imeem@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 'https://source.unsplash.com/featured/200x200?senator', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'PDP–Laban', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:27:12'),
-(10, 'senator', 'Pia', NULL, 'Cayetano', NULL, 'piac@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 'https://source.unsplash.com/featured/200x200?senator', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Nacionalista', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:27:15'),
-(11, 'senator', 'Alan Peter', 'S', 'Cayetano', NULL, 'alanp@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'https://source.unsplash.com/featured/200x200?senator', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'CIBAC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:27:16'),
-(12, 'senator', 'Grace', NULL, 'Poe', NULL, 'gracp@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 'https://source.unsplash.com/featured/200x200?senator', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Independent', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:27:18'),
-(13, 'senator', 'Ronald', NULL, 'Dela Rosa', 'Bato', 'batodel@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'https://source.unsplash.com/featured/200x200?senator', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'PDP–Laban', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:27:19'),
-(14, 'senator', 'Maria Lourdes Nancy', 'S', 'Binay', NULL, 'nancyb@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 'https://source.unsplash.com/featured/200x200?senator', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'UNA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:27:21'),
-(15, 'senator', 'Christopher Lawrence', 'T', 'Go', NULL, 'crisgo@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'https://source.unsplash.com/featured/200x200?senator', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'PDP–Laban', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:27:23'),
-(16, 'hor', 'Martin', NULL, 'Romualdez', NULL, 'martinr@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'storage/photo/martinr.jfif', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Lakas–CMD', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:36:14'),
-(17, 'hor', 'France', NULL, 'Castro', NULL, 'franscas@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 'storage/photo/fransc.jfif', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'ACT Teachers', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:36:27'),
-(18, 'hor', 'Stella', NULL, 'Quimbo', NULL, 'stellaq@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 'storage/photo/stella.jfif', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Liberal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:36:41');
+INSERT INTO `officials` (`id`, `position`, `firstname`, `middle_initial`, `lastname`, `nickname`, `email`, `email_agree`, `landline`, `landline_agree`, `office_cellphone`, `office_cellphone_agree`, `gender`, `month`, `day`, `facebook`, `twitter`, `instagram`, `youtube`, `image_url`, `resident_address`, `resident_email`, `resident_landline`, `resident_cellphone`, `province_address`, `province_email`, `province_landline`, `province_cellphone`, `highest_education`, `school`, `prev_work_gov`, `prev_work_private`, `religion`, `civic`, `suffix`, `group`, `party`, `main_room_number`, `main_direct_line`, `main_fax_number`, `main_trunk_local_number`, `extension_room_number`, `extension_direct_line`, `extension_fax_number`, `extension_trunk_local_number`, `spouse_firstname`, `spouse_middle_initial`, `spouse_lastname`, `spouse_suffix`, `spouse_gender`, `spouse_birthday`, `spouse_profession`, `spouse_civic`, `spouse_wedding_anniv`, `spouse_office_address`, `spouse_email_address`, `spouse_landline_number`, `spouse_cellphone_number`, `spouse_wedding_aniv`, `child_name`, `child_email`, `child_landline`, `child_cellphone`, `child_profession`, `created_at`, `updated_at`) VALUES
+(1, 'president', 'Ferdinand', 'R', 'Marcos Jr.', 'BBM', 'president.info@gmail.com', NULL, NULL, NULL, '09876673798', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'storage/photo/bbm.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-14 03:22:40'),
+(2, 'vice-president', 'Sara', NULL, 'Duterte', 'Inday', 'vp.info@gmail.com', NULL, NULL, NULL, '09876673798', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 'storage/photo/vp.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-14 03:22:40'),
+(3, 'cabinet-member', 'Enrique', NULL, 'Manalo', 'Ricky', 'enrique@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'storage/photo/enm.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-14 03:22:40'),
+(4, 'cabinet-member', 'Benjamin', NULL, 'Diokno', 'Ben', 'diokno@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'storage/photo/bnj.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-14 03:22:40'),
+(5, 'cabinet-member', 'Jesus Crispin', NULL, 'Remulla', NULL, 'jess@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'storage/photo/rem.jpg', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-14 03:22:40'),
+(6, 'senator', 'Francis', 'G', 'Escudero', 'Chiz', 'frans111@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'https://source.unsplash.com/featured/200x200?senator', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'PDP–Laban', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:27:06'),
+(7, 'senator', 'Risa', NULL, 'Hontiveros', NULL, 'risah@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 'https://source.unsplash.com/featured/200x200?senator', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Akbayan', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:27:09'),
+(8, 'senator', 'Robinhood', NULL, 'Padilla', 'Robin', 'robinhood@mail.com', 1, '227-9081', 1, '09108872162', 0, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'https://source.unsplash.com/featured/200x200?senator', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'INDEPENDENT', 'PDP', '1001', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-25 03:20:42'),
+(9, 'senator', 'Imee', 'R', 'Marcos', NULL, 'imeem@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 'https://source.unsplash.com/featured/200x200?senator', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'PDP–Laban', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:27:12'),
+(10, 'senator', 'Pia', NULL, 'Cayetano', NULL, 'piac@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 'https://source.unsplash.com/featured/200x200?senator', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Nacionalista', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:27:15'),
+(11, 'senator', 'Alan Peter', 'S', 'Cayetano', NULL, 'alanp@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'https://source.unsplash.com/featured/200x200?senator', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'CIBAC', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:27:16'),
+(12, 'senator', 'Grace', NULL, 'Poe', NULL, 'gracp@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 'https://source.unsplash.com/featured/200x200?senator', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Independent', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:27:18'),
+(13, 'senator', 'Ronald', NULL, 'Dela Rosa', 'Bato', 'batodel@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'https://source.unsplash.com/featured/200x200?senator', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'PDP–Laban', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:27:19'),
+(14, 'senator', 'Maria Lourdes Nancy', 'S', 'Binay', NULL, 'nancyb@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 'https://source.unsplash.com/featured/200x200?senator', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'UNA', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:27:21'),
+(15, 'senator', 'Christopher Lawrence', 'T', 'Go', NULL, 'crisgo@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'https://source.unsplash.com/featured/200x200?senator', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'PDP–Laban', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:27:23'),
+(16, 'hor', 'Martin', NULL, 'Romualdez', NULL, 'martinr@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Male', NULL, NULL, NULL, NULL, NULL, NULL, 'storage/photo/martinr.jfif', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Lakas–CMD', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:36:14'),
+(17, 'hor', 'France', 'K', 'Castro', 'Cassy', 'franscas@mail.com', 1, '222-7611', 1, '09108872162', 0, 'Female', 'February', '14', NULL, NULL, NULL, NULL, 'storage/photo/fransc.jfif', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'MAJORITY', 'LIBERAL', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Teacher', NULL, NULL, NULL, NULL, NULL, NULL, '1989-06-01', NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-25 07:06:24'),
+(18, 'hor', 'Stella', NULL, 'Quimbo', NULL, 'stellaq@mail.com', NULL, NULL, NULL, '09108872162', NULL, 'Female', NULL, NULL, NULL, NULL, NULL, NULL, 'storage/photo/stella.jfif', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Liberal', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2025-07-14 03:22:40', '2025-07-24 02:36:41');
 
 -- --------------------------------------------------------
 
@@ -3939,7 +4005,8 @@ INSERT INTO `reference_materials` (`id`, `subject`, `significance_level`, `clust
 (7, 'Public Health Strategy', 'President Legislative Priorities', 3, 3, '[\"storage\\/reference-materials\\/1\\/attachments\\/1st Sample Forms 3-12-2025 (4).pdf\",\"storage\\/reference-materials\\/1\\/attachments\\/PA PRINT KO GAW PALIHUG LAMAAATS (5).pdf\",\"storage\\/reference-materials\\/1\\/attachments\\/FSI Book Inventory System Memo (2).pdf\"]', 'Auto-generated test entry.', 1, '2025-07-14 02:51:17', '2025-07-14 02:51:17', NULL),
 (8, 'Public Health Strategy', 'President Legislative Priorities', 1, 2, '[\"storage\\/reference-materials\\/1\\/attachments\\/1st Sample Forms 3-12-2025 (4).pdf\",\"storage\\/reference-materials\\/1\\/attachments\\/PA PRINT KO GAW PALIHUG LAMAAATS (5).pdf\",\"storage\\/reference-materials\\/1\\/attachments\\/FSI Book Inventory System Memo (2).pdf\"]', 'Auto-generated test entry.', 1, '2025-07-14 02:51:17', '2025-07-14 02:51:17', NULL),
 (9, 'Transportation Infrastructure Upgrade', 'President Legislative Priorities', 3, 4, '[\"storage\\/reference-materials\\/1\\/attachments\\/1st Sample Forms 3-12-2025 (4).pdf\",\"storage\\/reference-materials\\/1\\/attachments\\/PA PRINT KO GAW PALIHUG LAMAAATS (5).pdf\",\"storage\\/reference-materials\\/1\\/attachments\\/FSI Book Inventory System Memo (2).pdf\"]', 'Auto-generated test entry.', 1, '2025-07-14 02:51:17', '2025-07-14 02:51:17', NULL),
-(10, 'Educational Innovation Plan', 'President Legislative Priorities', 2, 3, '[\"storage\\/reference-materials\\/1\\/attachments\\/1st Sample Forms 3-12-2025 (4).pdf\",\"storage\\/reference-materials\\/1\\/attachments\\/PA PRINT KO GAW PALIHUG LAMAAATS (5).pdf\",\"storage\\/reference-materials\\/1\\/attachments\\/FSI Book Inventory System Memo (2).pdf\"]', 'Auto-generated test entry.', 1, '2025-07-14 02:51:17', '2025-07-14 02:51:17', NULL);
+(10, 'Educational Innovation Plan', 'President Legislative Priorities', 2, 3, '[\"storage\\/reference-materials\\/1\\/attachments\\/1st Sample Forms 3-12-2025 (4).pdf\",\"storage\\/reference-materials\\/1\\/attachments\\/PA PRINT KO GAW PALIHUG LAMAAATS (5).pdf\",\"storage\\/reference-materials\\/1\\/attachments\\/FSI Book Inventory System Memo (2).pdf\"]', 'Auto-generated test entry.', 1, '2025-07-14 02:51:17', '2025-07-14 02:51:17', NULL),
+(11, 'Top Secret Mission Cyllabus', 'Assistant Secretary', 2, 4, '[\"storage\\/reference-materials\\/11\\/attachments\\/2024 Europe CD Framework.pdf\"]', 'testing purposes only', 52285, '2025-07-25 06:06:43', '2025-07-25 06:06:43', NULL);
 
 -- --------------------------------------------------------
 
@@ -4554,7 +4621,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `firstname`, `lastname`, `avatar`, `verification_code`, `email_verified_at`, `password`, `role_id`, `is_active`, `user_id`, `mobile`, `phone`, `birth_date`, `address_street`, `address_city`, `address_municipality`, `address_province`, `address_zip`, `social_login`, `remember_token`, `created_at`, `updated_at`, `deleted_at`) VALUES
-(1, 'Admin Istrator', 'wsiprod.demo@gmail.com', 'PLLO', 'Administrator', 'http://127.0.0.1:8000/storage/avatars/wsi-logo (2).png', NULL, '2024-01-30 06:25:03', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, 1, 1, '09456714321', '022646545', NULL, 'Maharlika St', 'Pasay', NULL, NULL, '1234', 0, 't9k3RORf4jk9aTCCinuY5hYf8gkRgbORY7qbwnzdybQ0YFRCk9kq4iJOcek7', '2024-01-30 06:25:03', '2025-05-21 07:20:36', NULL),
+(1, 'Admin Istrator', 'wsiprod.demo@gmail.com', 'PLLO', 'Administrator', 'http://127.0.0.1:8000/storage/avatars/wsi-logo (2).png', NULL, '2024-01-30 06:25:03', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 1, 1, 1, '09456714321', '022646545', NULL, 'Maharlika St', 'Pasay', NULL, NULL, '1234', 0, 'TH97aKychTiHGinER4DxSvhGa4YjKi784oh6cIisiZwzNj7LJQ1P0iGsLRvS', '2024-01-30 06:25:03', '2025-05-21 07:20:36', NULL),
 (43, 'Raven H. Stark ', '001ravenstark@gmail.com', 'Raven', 'Stark', 'storage/photo/1753258109.png', '9166', '2025-06-25 06:25:40', '$2y$10$vcz.KPAnLvSFY6Mi56wIveDPmtki8mrLw247XnoUFeiNTjkNVPAme', 2, 1, NULL, '09876543321', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-25 06:24:51', '2025-07-23 08:08:29', NULL),
 (55, 'Jason X. Mraz Jr', 'json@gmail.com', 'Jason', 'Mraz', 'storage/photo/msgfromsecimg1.png', '9174', '2025-07-04 06:05:42', '$2y$10$2ahgPg.NJh5qvQuv1OrZ7.ZkcvPhZ9xogZKNOa8f19.EfBq373.si', 2, 1, NULL, '0982827362', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-04 06:05:16', '2025-07-04 06:05:53', NULL),
 (52259, 'hor O. test Sr', 'hortest@gmail.com', 'hor', 'test', 'storage/photo/user5 (9).jpg', '9175', '2025-07-07 03:21:02', '$2y$10$6izwDoxUrsbcd4K9LlVO.eadjYQI.PmQ94Ihbe0gw0N3DFDDYVLUq', 2, 1, NULL, '0982827362', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-07 03:20:41', '2025-07-07 03:21:09', NULL),
@@ -4571,7 +4638,10 @@ INSERT INTO `users` (`id`, `name`, `email`, `firstname`, `lastname`, `avatar`, `
 (31, 'Newly X. Created Sr', 'newlycreated@gmail.com', 'Newly', 'Created', 'storage/photo/1751333388.jfif', '9164', '2025-06-16 04:38:35', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 2, 1, 24, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-06-16 01:00:15', '2025-07-01 01:29:48', NULL),
 (52280, 'Link B. Click Sr', 'link@mail.com', 'Link', 'Click', 'storage/photo/pr6 (5).png', '9184', '2025-07-15 02:40:35', '$2y$10$t2R0p6titUAoFU.P9laS2.PqYX0Nz.azPMHFFBjiOdH6z5nvTi6ze', 2, 0, NULL, '0982827362', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-15 02:38:40', '2025-07-15 02:40:35', NULL),
 (52285, 'lls M. member ', 'llsmember@gmail.com', 'lls', 'member', 'storage/photo/msgfromsecimg1 (9).png', '9186', '2025-07-23 03:13:42', '$2y$10$ciU01cHgoq0g4YLg94eA3efJ88EJCeGCfHY8phzlyxasZx8BNApKm', 2, 1, NULL, '0982827362', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-23 03:13:22', '2025-07-23 03:13:59', NULL),
-(52284, 'Sen Z. Nator Jr', 'sensen@gmail.com', 'Sen', 'Nator', 'storage/photo/bnj (2).jpg', '9185', '2025-07-22 01:38:54', '$2y$10$uaJBY/.ZginfG2Bd.v6T2uxc0lLjjxuWFUdC5wIQihiOFB7/GXJtW', 2, 1, NULL, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-22 01:38:05', '2025-07-22 01:39:16', NULL);
+(52284, 'Sen Z. Nator Jr', 'sensen@gmail.com', 'Sen', 'Nator', 'storage/photo/bnj (2).jpg', '9185', '2025-07-22 01:38:54', '$2y$10$uaJBY/.ZginfG2Bd.v6T2uxc0lLjjxuWFUdC5wIQihiOFB7/GXJtW', 2, 1, NULL, '1231231234', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-22 01:38:05', '2025-07-22 01:39:16', NULL),
+(52286, 'Staff ni Pres S. legit ', 'staffpres@mail.com', 'Staff ni Pres', 'legit', 'storage/photo/w2.jpg', '9187', '2025-07-25 01:51:05', '$2y$10$RqDEELpTRgqS9IAW1.xm5emKegebLHiGjKB79C869rdlveJyhszGS', 2, 1, NULL, '0982827362', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-25 01:50:13', '2025-07-25 01:51:34', NULL),
+(52287, 'test for senator C. staff ', 'sentest@mail.com', 'test for senator', 'staff', 'storage/photo/pr4 (7).png', '9188', '2025-07-25 02:37:21', '$2y$10$CH5iaMSZRB3FP73FNBAHBO/LzLX2Ddn3YdA2mdGlKB5kv1A8XkW6q', 2, 1, NULL, '0982827362', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-25 02:36:57', '2025-07-25 02:37:34', NULL),
+(52288, 'hortest L. represent ', 'hortest@mail.com', 'hortest', 'represent', 'storage/photo/pr3 (3).png', '9189', '2025-07-25 06:26:03', '$2y$10$sgbu3KcigrSXxSccX2A30uIUfk62p.9jUTZFqsjXTEAeZI6kFOcCq', 2, 1, NULL, '0982827362', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 0, NULL, '2025-07-25 06:25:22', '2025-07-25 06:26:25', NULL);
 
 -- --------------------------------------------------------
 
@@ -4707,6 +4777,12 @@ ALTER TABLE `committee_type`
 -- Indexes for table `designation`
 --
 ALTER TABLE `designation`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `downloadables`
+--
+ALTER TABLE `downloadables`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -5017,7 +5093,7 @@ ALTER TABLE `cluster`
 -- AUTO_INCREMENT for table `cms_activity_logs`
 --
 ALTER TABLE `cms_activity_logs`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1350;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1366;
 
 --
 -- AUTO_INCREMENT for table `committee_type`
@@ -5032,6 +5108,12 @@ ALTER TABLE `designation`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
+-- AUTO_INCREMENT for table `downloadables`
+--
+ALTER TABLE `downloadables`
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT;
+
+--
 -- AUTO_INCREMENT for table `email_recipients`
 --
 ALTER TABLE `email_recipients`
@@ -5041,31 +5123,31 @@ ALTER TABLE `email_recipients`
 -- AUTO_INCREMENT for table `events`
 --
 ALTER TABLE `events`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `event_downloadables`
 --
 ALTER TABLE `event_downloadables`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT for table `event_feedbacks`
 --
 ALTER TABLE `event_feedbacks`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `event_invites`
 --
 ALTER TABLE `event_invites`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=64;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=67;
 
 --
 -- AUTO_INCREMENT for table `event_participants`
 --
 ALTER TABLE `event_participants`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=25;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=27;
 
 --
 -- AUTO_INCREMENT for table `failed_jobs`
@@ -5095,13 +5177,13 @@ ALTER TABLE `hors`
 -- AUTO_INCREMENT for table `members`
 --
 ALTER TABLE `members`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=74;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=77;
 
 --
 -- AUTO_INCREMENT for table `members_staff`
 --
 ALTER TABLE `members_staff`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT for table `menus`
@@ -5203,7 +5285,7 @@ ALTER TABLE `policy_reform_comments`
 -- AUTO_INCREMENT for table `reference_materials`
 --
 ALTER TABLE `reference_materials`
-  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `role`
@@ -5269,7 +5351,7 @@ ALTER TABLE `sub_agency`
 -- AUTO_INCREMENT for table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52286;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=52289;
 
 --
 -- AUTO_INCREMENT for table `user_types`
