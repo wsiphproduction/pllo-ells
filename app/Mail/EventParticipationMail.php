@@ -8,28 +8,24 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 
-class FeedbackMail extends Mailable
+class EventParticipationMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     public $setting;
     public $recipient;
     public $event;
-    public $downloadables;
-    public $certificates;
     /**
      * Create a new message instance.
      *
      * @param $setting
      * @param $recipient
      */
-    public function __construct($setting, $recipient, $event, $downloadables, $certificates)
+    public function __construct($setting, $recipient, $event)
     {
         $this->setting = $setting;
         $this->recipient = $recipient;
         $this->event = $event;
-        $this->downloadables = $downloadables;
-        $this->certificates = $certificates;
     }
 
     /**
@@ -40,7 +36,7 @@ class FeedbackMail extends Mailable
      */
     public function build()
     {
-        return $this->view('mail.event-feedback')
-            ->subject('Thanks for submitting a feedback');
+        return $this->view('mail.event-participation')
+            ->subject('You have been registered to an event');
     }
 }

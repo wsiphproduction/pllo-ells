@@ -4,15 +4,14 @@ namespace App\Http\Controllers\Custom;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Http\Requests\EventRequest;
-use App\Http\Requests\EventFeedbackRequest;
+use App\Http\Requests\{EventRequest, EventFeedbackRequest, EventDownloadableRequest};
 use Facades\App\Helpers\FileHelper;
 use App\Helpers\Setting;
 
-use App\Mail\{EventInvitationMail, FeedbackMail};
+use App\Mail\{EventInvitationMail, EventParticipationMail, FeedbackMail};
 
 use App\Models\{Page, Cluster, Agency, Member, FileDownload};
-use App\Models\Custom\{Event, EventInvite, EventParticipant, EventFeedback};
+use App\Models\Custom\{Event, EventInvite, EventParticipant, EventFeedback, EventDownloadable};
 use Auth;
 use Carbon\Carbon;
 
@@ -161,6 +160,18 @@ class EventController extends Controller
                     'invited_by' => $event->created_by,
                     'invitation_file' => $invitation_file
                 ]);
+
+                $representative = Member::find($id);
+                \Mail::to($representative->email)->send(new EventInvitationMail(Setting::info(), $representative, $event));
+            }
+        }
+
+        //INVITATION EMAIL
+        $members = Member::all();
+
+        foreach($members as $member){
+            if(Event::isUserInvited($member->id, $event->id)){
+                \Mail::to($member->email)->send(new EventInvitationMail(Setting::info(), $member, $event));
             }
         }
 
@@ -176,18 +187,18 @@ class EventController extends Controller
         $event = Event::find($id);
         $events = Event::where('id', '<>', $id)->whereDate('date', '<=', Carbon::today())->orderBy('created_at', 'desc')->take(4)->get();
         $event_agencies = EventInvite::where('event_id', $id)->where('type', 'agency')->get();
-
-        // dd($event_agencies);
-
+        
         $page = new Page();
         $page->name = $event->title;
 
         $members = Member::all();
         $user = Member::getMemberInfo(Auth::check() ? Auth::user()->id : 0);
 
-        $downloads = FileDownload::where('event_id', $id)->first();
+        $downloads = EventDownloadable::where('type', 'Materials')->where('event_id', $id)->first();
+        $certificates = EventDownloadable::where('type', 'Certificates')->where('event_id', $id)->first();
+        // $downloads = FileDownload::where('event_id', $id)->first();
 
-        return view('theme.pages.events.view', compact('page', 'event', 'events', 'members', 'user', 'downloads', 'event_agencies'));
+        return view('theme.pages.events.view', compact('page', 'event', 'events', 'members', 'user', 'downloads', 'certificates', 'event_agencies'));
     }
 
     public function invitees($id){
@@ -393,7 +404,7 @@ class EventController extends Controller
             ]);
 
             $member = Member::find($member_id);
-            \Mail::to($member->email)->send(new EventInvitationMail(Setting::info(), $member, $event));
+            \Mail::to($member->email)->send(new EventParticipationMail(Setting::info(), $member, $event));
         }
 
         if ($request->email) {
@@ -405,7 +416,7 @@ class EventController extends Controller
                     'contact_number' => $request->contact[$index] ?? null,
                 ];
 
-                \Mail::to($email)->send(new EventInvitationMail(Setting::info(), $representative, $event));
+                \Mail::to($email)->send(new EventParticipationMail(Setting::info(), $representative, $event));
             }
         }
 
@@ -430,11 +441,64 @@ class EventController extends Controller
 
         $member = Member::find($request->member_id);
         $event = Event::find($event_id);
-        $downloadables = FileDownload::where('event_id', $event_id)->first();
 
-        \Mail::to($member->email)->send(new FeedbackMail(Setting::info(), $member, $event, $downloadables));
+        $downloadables = EventDownloadable::where('type', 'Materials')->where('event_id', $event_id)->first();
+        $certificates = EventDownloadable::where('type', 'Certificates')->where('event_id', $event_id)->first();
+        // $downloadables = FileDownload::where('event_id', $event_id)->first();
+
+        \Mail::to($member->email)->send(new FeedbackMail(Setting::info(), $member, $event, $downloadables, $certificates));
 
         return redirect()->back()->with('success', 'You successfully submit a feedback, you can now see the downloadable files from the activity.');
+    }
+
+    public function upload_downloadables(EventDownloadableRequest $request, $event_id){
+
+        $data = $request->validated();
+
+        $data['event_id'] = $event_id;
+        $data['created_by'] = Auth::user()->id;
+
+        $downloadable = EventDownloadable::where('type', $request->type)->where('event_id', $event_id)->first();
+
+        if(!$downloadable){
+            $downloadable = EventDownloadable::create($data);
+        }
+
+
+        if ($request->member_id) {
+            $member_ids = [];
+
+            foreach ($request->member_id as $member){
+                $member_ids[] = $member;
+            }
+
+            $data['member_id'] = json_encode($member_ids);
+
+            $downloadable->update([
+                'member_id' => $data['member_id']
+            ]);
+        }
+
+        if ($request->hasFile('attachments')) {
+            $file_url = [];
+
+            foreach ($request->file('attachments') as $attachment) {
+                $file = FileHelper::move_to_folder($attachment, 'events/'. $event_id .'/downloadables/' .$request->type);
+                if ($file && isset($file['url'])) {
+                    $file_url[] = $file['url'];
+                }
+            }
+
+            $data['attachments'] = json_encode($file_url);
+
+            $downloadable->update([
+                'attachments' => $data['attachments']
+            ]);
+        }
+        
+        $downloadable->update($data);
+        
+        return redirect()->back()->with('success', 'You successfully uploaded files');
     }
 
 }

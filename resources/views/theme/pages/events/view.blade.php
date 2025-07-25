@@ -105,7 +105,8 @@
 				
 												@csrf
 												@foreach($members as $member)
-													@if(App\Models\Custom\Event::isUserInvited($member->id, $event->id))
+													@if(App\Models\Custom\Event::isUserInvited($member->id, $event->id) && App\Models\Custom\Event::isMemberInSameGroup($member->id))
+													{{-- @if(App\Models\Custom\Event::isUserInvited($member->id, $event->id)) --}}
 
 														<article class="portfolio-item col-md-6 col-12 member-select" data-member-id="{{ $member->id }}" title="Agency: {{ \App\Models\Agency::getAgencyName($member->agency)->agency_name ?? 'N/A' }}">
 															<label class="card mb-0 p-3 border-0 w-100 selectable-card" style="cursor: pointer;" data-agency-id="{{ $member->agency }}">
@@ -316,7 +317,8 @@
 					<img src="{{ asset($event->event_img)}}" width="100%" onerror="this.onerror=null; this.src='{{ asset('theme/addons/images/logos/pllo-logo.png') }}';" @if(!$event->event_img) hidden @endif>
 					
 					@if(Auth::check() && $event->created_by == Auth::id())
-						<button class="btn form-control mt-2 text-white bg-custom-primary" onclick="$('#creationModal').modal('show')">UPLOAD DOWNLOADABLES</button>
+						<button class="btn form-control mt-2 text-white bg-custom-primary" onclick="$('#uploadDownloadablesModal').modal('show')">UPLOAD DOWNLOADABLES</button>
+						<button class="btn form-control mt-2 text-white bg-custom-primary" onclick="$('#uploadCertificatesModal').modal('show')">UPLOAD CERTIFICATES</button>
 					@endif
 					
 					
@@ -385,7 +387,7 @@
 
 					@php
 						if($downloads){
-							$download = json_decode($downloads->file_url ?? [], true);
+							$download = json_decode($downloads->attachments ?? [], true);
 						}
 					@endphp
 
@@ -401,6 +403,34 @@
 												Attachment {{ $index + 1 }} : {{ basename($file) }}
 											</a>
 										</li>
+									@endforeach
+								</ul>
+							</div>
+							<br>
+						@endif
+					@endif
+
+					@php
+						if($certificates){
+							$certificate = json_decode($certificates->attachments ?? [], true);
+							$member_id = json_decode($certificates->member_id ?? [], true);
+						}
+					@endphp
+
+					@if (!empty($certificate))
+						@if(Auth::user()->role_id == 1 || ($event->isDone && $event->hasDoneFeedback($user->id)))
+							<strong style="font-size:14px;">Certificates</strong>
+
+							<div style="padding-left: 0.5rem;">
+								<ul class="mb-0 ps-3">
+									@foreach ($certificate as $index => $file)
+										@if(Auth::user()->role_id == 1 || App\Models\Custom\Event::isMemberInSameGroup($member_id[$index]))
+											<li>
+												<a class="text-primary" href="{{ asset($file) }}" target="_blank" download>
+													<strong class="custom-text-primary">{{  \App\Models\Member::getMemberName($member_id[$index]) }} : </strong> {{ basename($file) }}
+												</a>
+											</li>
+										@endif
 									@endforeach
 								</ul>
 							</div>
@@ -506,67 +536,88 @@
 
 		{{-- MODALS --}}
 
-		<div class="modal fade" id="creationModal" tabindex="-1">
+		{{-- DOWNLOADABLES --}}
+		<div class="modal fade" id="uploadDownloadablesModal" tabindex="-1">
 			<div class="modal-dialog modal-lg">
 				<div class="modal-content">
 					<div class="modal-body">
 						<strong class="custom-text-primary">UPLOAD DOWNLOADABLES</strong><br>
 
 						<div class="row mt-3">
-							<form id="creation_form" action="{{ route('downloadables.front.store') }}" method="post" enctype="multipart/form-data">
+							<form id="downloadables_form" action="{{ route('events.upload-downloadables', $event->id) }}" method="post" enctype="multipart/form-data">
 								@csrf
-								<div class="form-group" hidden>
-									<label class="d-block">Long Title *</label>
-									<input type="text" name="title" id="title" value="Downloadable" class="form-control @error('title') is-invalid @enderror" maxlength="150" required >
-									@error('title')
-										<span class="text-danger">{{ $message }}</span>
-									@enderror
-								</div>
-
-								<div class="form-group" hidden>
-									<label class="d-block">RA / JR Number *</label>
-									<input type="text" name="ra_jr" id="ra_jr" value="N/A" class="form-control @error('ra_jr') is-invalid @enderror" maxlength="150" required >
-									@error('ra_jr')
-										<span class="text-danger">{{ $message }}</span>
-									@enderror             
-								</div>
-
-								<div class="form-group" hidden>
-									<label class="d-block">Congress *</label>
-									<input type="text" name="congress" id="congress" value="N/A" class="form-control @error('congress') is-invalid @enderror" maxlength="150" required >
-									@error('congress')
-										<span class="text-danger">{{ $message }}</span>
-									@enderror             
-								</div>
-
-								<div class="form-group" hidden>
-									<label class="d-block">Approved On *</label>
-									<input type="date" name="approved_on" id="approved_on" value="2001-01-01" class="form-control @error('approved_on') is-invalid @enderror" maxlength="150" required >
-									@error('approved_on')
-										<span class="text-danger">{{ $message }}</span>
-									@enderror             
-								</div>
-
-								<div class="form-group" hidden>
-									<label class="d-block">Source / Priority Level *</label>
-									<input type="text" name="source_priority_level" id="source_priority_level" value="N/A" class="form-control @error('source_priority_level') is-invalid @enderror" maxlength="150" required >
-									@error('source_priority_level')
-										<span class="text-danger">{{ $message }}</span>
-									@enderror             
-								</div>
 
 								<div class="form-group">
 									<label class="d-block">File</label>
-									<input type="file" name="file_url[]" class="form-control @error('file_url') is-invalid @enderror" accept=".pdf, .csv, .xlsx, .xls, .pdf" multiple required>
-									{{-- <small>File type: PDF, CSV, XLSX, XLS<br/> Maximum file size: 2MB</small> --}}
+									<input type="file" name="attachments[]" class="form-control @error('attachments') is-invalid @enderror" accept=".pdf, .csv, .xlsx, .xls, .pdf" multiple required>
 									<br/>
-									@error('file_url')
+									@error('attachments')
 										<span class="text-danger">{{ $message }}</span>
 									@enderror
 								</div>
 
-								<input type="hidden" name="event_id" value="{{ $event->id }}"/>
-								<button type="submit" class="btn bg-custom-primary text-white mt-3" onclick="document.getElementById('creation_form').submit();"><small>SUBMIT</small></button>
+								<input type="hidden" name="type" value="Materials"/>
+								<button type="submit" class="btn bg-custom-primary text-white mt-3"><small>SUBMIT</small></button>
+								<button type="button" class="btn btn-secondary mt-3" data-bs-dismiss="modal"><small>CANCEL</small></button>
+
+							</form>
+						</div>
+						
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		{{-- CERTIFICATES --}}
+		<div class="modal fade" id="uploadCertificatesModal" tabindex="-1">
+			<div class="modal-dialog modal-md">
+				<div class="modal-content">
+					<div class="modal-body">
+						<strong class="custom-text-primary">UPLOAD CERTIFICATES</strong><br>
+
+						<div class="row mt-3">
+							<form id="certificates_form" action="{{ route('events.upload-downloadables', $event->id) }}" method="post" enctype="multipart/form-data">
+								@csrf
+
+								@foreach($members as $index => $member)
+									@if(App\Models\Custom\Event::isUserParticipated($member->id, $event->id))
+
+										<div class="form-group mb-4">
+											<div class="d-flex align-items-center justify-content-between mb-2">
+												<div class="d-flex align-items-center">
+													<img src="{{ asset($member->photo) }}" alt="Profile" class="rounded-circle me-2"
+														style="width: 40px; height: 40px; object-fit: cover;"
+														onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';">
+													<div>
+														<strong>{{ $member->fullName }}</strong><br>
+														<small class="text-muted">{{ App\Models\Agency::getAgencyName($member->agency)->agency_name }}</small>
+													</div>
+												</div>
+
+												<label for="file-upload-{{ $index }}" class="btn btn-outline-primary btn-sm ms-auto mb-0">
+													<i class="bi bi-upload me-1"></i> Upload File
+												</label>
+											</div>
+
+											{{-- HIDDEN --}}
+											<input type="hidden" name="member_id[]" value="{{ $member->id }}"/>
+
+											<input type="file" id="file-upload-{{ $index }}" name="attachments[]" class="d-none file-input"
+												accept=".pdf, .csv, .xlsx, .xls, .png, .jpg, .jpeg" required>
+
+											<div id="file-name-{{ $index }}" class="small text-secondary mt-1 text-end"></div>
+
+											@error('attachments')
+												<span class="text-danger">{{ $message }}</span>
+											@enderror
+										</div>
+									
+									@endif
+								@endforeach
+
+								<input type="hidden" name="type" value="Certificates"/>
+								<button type="submit" id="submit_certificates_btn" class="btn bg-custom-primary text-white mt-3"><small>SUBMIT</small></button>
 								<button type="button" class="btn btn-secondary mt-3" data-bs-dismiss="modal"><small>CANCEL</small></button>
 
 							</form>
@@ -634,6 +685,7 @@
 
 			// Validate dynamically added representative fields
 			let hasInvalid = false;
+			let hasInvalidEmail = false;
 
 			$('.representative-entry').each(function () {
 				const fullname = $(this).find('input[name="fullname[]"]').val()?.trim();
@@ -652,6 +704,24 @@
 					icon: 'warning',
 					title: 'Incomplete representative info',
 					text: 'Please complete all representative fields (Full Name, Designation, Email, Contact).',
+					timer: 2500,
+					showConfirmButton: false
+				});
+				return false;
+			}
+
+			// Validate representative emails
+			document.querySelectorAll('input[name="email[]"]').forEach(function (emailInput) {
+				if (!emailInput.checkValidity()) {
+					hasInvalidEmail = true;
+				}
+			});
+
+			if (hasInvalidEmail) {
+				Swal.fire({
+					icon: 'warning',
+					title: 'Invalid email detected',
+					text: 'Please check all emails are correct.',
 					timer: 2500,
 					showConfirmButton: false
 				});
@@ -724,5 +794,47 @@
 		});
 	</script>
 
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			document.querySelectorAll('.file-input').forEach(function (input) {
+				input.addEventListener('change', function () {
+					const fileNameDisplay = document.getElementById('file-name-' + this.id.split('-').pop());
+					fileNameDisplay.textContent = this.files.length ? this.files[0].name : '';
+				});
+			});
+		});
+	</script>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', function () {
+			const submitBtn = document.getElementById('submit_certificates_btn');
+
+			submitBtn.addEventListener('click', function (e) {
+				// Prevent default form submission
+				e.preventDefault();
+
+				let allFilled = true;
+				document.querySelectorAll('.file-input').forEach(function (input) {
+					if (!input.value) {
+						allFilled = false;
+					}
+				});
+
+				if (!allFilled) {
+					Swal.fire({
+						icon: 'warning',
+						title: 'Missing File(s)',
+						text: 'Please upload a file for each member before submitting.',
+					});
+					return;
+				}
+
+				// If all inputs have values, submit the form
+				document.getElementById('certificates_form').submit();
+			});
+		});
+	</script>
+
+	
 
 @endsection

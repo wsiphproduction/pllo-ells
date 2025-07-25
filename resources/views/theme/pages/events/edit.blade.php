@@ -145,7 +145,7 @@
 							<div class="row form-group" style="margin-top: -57px;">
 								<small class="col-12 text-uppercase">UPLOAD IMAGE</small>
 								<div class="col-12">
-									<input class="form-control" type="file" name="event_img">
+									<input class="form-control" type="file" name="event_img" accept=".png, .jpg, .jpeg">
 								</div>
 							</div>
 

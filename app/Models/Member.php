@@ -107,6 +107,11 @@ class Member extends Model
         return $member;
     }
 
+    public static function getMemberName($id) {
+        $member = Member::find($id);
+        return $member->firstname . ' ' . $member->middle_initial . '. ' . $member->lastname;
+    }
+
     public function userType() {
         return $this->belongsTo(UserType::class, 'user_type');
     }

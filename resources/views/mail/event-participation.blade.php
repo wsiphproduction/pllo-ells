@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>PLLO Event Invitation</title>
+		<title>PLLO Event Participation</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<style>
 			body {
@@ -91,58 +91,37 @@
 				<h2 style="font-size: 22px; border-top: 1px solid #aaa; padding-top: 10px;">Presidential Legislative Liaison Office</h2>
 			</div>
 
+			<div class="text-center">
+				<img class="banner" src="{{ asset($event->event_img)}}" alt="Event Banner" onerror="this.style.display='none';">
+			</div>
+
 			<p>Hi, {{ $recipient->firstname }}!</p>
 
 			<p>
-				Thanks for submitting a feedback for the recent event entitled, 
+				I have the honor to inform you that you successfully been registered to participate to the event.
+			</p>
+
+			<p>
+				Presidential Legislative Liaison Office (PLLO) will conduct an activity entitled, 
 				<span class="text-primary"><strong>{{ $event['title'] }}</strong></span>.
 			</p>
 
-			<p>You can now download the materials, photos, and certificates.</p>
+			<br>
+			<p>
+				Please be reminded of the event schedule and details.
+			</p>
 
-            @php
-				if($downloadables->attachments){
-                	$attachments = json_decode($downloadables->attachments, true);
-				}
-            @endphp
-
-			@if (!empty($attachments))
-				<strong style="font-size:14px;">Post-Activity Downloadable Materials</strong>
-				<ul>
-                    @foreach ($attachments as $index => $file)
-                        <li>
-                            <a class="text-primary" href="{{ asset($file) }}" target="_blank" download>
-                                Attachment {{ $index + 1 }} : {{ basename($file) }}
-                            </a>
-                        </li>
-                    @endforeach
-				</ul>
-			@endif
+			<ul>
+				<li><strong>Cluster:</strong> {{ $event->cluster->name ?? 'N/A' }}</li>
+                <li><strong>Date:</strong> {{ \Carbon\Carbon::parse($event->date)->format('F d, Y') }}</li>
+                <li><strong>Time:</strong> {{ \Carbon\Carbon::parse($event->start_time)->format('h:i A') }} - {{ \Carbon\Carbon::parse($event->end_time)->format('h:i A') }}</li>
+                <li><strong>Location:</strong> {{ $event->location }}</li>
+			</ul>
 
 			<br>
-
-            @php
-				if($certificates->attachments){
-                	$certificate = json_decode($certificates->attachments, true);
-					$member_id = json_decode($certificates->member_id ?? [], true);
-				}
-            @endphp
-
-			@if (!empty($certificate))
-				<strong style="font-size:14px;">Certificates</strong>
-				<ul>
-					@foreach ($certificate as $index => $file)
-						@if(App\Models\Custom\Event::isMemberInSameGroup($member_id[$index]))
-							<li>
-								<a class="text-primary" href="{{ asset($file) }}" target="_blank" download>
-									<strong class="custom-text-primary">{{  \App\Models\Member::getMemberName($member_id[$index]) }} : </strong> {{ basename($file) }}
-								</a>
-							</li>
-						@endif
-                    @endforeach
-				</ul>
-			@endif
-
+			<p>
+				See you at the event!
+			</p>
 			<br><br>
 
 			<div class="text-center">
@@ -152,6 +131,7 @@
 			<div class="text-center">
 				<a href="{{ route('events.view', $event->id) }}" class="btn">VIEW EVENT</a>
 			</div>
+
 
 			<div class="footer">
 				Presidential Legislative Liaison Office <br>

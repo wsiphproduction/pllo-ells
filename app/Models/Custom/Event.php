@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Carbon\Carbon;
+use Auth;
 
 class Event extends Model
 {
@@ -103,6 +104,33 @@ class Event extends Model
             return false; 
         }
 
+    }
+
+    public static function isMemberInSameGroup($member_id = 0)
+    {
+        $user = \App\Models\Member::where('user_id', Auth::user()->id)->first();
+        $member = \App\Models\Member::find($member_id);
+
+        if($member && $user){
+            if($member->agency == $user->agency){
+                return true;
+            }
+
+            $u_clusters = explode('::', $user->cluster);
+            $m_clusters = explode('::', $member->cluster);
+            
+            if($m_clusters){
+                foreach($m_clusters as $m_cluster){
+                    foreach($u_clusters as $u_cluster){
+                        if($m_cluster == $u_cluster){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return false;
     }
 
 }
