@@ -43,7 +43,7 @@
                             <div class="col-md-4" style="height: 200px;">
                                 <img src="{{ asset($member->image_url) }}"
                                     onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';"
-                                    class="img-fluid rounded-start"
+                                    class="img-fluid rounded"
                                     style="height: 100%; width: 100%; object-fit: cover;"
                                     alt="Proposed Bill">
                             </div>
@@ -65,8 +65,12 @@
                                     </h6>
                                     <ul class="list-unstyled mb-2 small">
                                         <li class="text-capitalize"><i class="bi-person me-2"></i>{{ $member->position }}</li>
+                                        @if($member->office_cellphone_agree)
                                         <li><i class="bi-phone me-2"></i>{{ $member->office_cellphone }}</li>
-                                        <li><i class="bi-mailbox me-2"></i>{{ $member->email }}</li>
+                                        @endif
+                                        @if($member->email_agree)
+                                        <li><i class="bi-envelope me-2"></i>{{ $member->email }}</li>
+                                        @endif
                                     </ul>
                                 </div>
                             </div>
@@ -113,12 +117,16 @@
                             </td>
                             <td>
                                 <span>
+                                    @if($member->office_cellphone_agree)
                                     <small>{{ $member->office_cellphone }}</small>
+                                    @endif
                                 </span>
                             </td>
                             <td>
                                 <span>
+                                    @if($member->email_agree)
                                     <small>{{ $member->email }}</small>
+                                    @endif
                                 </span>
                             </td>
                         </tr>
