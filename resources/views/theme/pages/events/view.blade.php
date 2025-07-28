@@ -62,6 +62,7 @@
 							<a class="dropdown-item" href="{{ route('events.invitees', $event->id) }}">List of Invitees</a>
 
 							@if(Auth::check() && $event->created_by == Auth::id())
+								<a class="dropdown-item" href="{{ route('events.feedbacks', $event->id) }}">View Feedbacks</a>
 								<a class="dropdown-item" href="{{ route('events.edit', $event->id) }}">Update Details</a>
 								<a class="dropdown-item text-danger bg-transparent" href="#" onclick="$('#cancelModal').modal('show')">Cancel Event</a>
 							@endif

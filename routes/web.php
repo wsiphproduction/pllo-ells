@@ -76,6 +76,7 @@ Route::get('/phpinfo', function () {
         Route::post('/events/register-event/{id}', [EventController::class, 'register_event'])->name('events.register-event');
         Route::post('/events/decline-event/{id}', [EventController::class, 'decline_event'])->name('events.decline-event');
         Route::post('/events/submit-feedback/{id}', [EventController::class, 'submit_feedback'])->name('events.submit-feedback');
+        Route::get('/events/feedbacks/{event}', [EventController::class, 'feedbacks'])->name('events.feedbacks');
         Route::post('/events/upload-downloadables/{id}', [EventController::class, 'upload_downloadables'])->name('events.upload-downloadables');
     //
 
