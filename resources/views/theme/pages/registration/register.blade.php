@@ -253,6 +253,36 @@
 							</div>
 						</div>
 
+						<!-- if op proper under op proper chosen then need to select an official -->
+						{{-- <div class="row form-group" id="op_proper_official_dropdown">
+							<div class="col-12">
+								<select class="form-select" aria-label="select sub agency" name="sub_agency">
+
+									<div id="op_proper_official_dropdown">
+										@foreach($op_subagencies as $agency)
+									  	<option value="{{ $agency->id }}">{{ $agency->name }}</option>
+										@endforeach
+									</div>
+
+								</select>
+							</div>
+						</div> --}}
+
+						<!-- if cabinet member under op proper chosen then need to select an official -->
+						{{-- <div class="row form-group" id="cabinet_member_official_dropdown">
+							<div class="col-12">
+								<select class="form-select" aria-label="select sub agency" name="sub_agency">
+
+									<div id="cabinet_member_official_dropdown">
+										@foreach($op_subagencies as $agency)
+									  	<option value="{{ $agency->id }}">{{ $agency->name }}</option>
+										@endforeach
+									</div>
+
+								</select>
+							</div>
+						</div> --}}
+
 						<div class="row form-group" id="reg_designation_dropdown">
 							<div class="col-12">
 								<select class="form-select" aria-label="select designation" name="designation">
@@ -714,18 +744,21 @@
     $('#agency').on('change', function(){
         let agency_type = $(this).val();
 
+        // op proper
         if (agency_type == 9) {
-			$("#reg_sub_agency_dropdown").show();
+					$("#reg_sub_agency_dropdown").show();
         	$("#op_subagency_dropdown").show();
         	$("#cabinet_subagency_dropdown").hide();
         }
 
+        // cabinet member
         if (agency_type == 10) {
         	$("#reg_sub_agency_dropdown").show();
         	$("#op_subagency_dropdown").hide();
         	$("#cabinet_subagency_dropdown").show();
         }
 
+        // other government agency
         if (agency_type == 11) {
         	$("#reg_sub_agency_dropdown").val('0');
         	$("#reg_sub_agency_dropdown").hide();

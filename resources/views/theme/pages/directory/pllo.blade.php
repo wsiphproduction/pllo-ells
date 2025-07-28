@@ -45,7 +45,7 @@
                             <div class="col-md-4" style="height: 200px;">
                                 <img src="{{ asset($member->photo) }}"
                                     onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';"
-                                    class="img-fluid rounded-start"
+                                    class="img-fluid rounded"
                                     style="height: 100%; width: 100%; object-fit: cover;"
                                     alt="Proposed Bill">
                             </div>
@@ -56,7 +56,7 @@
                                         <li><i class="bi-person me-2"></i>{{ $member->full_designation_name }}</li>
                                         <li><i class="bi-building me-2"></i>{{ $member->full_agency_name }}</li>
                                         <li><i class="bi-phone me-2"></i>{{ $member->contact_number }}</li>
-                                        <li><i class="bi-mailbox me-2"></i>{{ $member->email }}</li>
+                                        <li><i class="bi-envelope me-2"></i>{{ $member->email }}</li>
                                         <li>
                                             <i class="bi-x-diamond me-2"></i>
                                             <a class="text-decoration-none" data-bs-toggle="collapse" href="#cluster-{{ $member->id }}" role="button" aria-expanded="false" aria-controls="cluster-{{ $member->id }}">
