@@ -451,6 +451,20 @@ class EventController extends Controller
         return redirect()->back()->with('success', 'You successfully submit a feedback, you can now see the downloadable files from the activity.');
     }
 
+    public function feedbacks(Event $event){
+
+        if(!Auth::user()){
+            return redirect()->route('home')->with('error', 'Access Denied');
+        }
+
+        $feedbacks = EventFeedback::where('event_Id', $event->id)->get();
+
+        $page = new Page();
+        $page->name = 'Event Feedback';
+
+        return view('theme.pages.events.feedbacks', compact('page', 'event', 'feedbacks'));
+    }
+
     public function upload_downloadables(EventDownloadableRequest $request, $event_id){
 
         $data = $request->validated();
