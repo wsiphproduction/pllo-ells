@@ -39,6 +39,19 @@ class Event extends Model
         return EventFeedback::where('event_id', $this->id)->where('member_id', $user_id)->exists();
     }
 
+    public static function getInvitedCount($event_id){
+        $members = \App\Models\Member::all();
+        $count = 0;
+
+        foreach($members as $member){
+            if(\App\Models\Custom\Event::isUserInvited($member->id, $event_id)){
+                $count++;
+            }
+        }
+
+        return $count;
+    }
+
     public static function isUserInvited($user_id = 0, $event_id)
     {
         if (!$user_id || !$event_id) {

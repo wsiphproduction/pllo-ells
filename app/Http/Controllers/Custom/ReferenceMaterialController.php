@@ -8,7 +8,7 @@ use App\Http\Requests\ReferenceMaterialRequest;
 use Facades\App\Helpers\FileHelper;
 
 use App\Models\{Page, Cluster, Agency, Member, FileDownload};
-use App\Models\Custom\{ReferenceMaterial};
+use App\Models\Custom\{ReferenceMaterial, Downloadable};
 use Auth;
 
 class ReferenceMaterialController extends Controller
@@ -70,8 +70,15 @@ class ReferenceMaterialController extends Controller
     public function store(ReferenceMaterialRequest $request){
 
         $data = $request->validated();
-
         $data['created_by'] = Auth::user()->id;
+
+        if(Downloadable::hasApprover($request->agency, $request->cluster)){
+            $data['status'] = 'FOR APPROVAL';
+        }
+        else{
+            $data['approved_on'] = Carbon::today();
+        }
+
         $reference_material = ReferenceMaterial::create($data);
 
        if ($request->hasFile('attachments')) {
@@ -91,6 +98,32 @@ class ReferenceMaterialController extends Controller
         
         return redirect()->back()->with('success', 'You successfully added a reference material');
     }
+
+
+    // public function store(ReferenceMaterialRequest $request){
+
+    //     $data = $request->validated();
+
+    //     $data['created_by'] = Auth::user()->id;
+    //     $reference_material = ReferenceMaterial::create($data);
+
+    //    if ($request->hasFile('attachments')) {
+    //         $attachments = [];
+
+    //         foreach ($request->file('attachments') as $attachment) {
+    //             $file = FileHelper::move_to_folder($attachment, 'reference-materials/'. $reference_material->id .'/attachments');
+    //             if ($file && isset($file['url'])) {
+    //                 $attachments[] = $file['url'];
+    //             }
+    //         }
+
+    //         $data['attachments'] = json_encode($attachments);
+
+    //         $reference_material->update($data);
+    //     }
+        
+    //     return redirect()->back()->with('success', 'You successfully added a reference material');
+    // }
 
 
     public function update(ReferenceMaterial $reference_material, ReferenceMaterialRequest $request){

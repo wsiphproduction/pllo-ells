@@ -198,7 +198,9 @@ class EventController extends Controller
         $certificates = EventDownloadable::where('type', 'Certificates')->where('event_id', $id)->first();
         // $downloads = FileDownload::where('event_id', $id)->first();
 
-        return view('theme.pages.events.view', compact('page', 'event', 'events', 'members', 'user', 'downloads', 'certificates', 'event_agencies'));
+        $participants = EventParticipant::where('event_id', $id)->where('status', 1)->get();
+
+        return view('theme.pages.events.view', compact('page', 'event', 'events', 'members', 'user', 'downloads', 'certificates', 'event_agencies', 'participants'));
     }
 
     public function invitees($id){
@@ -207,12 +209,42 @@ class EventController extends Controller
         }
 
         $event = Event::find($id);
-        $members = Member::all();
+        $agencies = Agency::all();
+        // $members = Member::all();
+
+        $members = Member::query();
+
+        if (request('search')) {
+            $members->where(function ($query) {
+                $search = request('search');
+                $query->where('firstname', 'like', "%{$search}%")
+                    ->orWhere('lastname', 'like', "%{$search}%")
+                    ->orWhere('contact_number', 'like', "%{$search}%")
+                    ->orWhere('other_number', 'like', "%{$search}%")
+                    ->orWhere('email', 'like', "%{$search}%");
+            });
+        }
+
+        if (request('agency')) {
+            $members->where(function ($query) {
+                $search = request('agency');
+                $query->where('agency', 'like', "%{$search}%");
+            });
+        }
+
+        // if (request('status')) {
+        //     $members->where(function ($query) {
+        //         $search = request('status');
+        //         $query->where('status', 'like', "%{$search}%");
+        //     });
+        // }
+
+        $members = $members->orderByDesc('id')->get();
 
         $page = new Page();
         $page->name = 'List of Invitees';
 
-        return view('theme.pages.events.invitees', compact('page', 'event', 'members'));
+        return view('theme.pages.events.invitees', compact('page', 'event', 'agencies', 'members'));
     }
 
     public function edit(Event $event){
@@ -513,6 +545,82 @@ class EventController extends Controller
         $downloadable->update($data);
         
         return redirect()->back()->with('success', 'You successfully uploaded files');
+    }
+
+    public function update_certificate(EventDownloadableRequest $request, $event_id)
+    {
+        $event = EventDownloadable::where('event_id', $event_id)->where('type', 'Certificates')->firstOrFail();
+
+        $certificates = json_decode($event->attachments);  // existing attachments
+        $member_ids = json_decode($event->member_id);       // existing member ids
+        $data = $request->validated();
+
+        $updated = false;
+
+        foreach ($member_ids as $index => $member_id) {
+            if ($member_id == $request->member_id) {
+                if ($request->hasFile('attachment')) {
+                    $file = $request->file('attachment')[0]; // Single file
+                    $file_url = FileHelper::move_to_folder($file, 'events/' . $event_id . '/downloadables/' . $request->type);
+
+                    if ($file_url && isset($file_url['url'])) {
+                        $certificates[$index] = $file_url['url'];
+                    }
+                } else {
+                    // No file uploaded, so remove the certificate for this index
+                    unset($certificates[$index]);
+                    unset($member_ids[$index]);
+                }
+
+                $updated = true;
+                break;
+            }
+        }
+
+        // Reindex arrays to keep proper structure
+        $certificates = array_values($certificates);
+        $member_ids = array_values($member_ids);
+
+        if ($updated) {
+            $event->update([
+                'attachments' => json_encode($certificates),
+                'member_id' => json_encode($member_ids),
+            ]);
+
+            return redirect()->back()->with('success', 'Certificate updated successfully.');
+        }
+
+        return redirect()->back()->with('error', 'Member not found or no file uploaded.');
+    }
+
+    public function update_downloadable(EventDownloadableRequest $request, $event_id)
+    {
+        $event = EventDownloadable::where('event_id', $event_id)->where('type', 'Materials')->firstOrFail();
+        $downloadables = json_decode($event->attachments);  // existing attachments
+
+        $data = $request->validated();
+
+        if ($request->hasFile('attachment')) {
+            $file = $request->file('attachment')[0]; // Single file
+            $file_url = FileHelper::move_to_folder($file, 'events/' . $event_id . '/downloadables/' . $request->type);
+
+            if ($file_url && isset($file_url['url'])) {
+                $downloadables[$request->file_index] = $file_url['url'];
+            }
+        } else {
+            // No file uploaded, so remove the certificate for this index
+            unset($downloadables[$request->file_index]);
+        }
+
+        // Reindex arrays to keep proper structure
+        $downloadables = array_values($downloadables);
+
+            $event->update([
+                'attachments' => json_encode($downloadables),
+            ]);
+
+
+        return redirect()->back()->with('success', 'Dowloadables updated successfully.');
     }
 
 }

@@ -78,6 +78,8 @@ Route::get('/phpinfo', function () {
         Route::post('/events/submit-feedback/{id}', [EventController::class, 'submit_feedback'])->name('events.submit-feedback');
         Route::get('/events/feedbacks/{event}', [EventController::class, 'feedbacks'])->name('events.feedbacks');
         Route::post('/events/upload-downloadables/{id}', [EventController::class, 'upload_downloadables'])->name('events.upload-downloadables');
+        Route::post('/events/update-certificate/{id}', [EventController::class, 'update_certificate'])->name('events.update-certificate');
+        Route::post('/events/update-downloadable/{id}', [EventController::class, 'update_downloadable'])->name('events.update-downloadable');
     //
 
     // Reference Materials
@@ -106,7 +108,6 @@ Route::get('/phpinfo', function () {
         Route::get('/sitemap', [FrontController::class, 'sitemap'])->name('sitemap');
         // Route::get('/sitemap', [SitemapController::class, 'index'])->name('sitemap');
     // 
-
 
     // Resources
         Route::get('/case-details/{slug}', [FrontController::class, 'resource_details'])->name('resource-details.front.show');
