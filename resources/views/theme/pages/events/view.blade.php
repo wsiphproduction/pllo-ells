@@ -59,9 +59,9 @@
 							Options
 						</button>
 						<div class="dropdown-menu">
-							<a class="dropdown-item" href="{{ route('events.invitees', $event->id) }}">List of Invitees</a>
 
 							@if(Auth::check() && $event->created_by == Auth::id())
+								<a class="dropdown-item" href="{{ route('events.invitees', $event->id) }}">List of Invitees</a>
 								<a class="dropdown-item" href="{{ route('events.feedbacks', $event->id) }}">View Feedbacks</a>
 								<a class="dropdown-item" href="{{ route('events.edit', $event->id) }}">Update Details</a>
 								<a class="dropdown-item text-danger bg-transparent" href="#" onclick="$('#cancelModal').modal('show')">Cancel Event</a>
@@ -396,7 +396,39 @@
 						@if(Auth::user()->role_id == 1 || ($event->isDone && $event->hasDoneFeedback($user->id)))
 							<strong style="font-size:14px;">Post-Activity Downloadable Materials</strong>
 
-							<div style="padding-left: 0.5rem;">
+							<div class="col-12">
+								<table>
+									@foreach ($download as $index => $file)
+										<tr>
+											<td>Attachment {{ $index + 1 }} : &nbsp;</td>
+											<td><a class="text-primary" href="{{ asset($file) }}" target="_blank" download>{{ basename($file) }}</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+											<td @if(Auth::user()->role_id != 1) hidden @endif>
+												<ul class="list-unstyled mb-2 small">
+													<li class="d-inline-block me-2">
+														<a href="javascript:void(0);" onclick="document.getElementById('downloadable_input{{ $index }}').click();" class="btn btn-sm btn-primary">
+															<i class="bi-upload"></i>
+														</a>
+													</li>
+													<li class="d-inline-block me-2">
+														<a href="javascript:void(0);" onclick="updateDownloadable('downloadable_form{{ $index }}')" class="btn btn-sm btn-danger">
+															<i class="bi-trash"></i>
+														</a>
+													</li>
+												</ul>
+
+												<form id="downloadable_form{{ $index }}" action="{{ route('events.update-downloadable', $event->id) }}" method="post" enctype="multipart/form-data" style="display:none;">
+													@csrf
+													<input id="downloadable_input{{ $index }}" name="attachment[]" type="file" onchange="updateDownloadable('downloadable_form{{ $index }}')">
+													<input name="file_index" value="{{ $index }}" type="hidden">
+													<input name="type" value="Materials" type="hidden">
+												</form>
+											</td>
+										</tr>
+									@endforeach
+								</table>
+							</div>
+
+							{{-- <div style="padding-left: 0.5rem;">
 								<ul class="mb-0 ps-3">
 									@foreach ($download as $index => $file)
 										<li>
@@ -407,7 +439,7 @@
 									@endforeach
 								</ul>
 							</div>
-							<br>
+							<br> --}}
 						@endif
 					@endif
 
@@ -422,22 +454,59 @@
 						@if(Auth::user()->role_id == 1 || ($event->isDone && $event->hasDoneFeedback($user->id)))
 							<strong style="font-size:14px;">Certificates</strong>
 
-							<div style="padding-left: 0.5rem;">
-								<ul class="mb-0 ps-3">
+							<div class="col-12">
+								<table>
 									@foreach ($certificate as $index => $file)
 										@if(Auth::user()->role_id == 1 || App\Models\Custom\Event::isMemberInSameGroup($member_id[$index]))
-											<li>
-												<a class="text-primary" href="{{ asset($file) }}" target="_blank" download>
-													<strong class="custom-text-primary">{{  \App\Models\Member::getMemberName($member_id[$index]) }} : </strong> {{ basename($file) }}
-												</a>
-											</li>
+											<tr>
+												<td><strong class="custom-text-primary">{{  \App\Models\Member::getMemberName($member_id[$index]) }} : </strong> &nbsp;</td>
+												<td><a class="text-primary" href="{{ asset($file) }}" target="_blank" download>{{ basename($file) }}</a> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+												<td @if(Auth::user()->role_id != 1) hidden @endif>
+													<ul class="list-unstyled mb-2 small">
+														<li class="d-inline-block me-2">
+															<a href="javascript:void(0);" onclick="document.getElementById('cert_input{{ $index }}').click();" class="btn btn-sm btn-primary">
+																<i class="bi-upload"></i>
+															</a>
+														</li>
+														<li class="d-inline-block me-2">
+															<a href="javascript:void(0);" onclick="updateCert('cert_form{{ $index }}')" class="btn btn-sm btn-danger">
+																<i class="bi-trash"></i>
+															</a>
+														</li>
+													</ul>
+
+													<form id="cert_form{{ $index }}" action="{{ route('events.update-certificate', $event->id) }}" method="post" enctype="multipart/form-data" style="display:none;">
+														@csrf
+														<input id="cert_input{{ $index }}" name="attachment[]" type="file" onchange="updateCert('cert_form{{ $index }}')">
+														<input name="member_id" value="{{ $member_id[$index] }}" type="hidden">
+														<input name="type" value="Certificates" type="hidden">
+													</form>
+												</td>
+											</tr>
 										@endif
 									@endforeach
-								</ul>
+								</table>
 							</div>
-							<br>
+							
 						@endif
 					@endif
+
+					
+
+					<strong style="font-size:14px;"><a href="{{ route('events.invitees', $event->id) }}">Attendees <i class="bi-arrow-right me-2"></i></a></strong>
+
+					<ul class="list-unstyled mb-2 small">
+						<li class="d-inline-block me-4">
+							<i class="bi-person me-2"></i>Total Invited: <strong class="custom-text-primary">{{ App\Models\Custom\Event::getInvitedCount($event->id) }}</strong>
+						</li>
+						<li class="d-inline-block me-4">
+							<i class="bi-person me-2"></i>Registered: <strong class="custom-text-primary">{{ $participants->count() }}</strong>
+						</li>
+						<li class="d-inline-block me-4">
+							<i class="bi-person me-2"></i>Pending: <strong class="custom-text-primary">{{ App\Models\Custom\Event::getInvitedCount($event->id) - $participants->count() }}</strong>
+						</li>
+					</ul>
+					<br>
 
 					{{-- @if(Auth::user()->role_id != 1 && !App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, \App\Models\Member::getMemberInfo(Auth::check() ? Auth::user()->id : 0)->id))
 						<button class="btn form-control mt-5 text-white bg-custom-primary" onclick="$('#registerModal').modal('show')">REGISTER NOW</button>
@@ -836,6 +905,39 @@
 		});
 	</script>
 
-	
+	<script>
+		function updateCert(formId) {
+			Swal.fire({
+				title: 'Are you sure?',
+				text: 'This will update or remove the certificate.',
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonText: 'Yes!',
+				cancelButtonText: 'Cancel'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					document.getElementById(formId).submit();
+				}
+			});
+		}
 
+		function updateDownloadable(formId) {
+			Swal.fire({
+				title: 'Are you sure?',
+				text: 'This will update or remove the file.',
+				icon: 'warning',
+				showCancelButton: true,
+				confirmButtonText: 'Yes!',
+				cancelButtonText: 'Cancel'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					document.getElementById(formId).submit();
+				}
+			});
+		}
+
+		// function updateCert(form) {
+		// 	document.getElementById(form).submit();
+		// }
+	</script>
 @endsection
