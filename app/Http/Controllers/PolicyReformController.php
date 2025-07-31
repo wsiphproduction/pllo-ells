@@ -24,6 +24,7 @@ class PolicyReformController extends Controller
     public function index()
     {
         if(!Auth::user()){
+            session(['url.intended' => url()->current()]);
             return redirect()->route('home')->with('error', 'Access Denied');
         }
         

@@ -23,6 +23,7 @@ class EventController extends Controller
     public function index(){
 
         if(!Auth::user()){
+            session(['url.intended' => url()->current()]);
             return redirect()->route('home')->with('error', 'Access Denied');
         }
 
@@ -49,6 +50,7 @@ class EventController extends Controller
     public function previous(){
 
         if(!Auth::user()){
+            session(['url.intended' => url()->current()]);
             return redirect()->route('home')->with('error', 'Access Denied');
         }
 
@@ -181,6 +183,7 @@ class EventController extends Controller
     public function view($id){
 
         if(!Auth::user()){
+            session(['url.intended' => url()->current()]);
             return redirect()->route('home')->with('error', 'Access Denied');
         }
 

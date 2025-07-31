@@ -130,6 +130,9 @@ class RegistrationController extends Controller
         if ($request->user_type != 4) { $request['congsec_type'] = null; }
 
         // Parallel saving users to members table //
+        $request['firstname'] = strtoupper($request['firstname']);
+        $request['lastname'] = strtoupper($request['lastname']);
+        $request['middle_initial'] = strtoupper($request['middle_initial']);
         $requests = $request->all();
         $requests['name'] = $request['firstname'] . " " . $request['middle_initial'] . ". " . $request['lastname'] . " " . $request['suffix'];
         $requests['mobile'] = $requests['contact_number'];
@@ -193,7 +196,7 @@ class RegistrationController extends Controller
                 $staff = new MemberStaff();
                 if ($i == 1) {
                     $staff->designation = 'CHIEF OF STAFF';
-                } else if($i == 2) {
+                } else if($i == 2) { 
                     $staff->designation = 'APPOINTMENT SECRETARY';
                 } else {
                     $staff->designation = 'STAFF';
@@ -348,7 +351,10 @@ class RegistrationController extends Controller
             $page = new Page();
             $page->name = 'Member Dashboard';
 
-            return redirect(route('member.dashboard'));
+            $url = session()->pull('url.intended', '/member-dashboard'); // fallback if none
+            return redirect($url);
+            // return redirect()->intended('/member-dashboard');
+            // return redirect(route('member.dashboard'));
 
         } else {
             return back()->with('error', 'Incorrect username or password. Please try again.'); 

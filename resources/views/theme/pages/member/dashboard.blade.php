@@ -373,11 +373,11 @@
                                                         <tr>&nbsp;</tr>
                                                         <tr>
                                                             <td><span class="profile-label">Name:</span></td>
-                                                            <td><span>{{ $staff->firstname }}  {{ $staff->suffix }} @if(!empty($staff->suffix)) . @endif {{ $staff->lastname }}</span></td>
+                                                            <td><span class="text-uppercase">{{ $staff->firstname }}  {{ $staff->suffix }} @if(!empty($staff->suffix)) . @endif {{ $staff->lastname }}</span></td>
                                                         </tr>
                                                         <tr>
                                                             <td><span class="profile-label">Nickname:</span></td>
-                                                            <td><span>{{ $staff->nickname }}</span></td>
+                                                            <td><span class="text-uppercase">{{ $staff->nickname }}</span></td>
                                                         </tr>
                                                         <tr>
                                                             <td><span class="profile-label">Gender:</span></td>
@@ -489,11 +489,11 @@
                                                     <tr>&nbsp;</tr>
                                                     <tr>
                                                         <td><span class="profile-label">Name:</span></td>
-                                                        <td><span>{{ $userTypeMember->firstname }}  {{ $userTypeMember->suffix }} @if(!empty($userTypeMember->suffix)) . @endif {{ $userTypeMember->lastname }}</span></td>
+                                                        <td><span class="text-uppercase">{{ $userTypeMember->firstname }}  {{ $userTypeMember->suffix }} @if(!empty($userTypeMember->suffix)) . @endif {{ $userTypeMember->lastname }}</span></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="profile-label">Nickname:</span></td>
-                                                        <td><span>{{ $userTypeMember->nickname }}</span></td>
+                                                        <td><span class="text-uppercase">{{ $userTypeMember->nickname }}</span></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="profile-label">Gender:</span></td>
@@ -587,7 +587,7 @@
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-10">
-                                                        <input class="form-control" type="text" name="firstname" value="{{ $memberDetails->firstname }}" placeholder="FIRST NAME">
+                                                        <input class="form-control text-uppercase" type="text" name="firstname" value="{{ $memberDetails->firstname }}" placeholder="FIRST NAME">
                                                     </div>
                                                     <div class="col-2" style="padding-left: 0px;">
                                                         <input class="form-control" type="text" name="middle_initial" value="{{ $memberDetails->middle_initial }}" placeholder="M.I.">
@@ -598,7 +598,7 @@
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-10">
-                                                        <input class="form-control" type="text" name="lastname" value="{{ $memberDetails->lastname }}" placeholder="LAST NAME">
+                                                        <input class="form-control text-uppercase" type="text" name="lastname" value="{{ $memberDetails->lastname }}" placeholder="LAST NAME">
                                                     </div>
                                                     <div class="col-2" style="padding-left: 0px;">
                                                         <select class="form-select" name="suffix">
@@ -724,7 +724,7 @@
                                                     <div class="tab-content">
                                                         <div class="row mt-4">
                                                             <input type="hidden" id="staffProfPic{{$index}}" name="staff[{{$index}}][staff_id]" value="{{ $staff->id }}">
-                                                            <small class="form-title my-0" style="transform: translate(0px, 16px);">
+                                                            <small class="form-title my-0" style="transform: translate(0px, -6px);">
                                                                 <b class="text-uppercase">{{ $staff->designation }}</b>
                                                             </small>
                                                             <div class="col-12 col-md-2 d-flex align-items-start justify-content-center">
@@ -754,7 +754,7 @@
                                                                 <div class="form-group">
                                                                     <div class="row">
                                                                         <div class="col-10">
-                                                                            <input class="form-control" type="text" name="staff[{{$index}}][firstname]" value="{{ $staff->firstname }}" placeholder="FIRST NAME">
+                                                                            <input class="form-control text-uppercase" type="text" name="staff[{{$index}}][firstname]" value="{{ $staff->firstname }}" placeholder="FIRST NAME">
                                                                         </div>
                                                                         <div class="col-2" style="padding-left: 0px;">
                                                                             <input class="form-control" type="text" name="staff[{{$index}}][middle_initial]" value="{{ $staff->middle_initial }}" placeholder="M.I.">
@@ -765,7 +765,7 @@
                                                                 <div class="form-group">
                                                                     <div class="row">
                                                                         <div class="col-10">
-                                                                            <input class="form-control" type="text" name="staff[{{$index}}][lastname]" value="{{ $staff->lastname }}" placeholder="LAST NAME">
+                                                                            <input class="form-control text-uppercase" type="text" name="staff[{{$index}}][lastname]" value="{{ $staff->lastname }}" placeholder="LAST NAME">
                                                                         </div>
                                                                         <div class="col-2" style="padding-left: 0px;">
                                                                             <select class="form-select" name="staff[{{$index}}][suffix]">
@@ -842,19 +842,19 @@
                                                             </div>
                                                             <div class="col-12 col-md-5">
 
-                                                                <input class="form-control" type="text" name="staff[{{$index}}][email]" value="{{ $staff->email }}">
+                                                                <input class="form-control" type="text" name="staff[{{$index}}][email]" value="{{ $staff->email }}" placeholder="EMAIL">
                                                                 <div class="row mb-3">
                                                                     <div class="col-12 d-flex align-items-center justify-content-start gap-2">
                                                                         <input type="checkbox" name="staff[{{$index}}][agree_email]" @if($staff->agree_email) checked @endif>
-                                                                        <small class="my-2">Agree to show in <span class="text-primary ">Directory</span></small>
+                                                                        <small class="my-2">Agree to show email in <span class="text-primary ">Directory</span></small>
                                                                     </div>
                                                                 </div>
 
-                                                                <input class="form-control" type="text" name="staff[{{$index}}][contact_number]" value="{{ $staff->contact_number }}">
+                                                                <input class="form-control" type="text" name="staff[{{$index}}][contact_number]" value="{{ $staff->contact_number }}" placeholder="CONTACT NUMBER">
                                                                 <div class="row mb-3">
                                                                     <div class="col-12 d-flex align-items-center justify-content-start gap-2">
                                                                         <input type="checkbox" name="staff[{{$index}}][agree_contact_number]" @if($staff->agree_contact_number) checked @endif>
-                                                                        <small class="my-2">Agree to show in <span class="text-primary ">Directory</span></small>
+                                                                        <small class="my-2">Agree to show contact number in <span class="text-primary ">Directory</span></small>
                                                                     </div>
                                                                 </div>
 
@@ -1161,7 +1161,7 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="firstname" value="{{ $memberDetails->senatorOfficial->firstname }}" placeholder="FIRST NAME">
+                                                            <input class="form-control text-uppercase" type="text" name="firstname" value="{{ $memberDetails->senatorOfficial->firstname }}" placeholder="FIRST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
                                                             <input class="form-control" type="text" name="middle_initial" value="{{ $memberDetails->senatorOfficial->middle_initial }}" placeholder="M.I.">
@@ -1172,7 +1172,7 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="lastname" value="{{ $memberDetails->senatorOfficial->lastname }}" placeholder="LAST NAME">
+                                                            <input class="form-control text-uppercase" type="text" name="lastname" value="{{ $memberDetails->senatorOfficial->lastname }}" placeholder="LAST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
                                                             <select class="form-select" name="suffix">
@@ -1399,7 +1399,7 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="spouse_firstname" value="{{ $memberDetails->senatorOfficial->spouse_firstname }}" placeholder="FIRST NAME">
+                                                            <input class="form-control text-uppercase" type="text" name="spouse_firstname" value="{{ $memberDetails->senatorOfficial->spouse_firstname }}" placeholder="FIRST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
                                                             <input class="form-control" type="text" name="spouse_middle_initial" value="{{ $memberDetails->senatorOfficial->spouse_middle_initial }}" placeholder="M.I.">
@@ -1410,7 +1410,7 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="spouse_lastname" value="{{ $memberDetails->senatorOfficial->spouse_lastname }}" placeholder="LAST NAME">
+                                                            <input class="form-control text-uppercase" type="text" name="spouse_lastname" value="{{ $memberDetails->senatorOfficial->spouse_lastname }}" placeholder="LAST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
                                                             <select class="form-select" name="sen_spouse_suffix">
@@ -1623,7 +1623,7 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="firstname" value="{{ $memberDetails->horOfficial->firstname }}" placeholder="FIRST NAME">
+                                                            <input class="form-control text-uppercase" type="text" name="firstname" value="{{ $memberDetails->horOfficial->firstname }}" placeholder="FIRST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
                                                             <input class="form-control" type="text" name="middle_initial" value="{{ $memberDetails->horOfficial->middle_initial }}" placeholder="M.I.">
@@ -1634,7 +1634,7 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="lastname" value="{{ $memberDetails->horOfficial->lastname }}" placeholder="LAST NAME">
+                                                            <input class="form-control text-uppercase" type="text" name="lastname" value="{{ $memberDetails->horOfficial->lastname }}" placeholder="LAST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
                                                             <select class="form-select" name="suffix">
@@ -1938,7 +1938,7 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="spouse_firstname" value="{{ $memberDetails->horOfficial->spouse_firstname }}" placeholder="FIRST NAME">
+                                                            <input class="form-control text-uppercase" type="text" name="spouse_firstname" value="{{ $memberDetails->horOfficial->spouse_firstname }}" placeholder="FIRST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
                                                             <input class="form-control" type="text" name="spouse_middle_initial" value="{{ $memberDetails->horOfficial->spouse_middle_initial }}" placeholder="M.I.">
@@ -1949,7 +1949,7 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="spouse_lastname" value="{{ $memberDetails->horOfficial->spouse_lastname }}" placeholder="LAST NAME">
+                                                            <input class="form-control text-uppercase" type="text" name="spouse_lastname" value="{{ $memberDetails->horOfficial->spouse_lastname }}" placeholder="LAST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
                                                             <select class="form-select" name="spouse_suffix">
@@ -2323,7 +2323,7 @@
                     </div>
 
                     <div class="row">
-                        <small><i><span class="text-danger">Disclaimer for Data Privacy: </span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</i></small>
+                        <small><i><span class="text-danger">Disclaimer for Data Privacy: </span>All personal data collected will be handled in accordance with applicable data privacy laws and will be used solely for legitimate and authorized purposes.</i></small>
                     </div>
 
                     <!-- Action buttons -->

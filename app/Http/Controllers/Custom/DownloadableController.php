@@ -22,6 +22,7 @@ class DownloadableController extends Controller
     public function republic_acts(Request $request)
     {
         if(!Auth::user()){
+            session(['url.intended' => url()->current()]);
             return redirect()->route('home')->with('error', 'Access Denied');
         }
         
@@ -71,6 +72,7 @@ class DownloadableController extends Controller
     public function bills_certified(Request $request)
     {
         if(!Auth::user()){
+            session(['url.intended' => url()->current()]);
             return redirect()->route('home')->with('error', 'Access Denied');
         }
         
@@ -105,6 +107,7 @@ class DownloadableController extends Controller
     public function legislative_priorities(Request $request)
     {
         if(!Auth::user()){
+            session(['url.intended' => url()->current()]);
             return redirect()->route('home')->with('error', 'Access Denied');
         }
         

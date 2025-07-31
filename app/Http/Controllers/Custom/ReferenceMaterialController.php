@@ -19,6 +19,7 @@ class ReferenceMaterialController extends Controller
     public function index(Request $request)
     {
         if(!Auth::user()){
+            session(['url.intended' => url()->current()]);
             return redirect()->route('home')->with('error', 'Access Denied');
         }
 
