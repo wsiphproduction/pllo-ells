@@ -1,10 +1,13 @@
 @php 
 $page = $item->page;
 $is_officer = false;
+
 if(auth()->user()) {
-    $member = \App\Models\Member::where('user_id', auth()->user()->id)->first();
-    if($member->user_type == 1 || $member->user_type == 6) {
-        $is_officer = true;
+    if(auth()->user()->is_not_an_admin()) {
+        $member = \App\Models\Member::where('user_id', auth()->user()->id)->first();
+        if($member->user_type == 1 || $member->user_type == 6) {
+            $is_officer = true;
+        }
     }
 }
 @endphp
@@ -62,8 +65,8 @@ if(auth()->user()) {
         @if(auth()->user())
             <a href="{{ url($item->uri) }}" class="menu-link" target="{{ $item->target }}" 
                 @if( str_contains($item->uri, '/create') && auth()->user()->is_not_an_admin() ) style="display: none !important;" @endif 
-                @if( str_contains($item->uri, 'events') && !$is_officer ) style="display: none !important;" @endif
-                @if( str_contains($item->uri, 'reference-materials') && !$is_officer ) style="display: none !important;" @endif
+                @if( str_contains($item->uri, 'events') && !$is_officer && auth()->user()->is_not_an_admin()) style="display: none !important;" @endif
+                @if( str_contains($item->uri, 'reference-materials') && !$is_officer && auth()->user()->is_not_an_admin()) style="display: none !important;" @endif
                 >
                 <div>
                     {{ $item->label }}
