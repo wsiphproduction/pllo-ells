@@ -127,7 +127,7 @@ class MemberProfileController extends Controller
 	    $member->gender = $request['gender'];
 	    // --> birthday new code on saving
 
-	    if($member->user_type == 2) {
+	    if($member->user_type < 5) {
 	    	foreach ($request->staff as $index => $staff) {
 
 	    			if($staff['type_number'] > 0 && $staff['other_number'] !== null ) {
@@ -298,6 +298,7 @@ class MemberProfileController extends Controller
 	public function directory(Request $request)
 	{
 	    if(!Auth::user()){
+	    	session(['url.intended' => url()->current()]);
 	        return redirect()->route('home')->with('error', 'Access Denied');
 	    }
 
@@ -340,6 +341,7 @@ class MemberProfileController extends Controller
 	public function llsDirectory(Request $request)
 	{	
 		if(!Auth::user()){
+			session(['url.intended' => url()->current()]);
 	        return redirect()->route('home')->with('error', 'Access Denied');
 	    }
 
@@ -395,6 +397,7 @@ class MemberProfileController extends Controller
 	public function plloDirectory(Request $request)
 	{
 		if(!Auth::user()){
+			session(['url.intended' => url()->current()]);
 	        return redirect()->route('home')->with('error', 'Access Denied');
 	    }
 
@@ -421,6 +424,7 @@ class MemberProfileController extends Controller
 	public function senartorsDirectory(Request $request)
 	{
 		if(!Auth::user()){
+			session(['url.intended' => url()->current()]);
 	        return redirect()->route('home')->with('error', 'Access Denied');
 	    }
 
@@ -445,6 +449,7 @@ class MemberProfileController extends Controller
 	public function senartorStaffDirectory(Request $request)
 	{
 		if(!Auth::user()){
+			session(['url.intended' => url()->current()]);
 	        return redirect()->route('home')->with('error', 'Access Denied');
 	    }
 
@@ -471,6 +476,7 @@ class MemberProfileController extends Controller
 	public function senartorComSecDirectory(Request $request)
 	{
 		if(!Auth::user()){
+			session(['url.intended' => url()->current()]);
 	        return redirect()->route('home')->with('error', 'Access Denied');
 	    }
 
@@ -500,6 +506,7 @@ class MemberProfileController extends Controller
 	public function horsDirectory(Request $request)
 	{
 		if(!Auth::user()){
+			session(['url.intended' => url()->current()]);
 	        return redirect()->route('home')->with('error', 'Access Denied');
 	    }
 
@@ -524,6 +531,7 @@ class MemberProfileController extends Controller
 	public function horStaffDirectory(Request $request)
 	{
 		if(!Auth::user()){
+			session(['url.intended' => url()->current()]);
 	        return redirect()->route('home')->with('error', 'Access Denied');
 	    }
 
@@ -550,6 +558,7 @@ class MemberProfileController extends Controller
 	public function horComSecDirectory(Request $request)
 	{
 		if(!Auth::user()){
+			session(['url.intended' => url()->current()]);
 	        return redirect()->route('home')->with('error', 'Access Denied');
 	    }
 

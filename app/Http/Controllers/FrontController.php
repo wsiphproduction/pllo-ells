@@ -63,6 +63,7 @@ class FrontController extends Controller
     public function downloads(Request $request)
     {
         if(!Auth::user()){
+            session(['url.intended' => url()->current()]);
             return redirect()->route('home')->with('error', 'Access Denied');
         }
         
