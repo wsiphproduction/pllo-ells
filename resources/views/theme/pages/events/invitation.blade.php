@@ -19,6 +19,16 @@
     <link rel="stylesheet" href="{{ asset('lib/grapesjs/grapesjs-plugin-filestack.css') }}" />
     <link rel="stylesheet" href="{{ asset('lib/grapesjs/tui-color-picker.min.css') }}" />
     <link rel="stylesheet" href="{{ asset('lib/grapesjs/tui-image-editor.min.css') }}" />
+
+	
+
+	<!-- Custom Blur Backdrop -->
+	<style>
+	.modal-backdrop.show {
+		backdrop-filter: blur(5px);
+		background-color: rgba(0, 0, 0, 0.4); /* Optional for dark tint */
+	}
+	</style>
 @endsection
 
 @section('section_header')
@@ -39,8 +49,8 @@
 				<h4 class="mg-b-0 tx-spacing--1">{{ $page->name }}</h4>
 			</div>
 		</div>
-		
-		<form method="post" action="{{ route('events.invitation-update', $event->id) }}" enctype="multipart/form-data">
+
+		<form id="emailForm" method="post" action="{{ route('events.invitation-update', $event->id) }}" enctype="multipart/form-data">
 			@csrf
 			<div class="row row-sm">
 				<div class="col-lg-3">
@@ -325,26 +335,36 @@
 		</form>
 	</div>
 
-	<div class="modal fade" id="preview-banner" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
-		<div class="modal-dialog modal-dialog-centered modal-xl" role="document">
-			<div class="modal-content tx-14">
-				<div class="modal-header">
-					<h6 class="modal-title" id="exampleModalLabel3">Preview</h6>
-					<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						<span aria-hidden="true">&times;</span>
-					</button>
-				</div>
-				<div class="modal-body">
-					<div class="owl-carousel owl-theme" id="previewCarousel">
+	
+	{{-- SEND EMAIL MODAL --}}
 
-					</div>
+	<div id="sendEmailModal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered modal-md" role="document">
+			<div class="modal-content shadow-lg rounded-4">
+				<div class="modal-header bg-light border-0">
+					<h5 class="modal-title fw-semibold">
+					<i class="bi bi-envelope-paper me-2"></i>Send Invitation Mail?
+					</h5>
 				</div>
-				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary tx-13" data-dismiss="modal">Close</button>
+				<div class="modal-body text-center px-4 pb-4">
+					<p class="mb-4 text-muted">Choose how you want to proceed the invitation email.</p>
+					<div class="d-grid gap-2">
+					<button id="sendNowBtn" class="btn btn-primary btn-lg">
+						<i class="bi bi-send me-1"></i> Send Now
+					</button>
+					<button id="customizeBtn" class="btn btn-warning btn-lg text-white">
+						<i class="bi bi-pencil-square me-1"></i> Customize
+					</button>
+					<a href="{{ session('new_event_id') ? route('events.view', session('new_event_id')) : route('events.index') }}" id="laterBtn" class="btn btn-secondary text-white btn-lg" data-bs-dismiss="modal">
+						<i class="bi bi-clock me-1"></i> Do It Later
+					</a>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
+
+
 @endsection
 
 @section('pagejs')
@@ -440,5 +460,24 @@
     <script src="{{ asset('lib/custom-grapesjs/assets/js/custom-grapesjs.js') }}"></script>
     <script src="{{ asset('lib/custom-grapesjs/assets/js/bamburgh.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.0/typed.min.js"></script>
+
+
+	@if(session('new_event_id'))
+		<script>
+			$(document).ready(function () {
+				$('#sendEmailModal').modal('show');
+
+				// Optional handlers
+				$('#sendNowBtn').on('click', function () {
+					$('#action').val('Save & Send')
+					$('#emailForm').submit();
+				});
+
+				$('#customizeBtn').on('click', function () {
+					$('#sendEmailModal').modal('hide');
+				});
+			});
+		</script>
+	@endif
 @endsection
 

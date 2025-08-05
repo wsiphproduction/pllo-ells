@@ -177,7 +177,10 @@ class EventController extends Controller
         //     }
         // }
 
-        return redirect()->route('events.view', $event->id)->with('success', 'You successfully added an event');
+        session()->flash('new_event_id', $event->id);
+
+        return redirect()->route('events.invitation', $event->id)->with('success', 'You successfully added an event');
+        // return redirect()->route('events.view', $event->id)->with('success', 'You successfully added an event');
         // return redirect()->route('events.index')->with('success', 'You successfully added an event');
     }
 
@@ -239,7 +242,6 @@ class EventController extends Controller
             foreach($members as $member){
                 if(Event::isUserInvited($member->id, $event->id)){
                     \Mail::to($member->email)->send(new EventInvitationMail(Setting::info(), $member, $event));
-                    break;
                 }
             }
 
@@ -249,6 +251,8 @@ class EventController extends Controller
 
             return redirect()->route('events.view', $event->id)->with('success', 'You successfully sent invitation email');
         }
+
+        session()->forget('new_event_id');
 
         return redirect()->route('events.view', $event->id)->with('success', 'You successfully saved invitation email');
     }
