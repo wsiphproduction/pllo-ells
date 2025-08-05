@@ -179,8 +179,8 @@ class EventController extends Controller
 
         session()->flash('new_event_id', $event->id);
 
-        return redirect()->route('events.invitation', $event->id)->with('success', 'You successfully added an event');
-        // return redirect()->route('events.view', $event->id)->with('success', 'You successfully added an event');
+        return redirect()->route('events.view', $event->id)->with('success', 'You successfully added an event');
+        // return redirect()->route('events.invitation', $event->id)->with('success', 'You successfully added an event');
         // return redirect()->route('events.index')->with('success', 'You successfully added an event');
     }
 
