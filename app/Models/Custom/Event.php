@@ -13,7 +13,7 @@ class Event extends Model
     use HasFactory, SoftDeletes;
 
     public $table = 'events';
-    protected $fillable = [ 'title', 'description', 'event_cluster_id', 'date', 'start_time', 'end_time', 'location', 'attachments', 'other_links', 'event_img', 'invitation_file', 'created_by'];
+    protected $fillable = [ 'title', 'description', 'event_cluster_id', 'date', 'start_time', 'end_time', 'location', 'attachments', 'other_links', 'event_img', 'invitation_file', 'contents', 'json', 'styles', 'invitation_sent', 'created_by'];
 
 
     public function cluster()
