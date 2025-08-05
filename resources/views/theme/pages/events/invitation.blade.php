@@ -42,7 +42,7 @@
 
 @section('content')
 	
-	<div class="container">
+	<div id="contentDiv" class="container">
 		<div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30 mb-5">
 			<div>
 				<h2 class="mg-b-0 tx-spacing--1 text-primary">{{ $event->title }}</h2><br>
@@ -338,6 +338,18 @@
 	
 	{{-- SEND EMAIL MODAL --}}
 
+	<div id="sendingModal" class="modal fade" tabindex="-1" role="dialog">
+		<div class="modal-dialog modal-dialog-centered modal-md" role="document">
+			<div class="modal-content shadow-lg rounded-4">
+				<div class="modal-header bg-light border-0">
+					<h5 class="modal-title fw-semibold">
+					<i class="bi bi-envelope-paper me-2"></i>Sending emails please wait ...
+					</h5>
+				</div>
+			</div>
+		</div>
+	</div>
+
 	<div id="sendEmailModal" class="modal fade" tabindex="-1" role="dialog">
 		<div class="modal-dialog modal-dialog-centered modal-md" role="document">
 			<div class="modal-content shadow-lg rounded-4">
@@ -461,7 +473,6 @@
     <script src="{{ asset('lib/custom-grapesjs/assets/js/bamburgh.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.0/typed.min.js"></script>
 
-
 	@if(session('new_event_id'))
 		<script>
 			$(document).ready(function () {
@@ -476,6 +487,17 @@
 				$('#customizeBtn').on('click', function () {
 					$('#sendEmailModal').modal('hide');
 				});
+			});
+		</script>
+	@endif
+
+	@if(request('action'))
+		<script>
+			$(document).ready(function () {
+				$('#contentDiv').hide();
+				$('#sendingModal').modal('show')
+				$('#action').val('Save & Send')
+				$('#emailForm').submit();
 			});
 		</script>
 	@endif

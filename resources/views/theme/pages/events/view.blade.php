@@ -28,6 +28,11 @@
 			box-shadow: 0 0 0 2px rgba(13, 110, 253, 0.5);
 		}
 
+		.modal-backdrop.show {
+			backdrop-filter: blur(5px);
+			background-color: rgba(0, 0, 0, 0.4); /* Optional for dark tint */
+		}
+
 	</style>
 	
 @endsection
@@ -616,6 +621,30 @@
 
 		{{-- MODALS --}}
 
+		{{-- SEND EMAIL MODAL --}}
+		<div id="sendEmailModal" class="modal fade" tabindex="-1" role="dialog">
+			<div class="modal-dialog modal-dialog-centered modal-md" role="document">
+				<div class="modal-content shadow-lg rounded-4">
+					<div class="modal-header bg-light border-0">
+						<h5 class="modal-title fw-semibold">
+						<i class="bi bi-envelope-paper me-2"></i>Send Invitation Mail?
+						</h5>
+					</div>
+					<div class="modal-body text-center px-4 pb-4">
+						<p class="mb-4 text-muted">Choose how you want to proceed the invitation email.</p>
+						<div class="d-grid gap-2">
+						<a href="{{ route('events.invitation', $event->id) . '?action=' . urlencode('Send') }}" id="sendNowBtn" class="btn btn-primary btn-lg">
+							<i class="bi bi-send me-1"></i> Send Email Now
+						</a>
+						<a href="{{ route('events.invitation', $event->id) }}" id="customizeBtn" class="btn btn-warning btn-lg text-white">
+							<i class="bi bi-pencil-square me-1"></i> Customize Email
+						</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
 		{{-- DOWNLOADABLES --}}
 		<div class="modal fade" id="uploadDownloadablesModal" tabindex="-1">
 			<div class="modal-dialog modal-lg">
@@ -950,4 +979,22 @@
 		// 	document.getElementById(form).submit();
 		// }
 	</script>
+
+	@if(session('new_event_id'))
+		<script>
+			$(document).ready(function () {
+				$('#sendEmailModal').modal('show');
+
+				// Optional handlers
+				$('#sendNowBtn').on('click', function () {
+					$('#action').val('Save & Send')
+					$('#emailForm').submit();
+				});
+
+				$('#customizeBtn').on('click', function () {
+					$('#sendEmailModal').modal('hide');
+				});
+			});
+		</script>
+	@endif
 @endsection
