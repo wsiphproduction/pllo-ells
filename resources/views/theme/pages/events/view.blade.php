@@ -29,11 +29,19 @@
 		}
 
 	</style>
+	
 @endsection
 
 @section('content')
 	<section id="registration-form">
 		<div class="container">
+
+			<div class="row p-4" @if($event->invitation_sent) hidden @endif>
+				<div class="alert alert-warning" role="alert">
+					You haven't sent an invitation yet. Click <a href="{{ route('events.invitation', $event->id) }}" class="alert-link"><u>here</u></a> to update or send invitation email.
+				</div>
+			</div>
+
 			<div class="row p-4 mb-4">
 				<div class="col-12 mb-1 d-flex justify-content-between align-items-center">
 					<div class="row">
@@ -316,8 +324,10 @@
 
 				<div class="col-3 mt-1">
 					<img src="{{ asset($event->event_img)}}" width="100%" onerror="this.onerror=null; this.src='{{ asset('theme/addons/images/logos/pllo-logo.png') }}';" @if(!$event->event_img) hidden @endif>
-					
-					@if(Auth::check() && $event->created_by == Auth::id())
+
+					{{-- <a class="btn form-control mt-2 text-white bg-custom-primary" href="{{ route('events.invitation', $event->id) }}">SEND INVITATION MAIL</a> --}}
+
+					@if(Auth::check() && $event->created_by == Auth::id() && $event->isDone)
 						<button class="btn form-control mt-2 text-white bg-custom-primary" onclick="$('#uploadDownloadablesModal').modal('show')">UPLOAD DOWNLOADABLES</button>
 						<button class="btn form-control mt-2 text-white bg-custom-primary" onclick="$('#uploadCertificatesModal').modal('show')">UPLOAD CERTIFICATES</button>
 					@endif

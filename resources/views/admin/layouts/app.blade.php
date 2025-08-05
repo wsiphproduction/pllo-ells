@@ -31,16 +31,23 @@
 
 <body>
 
-    @include('admin.layouts.sidebar')
+    @if (!request()->is('events/invitation/*'))
+        @include('admin.layouts.sidebar')
+    @endif
+
+    {{-- @include('admin.layouts.sidebar') --}}
 
     <div class="content ht-100v pd-0">
 
+        @yield('section_header')
 
-        <div class="content-header">
+        @if (!request()->is('events/invitation/*'))
+            <div class="content-header">
 
-            @include('admin.layouts.header')
+                @include('admin.layouts.header')
 
-        </div>
+            </div>
+        @endif
 
 
         <div class="content-body">

@@ -80,6 +80,8 @@ Route::get('/phpinfo', function () {
         Route::post('/events/upload-downloadables/{id}', [EventController::class, 'upload_downloadables'])->name('events.upload-downloadables');
         Route::post('/events/update-certificate/{id}', [EventController::class, 'update_certificate'])->name('events.update-certificate');
         Route::post('/events/update-downloadable/{id}', [EventController::class, 'update_downloadable'])->name('events.update-downloadable');
+        Route::get('/events/invitation/{event}', [EventController::class, 'invitation'])->name('events.invitation');
+        Route::post('/events/invitation/update/{event}', [EventController::class, 'invitation_update'])->name('events.invitation-update');
     //
 
     // Reference Materials

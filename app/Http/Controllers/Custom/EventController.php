@@ -163,21 +163,94 @@ class EventController extends Controller
                     'invitation_file' => $invitation_file
                 ]);
 
-                $representative = Member::find($id);
-                \Mail::to($representative->email)->send(new EventInvitationMail(Setting::info(), $representative, $event));
+                // $representative = Member::find($id);
+                // \Mail::to($representative->email)->send(new EventInvitationMail(Setting::info(), $representative, $event));
             }
         }
 
         //INVITATION EMAIL
-        $members = Member::all();
+        // $members = Member::all();
 
-        foreach($members as $member){
-            if(Event::isUserInvited($member->id, $event->id)){
-                \Mail::to($member->email)->send(new EventInvitationMail(Setting::info(), $member, $event));
-            }
+        // foreach($members as $member){
+        //     if(Event::isUserInvited($member->id, $event->id)){
+        //         \Mail::to($member->email)->send(new EventInvitationMail(Setting::info(), $member, $event));
+        //     }
+        // }
+
+        return redirect()->route('events.view', $event->id)->with('success', 'You successfully added an event');
+        // return redirect()->route('events.index')->with('success', 'You successfully added an event');
+    }
+
+    public function invitation(Event $event){
+
+        if(!Auth::user()){
+            return redirect()->route('home')->with('error', 'Access Denied');
         }
 
-        return redirect()->route('events.index')->with('success', 'You successfully added an event');
+        $page = new Page();
+        $page->name = 'Send Invitation Mail';
+
+        $default = [
+            'contents' => '<div class="container"><div class="text-center"><h3 id="ivz5">Legislative Liaison System</h3><h2 id="i5lh">Presidential Legislative Liaison Office</h2></div><div class="text-center">
+                                {photo}
+                            </div><p>Hi, {name}!</p><p>
+                                I have the honor to inform you that the Presidential
+                                Legislative Liaison Office (PLLO) will conduct an activity to participate in the event entitled, 
+                                <span class="text-primary"><strong>{title_event}</strong></span>.
+                            </p><ul><li><strong>Cluster:</strong> {cluster}</li><li><strong>Date:</strong> {date}</li><li><strong>Time:</strong> {time}</li><li><strong>Location:</strong> {venue}</li></ul><p>You can download the invitation letter here:</p>
+
+                            {invitation_letter}
+
+                            <p>You can download the other materials for the event:</p>
+
+                            {other_materials}
+
+                            <p>Link for other materials:</p>
+
+                            {link_other_materials}
+
+                            <div class="text-center">
+                                {qrcode_invitation}
+                            </div><div class="text-center"><a href="{link_invitation}" class="btn">VIEW EVENT</a></div><div class="footer">
+                                Presidential Legislative Liaison Office <br/>
+                                National Government Center, Quezon City, Philippines <br/>
+                                +63 (02) 1234 5678 | info@pllo.gov.ph
+                            </div></div>',
+            'json' => '{"gjs-html":"<div class=\"container\"><div class=\"text-center\"><h3 id=\"ivz5\">Legislative Liaison System</h3><h2 id=\"i5lh\">Presidential Legislative Liaison Office</h2></div><div class=\"text-center\">\n\t\t\t\t{photo}\n\t\t\t</div><p>Hi, {name}!</p><p>\n\t\t\t\tI have the honor to inform you that the Presidential\n\t\t\t\tLegislative Liaison Office (PLLO) will conduct an activity to participate in the event entitled, \n\t\t\t\t<span class=\"text-primary\"><strong>{title_event}</strong></span>.\n\t\t\t</p><ul><li><strong>Cluster:</strong> {cluster}</li><li><strong>Date:</strong> {date}</li><li><strong>Time:</strong> {time}</li><li><strong>Location:</strong> {venue}</li></ul><p>You can download the invitation letter here:</p>\n\n\t\t\t{invitation_letter}\n\n\t\t\t<p>You can download the other materials for the event:</p>\n\n            {other_materials}\n\n\t\t\t<p>Link for other materials:</p>\n\n            {link_other_materials}\n\n\t\t\t<div class=\"text-center\">\n\t\t\t\t{qrcode_invitation}\n\t\t\t</div><div class=\"text-center\"><a href=\"{link_invitation}\" class=\"btn\">VIEW EVENT</a></div><div class=\"footer\">\n\t\t\t\tPresidential Legislative Liaison Office <br/>\n\t\t\t\tNational Government Center, Quezon City, Philippines <br/>\n\t\t\t\t+63 (02) 1234 5678 | info@pllo.gov.ph\n\t\t\t</div></div>","gjs-components":"[{\"type\":\"container\",\"classes\":[\"container\"],\"components\":[{\"classes\":[\"text-center\"],\"components\":[{\"tagName\":\"h3\",\"type\":\"header\",\"attributes\":{\"id\":\"ivz5\"},\"components\":[{\"type\":\"textnode\",\"content\":\"Legislative Liaison System\"}]},{\"tagName\":\"h2\",\"type\":\"header\",\"attributes\":{\"id\":\"i5lh\"},\"components\":[{\"type\":\"textnode\",\"content\":\"Presidential Legislative Liaison Office\"}]}]},{\"type\":\"text\",\"classes\":[\"text-center\"],\"components\":[{\"type\":\"textnode\",\"content\":\"\\n\\t\\t\\t\\t{photo}\\n\\t\\t\\t\"}]},{\"type\":\"paragraph\",\"components\":[{\"type\":\"textnode\",\"content\":\"Hi, {name}!\"}]},{\"type\":\"paragraph\",\"components\":[{\"type\":\"textnode\",\"content\":\"\\n\\t\\t\\t\\tI have the honor to inform you that the Presidential\\n\\t\\t\\t\\tLegislative Liaison Office (PLLO) will conduct an activity to participate in the event entitled, \\n\\t\\t\\t\\t\"},{\"tagName\":\"span\",\"classes\":[\"text-primary\"],\"components\":[{\"tagName\":\"strong\",\"type\":\"text\",\"components\":[{\"type\":\"textnode\",\"content\":\"{title_event}\"}]}]},{\"type\":\"textnode\",\"content\":\".\\n\\t\\t\\t\"}]},{\"tagName\":\"ul\",\"components\":[{\"tagName\":\"li\",\"type\":\"text\",\"components\":[{\"tagName\":\"strong\",\"type\":\"text\",\"components\":[{\"type\":\"textnode\",\"content\":\"Cluster:\"}]},{\"type\":\"textnode\",\"content\":\" {cluster}\"}]},{\"tagName\":\"li\",\"type\":\"text\",\"components\":[{\"tagName\":\"strong\",\"type\":\"text\",\"components\":[{\"type\":\"textnode\",\"content\":\"Date:\"}]},{\"type\":\"textnode\",\"content\":\" {date}\"}]},{\"tagName\":\"li\",\"type\":\"text\",\"components\":[{\"tagName\":\"strong\",\"type\":\"text\",\"components\":[{\"type\":\"textnode\",\"content\":\"Time:\"}]},{\"type\":\"textnode\",\"content\":\" {time}\"}]},{\"tagName\":\"li\",\"type\":\"text\",\"components\":[{\"tagName\":\"strong\",\"type\":\"text\",\"components\":[{\"type\":\"textnode\",\"content\":\"Location:\"}]},{\"type\":\"textnode\",\"content\":\" {venue}\"}]}]},{\"type\":\"paragraph\",\"components\":[{\"type\":\"textnode\",\"content\":\"You can download the invitation letter here:\"}]},{\"type\":\"textnode\",\"content\":\"\\n\\n\\t\\t\\t{invitation_letter}\\n\\n\\t\\t\\t\"},{\"type\":\"paragraph\",\"components\":[{\"type\":\"textnode\",\"content\":\"You can download the other materials for the event:\"}]},{\"type\":\"textnode\",\"content\":\"\\n\\n            {other_materials}\\n\\n\\t\\t\\t\"},{\"type\":\"paragraph\",\"components\":[{\"type\":\"textnode\",\"content\":\"Link for other materials:\"}]},{\"type\":\"textnode\",\"content\":\"\\n\\n            {link_other_materials}\\n\\n\\t\\t\\t\"},{\"type\":\"text\",\"classes\":[\"text-center\"],\"components\":[{\"type\":\"textnode\",\"content\":\"\\n\\t\\t\\t\\t{qrcode_invitation}\\n\\t\\t\\t\"}]},{\"classes\":[\"text-center\"],\"components\":[{\"type\":\"button\",\"classes\":[\"btn\"],\"attributes\":{\"href\":\"{link_invitation}\"},\"components\":[{\"type\":\"textnode\",\"content\":\"VIEW EVENT\"}]}]},{\"type\":\"text\",\"classes\":[\"footer\"],\"components\":[{\"type\":\"textnode\",\"content\":\"\\n\\t\\t\\t\\tPresidential Legislative Liaison Office \"},{\"tagName\":\"br\",\"void\":true},{\"type\":\"textnode\",\"content\":\"\\n\\t\\t\\t\\tNational Government Center, Quezon City, Philippines \"},{\"tagName\":\"br\",\"void\":true},{\"type\":\"textnode\",\"content\":\"\\n\\t\\t\\t\\t+63 (02) 1234 5678 | info@pllo.gov.ph\\n\\t\\t\\t\"}]}]}]","gjs-assets":"[]","gjs-css":"* { box-sizing: border-box; } body {margin: 0;}body{font-family:\"Segoe UI\", Tahoma, Geneva, Verdana, sans-serif;background:#f9f9f9;margin:0;padding:0;}.container{max-width:700px;margin:30px auto;background:#ffffff;padding:30px 40px;}.text-center{text-align:center;}h2, h3{margin:10px 0;font-weight:normal;}ul{padding-left:20px;}a{color:#0d6efd;text-decoration:none;}.text-primary{color:#0d6efd;}.logo-group img{height:80px;margin:0 10px;}.btn{background-color:#3c5d90;color:#fff;padding:10px 20px;text-decoration:none;display:inline-block;margin-top:30px;border-radius:4px;}.footer{text-align:center;font-size:12px;color:#999;margin-top:30px;padding:20px;border-top:1px solid #eee;}#ivz5{font-size:28px;}#i5lh{font-size:22px;border-top:1px solid #aaa;padding-top:10px;}","gjs-styles":"[{\"selectors\":[],\"selectorsAdd\":\"body\",\"style\":{\"font-family\":\"\\\"Segoe UI\\\", Tahoma, Geneva, Verdana, sans-serif\",\"background\":\"#f9f9f9\",\"margin\":\"0\",\"padding\":\"0\"}},{\"selectors\":[\"container\"],\"style\":{\"max-width\":\"700px\",\"margin\":\"30px auto\",\"background\":\"#ffffff\",\"padding\":\"30px 40px\"}},{\"selectors\":[\"text-center\"],\"style\":{\"text-align\":\"center\"}},{\"selectors\":[],\"selectorsAdd\":\"h2, h3\",\"style\":{\"margin\":\"10px 0\",\"font-weight\":\"normal\"}},{\"selectors\":[],\"selectorsAdd\":\"ul\",\"style\":{\"padding-left\":\"20px\"}},{\"selectors\":[],\"selectorsAdd\":\"a\",\"style\":{\"color\":\"#0d6efd\",\"text-decoration\":\"none\"}},{\"selectors\":[\"text-primary\"],\"style\":{\"color\":\"#0d6efd\"}},{\"selectors\":[],\"selectorsAdd\":\".logo-group img\",\"style\":{\"height\":\"80px\",\"margin\":\"0 10px\"}},{\"selectors\":[\"btn\"],\"style\":{\"background-color\":\"#3c5d90\",\"color\":\"#fff\",\"padding\":\"10px 20px\",\"text-decoration\":\"none\",\"display\":\"inline-block\",\"margin-top\":\"30px\",\"border-radius\":\"4px\"}},{\"selectors\":[\"footer\"],\"style\":{\"text-align\":\"center\",\"font-size\":\"12px\",\"color\":\"#999\",\"margin-top\":\"30px\",\"padding\":\"20px\",\"border-top\":\"1px solid #eee\"}},{\"selectors\":[\"banner\"],\"style\":{\"width\":\"100%\",\"max-width\":\"500px\",\"margin\":\"20px auto\",\"display\":\"block\"}},{\"selectors\":[\"#ivz5\"],\"style\":{\"font-size\":\"28px\"}},{\"selectors\":[\"#i5lh\"],\"style\":{\"font-size\":\"22px\",\"border-top\":\"1px solid #aaa\",\"padding-top\":\"10px\"}}]"}',
+            'styles' => '* { box-sizing: border-box; } body {margin: 0;}body{font-family:"Segoe UI", Tahoma, Geneva, Verdana, sans-serif;background:#f9f9f9;margin:0;padding:0;}.container{max-width:700px;margin:30px auto;background:#ffffff;padding:30px 40px;}.text-center{text-align:center;}h2, h3{margin:10px 0;font-weight:normal;}ul{padding-left:20px;}a{color:#0d6efd;text-decoration:none;}.text-primary{color:#0d6efd;}.logo-group img{height:80px;margin:0 10px;}.btn{background-color:#3c5d90;color:#fff;padding:10px 20px;text-decoration:none;display:inline-block;margin-top:30px;border-radius:4px;}.footer{text-align:center;font-size:12px;color:#999;margin-top:30px;padding:20px;border-top:1px solid #eee;}#ivz5{font-size:28px;}#i5lh{font-size:22px;border-top:1px solid #aaa;padding-top:10px;}'
+        ];
+
+        return view('theme.pages.events.invitation', compact('page', 'event', 'default'));
+    }
+
+    public function invitation_update(Event $event, Request $request){
+
+        $event->update([
+            'contents' => $request->contents,
+            'json' => $request->json,
+            'styles' => $request->styles
+        ]);
+
+        if($request->action == "Save & Send"){
+
+            //INVITATION EMAIL
+            $members = Member::all();
+
+            foreach($members as $member){
+                if(Event::isUserInvited($member->id, $event->id)){
+                    \Mail::to($member->email)->send(new EventInvitationMail(Setting::info(), $member, $event));
+                    break;
+                }
+            }
+
+            $event->update([
+                'invitation_sent' => 1
+            ]);
+
+            return redirect()->route('events.view', $event->id)->with('success', 'You successfully sent invitation email');
+        }
+
+        return redirect()->route('events.view', $event->id)->with('success', 'You successfully saved invitation email');
     }
 
     public function view($id){
@@ -419,7 +492,8 @@ class EventController extends Controller
             }
         }
 
-        return redirect()->route('events.index')->with('success', 'You successfully updated an event');
+        return redirect()->route('events.view', $event->id)->with('success', 'You successfully updated an event');
+        // return redirect()->route('events.index')->with('success', 'You successfully updated an event');
     }
 
     public function cancel_event($id){
