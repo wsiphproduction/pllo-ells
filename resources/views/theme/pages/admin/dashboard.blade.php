@@ -264,50 +264,27 @@
 
 									<div class="card-body">
 
-										<div class="d-flex justify-content-between align-items-start mb-4 p-3 border-bottom">
-											<div class="d-flex">
-												<div class="me-3">
-													<i class="bi-calendar-event-fill fs-3 text-dark"></i>
-												</div>
-												<div>
-													<h6 class="mb-1 fw-semibold">NCAP Deployment</h6>
-													<small class="text-muted">July 5, 2025 · 9:00AM - 4:00PM<br>Luneta Park</small>
-												</div>
-											</div>
-											<a href="#" class="text-decoration-none text-muted">
-												<i class="bi-arrow-right-circle fs-5"></i>
-											</a>
-										</div>
+										@foreach($upcoming_events as $upcoming_event)
 
-										<div class="d-flex justify-content-between align-items-start mb-4 p-3 border-bottom">
-											<div class="d-flex">
-												<div class="me-3">
-													<i class="bi-calendar-event-fill fs-3 text-dark"></i>
+											<div class="d-flex justify-content-between align-items-start mb-4 p-3 border-bottom">
+												<div class="d-flex">
+													<div class="me-3">
+														<i class="bi-calendar-event-fill fs-3 text-dark"></i>
+													</div>
+													<div>
+														<h6 class="mb-1 fw-semibold text-start">{{ $upcoming_event->title }}</h6>
+														<small class="text-muted">
+															{{ \Carbon\Carbon::parse($upcoming_event->date)->format('F d, Y') }} | {{ $upcoming_event->start_time }} - {{ $upcoming_event->end_time }}
+															<br>{{ $upcoming_event->location }}
+														</small>
+													</div>
 												</div>
-												<div>
-													<h6 class="mb-1 fw-semibold">Anti Illegal Parking</h6>
-													<small class="text-muted">July 5, 2025 · 9:00AM - 4:00PM<br>Tondo, Manila</small>
-												</div>
+												<a href="#" class="text-decoration-none text-muted">
+													<i class="bi-arrow-right-circle fs-5"></i>
+												</a>
 											</div>
-											<a href="#" class="text-decoration-none text-muted">
-												<i class="bi-arrow-right-circle fs-5"></i>
-											</a>
-										</div>
 
-										<div class="d-flex justify-content-between align-items-start mb-4 p-3 border-bottom">
-											<div class="d-flex">
-												<div class="me-3">
-													<i class="bi-calendar-event-fill fs-3 text-dark"></i>
-												</div>
-												<div>
-													<h6 class="mb-1 fw-semibold">Agricultural Development</h6>
-													<small class="text-muted">July 5, 2025 · 9:00AM - 4:00PM<br>GT-Toyota Asian Center, UP Diliman</small>
-												</div>
-											</div>
-											<a href="#" class="text-decoration-none text-muted">
-												<i class="bi-arrow-right-circle fs-5"></i>
-											</a>
-										</div>
+										@endforeach
 
 									</div>
 								</div>

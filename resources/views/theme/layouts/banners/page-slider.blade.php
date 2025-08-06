@@ -66,7 +66,7 @@
 </section> --}}
 
 
-<section id="slider" class="slick-wrapper clearfix include-header">
+<section id="slider" class="slick-wrapper clearfix">
 
     <div class="banner-wrapper">
 
