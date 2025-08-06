@@ -39,7 +39,9 @@
                     </select>
                 </form>
 
+                @if(auth()->user()->is_not_an_admin())
                 <a href="{{ route('policyreform.create') }}" class="btn text-uppercase text-white custom-primary-bg mx-2" style="min-width: 165px; max-height: 40px;">Propose a bill</a>
+                @endif
             </div>
             
         </div>

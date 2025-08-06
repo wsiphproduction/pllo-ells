@@ -63,6 +63,11 @@ class PolicyReformController extends Controller
         $page->name = 'View Policy Reform';
 
         $bill = PolicyReform::find($id);
+
+        if(auth()->user()->is_an_admin()) {
+            return back()->with('error', 'Viewing policy reform is for members only.');
+        }
+
         $member = Member::where('user_id', auth()->user()->id )->first();
         $bookmark = PolicyReformBookmark::where('member_id', $member->id)
                                         ->where('policy_reform_id', $bill->id)
