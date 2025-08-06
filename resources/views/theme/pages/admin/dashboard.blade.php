@@ -264,7 +264,7 @@
 
 									<div class="card-body">
 
-										@foreach($upcoming_events as $upcoming_event)
+										@forelse($upcoming_events as $upcoming_event)
 
 											<div class="d-flex justify-content-between align-items-start mb-4 p-3 border-bottom">
 												<div class="d-flex">
@@ -279,12 +279,13 @@
 														</small>
 													</div>
 												</div>
-												<a href="#" class="text-decoration-none text-muted">
+												<a href="events/view/{{ $upcoming_event->id }}" class="text-decoration-none text-muted">
 													<i class="bi-arrow-right-circle fs-5"></i>
 												</a>
 											</div>
-
-										@endforeach
+										@empty
+											<p>No upcoming events for now.</p>
+										@endforelse
 
 									</div>
 								</div>
@@ -297,31 +298,17 @@
 										BIRTHDAY CELEBRANTS THIS MONTH
 									</div>
 									<div class="card-body">
-
-										<div class="d-flex align-items-center mb-4">
-											<img src="{{ asset('theme/images/icons/avatar.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';" class="rounded-circle me-3 border" alt="Avatar" width="50" height="50">
-											<div>
-												<h6 class="mb-1 fw-semibold">Mark Valencia</h6>
-												<small class="text-muted">July 22 · Procurement</small>
+										@forelse($celebrants as $celebrant)
+											<div class="d-flex align-items-center mb-4">
+												<img src="{{ asset('/') . $celebrant->photo }}" onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';" class="rounded-circle me-3 border" alt="Avatar" width="50" height="50">
+												<div>
+													<h6 class="mb-1 fw-semibold text-capitalize">{{ $celebrant->fullName }}</h6>
+													<small class="text-muted">{{ $celebrant->birthdate }}</small>
+												</div>
 											</div>
-										</div>
-
-										<div class="d-flex align-items-center mb-4">
-											<img src="{{ asset('theme/images/icons/avatar.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';" class="rounded-circle me-3 border" alt="Avatar" width="50" height="50">
-											<div>
-												<h6 class="mb-1 fw-semibold">Ferdinand Palaspas</h6>
-												<small class="text-muted">July 28 · Procurement</small>
-											</div>
-										</div>
-
-										<div class="d-flex align-items-center mb-4">
-											<img src="{{ asset('theme/images/icons/avatar.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';" class="rounded-circle me-3 border" alt="Avatar" width="50" height="50">
-											<div>
-												<h6 class="mb-1 fw-semibold">Martin Nieverra</h6>
-												<small class="text-muted">July 30 · Procurement</small>
-											</div>
-										</div>
-
+										@empty
+											<p>No celebrants for this month.</p>
+										@endforelse
 									</div>
 								</div>
 							</div>

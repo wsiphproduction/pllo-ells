@@ -410,8 +410,10 @@ class RegistrationController extends Controller
                         ->get()
                         ->take(5);
 
-
-        return view('theme.pages.admin.dashboard', compact('page', 'registrations_pending', 'registrations_approve', 'registrations_process', 'upcoming_events'));
+        $month = date('F');
+        $celebrants = Member::where('birthdate', 'like', "%$month%" )->get();
+// dd($celebrants);
+        return view('theme.pages.admin.dashboard', compact('page', 'registrations_pending', 'registrations_approve', 'registrations_process', 'upcoming_events', 'celebrants'));
 
     }
 
