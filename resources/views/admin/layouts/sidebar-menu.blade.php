@@ -55,11 +55,11 @@
         </li>
     @endif
 
-    @if (auth()->user()->has_access_to_file_manager_module() || auth()->user()->has_access_to('file-manager'))
+    {{-- @if (auth()->user()->has_access_to_file_manager_module() || auth()->user()->has_access_to('file-manager'))
         <li class="nav-item @if (\Route::current()->getName() == 'downloadables.index') active @endif">
             <a href="{{ route('downloadables.index') }}" class="nav-link"><i data-feather="download"></i> <span>Downloadables</span></a>
         </li>
-    @endif
+    @endif --}}
 
     <!-- @if (auth()->user()->has_access_to_menu_module())
 
@@ -83,7 +83,7 @@
         </li>
     @endif
     
-    @if (auth()->user()->has_access_to_news_module() || auth()->user()->has_access_to_news_categories_module() || auth()->user()->role_id == '8')
+    {{-- @if (auth()->user()->has_access_to_news_module() || auth()->user()->has_access_to_news_categories_module() || auth()->user()->role_id == '8')
         <li class="nav-item with-sub @if (request()->routeIs('news*') || request()->routeIs('news-categories*')) active show @endif">
             <a href="" class="nav-link"><i data-feather="edit"></i> <span>Policy Reforms</span></a>
             <ul>
@@ -97,7 +97,7 @@
                 @endif
             </ul>
         </li> 
-    @endif
+    @endif --}}
 
     @if (auth()->user()->is_an_admin() || auth()->user()->has_access_to('settings'))
         <li class="nav-item with-sub @if (request()->routeIs('account*') || request()->routeIs('website-settings*') || request()->routeIs('audit*')) active show @endif">

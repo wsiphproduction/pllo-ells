@@ -37,6 +37,7 @@ use Auth;
 use Session;
 use Storage;
 use Image;
+use Carbon\Carbon;
 
 class RegistrationController extends Controller
 {
@@ -397,7 +398,20 @@ class RegistrationController extends Controller
                         ->where('users.is_active', '<>', 1)
                         ->get();
 
-        return view('theme.pages.admin.dashboard', compact('page', 'registrations_pending', 'registrations_approve', 'registrations_process'));
+        $upcoming_events = Event::whereDate('date', '>=', Carbon::today())
+                        ->where(function ($query) {
+                            $query->whereDate('date', '>', Carbon::today())
+                                ->orWhere(function ($q) {
+                                    $q->whereDate('date', Carbon::today())
+                                        ->whereTime('end_time', '>=', Carbon::now()->toTimeString());
+                                });
+                        })
+                        ->orderBy('created_at', 'desc')
+                        ->get()
+                        ->take(5);
+
+
+        return view('theme.pages.admin.dashboard', compact('page', 'registrations_pending', 'registrations_approve', 'registrations_process', 'upcoming_events'));
 
     }
 
