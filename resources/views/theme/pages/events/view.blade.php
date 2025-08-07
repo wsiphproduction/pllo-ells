@@ -700,7 +700,7 @@
 														onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';">
 													<div>
 														<strong>{{ $member->fullName }}</strong><br>
-														<small class="text-muted">{{ App\Models\Agency::getAgencyName($member->agency)->agency_name }}</small>
+														<small class="text-muted">{{ App\Models\Agency::getAgencyName($member->agency)->agency_name ?? 'Unassigned' }}</small>
 													</div>
 												</div>
 
