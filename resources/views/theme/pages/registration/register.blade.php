@@ -379,7 +379,7 @@
 							<div class="col-12">
 								<select class="form-select" aria-label="select hor member" name="chairperson" id="chairperson">
 									@foreach($hors as $hor)
-								  	<option value="{{ $hor->id }}">{{ $hor->hor_firstname }} {{ $hor->hor_middle_initial }}@if($hor->hor_middle_initial). @endif {{ $hor->hor_lastname }}</option>
+								  	<option value="{{ $hor->id }}">{{ $hor->firstname }} {{ $hor->middle_initial }}@if($hor->middle_initial). @endif {{ $hor->lastname }}</option>
 									@endforeach
 								</select>
 							</div>
