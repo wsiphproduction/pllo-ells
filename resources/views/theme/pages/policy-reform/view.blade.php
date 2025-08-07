@@ -63,7 +63,7 @@
                     <div class="d-flex flex-column">
                         <p class="pb-4">Proposed by:</p>
                         <div class="d-flex pb-3" style="border-bottom: 1px dotted gray;">
-                            <img class="rounded" src="{{ asset('/' . $bill->member->photo ) }}" style="width: 75px; height: 75px; object-fit: cover;">
+                            <img class="rounded" src="{{ asset('/' . $bill->member->photo ) }}" style="width: 75px; height: 75px; object-fit: cover;" onerror="this.onerror=null; this.src='{{ asset('theme/addons/images/logos/pllo-logo.png') }}';">
                             <div class="d-flex flex-column ms-3">
                                 <b>{{ $bill->member->FullName }}</b>
                                 @if(!empty($bill->member->designation))
