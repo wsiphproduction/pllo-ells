@@ -126,8 +126,11 @@ class PolicyReformController extends Controller
             return back()->with('error', 'Please upload a photo.');
         }
 
+        $member = Member::where('user_id', $request['member_id'])->first();
+
         // Save
         $requests = $request->all();
+        $requests['member_id'] = $member->id;
         $requests['photo'] = $photo;
         PolicyReform::create($requests);
 
