@@ -69,10 +69,12 @@
     <div class="container">
         
         <div class="row mt-5">
+            
             <h4 class="custom-text-primary">PREVIOUS EVENTS</h4>
 
             <div id="oc-team" class="owl-carousel team-carousel carousel-widget" data-margin="30" data-nav="true" data-pagi="true" data-items-xs="1" data-items-sm="1" data-items-lg="2" data-items-xl="2">
 
+                @if(Auth::check())
                 @php
                     $events = App\Models\Custom\Event::whereDate('date', '<=', Carbon\Carbon::today())
                         ->where(function ($query) {
@@ -86,46 +88,88 @@
                         ->get();
                 @endphp
 
-                @foreach($events as $event)
+                @forelse($events as $event)
+                    
+                        @if(Auth::user()->role_id == 1 || App\Models\Custom\Event::isUserParticipated(App\Models\Member::where('user_id', Auth::check() ? Auth::id() : 0)->first()->id, $event->id))
+                            <div class="card mb-4 p-3 border-0 shadow-sm">
+                                <div class="row g-0">
+                                    <div class="col-md-4" style="height: 200px;">
+                                        <img src="{{ asset('') . $event->event_img }}" onerror="this.onerror=null; this.src='{{ asset('theme/addons/images/logos/pllo-logo.png') }}';"
+                                            class="img-fluid rounded-start"
+                                            style="height: 100%; width: 100%; object-fit: contain;"
+                                            alt="Event Image">
+                                    </div>
+                                    
+                                    <div class="col-md-8">
+                                        <div class="card-body">
+                                            <h6 class="card-title mb-2 text-primary fw-bold">{{ $event->title }}</h6>
 
-                    @if(Auth::user()->role_id == 1 || App\Models\Custom\Event::isUserParticipated(App\Models\Member::where('user_id', Auth::check() ? Auth::id() : 0)->first()->id, $event->id))
-                        <div class="card mb-4 p-3 border-0 shadow-sm">
-                            <div class="row g-0">
-                                <div class="col-md-4" style="height: 200px;">
-                                    <img src="{{ asset('') . $event->event_img }}" onerror="this.onerror=null; this.src='{{ asset('theme/addons/images/logos/pllo-logo.png') }}';"
-                                        class="img-fluid rounded-start"
-                                        style="height: 100%; width: 100%; object-fit: contain;"
-                                        alt="Event Image">
-                                </div>
-                                
-                                <div class="col-md-8">
-                                    <div class="card-body">
-                                        <h6 class="card-title mb-2 text-primary fw-bold">{{ $event->title }}</h6>
+                                            <ul class="list-unstyled mb-2 small">
+                                                <li><i class="bi-calendar-event me-2"></i>Date: {{ date('F d, Y', strtotime($event->date)) }}</li>
+                                                <li><i class="bi-geo-alt me-2"></i>{{ $event->location }}</li>
+                                            </ul>
 
-                                        <ul class="list-unstyled mb-2 small">
-                                            <li><i class="bi-calendar-event me-2"></i>Date: {{ date('F d, Y', strtotime($event->date)) }}</li>
-                                            <li><i class="bi-geo-alt me-2"></i>{{ $event->location }}</li>
-                                        </ul>
+                                            <p class="card-text small text-muted mb-2">
+                                                {{ $event->description }}
+                                            </p>
 
-                                        <p class="card-text small text-muted mb-2">
-                                            {{ $event->description }}
-                                        </p>
+                                            
+                                                <div class="text-end">
+                                                    <a href="{{ env('APP_URL') }}/events/view/{{ $event->id }}" class="fw-semibold small text-decoration-none text-primary">
+                                                        VIEW <i class="bi-arrow-right-short align-middle"></i>
+                                                    </a>
+                                                </div>
 
-                                        
-                                            <div class="text-end">
-                                                <a href="{{ env('APP_URL') }}/events/view/{{ $event->id }}" class="fw-semibold small text-decoration-none text-primary">
-                                                    VIEW <i class="bi-arrow-right-short align-middle"></i>
-                                                </a>
-                                            </div>
-
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    @endif
+                        @endif
+                @empty
+                    <p>No previous events for now.</p>
+                @endforelse
+                @else
+                    @php
+                        $events = App\Models\Custom\Event::limit(5)->get();
+                    @endphp
 
-                @endforeach
-                 
+                    @foreach($events as $event)
+                    <div class="card mb-4 p-3 border-0 shadow-sm">
+                        <div class="row g-0">
+                            <div class="col-md-4" style="height: 200px;">
+                                <img src="{{ asset('') . $event->event_img }}" onerror="this.onerror=null; this.src='{{ asset('theme/addons/images/logos/pllo-logo.png') }}';"
+                                    class="img-fluid rounded-start"
+                                    style="height: 100%; width: 100%; object-fit: contain;"
+                                    alt="Event Image">
+                            </div>
+                            
+                            <div class="col-md-8">
+                                <div class="card-body">
+                                    <h6 class="card-title mb-2 text-primary fw-bold">{{ $event->title }}</h6>
+
+                                    <ul class="list-unstyled mb-2 small">
+                                        <li><i class="bi-calendar-event me-2"></i>Date: {{ date('F d, Y', strtotime($event->date)) }}</li>
+                                        <li><i class="bi-geo-alt me-2"></i>{{ $event->location }}</li>
+                                    </ul>
+
+                                    <p class="card-text small text-muted mb-2">
+                                        {{ $event->description }}
+                                    </p>
+
+                                    
+                                        <div class="text-end">
+                                            <a class="fw-semibold small text-decoration-none text-primary cursor-pointer" title="Login to view">
+                                                VIEW <i class="bi-arrow-right-short align-middle"></i>
+                                            </a>
+                                        </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+
+                @endif
             </div>
             
         </div>
