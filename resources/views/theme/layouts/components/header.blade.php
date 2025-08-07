@@ -5,7 +5,7 @@
         <div class="d-flex justify-content-between align-items-center">
             <ul class="navbar-nav d-flex flex-row">
                 <li class="nav-item">
-                    <a class="nav-link py-1 px-4 mini-logo text-white" href="#">
+                    <a class="nav-link py-1 px-4 mini-logo text-white" href="{{ env('APP_URL') }}">
                        <img src="{{ asset('theme/addons/images/logos/ph-logo.png') }}" alt="logo" style="width: 40px;filter: grayscale(1);">
                     </a>
                 </li>
@@ -91,7 +91,7 @@
         <div class="d-flex justify-content-start flex-md-row fw-medium text-center text-white">
             <!-- Logo -->
             <div id="main-logo" class="m-0 d-none">
-                <a href="/">
+                <a href="{{ env('APP_URL') }}">
                     <img class="logo-default" src="{{ asset('theme/addons/images/logos/lls-logo.png') }}" alt="logo" style="margin-top: 5px; padding-right: 16px;">
                 </a>
             </div>
@@ -99,7 +99,7 @@
             <!-- Title -->
             <div class="header-title text-start">
                 <div id="small-size-logo" class="d-none">
-                    <a href="/">
+                    <a href="{{ env('APP_URL') }}">
                         <img src="{{ asset('theme/addons/images/logos/lls-logo.png') }}" alt="logo" style="margin-top: 5px; padding-right: 16px;">
                     </a>
                 </div>
@@ -122,7 +122,7 @@
                 <!-- Logo
 				============================================= -->
                 <div id="header-logo" class="px-3 d-none">
-                    <a href="/">
+                    <a href="{{ env('APP_URL') }}">
                         <img src="{{ asset('theme/addons/images/logos/lls-logo.png') }}" alt="logo">
                     </a>
                 </div><!-- #logo end -->

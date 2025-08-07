@@ -2119,7 +2119,7 @@
                                         <td>
                                             <span class="primary-text-color">
                                                 <small>
-                                                    <a href="/policy-reform-view/{{ $policy_reform->policyReform->id }}" class="primary-text-color">
+                                                    <a href="{{ env('APP_URL') }}/policy-reform-view/{{ $policy_reform->policyReform->id }}" class="primary-text-color">
                                                         {{ $policy_reform->policyReform->title }}
                                                     </a>
                                                 </small>
