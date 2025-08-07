@@ -2058,7 +2058,7 @@
                                         <td>
                                             <span class="primary-text-color">
                                                 <small>
-                                                    <a href="/events/view/{{ $event->event->id }}">{{ $event->event->title }}</a>
+                                                    <a href="{{ route('events.view', $event->event->id) }}">{{ $event->event->title }}</a>
                                                 </small>
                                             </span>
                                         </td>

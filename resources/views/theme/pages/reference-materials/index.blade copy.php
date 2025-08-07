@@ -106,7 +106,8 @@
                             <th>AGENCY</th>
                             <th>DATE</th>
                             <th>REMARKS</th>
-                            <th class="text-start" width="5%">ACTIONS</th>
+                            <th class="text-center" width="5%">ACTIONS</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -120,26 +121,23 @@
                                     <td>{{ $reference_material->agency->agency_name ?? 'None' }}</td>
                                     <td>{{ \Carbon\Carbon::parse($reference_material->created_at)->format('M d, Y') }}</td>
                                     <td>{{ $reference_material->remarks }}</td>
-                                    <td class="text-start">
+                                    <td class="text-center">
                                         <div class="btn-group" role="group">
                                             <a href="javascript:void(0);" class="btn btn-transparent" title="View Attachments" onclick="$('#attachmentsModal{{ $reference_material->id }}').modal('show')">
                                                 <i class="uil-paperclip"></i>
                                             </a>
-                                            @if(Auth::check() && Auth::user()->id == $reference_material->created_by)
-                                                <a href="javascript:void(0);" class="btn btn-transparent" title="Edit" onclick="$('#editModal{{ $reference_material->id }}').modal('show')">
-                                                    <i class="uil-edit"></i>
-                                                </a>
-                                                <a href="javascript:void(0);" class="btn btn-transparent" title="Delete" onclick="$('#deleteModal').modal('show')">
-                                                    <i class="uil-trash"></i>
-                                                </a>
-                                            @endif
-                                            @if($reference_material->status == 'FOR APPROVAL' && \App\Models\Custom\Downloadable::userIsApprover($reference_material->agency->id ?? null, $reference_material->cluster->id ?? null))
-                                                <a href="javascript:void(0);" class="btn btn-transparent" title="Approve" onclick="$('#approveModal{{ $reference_material->id }}').modal('show')">
-                                                    {{-- <span style="font-size:12px">APPROVE</span> --}}
-                                                    <i class="uil-check"></i>
-                                                </a>
-                                            @endif
+                                            <a href="javascript:void(0);" class="btn btn-transparent" title="Edit" onclick="$('#editModal{{ $reference_material->id }}').modal('show')">
+                                                <i class="uil-edit"></i>
+                                            </a>
+                                            <a href="javascript:void(0);" class="btn btn-transparent" title="Delete" onclick="$('#deleteModal').modal('show')">
+                                                <i class="uil-trash"></i>
+                                            </a>
                                         </div>
+                                    </td>
+                                    <td>
+                                        @if($reference_material->status == 'FOR APPROVAL' && \App\Models\Custom\Downloadable::userIsApprover($reference_material->agency->id ?? null, $reference_material->cluster->id ?? null))
+                                            <button class="btn btn-success btn-sm" onclick="$('#approveModal{{ $reference_material->id }}').modal('show')"><i class="uil-check"></i></button>
+                                        @endif
                                     </td>
                                 </tr>
                             @endif
