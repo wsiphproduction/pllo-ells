@@ -201,7 +201,7 @@
                                 @endif
 
                                 @if($memberDetails->userType->id == 2 | $memberDetails->userType->id == 3)
-                                    <small><b>SECRETARIE'S PROFILE</b></small>
+                                    <small><b>SECRETARY'S PROFILE</b></small>
                                 @endif
 
                             </button>
