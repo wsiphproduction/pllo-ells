@@ -54,7 +54,7 @@
                 <div class="btn-group">
                   <button type="button" class="btn dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                     @if(Auth::user())
-                        <img src="/{{ Auth::user()->avatar }}" class="rounded-circle" alt="" style="width: 30px; height: 30px;">
+                        <img src="{{ Auth::user()->avatar }}" class="rounded-circle" alt="" style="width: 30px; height: 30px;">
                     @else
                         <img src="theme/images/icons/accessibility-icon.png" class="rounded-circle" alt="" style="width: 30px; filter: brightness(4);">
                     @endif
