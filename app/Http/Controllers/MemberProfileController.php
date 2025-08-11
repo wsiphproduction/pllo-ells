@@ -64,7 +64,10 @@ class MemberProfileController extends Controller
 	    $saved_contacts = SavedContact::where('user_id', $memberDetails->user_id)->get();
 	    $saved_contacts_official = SavedContactOfficial::where('user_id', $memberDetails->user_id)->get();
 	    $saved_contacts_staff = SavedContactStaff::where('user_id', $memberDetails->user_id)->get();
-	    $events  = EventParticipant::where('member_id', $memberDetails->id)->get();
+	    $events  = EventParticipant::where('member_id', $memberDetails->id)
+	    							->join('events', 'events.id', 'event_participants.event_id')
+	    							->whereNull('deleted_at')
+	    							->get();
 	    $policy_reforms = PolicyReformBookmark::where('member_id', $memberDetails->id)->get();
 	    $references = ReferenceMaterial::where('created_by', auth()->user()->id)->get();
 	    $userTypeMembers = Member::where('user_type', $memberDetails->user_type)

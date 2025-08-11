@@ -2054,11 +2054,11 @@
                                     </tr>
                                     @forelse($events as $eventAttended)
                                     <tr>
-                                        <td><span><small>{{ $eventAttended->event->date }}</small></span></td>
+                                        <td><span><small>{{ $eventAttended->date }}</small></span></td>
                                         <td>
                                             <span class="primary-text-color">
                                                 <small>
-                                                    <a href="{{ route('events.view', $eventAttended->event->id) }}">{{ $eventAttended->event->title }}</a>
+                                                    <a href="{{ route('events.view', $eventAttended->id) }}">{{ $eventAttended->title }}</a>
                                                 </small>
                                             </span>
                                         </td>
