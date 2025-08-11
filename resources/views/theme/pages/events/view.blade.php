@@ -68,9 +68,13 @@
 					</div>
 
 					<div class="btn-group">
-						<button type="button" class="btn btn-transparent dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-							Options
-						</button>
+
+						@if(Auth::user()->role_id == 1 || !App\Models\Custom\EventParticipant::hasRepliedInvitation($event->id, \App\Models\Member::getMemberInfo(Auth::check() ? Auth::user()->id : 0)->id))
+							<button type="button" class="btn btn-transparent dropdown-toggle" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Options
+							</button>
+						@endif
+
 						<div class="dropdown-menu">
 
 							@if(Auth::check() && $event->created_by == Auth::id())
