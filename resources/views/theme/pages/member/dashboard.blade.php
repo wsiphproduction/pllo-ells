@@ -2053,7 +2053,7 @@
                                         </small>
                                     </tr>
                                     @forelse($events as $eventAttended)
-                                    <tr>
+                                    <tr>{{$eventAttended->event}}
                                         <td><span><small>{{ $eventAttended->event->date }}</small></span></td>
                                         <td>
                                             <span class="primary-text-color">
