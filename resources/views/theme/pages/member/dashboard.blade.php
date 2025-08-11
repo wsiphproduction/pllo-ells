@@ -2050,6 +2050,7 @@
                                             Attending key events provides valuable opportunities for knowledge sharing, networking, and collaboration, enhancing capacity to implement effective and informed policy reforms.
                                             <br>
                                             &nbsp;
+                                            {{$events}}
                                         </small>
                                     </tr>
                                     @forelse($events as $eventAttended)
