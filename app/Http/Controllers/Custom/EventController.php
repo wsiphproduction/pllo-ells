@@ -59,6 +59,21 @@ class EventController extends Controller
 
         // $events = Event::whereDate('date', '<=', Carbon::today())->orderBy('created_at', 'desc')->paginate($this->page_limit);
 
+        // $events = Event::whereDate('date', '<=', Carbon::today())
+        //     ->where(function ($query) {
+        //         $query->whereDate('date', '<', Carbon::today())
+        //             ->orWhere(function ($q) {
+        //                 $q->whereDate('date', Carbon::today())
+        //                     ->whereTime('end_time', '<=', Carbon::now()->toTimeString());
+        //             });
+        //     })
+        //     ->orderBy('created_at', 'desc')
+        //     ->paginate($this->page_limit);
+
+        $memberId = Auth::check()
+            ? \App\Models\Member::where('user_id', Auth::id())->value('id')
+            : 0;
+
         $events = Event::whereDate('date', '<=', Carbon::today())
             ->where(function ($query) {
                 $query->whereDate('date', '<', Carbon::today())
@@ -67,8 +82,18 @@ class EventController extends Controller
                             ->whereTime('end_time', '<=', Carbon::now()->toTimeString());
                     });
             })
+            ->when(Auth::user()->role_id != 1, function ($query) use ($memberId) {
+                // Limit to events where the member participated
+                $query->whereIn('id', function ($sub) use ($memberId) {
+                    $sub->select('event_id')
+                        ->from('event_participants') // or your correct table name
+                        ->where('member_id', $memberId)
+                        ->where('status', 1); // or match your condition
+                });
+            })
             ->orderBy('created_at', 'desc')
             ->paginate($this->page_limit);
+
 
         return view('theme.pages.events.previous', compact('page', 'events'));
     }
