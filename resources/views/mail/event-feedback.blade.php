@@ -101,9 +101,10 @@
 			<p>You can now download the materials, photos, and certificates.</p>
 
             @php
-				if($downloadables->attachments){
-                	$attachments = json_decode($downloadables->attachments, true);
-				}
+    			$attachments = json_decode($downloadables?->attachments ?? '[]', true);
+				// if($downloadables->attachments){
+                // 	$attachments = json_decode($downloadables->attachments, true);
+				// }
             @endphp
 
 			@if (!empty($attachments))
@@ -122,10 +123,12 @@
 			<br>
 
             @php
-				if($certificates->attachments){
-                	$certificate = json_decode($certificates->attachments, true);
-					$member_id = json_decode($certificates->member_id ?? [], true);
-				}
+    			$certificate = json_decode($certificates?->attachments ?? '[]', true);
+    			$member_id = json_decode($certificates?->member_id ?? '[]', true);
+				// if($certificates->attachments){
+                // 	$certificate = json_decode($certificates->attachments, true);
+				// 	$member_id = json_decode($certificates->member_id ?? [], true);
+				// }
             @endphp
 
 			@if (!empty($certificate))

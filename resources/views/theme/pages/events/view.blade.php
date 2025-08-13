@@ -463,10 +463,12 @@
 					@endif
 
 					@php
-						if($certificates){
-							$certificate = json_decode($certificates->attachments ?? [], true);
-							$member_id = json_decode($certificates->member_id ?? [], true);
-						}
+						$certificate = json_decode($certificates?->attachments ?? '[]', true);
+						$member_id = json_decode($certificates?->member_id ?? '[]', true);
+						// if($certificates){
+						// 	$certificate = json_decode($certificates->attachments ?? [], true);
+						// 	$member_id = json_decode($certificates->member_id ?? [], true);
+						// }
 					@endphp
 
 					@if (!empty($certificate))

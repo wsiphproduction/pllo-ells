@@ -354,6 +354,9 @@ class EventController extends Controller
             $invitation_file = $request->hasFile('invitation_file') ? FileHelper::move_to_folder($request->file('invitation_file'), 'events/'. $event->id .'/invitation')['url'] : null;
             $data['invitation_file'] = $invitation_file;
         }
+        else{
+            $invitation_file = $event->invitation_file;
+        }
 
         //EVENT
        if ($request->hasFile('attachments')) {
