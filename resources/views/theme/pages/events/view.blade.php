@@ -41,11 +41,13 @@
 	<section id="registration-form">
 		<div class="container">
 
-			<div class="row p-4" @if($event->invitation_sent) hidden @endif>
-				<div class="alert alert-warning" role="alert">
-					You haven't sent an invitation yet. Click <a href="{{ route('events.invitation', $event->id) }}" class="alert-link"><u>here</u></a> to update or send invitation email.
+			@if(Auth::check() && $event->created_by == Auth::id())
+				<div class="row p-4" @if($event->invitation_sent) hidden @endif>
+					<div class="alert alert-warning" role="alert">
+						You haven't sent an invitation yet. Click <a href="{{ route('events.invitation', $event->id) }}" class="alert-link"><u>here</u></a> to update or send invitation email.
+					</div>
 				</div>
-			</div>
+			@endif
 
 			<div class="row p-4 mb-4">
 				<div class="col-12 mb-1 d-flex justify-content-between align-items-center">
@@ -463,12 +465,10 @@
 					@endif
 
 					@php
-						$certificate = json_decode($certificates?->attachments ?? '[]', true);
-						$member_id = json_decode($certificates?->member_id ?? '[]', true);
-						// if($certificates){
-						// 	$certificate = json_decode($certificates->attachments ?? [], true);
-						// 	$member_id = json_decode($certificates->member_id ?? [], true);
-						// }
+						if($certificates){
+							$certificate = json_decode($certificates->attachments ?? [], true);
+							$member_id = json_decode($certificates->member_id ?? [], true);
+						}
 					@endphp
 
 					@if (!empty($certificate))
