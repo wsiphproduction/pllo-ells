@@ -167,6 +167,13 @@
 
                 <div class="bill-body-container my-4">
                     <p>{{ $bill->description }}</p>
+                    <br />
+                    @if(!empty($bill->document))
+                        @php
+                            $docs_name = explode('/', $bill->document);
+                        @endphp
+                        <p><i>Attached Document:</i> <a href="{{ asset($bill->document) }}" target="_blank">{{$docs_name[2]}}</a></p>
+                    @endif
                 </div>
 
                 <div class="feedback-conteiner mt-4">

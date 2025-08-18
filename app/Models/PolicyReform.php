@@ -14,7 +14,7 @@ class PolicyReform extends Model
 
     public $table = 'policy_reforms';
 
-    protected $fillable = [ 'member_id', 'title', 'category', 'description', 'photo','like','dislike', 'until','target_votes'];
+    protected $fillable = [ 'member_id', 'title', 'category', 'description', 'document', 'photo','like','dislike', 'until','target_votes', 'team'];
 
     public function policyReformCategory() {
         return $this->belongsTo(PolicyReformCategory::class, 'category');
