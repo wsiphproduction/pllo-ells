@@ -126,12 +126,29 @@ class PolicyReformController extends Controller
             return back()->with('error', 'Please upload a photo.');
         }
 
+        if ($request->hasFile('document')) {
+
+            $document_image = $request->file('document');
+            $document_filename = time() . '.' . $document_image->getClientOriginalExtension();
+            $document_path = 'storage/documents/' . $document_filename;
+
+            Storage::disk('public')->putFileAs('documents', $document_image, $document_filename);
+
+            $document = $document_path;
+
+        } else {
+            return back()->with('error', 'Please upload a document.');
+        }
+
+
         $member = Member::where('user_id', $request['member_id'])->first();
 
         // Save
         $requests = $request->all();
+        $requests['team'] = implode("::", $request['team']);
         $requests['member_id'] = $member->id;
         $requests['photo'] = $photo;
+        $requests['document'] = $document;
         PolicyReform::create($requests);
 
         return redirect()->route('policyreform.index')->with('success','Proposed Bill Submited.');
