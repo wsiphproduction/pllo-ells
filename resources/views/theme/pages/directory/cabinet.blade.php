@@ -49,7 +49,7 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body ">
-                                    <h6 class="card-title mb-2 custom-text-primary fw-bold text-uppercase cursor-pointer view-info-btn" 
+                                    <h6 class="card-title mb-2 custom-text-primary fw-bold text-uppercase cursor-pointer view-info-btn"
                                         data-bs-toggle="modal" 
                                         data-bs-target="#viewInfoModal" 
                                         data-name="{{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }}"
@@ -109,7 +109,18 @@
                             </td>
                             <td>
                                 <span class="d-flex flex-column">
-                                    <small class="lh-1"><b class="text-capitalize">{{ $member->FullName }}</b></small>
+                                    <small class="lh-1"><b class="text-capitalize cursor-pointer view-info-btn"
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#viewInfoModal" 
+                                        data-name="{{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }}"
+                                        data-position="{{ $member->position }}"
+                                        data-number="{{ $member->office_cellphone }}"
+                                        data-email="{{ $member->email }}"
+                                        data-has_staff="{{ $member->has_staff }}"
+                                        data-sname="{{ $member->staff_name }}"
+                                        data-snumber="{{ $member->staff_number }}"
+                                        data-semail="{{ $member->staff_email }}"
+                                        >{{ $member->FullName }}</b></small>
                                     @if(!empty($member->position))
                                     <small class="lh-1"><i>{{ $member->position }}</i></small>
                                     @endif
@@ -190,7 +201,6 @@
                     <!-- Profile Tab -->
                     <div class="tab-pane fade show active" id="profile-tab" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
                         <table class="table-dotted table-striped">
-                            <tr>&nbsp;</tr>
                             <tr>
                                 <td><span class="profile-label">Name:</span></td>
                                 <td><span class="view-info-name"></span></td>
@@ -213,7 +223,6 @@
                     <!-- Staff Tab -->
                     <div class="tab-pane fade" id="staff-tab" role="tabpanel" aria-labelledby="staff-tab" tabindex="0">
                         <table class="table-dotted table-striped">
-                            <tr>&nbsp;</tr>
                             <tr>
                                 <td><span class="profile-label">Name:</span></td>
                                 <td><span class="view-info-sname"></span></td>

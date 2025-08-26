@@ -323,21 +323,36 @@ class MemberProfileController extends Controller
 
 	    // fetch staff
 	    foreach($members as $member ) {
-	    	if($member->position == 'president') {
-	    		$president_staff = Member::where('user_type', 4)
-							    		->where('agency', 9)
-							    		->where('designation', 16)
+	    	if($member->position == 'president' || $member->position == 'vice-president' || $member->position == 'cabinet-member') {
+
+	    		$staff_president = Member::where('user_type', 4)
+							    		->where('op_id', $member->id)
+							    		->where('remarks', 'president')
 							    		->first();
-				if($president_staff) {
+
+				$staff_vicepresident = Member::where('user_type', 4)
+										->where('op_id', $member->id)
+							    		->where('remarks', 'vice-president')
+							    		->first();
+
+				if($staff_president) {
 					$member->has_staff = true;
 					$member->staff_of = 'president';
-					$member->staff_name = $president_staff->FullName;
-					$member->staff_number = $president_staff->contact_number;
-					$member->staff_email = $president_staff->email;
+					$member->staff_name = $staff_president->FullName;
+					$member->staff_number = $staff_president->contact_number;
+					$member->staff_email = $staff_president->email;
+				}
+
+				if($staff_vicepresident) {
+					$member->has_staff = true;
+					$member->staff_of = 'vice-president';
+					$member->staff_name = $staff_vicepresident->FullName;
+					$member->staff_number = $staff_vicepresident->contact_number;
+					$member->staff_email = $staff_vicepresident->email;
 				}
 	    	}
 	    }
-
+	    // dd($staff);
 	    return view('theme.pages.directory.cabinet', compact('page', 'members'));
 	}
 
@@ -394,6 +409,35 @@ class MemberProfileController extends Controller
 
 	    $members = $members->paginate($this->page_limit);
 
+        foreach($members as $member) {
+    	    $staff = MemberStaff::where('member_id', $member->id)
+    	    					->get();
+
+    	    if($staff->count() > 0) {
+    		   	$member->has_staff = true;
+    		   	if($staff[0]->firstname) {
+	    		   	$member->staff_name1 = $staff[0]->FullName;
+    		   	}
+    		   	if($staff[1]->firstname) {
+	    		   	$member->staff_name2 = $staff[1]->FullName;
+    		   	}
+    		   	if($staff[2]->firstname) {
+	    		   	$member->staff_name3 = $staff[2]->FullName;
+    		   	}
+    		   	if($staff[3]->firstname) {
+	    		   	$member->staff_name4 = $staff[3]->FullName;
+    		   	}
+    		   	$member->staff_number1 = $staff[0]->contact_number;
+    		   	$member->staff_number2 = $staff[1]->contact_number;
+    		   	$member->staff_number3 = $staff[2]->contact_number;
+    		   	$member->staff_number4 = $staff[3]->contact_number;
+    		   	$member->staff_email1 = $staff[0]->email;
+    		   	$member->staff_email2 = $staff[1]->email;
+    		   	$member->staff_email3 = $staff[2]->email;
+    		   	$member->staff_email4 = $staff[3]->email;
+    	    }
+        }
+
 		return view('theme.pages.directory.lls', compact('page', 'members', 'designations'));
 	}
 
@@ -420,6 +464,17 @@ class MemberProfileController extends Controller
 	    }
 
 	    $members = $members->paginate($this->page_limit);
+
+	    foreach($members as $member) {
+		    $staff = MemberStaff::where('member_id', $member->id)
+		    					->first();
+		    if($staff) {
+			   	$member->has_staff = true;
+			   	$member->staff_name = $staff->FullName;
+			   	$member->staff_number = $staff->contact_number;
+			   	$member->staff_email = $staff->email;
+		    }
+	    }
 
 		return view('theme.pages.directory.pllo', compact('page', 'members'));
 	}

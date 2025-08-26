@@ -51,7 +51,18 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body ">
-                                    <h6 class="card-title mb-2 custom-text-primary fw-bold text-uppercase">{{ $member->fullName }}</h6>
+                                    <h6 class="card-title mb-2 custom-text-primary fw-bold text-uppercase cursor-pointer view-info-btn"
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#viewInfoModal" 
+                                        data-name="{{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }}"
+                                        data-has_staff="{{ $member->has_staff }}"
+                                        data-position="{{ $member->designationDetails->name }}"
+                                        data-number="{{ $member->contact_number }}"
+                                        data-email="{{ $member->email }}"
+                                        data-sname="{{ $member->staff_name }}"
+                                        data-snumber="{{ $member->staff_number }}"
+                                        data-semail="{{ $member->staff_email }}"
+                                    >{{ $member->fullName }}</h6>
                                     <ul class="list-unstyled mb-2 small">
                                         <li><i class="bi-person me-2"></i>{{ $member->full_designation_name }}</li>
                                         <li><i class="bi-building me-2"></i>{{ $member->full_agency_name }}</li>
@@ -109,7 +120,18 @@
                             </td>
                             <td>
                                 <span class="d-flex flex-column">
-                                    <small class="lh-1"><b class="text-capitalize">{{ $member->FullName }}</b></small>
+                                    <small class="lh-1"><b class="text-capitalize cursor-pointer view-info-btn"
+                                        data-bs-toggle="modal" 
+                                        data-bs-target="#viewInfoModal" 
+                                        data-name="{{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }}"
+                                        data-has_staff="{{ $member->has_staff }}"
+                                        data-position="{{ $member->designationDetails->name }}"
+                                        data-number="{{ $member->contact_number }}"
+                                        data-email="{{ $member->email }}"
+                                        data-sname="{{ $member->staff_name }}"
+                                        data-snumber="{{ $member->staff_number }}"
+                                        data-semail="{{ $member->staff_email }}"
+                                        >{{ $member->FullName }}</b></small>
                                     <small class="lh-1"><i>{{ $member->designationDetails->name }}</i></small>
                                 </span>
                             </td>
@@ -152,7 +174,7 @@
     </div>
 
     <!-- Add Contact -->
-    <div class="modal fade" id="addContactModal" tabindex="-1" aria-labelledby="addContactLabel" aria-hidden="true">
+    <div class="modal fade" id="addContactModal" tabindex="-1" aria-labelledby="addContactLabel">
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
@@ -170,6 +192,77 @@
                 <button type="submit" class="btn btn-primary">Yes</button>
             </form>
             <button class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- View Information -->
+    <div class="modal fade" id="viewInfoModal" tabindex="-1" aria-labelledby="viewInfoModalLabel">
+      <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title"><span class="text-capitalize"></span>&nbsp;<span>Information</span></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <div class="p-1">
+                <ul class="nav canvas-tabs tabs-bordered canvas-tabs tabs nav-tabs mb-3" id="canvas-tab-border" role="tablist">
+
+                    <!-- profile trigger tab -->
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="profile-tab-trigger" data-bs-toggle="pill" data-bs-target="#profile-tab" type="button" role="tab" aria-controls="profile-tab" aria-selected="true">Profile
+                        </button>
+                    </li>
+                    <!-- staff trigger tab -->
+                    <li class="nav-item" role="presentation" id="staff-tab-container" style="display: none;">
+                        <button class="nav-link" id="staff-tab-trigger" data-bs-toggle="pill" data-bs-target="#staff-tab" type="button" role="tab" aria-controls="staff-tab" aria-selected="true">Appointment Secretary
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content mb-3 relative">
+
+                    <!-- Profile Tab -->
+                    <div class="tab-pane fade show active" id="profile-tab" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                        <table class="table-dotted table-striped">
+                            <tr>
+                                <td><span class="profile-label">Name:</span></td>
+                                <td><span class="view-info-name"></span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="profile-label">Designation:</span></td>
+                                <td><span class="view-info-position text-capitalize"></span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="profile-label">Contact Number:</span></td>
+                                <td><span id="view-info-number"></span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="profile-label">Email Address:</span></td>
+                                <td><span id="view-info-email"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+
+                    <!-- Staff Tab -->
+                    <div class="tab-pane fade" id="staff-tab" role="tabpanel" aria-labelledby="staff-tab" tabindex="0">
+                        <table class="table-dotted table-striped">
+                            <tr>
+                                <td><span class="profile-label">Name:</span></td>
+                                <td><span class="view-info-sname"></span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="profile-label">Contact Number:</span></td>
+                                <td><span id="view-info-snumber"></span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="profile-label">Email Address:</span></td>
+                                <td><span id="view-info-semail"></span></td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
           </div>
         </div>
       </div>
@@ -198,5 +291,34 @@
         $('.member-list-view').show();
     });
 
+    // view info
+    $('.view-info-btn').on('click', function() {
+        let name = $(this).attr('data-name');
+        let position = $(this).attr('data-position');
+        let number = $(this).attr('data-number');
+        let email = $(this).attr('data-email');
+
+        let sname = $(this).attr('data-sname');
+        let snumber = $(this).attr('data-snumber');
+        let semail = $(this).attr('data-semail');
+
+        let has_staff = $(this).attr('data-has_staff');
+        
+        if (has_staff)
+        {
+            $('#staff-tab-container').show();
+        } else {
+            $('#staff-tab-container').hide();
+        }
+
+        $('.view-info-name').text(name);
+        $('.view-info-position').text(position);
+        $('#view-info-number').text(number);
+        $('#view-info-email').text(email);
+
+        $('.view-info-sname').text(sname);
+        $('#view-info-snumber').text(snumber);
+        $('#view-info-semail').text(semail);
+    });
 </script>
 @endsection
