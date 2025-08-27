@@ -501,6 +501,38 @@ class MemberProfileController extends Controller
 
 	    $members = $members->paginate($this->page_limit);
 
+        foreach($members as $member) {
+    	    $sen_staff = Member::where('senator_id', $member->id)
+    	    					->where('designation', 10)
+    	    					->first();
+    	    $sen_officer = Member::where('senator_id', $member->id)
+    	    					->where('designation', 11)
+    	    					->first();
+    	    $sen_secretary = Member::where('senator_id', $member->id)
+    	    					->where('designation', 12)
+    	    					->first();
+    	    if($sen_staff) {
+    		   	$member->has_staff = true;
+    		   	$member->sen_staff_name = $sen_staff->FullName;
+    		   	$member->sen_staff_number = $sen_staff->contact_number;
+    		   	$member->sen_staff_email = $sen_staff->email;
+    	    }
+
+    	    if($sen_officer) {
+    		   	$member->has_staff = true;
+    		   	$member->sen_officer_name = $sen_officer->FullName;
+    		   	$member->sen_officer_number = $sen_officer->contact_number;
+    		   	$member->sen_officer_email = $sen_officer->email;
+    	    }
+
+    	    if($sen_secretary) {
+    		   	$member->has_staff = true;
+    		   	$member->sen_secretary_name = $sen_secretary->FullName;
+    		   	$member->sen_secretary_number = $sen_secretary->contact_number;
+    		   	$member->sen_secretary_email = $sen_secretary->email;
+    	    }
+        }
+
 		return view('theme.pages.directory.senator', compact('page', 'members'));
 	}
 
@@ -582,6 +614,17 @@ class MemberProfileController extends Controller
 	    }
 
 	    $members = $members->paginate($this->page_limit);
+
+        foreach($members as $member) {
+    	    $staff = MemberStaff::where('member_id', $member->id)
+    	    					->first();
+    	    if($staff) {
+    		   	$member->has_staff = true;
+    		   	$member->staff_name = $staff->FullName;
+    		   	$member->staff_number = $staff->contact_number;
+    		   	$member->staff_email = $staff->email;
+    	    }
+        }
 
 		return view('theme.pages.directory.hor', compact('page', 'members'));
 	}
