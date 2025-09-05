@@ -126,7 +126,7 @@
 
 						<div class="row form-group">
 							<div class="col-12">
-								<input class="form-control" type="email" name="alt_email" placeholder="ALTERNATIVE EMAIL ADDRESS" value="{{ old('alt_email') }}" required autocomplete="off">
+								<input class="form-control" type="email" name="alt_email" placeholder="ALTERNATIVE EMAIL ADDRESS" value="{{ old('alt_email') }}" required autocomplete="off" required>
 							</div>
 						</div>
 
@@ -146,7 +146,7 @@
 
 						<div class="row form-group">
 							<div class="col-12">
-								<input class="form-control" type="text" name="contact_number" placeholder="MOBILE NUMBER" value="{{ old('contact_number') }}" required>
+								<input class="form-control" type="number" name="contact_number" placeholder="MOBILE NUMBER" value="{{ old('contact_number') }}" required>
 							</div>
 						</div>
 
@@ -159,7 +159,7 @@
 								  	<option value="4">Signal</option>
 								  	<option value="5">WeChat</option>
 								</select>
-								<input class="form-control" type="text" name="other_number[]" required style="padding-left: 140px;">
+								<input class="form-control" type="number" name="other_number[]" required style="padding-left: 140px;">
 								<div id="messaging_container">
 									<!-- area for additional fields -->
 								</div>
@@ -399,7 +399,7 @@
 						<div class="row form-group">
 							<div class="col-12">
 
-								<input type="text" class="form-control" name="agency_logo_holder" id="agency_logo_holder" placeholder="UPLOAD GOVERNMENT AGENCY LOGO" style="cursor: pointer;">
+								<input type="text" class="form-control" name="agency_logo_holder" id="agency_logo_holder" placeholder="UPLOAD GOVERNMENT AGENCY LOGO" style="cursor: pointer;" required>
 
 								<div class="form-control" id="agency_logo_file_container" style="display: none;">
 									<span id="agency_logo_file_holder_name">No File.</span>
@@ -408,7 +408,7 @@
 									</span>
 								</div>
 
-								<input id="agency_logo" name="agency_logo" type="file" accept=".png, .jpg, .gif" style="display:none;"/>
+								<input id="agency_logo" name="agency_logo" type="file" accept=".png, .jpg, .gif" style="display:none;" required>
 
 							</div>
 						</div>
@@ -430,9 +430,12 @@
 							</div>
 						</div>
 
-						<small>By clicking "Register", you agree to the <span class="primary-text-color" style="cursor: pointer;">Terms and Privacy Policy.</span></small>
+						<div class="d-flex justify-content-start align-items-center gap-1">
+							<input type="checkbox" name="agree_terms" id="agree_terms">
+							<small><span id="by_click" style="cursor: pointer;">By clicking "Register"</span>, you agree to the <a href="#" class="primary-text-color" style="cursor: pointer;">Terms and Privacy Policy.</a></small>
+						</div>
 
-						<button type="submit" class="form-control primary-button-color text-white my-3" id="register-submit">REGISTER</button>
+						<button type="submit" class="form-control primary-button-color text-white my-3" id="register-submit" disabled style="opacity: .7;">REGISTER</button>
 						<a href="#" class="btn form-control bg-secondary text-white">LOGIN</a>
 						@csrf
 					</form>
@@ -490,7 +493,7 @@
 							  	<option value="4">Signal</option>
 							  	<option value="5">WeChat</option>
 							</select>
-							<input class="form-control" type="text" name="other_number[]" placeholder="" required style="padding-left: 140px;">
+							<input class="form-control" type="number" name="other_number[]" placeholder="" required style="padding-left: 140px;">
 	    					<svg id="remove_new_field" style="position: absolute;right: 12px; top: 12px; cursor: pointer;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24">
 	    					  <path stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
 	    					</svg>
@@ -783,6 +786,33 @@
         	$("#reg_special_committee_dropdown").show();
         }
 
+    });
+
+    const agreeChk = document.getElementById("agree_terms");
+    const registerBtn = document.getElementById("register-submit");
+
+    agreeChk.addEventListener("change", function () {
+      registerBtn.disabled = !this.checked;
+
+      if(agreeChk.checked) {
+      	registerBtn.style.opacity = "1";
+      } else {
+      	registerBtn.style.opacity = ".7";
+      }
+    });
+
+    const byClick = document.getElementById("by_click");
+
+    byClick.addEventListener("click", function () {
+    	agreeChk.checked = !agreeChk.checked;
+
+    	registerBtn.disabled = !registerBtn.disabled;
+
+      if(agreeChk.checked) {
+      	registerBtn.style.opacity = "1";
+      } else {
+      	registerBtn.style.opacity = ".7";
+      }
     });
 
 </script>
