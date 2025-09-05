@@ -94,6 +94,10 @@ class RegistrationController extends Controller
             'email' => 'required|email|unique:users',
         ]);
 
+        if ($request->$contact_number !== 9) {
+            return redirect()->back()->withInput()->with('error', 'Mobile number must be exactly 9 digits.');
+        }
+
         if(!$validator) {
             return Redirect::back()->withInput()->withErrors($validator);
         }

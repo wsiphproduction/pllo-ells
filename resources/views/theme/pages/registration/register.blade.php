@@ -159,7 +159,7 @@
 								  	<option value="4">Signal</option>
 								  	<option value="5">WeChat</option>
 								</select>
-								<input class="form-control" type="number" name="other_number[]" required style="padding-left: 140px;">
+								<input class="form-control" type="number" name="other_number[]" required style="padding-left: 140px;" max="999999999" oninput="if(this.value.length > 9) this.value = this.value.slice(0,9)">
 								<div id="messaging_container">
 									<!-- area for additional fields -->
 								</div>
@@ -493,7 +493,7 @@
 							  	<option value="4">Signal</option>
 							  	<option value="5">WeChat</option>
 							</select>
-							<input class="form-control" type="number" name="other_number[]" placeholder="" required style="padding-left: 140px;">
+							<input class="form-control" type="number" name="other_number[]" placeholder="" required style="padding-left: 140px;" max="999999999" oninput="if(this.value.length > 9) this.value = this.value.slice(0,9)">
 	    					<svg id="remove_new_field" style="position: absolute;right: 12px; top: 12px; cursor: pointer;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24">
 	    					  <path stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
 	    					</svg>
