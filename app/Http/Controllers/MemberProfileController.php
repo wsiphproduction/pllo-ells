@@ -85,16 +85,15 @@ class MemberProfileController extends Controller
 	}
 
 	public function memberProfileUpdate(Request $request) {
-		// dd($request->all());
 	    $member = Member::where('user_id', auth()->user()->id)->first();
 	    $user = User::find(auth()->user()->id);
-	    
-	    if(auth()->user()->password == $request->password) {
-	        $requests['password'] = auth()->user()->password;
+
+	    if($request['password'] === '') {
+	    	$request['password'] = auth()->user()->password;
 	    } else {
-	        $member->password = Hash::make($request->password);
+	        $member->password = Hash::make($request['password']);
 	        $user->password = $member->password;
-	        if($request->password != $request->alt_password) {
+	        if($request['password'] != $request['confirm_password']) {
 	            return back()->with('error', ('Password and Confirm Password do not match.'));
 	        }
 	    }
@@ -132,6 +131,10 @@ class MemberProfileController extends Controller
 
 	    if($member->user_type < 5) {
 	    	foreach ($request->staff as $index => $staff) {
+
+	    			if(empty($staff['firstname']) || empty($staff['lastname']) || empty($staff['day']) == 0) {
+	    				return back()->with('error', ('Staff details must be completed.'));
+	    			}
 
 	    			if($staff['type_number'] > 0 && $staff['other_number'] !== null ) {
 		    			$staff_type_number = implode('::', $staff['type_number']);
