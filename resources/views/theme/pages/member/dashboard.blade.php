@@ -617,27 +617,24 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <input class="form-control mb-3" type="text" name="email" value="{{ $memberDetails->email }}">
+
+                                            <input class="form-control mb-3" type="text" name="email" value="{{ $memberDetails->email }}" required>
                                             <input class="form-control mb-3" type="text" name="alt_email" value="{{ $memberDetails->alt_email }}" placeholder="ALT EMAIL ADDRESS">
                                             
                                             <div style="position: relative;">
-                                                <input class="form-control mb-3" type="password" name="password" value="{{ $memberDetails->password }}" placeholder="PASSWORD">
-                                                <svg style="right: 7px;" class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                                </svg>
+                                                <input class="form-control mb-3" id="password" type="password" name="password" value="" placeholder="TYPE IF NEW PASSWORD">
+                                                <a id="togglePasswordHide" class="hide-password" style="color: gray; cursor: pointer;"><i class="icon icon-eye-slash" aria-hidden="true"></i></a>
                                             </div>
 
                                             <div style="position: relative;">
-                                                <input class="form-control mb-3" type="password" name="confirm_password" value="" placeholder="CONFIRM PASSWORD">
-                                                <svg style="right: 7px;" class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                                </svg>
+                                                <input class="form-control mb-3" id="confirm_password" type="password" name="confirm_password" value="" placeholder="CONFIRM PASSWORD">
+                                                <a id="togglePasswordConfirmHide" class="hide-password" style="color: gray; cursor: pointer;"><i class="icon icon-eye-slash" aria-hidden="true"></i></a>
                                             </div>
 
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <input class="form-control" type="text" name="contact_number" value="{{ $memberDetails->contact_number }}">
+                                                        <input class="form-control" type="number" name="contact_number" value="{{ $memberDetails->contact_number }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -685,7 +682,7 @@
 
                                         <!-- 2nd Column -->
                                         <div class="col-12 col-md-5">
-
+                                            <small class="form-title"><b>CLUSTER</b></small>
                                             @if(!empty($memberDetails->cluster))
                                             <div class="mb-2">
                                                 @php
@@ -754,7 +751,7 @@
                                                                 <div class="form-group">
                                                                     <div class="row">
                                                                         <div class="col-10">
-                                                                            <input class="form-control text-uppercase" type="text" name="staff[{{$index}}][firstname]" value="{{ $staff->firstname }}" placeholder="FIRST NAME">
+                                                                            <input class="form-control text-uppercase" type="text" name="staff[{{$index}}][firstname]" value="{{ $staff->firstname ? $staff->firstname : '' }}" placeholder="FIRST NAME" required>
                                                                         </div>
                                                                         <div class="col-2" style="padding-left: 0px;">
                                                                             <input class="form-control" type="text" name="staff[{{$index}}][middle_initial]" value="{{ $staff->middle_initial }}" placeholder="M.I.">
@@ -765,7 +762,7 @@
                                                                 <div class="form-group">
                                                                     <div class="row">
                                                                         <div class="col-10">
-                                                                            <input class="form-control text-uppercase" type="text" name="staff[{{$index}}][lastname]" value="{{ $staff->lastname }}" placeholder="LAST NAME">
+                                                                            <input class="form-control text-uppercase" type="text" name="staff[{{$index}}][lastname]" value="{{ $staff->lastname }}" placeholder="LAST NAME" required>
                                                                         </div>
                                                                         <div class="col-2" style="padding-left: 0px;">
                                                                             <select class="form-select" name="staff[{{$index}}][suffix]">
@@ -795,7 +792,7 @@
                                                                             @endphp
                                                                         @endif
                                                                         <div class="col-6">
-                                                                            <select class="form-select" name="staff[{{$index}}][gender]">
+                                                                            <select class="form-select" name="staff[{{$index}}][gender]" required>
                                                                                 <option selected disabled value="0">GENDER</option>
                                                                                 @if(!empty($staff->gender))
                                                                                     @foreach($genders as $gender)
@@ -810,7 +807,7 @@
                                                                         </div>
                                                                         <div class="col-6" style="padding-left: 0px;">
                                                                             <div class="d-flex">
-                                                                                <select class="form-select" aria-label="select month" name="staff[{{$index}}][month]" style="width: 70%">
+                                                                                <select class="form-select" aria-label="select month" name="staff[{{$index}}][month]" style="width: 70%" required>
                                                                                     <option @if($month == 0) selected @endif value="0">BIRTHMONTH</option>
                                                                                     @if(!empty($staff->birthday))
                                                                                         @foreach(Config::get('months') as $key => $month)
@@ -823,7 +820,7 @@
                                                                                     @endif
                                                                                 </select>
                                                                                 &nbsp;
-                                                                                <select class="form-select" aria-label="select day" name="staff[{{$index}}][day]" style="width: 30%">
+                                                                                <select class="form-select" aria-label="select day" name="staff[{{$index}}][day]" style="width: 30%" >
                                                                                     <option value="0">BIRTHDAY</option>
                                                                                     @if(!empty($staff->birthday))
                                                                                         @for($d = 1; $d <= 31; $d++)
@@ -2641,6 +2638,36 @@
                     preview.src = '/images/user.png'; // fallback image
                 }
             });
+        });
+
+        $('#togglePasswordHide').click(function() {
+            var passwordField = $('#password');
+            var toggleButton = $('#togglePasswordHide i');
+
+            if (passwordField.attr('type') === 'password') {
+                passwordField.attr('type', 'text');
+                toggleButton.removeClass('icon-eye-slash');
+                toggleButton.addClass('icon-eye');
+            } else {
+                passwordField.attr('type', 'password');
+                toggleButton.addClass('icon-eye-slash');
+                toggleButton.removeClass('icon-eye');
+            }
+        });
+
+        $('#togglePasswordConfirmHide').click(function() {
+            var confirm_passwordField = $('#confirm_password');
+            var confirm_toggleButton = $('#togglePasswordConfirmHide i');
+
+            if (confirm_passwordField.attr('type') === 'password') {
+                confirm_passwordField.attr('type', 'text');
+                confirm_toggleButton.removeClass('icon-eye-slash');
+                confirm_toggleButton.addClass('icon-eye');
+            } else {
+                confirm_passwordField.attr('type', 'password');
+                confirm_toggleButton.addClass('icon-eye-slash');
+                confirm_toggleButton.removeClass('icon-eye');
+            }
         });
 
 	</script>
