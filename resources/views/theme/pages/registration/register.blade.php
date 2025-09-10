@@ -146,7 +146,7 @@
 
 						<div class="row form-group">
 							<div class="col-12">
-								<input class="form-control" type="number" name="contact_number" placeholder="MOBILE NUMBER" value="{{ old('contact_number') }}" required>
+								<input class="form-control" type="number" name="contact_number" placeholder="MOBILE NUMBER" value="{{ old('contact_number') }}" required max="99999999999" oninput="if(this.value.length > 11) this.value = this.value.slice(0,11)">
 							</div>
 						</div>
 
@@ -159,7 +159,7 @@
 								  	<option value="4">Signal</option>
 								  	<option value="5">WeChat</option>
 								</select>
-								<input class="form-control" type="number" name="other_number[]" required style="padding-left: 140px;" max="999999999" oninput="if(this.value.length > 9) this.value = this.value.slice(0,9)">
+								<input class="form-control" type="number" name="other_number[]" required style="padding-left: 140px;" max="99999999999" oninput="if(this.value.length > 11) this.value = this.value.slice(0,11)">
 								<div id="messaging_container">
 									<!-- area for additional fields -->
 								</div>
@@ -399,7 +399,7 @@
 						<div class="row form-group">
 							<div class="col-12">
 
-								<input type="text" class="form-control" name="agency_logo_holder" id="agency_logo_holder" placeholder="UPLOAD GOVERNMENT AGENCY LOGO" style="cursor: pointer;" required>
+								<input type="text" class="form-control" name="agency_logo_holder" id="agency_logo_holder" placeholder="UPLOAD GOVERNMENT AGENCY LOGO" style="cursor: pointer;">
 
 								<div class="form-control" id="agency_logo_file_container" style="display: none;">
 									<span id="agency_logo_file_holder_name">No File.</span>
@@ -814,6 +814,9 @@
       	registerBtn.style.opacity = ".7";
       }
     });
+
+    // js condition for register
+    document.querySelector("[name='agency_logo_holder']").removeAttribute("required");
 
 </script>
 
