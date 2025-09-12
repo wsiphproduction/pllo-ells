@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sofia+Sans+Extra+Condensed:ital,wght@0,1..1000;1,1..1000&display=swap" rel="stylesheet">
 
     <!-- Stylesheets
     ============================================= -->
@@ -571,6 +572,12 @@
 
         #content main#iktp.content-wrap {
             padding-top: 14px;
+        }
+
+        /*new font for menu*/
+        #header nav.primary-menu.with-arrows .menu-container .menu-item .menu-link {
+            font-family: 'Sofia Sans Extra Condensed' !important;
+            font-size: 24px;
         }
 
     </style>
