@@ -210,14 +210,14 @@
                         <!-- agency trigger tab -->
                         @if(!empty($memberDetails->agency) && $memberDetails->user_type != 2)
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="tab-agency-border-tab" data-bs-toggle="pill" data-bs-target="#agency-border" type="button" role="tab" aria-controls="tab-agency-border" aria-selected="false"><small><b>AGENCY PROFILE</b></small></button>
+                            <button class="nav-link" id="tab-agency-border-tab" data-bs-toggle="pill" data-bs-target="#agency-border" type="button" role="tab" aria-controls="tab-agency-border" aria-selected="false" onclick="showProfileControlBtns()"><small><b>AGENCY PROFILE</b></small></button>
                         </li>
                         @endif 
 
                         <!-- senator trigger tab -->
                         @if(!empty($memberDetails->senator_id))
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="tab-senator-border-tab" data-bs-toggle="pill" data-bs-target="#senator-border" type="button" role="tab" aria-controls="tab-senator-border" aria-selected="false" onclick="tabSwitch(3)">
+                            <button class="nav-link" id="tab-senator-border-tab" data-bs-toggle="pill" data-bs-target="#senator-border" type="button" role="tab" aria-controls="tab-senator-border" aria-selected="false" onclick="tabSwitch(3)" onclick="showProfileControlBtns()">
                                 <small><b class="text-uppercase">Sen. {{ $memberDetails->senatorOfficial->firstname }} @if($memberDetails->senatorOfficial->middle_initial) {{ $memberDetails->senatorOfficial->middle_initial }}. @endif {{ $memberDetails->senatorOfficial->lastname }} {{ $memberDetails->senatorOfficial->suffix }}</b></small>
                             </button>
                         </li>
@@ -235,21 +235,21 @@
                         <!-- events trigger tab -->
                         @if($memberDetails->user_type != 7)
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="tab-events-border-tab" data-bs-toggle="pill" data-bs-target="#events-border" type="button" role="tab" aria-controls="tab-events-border" aria-selected="false"><small><b>EVENTS ATTENDED</b></small></button>
+                            <button class="nav-link" id="tab-events-border-tab" data-bs-toggle="pill" data-bs-target="#events-border" type="button" role="tab" aria-controls="tab-events-border" aria-selected="false" onclick="hideProfileControlBtns()"><small><b>EVENTS ATTENDED</b></small></button>
                         </li>
                         @endif
                         
                         @if($memberDetails->userType->id == 1 || $memberDetails->userType->id == 6)
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="tab-reference-border-tab" data-bs-toggle="pill" data-bs-target="#reference-border" type="button" role="tab" aria-controls="tab-reference-border" aria-selected="false"><small><b>REFERENCE MATERIALS</b></small></button>
+                            <button class="nav-link" id="tab-reference-border-tab" data-bs-toggle="pill" data-bs-target="#reference-border" type="button" role="tab" aria-controls="tab-reference-border" aria-selected="false" onclick="hideProfileControlBtns()"><small><b>REFERENCE MATERIALS</b></small></button>
                         </li>
                         @endif
 
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="tab-policy-border-tab" data-bs-toggle="pill" data-bs-target="#policy-border" type="button" role="tab" aria-controls="tab-policy-border" aria-selected="false"><small><b>POLICY REFORMS</b></small></button>
+                            <button class="nav-link" id="tab-policy-border-tab" data-bs-toggle="pill" data-bs-target="#policy-border" type="button" role="tab" aria-controls="tab-policy-border" aria-selected="false"><small onclick="hideProfileControlBtns()"><b>POLICY REFORMS</b></small></button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="tab-saved-border-tab" data-bs-toggle="pill" data-bs-target="#saved-border" type="button" role="tab" aria-controls="tab-saved-border" aria-selected="false"><small><b>SAVED CONTACTS</b></small></button>
+                            <button class="nav-link" id="tab-saved-border-tab" data-bs-toggle="pill" data-bs-target="#saved-border" type="button" role="tab" aria-controls="tab-saved-border" aria-selected="false" onclick="hideProfileControlBtns()"><small><b>SAVED CONTACTS</b></small></button>
                         </li>
                     </ul>
                     <div class="tab-content mb-3 relative">
@@ -2319,30 +2319,31 @@
 
                     </div>
 
-                    <div class="row">
-                        <small><i><span class="text-danger">Disclaimer for Data Privacy: </span>All personal data collected will be handled in accordance with applicable data privacy laws and will be used solely for legitimate and authorized purposes.</i></small>
-                    </div>
-
-                    <!-- Action buttons -->
-                    <div class="row">
-                        <div class="button-group d-flex justify-content-end mt-4">
-                            <button class="btn btn-secondary text-white" id="edit_profile_btn"><small class="text-uppercase">edit profile</small></button>
-                            &nbsp;
-                            &nbsp;
-                            <div id="save_cancel_pane" style="display: none;">
-                                <button class="btn btn-primary text-white" id="save_profile_btn" onclick="submitProfileUpdate()"><small class="text-uppercase">SAVE</small></button>
-                                &nbsp;
-                                &nbsp;
-                                <button class="btn btn-secondary text-white" id="cancel_profile_btn"><small class="text-uppercase">CANCEL</small></button>
-                                &nbsp;
-                                &nbsp;
-                            </div>
-                            <button class="btn btn-danger text-white" data-bs-toggle="modal" data-bs-target="#deleteAccountModal"><small class="text-uppercase">delete account</small></button>
+                    <div id="profile-control-btns">
+                        <div class="row">
+                            <small><i><span class="text-danger">Disclaimer for Data Privacy: </span>All personal data collected will be handled in accordance with applicable data privacy laws and will be used solely for legitimate and authorized purposes.</i></small>
                         </div>
+
+                        <!-- Action buttons -->
+                        <div class="row">
+                            <div class="button-group d-flex justify-content-end mt-4">
+                                <button class="btn btn-secondary text-white" id="edit_profile_btn"><small class="text-uppercase">edit profile</small></button>
+                                &nbsp;
+                                &nbsp;
+                                <div id="save_cancel_pane" style="display: none;">
+                                    <button class="btn btn-primary text-white" id="save_profile_btn" onclick="submitProfileUpdate()"><small class="text-uppercase">SAVE</small></button>
+                                    &nbsp;
+                                    &nbsp;
+                                    <button class="btn btn-secondary text-white" id="cancel_profile_btn"><small class="text-uppercase">CANCEL</small></button>
+                                    &nbsp;
+                                    &nbsp;
+                                </div>
+                                <button class="btn btn-danger text-white" data-bs-toggle="modal" data-bs-target="#deleteAccountModal"><small class="text-uppercase">delete account</small></button>
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="current-tab" value="1">
                     </div>
-
-                    <input type="hidden" id="current-tab" value="1">
-
                     <!-- Delete Account Modal -->
                     <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountLabel" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered">
@@ -2565,6 +2566,7 @@
         // tab switch determinant
         function tabSwitch(num) {
             $('#current-tab').val(num);
+            this.showProfileControlBtns();
         }
 
         // submit condition before process
@@ -2669,6 +2671,13 @@
                 confirm_toggleButton.removeClass('icon-eye');
             }
         });
+
+        function hideProfileControlBtns() {
+            $('#profile-control-btns').hide();
+        }
+        function showProfileControlBtns() {
+            $('#profile-control-btns').show();
+        }
 
 	</script>
 @endsection
