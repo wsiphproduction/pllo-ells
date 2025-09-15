@@ -106,35 +106,71 @@
                             <th>AGENCY</th>
                             <th>DATE</th>
                             <th>REMARKS</th>
-                            <th class="text-center" width="5%">ACTIONS</th>
+                            <th class="text-start" width="5%">ACTIONS</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse($reference_materials as $reference_material)
-                            <tr>
-                                <td hidden>{{ $reference_material->created_at }}</td>
-                                <td><a href="{{-- env('APP_URL').'/storage/reference_materialables/'.$reference_material->file_url --}}" target="_blank"><strong class="custom-text-primary">{{ $reference_material->subject }}</strong></a></td>
-                                <td>{{ $reference_material->significance_level }}</td>
-                                <td>{{ $reference_material->cluster->name ?? 'None' }}</td>
-                                <td>{{ $reference_material->agency->agency_name ?? 'None' }}</td>
-                                <td>{{ \Carbon\Carbon::parse($reference_material->created_at)->format('M d, Y') }}</td>
-                                <td>{{ $reference_material->remarks }}</td>
-                                <td class="text-center">
-                                    <div class="btn-group" role="group">
-                                        <a href="javascript:void(0);" class="btn btn-transparent" title="View Attachments" onclick="$('#attachmentsModal{{ $reference_material->id }}').modal('show')">
-                                            <i class="uil-paperclip"></i>
-                                        </a>
-                                        <a href="javascript:void(0);" class="btn btn-transparent" title="Edit" onclick="$('#editModal{{ $reference_material->id }}').modal('show')">
-                                            <i class="uil-edit"></i>
-                                        </a>
-                                        <a href="javascript:void(0);" class="btn btn-transparent" title="Delete" onclick="$('#deleteModal').modal('show')">
-                                            <i class="uil-trash"></i>
-                                        </a>
+                            @if($reference_material->status == 'APPROVED' || \App\Models\Custom\Downloadable::userIsApprover($reference_material->agency->id ?? null, $reference_material->cluster->id ?? null))
+                                <tr>
+                                    <td hidden>{{ $reference_material->created_at }}</td>
+                                    <td><a href="{{-- env('APP_URL').'/storage/reference_materialables/'.$reference_material->file_url --}}" target="_blank"><strong class="custom-text-primary">{{ $reference_material->subject }}</strong></a></td>
+                                    <td>{{ $reference_material->significance_level }}</td>
+                                    <td>{{ $reference_material->cluster->name ?? 'None' }}</td>
+                                    <td>{{ $reference_material->agency->agency_name ?? 'None' }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($reference_material->created_at)->format('M d, Y') }}</td>
+                                    <td>{{ $reference_material->remarks }}</td>
+                                    <td class="text-start">
+                                        <div class="btn-group" role="group">
+                                            <a href="javascript:void(0);" class="btn btn-transparent" title="View Attachments" onclick="$('#attachmentsModal{{ $reference_material->id }}').modal('show')">
+                                                <i class="uil-paperclip"></i>
+                                            </a>
+                                            @if(Auth::check() && Auth::user()->id == $reference_material->created_by)
+                                                <a href="javascript:void(0);" class="btn btn-transparent" title="Edit" onclick="$('#editModal{{ $reference_material->id }}').modal('show')">
+                                                    <i class="uil-edit"></i>
+                                                </a>
+                                                <a href="javascript:void(0);" class="btn btn-transparent" title="Delete" onclick="$('#deleteModal').modal('show')">
+                                                    <i class="uil-trash"></i>
+                                                </a>
+                                            @endif
+                                            @if($reference_material->status == 'FOR APPROVAL' && \App\Models\Custom\Downloadable::userIsApprover($reference_material->agency->id ?? null, $reference_material->cluster->id ?? null))
+                                                <a href="javascript:void(0);" class="btn btn-transparent" title="Approve" onclick="$('#approveModal{{ $reference_material->id }}').modal('show')">
+                                                    {{-- <span style="font-size:12px">APPROVE</span> --}}
+                                                    <i class="uil-check"></i>
+                                                </a>
+                                            @endif
+                                        </div>
+                                    </td>
+                                </tr>
+                            @endif
+
+
+                            {{-- APPROVE MODAL --}}
+                            <div class="modal fade" id="approveModal{{ $reference_material->id }}" tabindex="-1">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-body">Are you sure you want to approve this item?</div>
+                                        <div class="modal-footer">
+                                            <form method="POST" action="{{ route('reference-materials.update', $reference_material->id) }}">
+                                                @method('put')
+                                                @csrf
+                                                <input type="hidden" name="status" value="APPROVED" class="form-control" required>
+
+                                                <div class="form-group" hidden>
+                                                    <label class="d-block">Approved On *</label>
+                                                    <input type="date" name="approved_on" id="approved_on" value="{{ \Carbon\Carbon::now()->toDateString() }}" class="form-control @error('approved_on') is-invalid @enderror" maxlength="150" required>
+                                                    @error('approved_on')
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @enderror             
+                                                </div>
+
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">No</button>
+                                                <button class="btn btn-success">Yes</button>
+                                            </form>
+                                        </div>
                                     </div>
-                                </td>
-                            </tr>
-
-
+                                </div>
+                            </div>
 
                             {{-- ATTACHMENTS --}}
                             <div class="modal fade" id="attachmentsModal{{ $reference_material->id }}" tabindex="-1" aria-labelledby="attachmentsModalLabel{{ $reference_material->id }}" aria-hidden="true">
@@ -244,6 +280,10 @@
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
                                                     </div>
+
+                                                    {{-- TYPE --}}
+                                                    <input type="hidden" name="agency" value="{{ \App\Models\Member::getMemberInfo(Auth::user()->id)->agency ?? null }}" class="form-control" required>
+                                                    <input type="hidden" name="cluster" value="{{ \App\Models\Member::getMemberInfo(Auth::user()->id)->cluster ?? null }}" class="form-control" required>
 
                                                     <div class="form-group">
                                                         <button type="submit" class="btn bg-custom-primary text-white mt-3"><small>SUBMIT</small></button>
@@ -366,7 +406,10 @@
                                     @enderror
                                 </div>
 
-                                
+                                {{-- TYPE --}}
+                                <input type="hidden" name="agency" value="{{ \App\Models\Member::getMemberInfo(Auth::user()->id)->agency ?? null }}" class="form-control" required>
+                                <input type="hidden" name="cluster" value="{{ \App\Models\Member::getMemberInfo(Auth::user()->id)->cluster ?? null }}" class="form-control" required>
+
                                 <button type="submit" class="btn bg-custom-primary text-white mt-3"><small>SUBMIT</small></button>
                                 <button type="button" class="btn btn-secondary mt-3" data-bs-dismiss="modal"><small>CANCEL</small></button>
 

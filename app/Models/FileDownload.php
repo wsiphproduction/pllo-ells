@@ -23,7 +23,8 @@ class FileDownload extends Model
         'unique_hash',
         'congress',
         'approved_on',
-        'source_priority_level'
+        'source_priority_level',
+        'event_id'
     ];
 
     

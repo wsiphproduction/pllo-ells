@@ -5,13 +5,15 @@ namespace App\Models\Custom;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Carbon\Carbon;
+use Auth;
 
 class Event extends Model
 {
     use HasFactory, SoftDeletes;
 
     public $table = 'events';
-    protected $fillable = [ 'title', 'description', 'event_cluster_id', 'date', 'start_time', 'end_time', 'location', 'attachments', 'other_links', 'event_img', 'created_by'];
+    protected $fillable = [ 'title', 'description', 'event_cluster_id', 'date', 'start_time', 'end_time', 'location', 'attachments', 'other_links', 'event_img', 'invitation_file', 'contents', 'json', 'styles', 'invitation_sent', 'created_by'];
 
 
     public function cluster()
@@ -26,6 +28,28 @@ class Event extends Model
 
     public function invites(){
         return $this->hasMany(\App\Models\Custom\EventInvite::class)->withTrashed();
+    }
+
+    public function getIsDoneAttribute(){
+        $eventEnd = Carbon::parse("{$this->date} {$this->end_time}");
+        return $eventEnd->isPast();
+    }
+
+    public function hasDoneFeedback($user_id){
+        return EventFeedback::where('event_id', $this->id)->where('member_id', $user_id)->exists();
+    }
+
+    public static function getInvitedCount($event_id){
+        $members = \App\Models\Member::all();
+        $count = 0;
+
+        foreach($members as $member){
+            if(\App\Models\Custom\Event::isUserInvited($member->id, $event_id)){
+                $count++;
+            }
+        }
+
+        return $count;
     }
 
     public static function isUserInvited($user_id = 0, $event_id)
@@ -93,6 +117,33 @@ class Event extends Model
             return false; 
         }
 
+    }
+
+    public static function isMemberInSameGroup($member_id = 0)
+    {
+        $user = \App\Models\Member::where('user_id', Auth::user()->id)->first();
+        $member = \App\Models\Member::find($member_id);
+
+        if($member && $user){
+            if($member->agency == $user->agency){
+                return true;
+            }
+
+            $u_clusters = explode('::', $user->cluster);
+            $m_clusters = explode('::', $member->cluster);
+            
+            if($m_clusters){
+                foreach($m_clusters as $m_cluster){
+                    foreach($u_clusters as $u_cluster){
+                        if($m_cluster == $u_cluster){
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        
+        return false;
     }
 
 }

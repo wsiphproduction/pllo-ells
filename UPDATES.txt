@@ -1,5 +1,33 @@
 UPDATES
 
+NEW 7-17-25
+
+	DOWNLOADS
+
+	Republic Act (RA)
+		-ra_jr_no
+		-source_priority_level
+		-approved_on
+		-congress
+		-long_title
+		-attachments
+		-status
+
+
+	Bills Certified
+		-proposed_measure
+		-priority_level
+		-bill_no
+		-status(VARCHAR)
+
+	Presidential Legislative Priorities (PLP)
+		-proposed_measure
+		-priority_level
+		-status(VARCHAR)
+
+	
+
+
 DATABASE:
 
 	TABLES
@@ -51,6 +79,36 @@ DATABASE:
 		- updated_at
 		- deleted_at
 
+		downloadables
+		- id
+		- type(RA, BC, PLP)
+		- ra_jr_no
+		- source_priority_level
+		- approved_on
+		- congress
+		- long_title
+		- attachments
+		- bill_no
+		- proposed_measure
+		- priority_level
+		- status(VARCHAR)
+		- created_by
+		- created_at
+		- updated_at
+		- deleted_at
+
+		event_downloadables
+		- id
+		- type(Material, Certifiate)
+		- event_id
+		- member_id
+		- attachments
+		- created_by
+		- created_at
+		- updated_at
+		- deleted_at
+
+
 
 		CREATE TABLE events (
 			id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
@@ -64,6 +122,11 @@ DATABASE:
 			attachments TEXT,
 			other_links TEXT,
 			event_img VARCHAR(255),
+			invitation_file TEXT,
+			contents TEXT DEFAULT NULL,
+			json LONGTEXT DEFAULT NULL,
+			styles TEXT DEFAULT NULL,
+			invitation_sent TINYINT DEFAULT NULL,
 			created_by INT UNSIGNED,
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -100,6 +163,8 @@ DATABASE:
 			agency_id INT UNSIGNED DEFAULT NULL,
 			attachments TEXT,
 			remarks TEXT,
+			status TEXT DEFAULT 'APPROVED',
+			approved_on DATE DEFAULT NULL,
 			created_by INT UNSIGNED NOT NULL,
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
@@ -192,4 +257,94 @@ DATABASE:
 			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 		);
+
+		CREATE TABLE event_feedbacks (
+			id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+			event_id INT UNSIGNED NOT NULL,
+			member_id INT UNSIGNED NOT NULL,
+			q1 TINYINT DEFAULT 0,
+			q2 TINYINT DEFAULT 0,
+			q3 TINYINT DEFAULT 0,
+			q4 TINYINT DEFAULT 0,
+			q5 VARCHAR(20) NOT NULL,
+			comments TEXT,
+			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+		);
+
+		CREATE TABLE downloadables (
+			id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+			type VARCHAR(20) DEFAULT NULL,
+			ra_jr_no VARCHAR(50) DEFAULT NULL,
+			source_priority_level VARCHAR(250) DEFAULT NULL,
+			approved_on DATE DEFAULT NULL,
+			congress VARCHAR(250) DEFAULT NULL,
+			long_title TEXT DEFAULT NULL,
+			attachments TEXT DEFAULT NULL,
+
+			bill_no VARCHAR(50) DEFAULT NULL,
+			proposed_measure TEXT DEFAULT NULL,
+			bill_status TEXT DEFAULT NULL,
+			hor_status TEXT DEFAULT NULL,
+			sen_status TEXT DEFAULT NULL,
+
+			status TEXT DEFAULT 'APPROVED',
+			agency INT UNSIGNED DEFAULT NULL,
+			cluster VARCHAR(50) DEFAULT NULL,
+
+			created_by INT UNSIGNED DEFAULT NULL,
+			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			deleted_at TIMESTAMP NULL DEFAULT NULL
+		);
+
+		CREATE TABLE event_downloadables (
+			id INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+			type VARCHAR(20) DEFAULT NULL,
+			event_id INT UNSIGNED DEFAULT NULL,
+			member_id LONGTEXT DEFAULT NULL,
+			attachments LONGTEXT DEFAULT NULL,
+			created_by INT UNSIGNED NOT NULL,
+			created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+			updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+			deleted_at TIMESTAMP NULL DEFAULT NULL
+		);
+		
+		CREATE TABLE `file_download` (
+			`id` bigint(20) UNSIGNED NOT NULL,
+			`version_no` text DEFAULT NULL,
+			`title` text NOT NULL,
+			`file_url` text DEFAULT NULL,
+			`status` varchar(191) NOT NULL,
+			`unique_hash` text NOT NULL,
+			`ra_jr` varchar(250) DEFAULT NULL,
+			`approved_on` date DEFAULT NULL,
+			`congress` varchar(250) DEFAULT NULL,
+			`source_priority_level` varchar(250) DEFAULT NULL,
+			`event_id` bigint(20) UNSIGNED DEFAULT NULL,
+			`created_at` timestamp NULL DEFAULT NULL,
+			`updated_at` timestamp NULL DEFAULT NULL,
+			`deleted_at` timestamp NULL DEFAULT NULL
+			) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+			--
+			-- Indexes for dumped tables
+			--
+
+			--
+			-- Indexes for table `file_download`
+			--
+			ALTER TABLE `file_download`
+			ADD PRIMARY KEY (`id`);
+
+			--
+			-- AUTO_INCREMENT for dumped tables
+			--
+
+			--
+			-- AUTO_INCREMENT for table `file_download`
+			--
+			ALTER TABLE `file_download`
+			MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT;
+			COMMIT;
 

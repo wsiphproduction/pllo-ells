@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Validator;
 use Facades\App\Helpers\ListingHelper;
+use Facades\App\Helpers\FileHelper;
 use Illuminate\Support\Str;
 
 use App\Models\{FileDownload, FileDownloadCategory};
@@ -69,24 +70,118 @@ class FileDownloadController extends Controller
 
         return redirect(route('downloadables.index'))->with('success', 'Downloadable has been added.');
     }
+    
+    // public function front_store(Request $request)
+    // {
+    //     $requestData = Validator::make($request->all(), [
+    //         'title' => 'required|max:150',
+    //         'ra_jr' => 'required|max:150',
+    //         'congress' => 'required',
+    //         'approved_on' => 'required',
+    //         'source_priority_level' => 'required'
+    //     ])->validate();
+
+    //     $requestData['unique_hash'] = Str::random(32);
+    //     $requestData['status'] = 1;
+
+    //     $file_download = null;
+
+    //     if ($request->event_id) {
+    //         $file_download = FileDownload::firstOrCreate(
+    //             ['event_id' => $request->event_id],
+    //             $requestData
+    //         );
+    //     }
+
+    //     // If no event_id or no existing file_download was found/created
+    //     if (!$file_download) {
+    //         $file_download = FileDownload::create($requestData);
+    //     }
+
+    //     // Handle file upload
+    //     if ($request->hasFile('file_url')) {
+    //         $file_url = [];
+
+    //         foreach ($request->file('file_url') as $attachment) {
+    //             $file = FileHelper::move_to_folder($attachment, 'file-downloads/' . $file_download->id . '/file_url');
+    //             if ($file && isset($file['url'])) {
+    //                 $file_url[] = $file['url'];
+    //             }
+    //         }
+
+    //         if (!empty($file_url)) {
+    //             $file_download->update([
+    //                 'file_url' => json_encode($file_url)
+    //             ]);
+    //         }
+    //     }
+
+    //     return redirect()->back()->with('success', 'Downloadable has been added.');
+    // }
+
 
     public function front_store(Request $request)
     {
-        Validator::make($request->all(), [
+        $requestData = Validator::make($request->all(), [
             'title' => 'required|max:150',
             'ra_jr' => 'required|max:150',
             'congress' => 'required',
-            'file' => 'required|mimes:csv,xlsx,xls,pdf|max:2000',
             'approved_on' => 'required',
             'source_priority_level' => 'required'
         ])->validate();
 
-        $requestData = $request->all();
         $requestData['unique_hash'] = Str::random(32);
         $requestData['status'] = 1;
+        
+        if ($request->event_id) {
+            $file_download = FileDownload::where('event_id', $request->event_id)->first();
 
-        $file = FileDownload::create($requestData);
-        $this->upload_photo($request,$file->id);
+            if(!$file_download){
+                $file_download = FileDownload::create($requestData);
+            }
+
+            if ($request->hasFile('file_url')) {
+                $file_url = [];
+
+                foreach ($request->file('file_url') as $attachment) {
+                    $file = FileHelper::move_to_folder($attachment, 'file-downloads/'. $file_download->id .'/file_url');
+                    if ($file && isset($file['url'])) {
+                        $file_url[] = $file['url'];
+                    }
+                }
+
+                $data['file_url'] = json_encode($file_url);
+
+                $file_download->update([
+                    'file_url' => $data['file_url']
+                ]);
+            }
+
+            $file_download->update([
+                'event_id' => $request->event_id
+            ]);
+        }
+        else{
+            $file_download = FileDownload::create($requestData);
+
+            if ($request->hasFile('file_url')) {
+                $file_url = [];
+
+                foreach ($request->file('file_url') as $attachment) {
+                    $file = FileHelper::move_to_folder($attachment, 'file-downloads/'. $file_download->id .'/file_url');
+                    if ($file && isset($file['url'])) {
+                        $file_url[] = $file['url'];
+                    }
+                }
+
+                $data['file_url'] = json_encode($file_url);
+
+                $file_download->update([
+                    'file_url' => $data['file_url']
+                ]);
+            }
+        }
+
 
         return redirect()->back()->with('success', 'Downloadable has been added.');
     }

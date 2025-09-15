@@ -23,11 +23,13 @@ class ReferenceMaterialRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'subject' => 'required',
-            'significance_level' => 'required',
+            'subject' => 'nullable',
+            'significance_level' => 'nullable',
             'cluster_id' => 'nullable',
             'agency_id' => 'nullable',
             'remarks' => 'nullable',
+            'status' => 'nullable',
+            'approved_on' => 'nullable',
         ];
     }
 }

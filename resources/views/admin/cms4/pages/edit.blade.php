@@ -42,7 +42,7 @@
             <h4 class="mg-b-0 tx-spacing--1">Edit a Page</h4>
         </div>
         <div>
-            <a class="btn btn-outline-primary btn-sm" href="/{{$page->get_url()}}" target="_blank">Preview Page</a>
+            <a class="btn btn-outline-primary btn-sm" href="{{ env('APP_URL'). '/' .$page->get_url() }}" target="_blank">Preview Page</a>
         </div>
     </div>
     <form id="editForm" action="{{ route('pages.update',$page->id) }}" method="post" enctype="multipart/form-data">
@@ -57,7 +57,7 @@
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
 
-                    <small id="page_slug"><a target="_blank" href="/{{$page->slug}}">{{env('APP_URL')}}/{{$page->slug}}</a></small>
+                    <small id="page_slug"><a target="_blank" href="{{ env('APP_URL'). '/' .$page->slug }}">{{env('APP_URL')}}/{{$page->slug}}</a></small>
                     @error('slug')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
@@ -117,7 +117,7 @@
                     @enderror
 
                     <div id="image_div" @if($page->has_slider()) style="display:none;" @endif>
-                        <img src="{{ old('image_url', $page->image_url) }}" height="{{ env('IMAGE_DISPLAY_HEIGHT') }}" width="{{ env('IMAGE_DISPLAY_WIDTH') }}" id="img_temp" alt="">  <br /><br />
+                        <img src="{{ old('image_url', env('APP_URL') .'/'. $page->image_url) }}" height="{{ env('IMAGE_DISPLAY_HEIGHT') }}" width="{{ env('IMAGE_DISPLAY_WIDTH') }}" id="img_temp" alt="">  <br /><br />
                         <a href="javascript:void(0)" class="btn btn-sm btn-danger" onclick="remove_image();">Remove Image</a>
                     </div>
                 </div>

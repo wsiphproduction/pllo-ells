@@ -33,11 +33,11 @@
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-style1 mg-b-10">
                     <li class="breadcrumb-item" aria-current="page"><a href="{{route('dashboard')}}">CMS</a></li>
-                    <li class="breadcrumb-item" aria-current="page"><a href="{{route('news.index')}}">News</a></li>
-                    <li class="breadcrumb-item active" aria-current="page">Create a News</li>
+                    <li class="breadcrumb-item" aria-current="page"><a href="{{route('news.index')}}">Policy Reforms</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Create a Policy Reform</li>
                 </ol>
             </nav>
-            <h4 class="mg-b-0 tx-spacing--1">Create a News</h4>
+            <h4 class="mg-b-0 tx-spacing--1">Create a Policy Reform</h4>
         </div>
     </div>
     <form method="post" action="{{ route('news.store') }}" enctype="multipart/form-data">
@@ -422,7 +422,7 @@
             </div>
 
             <div class="col-lg-12 mg-t-30">
-                <button class="btn btn-primary btn-sm btn-uppercase" type="submit">Save News</button>
+                <button class="btn btn-primary btn-sm btn-uppercase" type="submit">Save Policy Reform</button>
                 <a href="{{ route('news.index') }}" class="btn btn-outline-secondary btn-sm btn-uppercase">Cancel</a>
             </div>
         </div>

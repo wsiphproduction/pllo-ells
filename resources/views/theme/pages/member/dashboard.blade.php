@@ -100,7 +100,17 @@
         right: 25px;
         display: flex;
     }
-
+    #add_messaging:hover {
+        color: #005ded;
+        text-decoration: underline;
+    }
+    .select-type-number {
+        position: absolute;
+        width: fit-content;
+        border: none;
+        top: 1px;
+        left: 14px;
+    }
 
 </style>
 @endsection
@@ -191,24 +201,24 @@
                                 @endif
 
                                 @if($memberDetails->userType->id == 2 | $memberDetails->userType->id == 3)
-                                    <small><b>SECRETARIE'S PROFILE</b></small>
+                                    <small><b>SECRETARY'S PROFILE</b></small>
                                 @endif
 
                             </button>
                         </li>
 
                         <!-- agency trigger tab -->
-                        @if(!empty($memberDetails->agency))
+                        @if(!empty($memberDetails->agency) && $memberDetails->user_type != 2)
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="tab-agency-border-tab" data-bs-toggle="pill" data-bs-target="#agency-border" type="button" role="tab" aria-controls="tab-agency-border" aria-selected="false"><small><b>AGENCY PROFILE</b></small></button>
+                            <button class="nav-link" id="tab-agency-border-tab" data-bs-toggle="pill" data-bs-target="#agency-border" type="button" role="tab" aria-controls="tab-agency-border" aria-selected="false" onclick="showProfileControlBtns()"><small><b>AGENCY PROFILE</b></small></button>
                         </li>
                         @endif 
 
                         <!-- senator trigger tab -->
                         @if(!empty($memberDetails->senator_id))
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="tab-senator-border-tab" data-bs-toggle="pill" data-bs-target="#senator-border" type="button" role="tab" aria-controls="tab-senator-border" aria-selected="false" onclick="tabSwitch(3)">
-                                <small><b class="text-uppercase">{{ $memberDetails->senator->sen_firstname }} @if($memberDetails->senator->sen_middle_initial) {{ $memberDetails->senator->sen_middle_initial }}. @endif {{ $memberDetails->senator->sen_lastname }} {{ $memberDetails->senator->sen_suffix }}</b></small>
+                            <button class="nav-link" id="tab-senator-border-tab" data-bs-toggle="pill" data-bs-target="#senator-border" type="button" role="tab" aria-controls="tab-senator-border" aria-selected="false" onclick="tabSwitch(3)" onclick="showProfileControlBtns()">
+                                <small><b class="text-uppercase">Sen. {{ $memberDetails->senatorOfficial->firstname }} @if($memberDetails->senatorOfficial->middle_initial) {{ $memberDetails->senatorOfficial->middle_initial }}. @endif {{ $memberDetails->senatorOfficial->lastname }} {{ $memberDetails->senatorOfficial->suffix }}</b></small>
                             </button>
                         </li>
                         @endif
@@ -217,7 +227,7 @@
                         @if(!empty($memberDetails->hor_id))
                         <li class="nav-item" role="presentation">
                             <button class="nav-link" id="tab-hor-border-tab" data-bs-toggle="pill" data-bs-target="#hor-border" type="button" role="tab" aria-controls="tab-hor-border" aria-selected="false" onclick="tabSwitch(4)">
-                                <small><b class="text-uppercase">Cong. {{ $memberDetails->hor->hor_firstname }} {{ $memberDetails->hor->hor_middle_initial }} @if($memberDetails->hor->hor_middle_initial) . @endif {{ $memberDetails->hor->hor_lastname }}  {{ $memberDetails->hor->hor_suffix }}</b></small>
+                                <small><b class="text-uppercase">Cong. {{ $memberDetails->horOfficial->firstname }} {{ $memberDetails->horOfficial->middle_initial }} @if($memberDetails->horOfficial->middle_initial) . @endif {{ $memberDetails->horOfficial->lastname }}  {{ $memberDetails->horOfficial->suffix }}</b></small>
                             </button>
                         </li>
                         @endif
@@ -225,21 +235,21 @@
                         <!-- events trigger tab -->
                         @if($memberDetails->user_type != 7)
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="tab-events-border-tab" data-bs-toggle="pill" data-bs-target="#events-border" type="button" role="tab" aria-controls="tab-events-border" aria-selected="false"><small><b>EVENTS ATTENDED</b></small></button>
+                            <button class="nav-link" id="tab-events-border-tab" data-bs-toggle="pill" data-bs-target="#events-border" type="button" role="tab" aria-controls="tab-events-border" aria-selected="false" onclick="hideProfileControlBtns()"><small><b>EVENTS ATTENDED</b></small></button>
                         </li>
                         @endif
                         
                         @if($memberDetails->userType->id == 1 || $memberDetails->userType->id == 6)
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="tab-reference-border-tab" data-bs-toggle="pill" data-bs-target="#reference-border" type="button" role="tab" aria-controls="tab-reference-border" aria-selected="false"><small><b>REFERENCE MATERIALS</b></small></button>
+                            <button class="nav-link" id="tab-reference-border-tab" data-bs-toggle="pill" data-bs-target="#reference-border" type="button" role="tab" aria-controls="tab-reference-border" aria-selected="false" onclick="hideProfileControlBtns()"><small><b>REFERENCE MATERIALS</b></small></button>
                         </li>
                         @endif
 
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="tab-policy-border-tab" data-bs-toggle="pill" data-bs-target="#policy-border" type="button" role="tab" aria-controls="tab-policy-border" aria-selected="false"><small><b>POLICY REFORMS</b></small></button>
+                            <button class="nav-link" id="tab-policy-border-tab" data-bs-toggle="pill" data-bs-target="#policy-border" type="button" role="tab" aria-controls="tab-policy-border" aria-selected="false"><small onclick="hideProfileControlBtns()"><b>POLICY REFORMS</b></small></button>
                         </li>
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="tab-saved-border-tab" data-bs-toggle="pill" data-bs-target="#saved-border" type="button" role="tab" aria-controls="tab-saved-border" aria-selected="false"><small><b>SAVED CONTACTS</b></small></button>
+                            <button class="nav-link" id="tab-saved-border-tab" data-bs-toggle="pill" data-bs-target="#saved-border" type="button" role="tab" aria-controls="tab-saved-border" aria-selected="false" onclick="hideProfileControlBtns()"><small><b>SAVED CONTACTS</b></small></button>
                         </li>
                     </ul>
                     <div class="tab-content mb-3 relative">
@@ -252,7 +262,7 @@
                                     @if($memberDetails->user_type == 5 || $memberDetails->user_type == 7)
                                         <!-- nothing for now -->
                                     @else
-                                        <small class="form-title mb-0"><b>MAIN ACCOUNT @if(!empty($memberDetails->designationDetails))<i style="font-size: 12px;">({{ $memberDetails->designationDetails->name }})</i>@endif</b></small>
+                                        <small class="form-title mb-0"><b>MAIN ACCOUNT</b></small>
                                         <div class="col-12 col-md-2 d-flex align-items-start justify-content-center">
                                             <img class="mt-2" width="120" style="border-radius: 100%;
                                                                 border-radius: 100%;
@@ -339,7 +349,123 @@
                                     @endif
                                 </div>
 
-                                @if($memberDetails->user_type != 5)
+                                <!-- For usertype that has staff only -->
+                                @if($memberDetails->user_type < 5)
+                                    @if(!empty($staffs))
+                                        @foreach($staffs as $staff)
+                                        <div class="tab-content">
+                                            <div class="row mt-4">
+                                                <small class="form-title my-0" style="transform: translate(0px, 16px);">
+                                                    <b class="text-uppercase">{{ $staff->designation }}</b>
+                                                </small>
+                                                <div class="col-12 col-md-2 d-flex align-items-start justify-content-center">
+                                                    <img class="mt-4" width="120" style="border-radius: 100%;
+                                                                        border-radius: 100%;
+                                                                        min-width: 120px;
+                                                                        height: 120px;
+                                                                        background-image: url('{{ $staff->photo ? asset('/' . $staff->photo) : asset('images/user.png') }}');
+                                                                        background-size: cover;
+                                                                        background-repeat: no-repeat;
+                                                                        background-position: center;">
+                                                </div>
+                                                <div class="col-12 col-md-5">
+                                                    <table class="table-dotted table-striped">
+                                                        <tr>&nbsp;</tr>
+                                                        <tr>
+                                                            <td><span class="profile-label">Name:</span></td>
+                                                            <td><span class="text-uppercase">{{ $staff->firstname }}  {{ $staff->suffix }} @if(!empty($staff->suffix)) . @endif {{ $staff->lastname }}</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span class="profile-label">Nickname:</span></td>
+                                                            <td><span class="text-uppercase">{{ $staff->nickname }}</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span class="profile-label">Gender:</span></td>
+                                                            <td>
+                                                                <span>
+                                                                    @if(!empty($staff->gender))
+                                                                    {{ $staff->personGender->name }}
+                                                                    @endif
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span class="profile-label">Birthday:</span></td>
+                                                            <td>
+                                                                <span>
+                                                                    @if($staff->birthday == '0 0')
+                                                                        ---
+                                                                    @elseif($staff->birthday == '12 0')
+                                                                        ---
+                                                                    @else
+                                                                        {{ $staff->birthday }}
+                                                                    @endif
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                                <div class="col-12 col-md-5">
+                                                    @if(!empty($staff->other_number))
+                                                        @php
+                                                            $type_number_name = config('numbertype.'.$staff->type_number);
+                                                        @endphp 
+                                                    @endif
+                                                    <table class="table-dotted table-striped">
+                                                        <tr>&nbsp;</tr>
+                                                        <tr>
+                                                            <td><span class="profile-label">Email Address:</span></td>
+                                                            <td>
+                                                                <span class="d-flex justify-content-between">
+                                                                    {{ $staff->email }}
+                                                                    @if(!empty($staff->contact_number))
+                                                                        <a href="mailto:{{ $staff->email }}" title="send an email"><i class="icon-envelope px-1"></i></a>
+                                                                    @endif
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td><span class="profile-label">Cellphone Number:</span></td>
+                                                            <td>
+                                                                <span class="d-flex justify-content-between">
+                                                                    {{ $staff->contact_number }}
+                                                                    @if(!empty($staff->contact_number))
+                                                                        <a href="tel:{{ $staff->contact_number }}" title="Call"><i class="icon-mobile px-2"></i></a>
+                                                                    @endif
+                                                                </span>
+                                                            </td>
+                                                        </tr>
+                                                        @if(!empty($staff->other_number))
+                                                            @php
+                                                                $number_arrs = explode('::', $staff->other_number);
+                                                                $type_arrs = explode('::', $staff->type_number);
+                                                                $type_number_name = config('numbertype.'.$staff->type_number);
+                                                                $count = count($number_arrs);
+                                                            @endphp
+
+                                                            @for($a = 0; $a < $count; $a++)
+                                                            <tr>
+                                                                <td><span class="profile-label">{{config('numbertype.'.$type_arrs[$a])}} Number:</span></td>
+                                                                <td>
+                                                                    <span>
+                                                                        {{$number_arrs[$a]}}
+                                                                    </span>
+                                                                </td>
+                                                            </tr>
+                                                            @endfor
+                                                        @endif
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    @else
+                                    <p>No staff for this old user.</p>
+                                    @endif
+                                @endif
+
+                                <!-- For usertype no staff only -->
+                                @if($memberDetails->user_type > 4)
                                     @foreach($userTypeMembers as $userTypeMember)
                                     <div class="tab-content">
                                         <div class="row mt-4">
@@ -363,11 +489,11 @@
                                                     <tr>&nbsp;</tr>
                                                     <tr>
                                                         <td><span class="profile-label">Name:</span></td>
-                                                        <td><span>{{ $userTypeMember->firstname }}  {{ $userTypeMember->suffix }} @if(!empty($userTypeMember->suffix)) . @endif {{ $userTypeMember->lastname }}</span></td>
+                                                        <td><span class="text-uppercase">{{ $userTypeMember->firstname }}  {{ $userTypeMember->suffix }} @if(!empty($userTypeMember->suffix)) . @endif {{ $userTypeMember->lastname }}</span></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="profile-label">Nickname:</span></td>
-                                                        <td><span>{{ $userTypeMember->nickname }}</span></td>
+                                                        <td><span class="text-uppercase">{{ $userTypeMember->nickname }}</span></td>
                                                     </tr>
                                                     <tr>
                                                         <td><span class="profile-label">Gender:</span></td>
@@ -455,12 +581,13 @@
                                             </div>
                                         @endif
 
+                                        <!-- 1st Column -->
                                         <div class="col-12 col-md-5">
 
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-10">
-                                                        <input class="form-control" type="text" name="firstname" value="{{ $memberDetails->firstname }}" placeholder="FIRST NAME">
+                                                        <input class="form-control text-uppercase" type="text" name="firstname" value="{{ $memberDetails->firstname }}" placeholder="FIRST NAME">
                                                     </div>
                                                     <div class="col-2" style="padding-left: 0px;">
                                                         <input class="form-control" type="text" name="middle_initial" value="{{ $memberDetails->middle_initial }}" placeholder="M.I.">
@@ -471,7 +598,7 @@
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-10">
-                                                        <input class="form-control" type="text" name="lastname" value="{{ $memberDetails->lastname }}" placeholder="LAST NAME">
+                                                        <input class="form-control text-uppercase" type="text" name="lastname" value="{{ $memberDetails->lastname }}" placeholder="LAST NAME">
                                                     </div>
                                                     <div class="col-2" style="padding-left: 0px;">
                                                         <select class="form-select" name="suffix">
@@ -490,27 +617,24 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <input class="form-control mb-3" type="text" name="email" value="{{ $memberDetails->email }}">
+
+                                            <input class="form-control mb-3" type="text" name="email" value="{{ $memberDetails->email }}" required>
                                             <input class="form-control mb-3" type="text" name="alt_email" value="{{ $memberDetails->alt_email }}" placeholder="ALT EMAIL ADDRESS">
                                             
                                             <div style="position: relative;">
-                                                <input class="form-control mb-3" type="password" name="password" value="{{ $memberDetails->password }}" placeholder="PASSWORD">
-                                                <svg style="right: 7px;" class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                                </svg>
+                                                <input class="form-control mb-3" id="password" type="password" name="password" value="" placeholder="TYPE IF NEW PASSWORD">
+                                                <a id="togglePasswordHide" class="hide-password" style="color: gray; cursor: pointer;"><i class="icon icon-eye-slash" aria-hidden="true"></i></a>
                                             </div>
 
                                             <div style="position: relative;">
-                                                <input class="form-control mb-3" type="password" name="confirm_password" value="" placeholder="CONFIRM PASSWORD">
-                                                <svg style="right: 7px;" class="hide-password" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
-                                                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.933 13.909A4.357 4.357 0 0 1 3 12c0-1 4-6 9-6m7.6 3.8A5.068 5.068 0 0 1 21 12c0 1-3 6-9 6-.314 0-.62-.014-.918-.04M5 19 19 5m-4 7a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
-                                                </svg>
+                                                <input class="form-control mb-3" id="confirm_password" type="password" name="confirm_password" value="" placeholder="CONFIRM PASSWORD">
+                                                <a id="togglePasswordConfirmHide" class="hide-password" style="color: gray; cursor: pointer;"><i class="icon icon-eye-slash" aria-hidden="true"></i></a>
                                             </div>
 
                                             <div class="form-group">
                                                 <div class="row">
                                                     <div class="col-12">
-                                                        <input class="form-control" type="text" name="contact_number" value="{{ $memberDetails->contact_number }}">
+                                                        <input class="form-control" type="number" name="contact_number" value="{{ $memberDetails->contact_number }}">
                                                     </div>
                                                 </div>
                                             </div>
@@ -535,7 +659,7 @@
                                                             <select class="form-select" aria-label="select month" name="month" style="width: 70%">
                                                                 <option value="0">BIRTHMONTH</option>
                                                                 @foreach(Config::get('months') as $key => $month)
-                                                                <option @if($month == $key) selected @endif value="{{ $key }}">{{ $month }}</option>
+                                                                <option @if($month == $month) selected @endif value="{{ $key }}">{{ $month }}</option>
                                                                 @endforeach
                                                             </select>
                                                             &nbsp;
@@ -556,8 +680,9 @@
 
                                         </div>
 
+                                        <!-- 2nd Column -->
                                         <div class="col-12 col-md-5">
-
+                                            <small class="form-title"><b>CLUSTER</b></small>
                                             @if(!empty($memberDetails->cluster))
                                             <div class="mb-2">
                                                 @php
@@ -589,8 +714,204 @@
 
                                         </div>
 
+                                        <!-- Edit for usertypes that has staff only -->
+                                        @if($memberDetails->user_type < 5)
+                                            @if(!empty($staffs))
+                                                @foreach($staffs as $index => $staff)
+                                                    <div class="tab-content">
+                                                        <div class="row mt-4">
+                                                            <input type="hidden" id="staffProfPic{{$index}}" name="staff[{{$index}}][staff_id]" value="{{ $staff->id }}">
+                                                            <small class="form-title my-0" style="transform: translate(0px, -6px);">
+                                                                <b class="text-uppercase">{{ $staff->designation }}</b>
+                                                            </small>
+                                                            <div class="col-12 col-md-2 d-flex align-items-start justify-content-center">
+                                                                <div class="text-center mb-4 position-relative">
+                                                                    <div class="file-input-wrapper photo">
+                                                                        <input type="file" class="form-control staff-prof-pic" data-index="{{ $index }}" id="photo{{$index}}" name="staff[{{$index}}][photo]" accept="image/*">
+                                                                        <label for="photo" class="file-input-label">
+                                                                            <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                                                              <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M4 18V8a1 1 0 0 1 1-1h1.5l1.707-1.707A1 1 0 0 1 8.914 5h6.172a1 1 0 0 1 .707.293L17.5 7H19a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1Z"/>
+                                                                              <path stroke="currentColor" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"/>
+                                                                            </svg>
+                                                                        </label>
+                                                                    </div>
+                                                                    <div class="profile-pic-preview-container">
+                                                                        <img id="imagePreviewPhoto{{$index}}"
+                                                                             src="{{ $staff->photo ? asset('/' . $staff->photo) : asset('images/user.png') }}"
+                                                                             class="profile-pic-preview" alt="Profile Picture Preview"
+                                                                             style="border-radius: 100%;">
+
+                                                                    </div>
+                                                                    @error('photo')
+                                                                        <div class="alert alert-danger mt-2">{{ $message }}</div>
+                                                                    @enderror
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-5">
+                                                                <div class="form-group">
+                                                                    <div class="row">
+                                                                        <div class="col-10">
+                                                                            <input class="form-control text-uppercase" type="text" name="staff[{{$index}}][firstname]" value="{{ $staff->firstname ? $staff->firstname : '' }}" placeholder="FIRST NAME" required>
+                                                                        </div>
+                                                                        <div class="col-2" style="padding-left: 0px;">
+                                                                            <input class="form-control" type="text" name="staff[{{$index}}][middle_initial]" value="{{ $staff->middle_initial }}" placeholder="M.I.">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <div class="row">
+                                                                        <div class="col-10">
+                                                                            <input class="form-control text-uppercase" type="text" name="staff[{{$index}}][lastname]" value="{{ $staff->lastname }}" placeholder="LAST NAME" required>
+                                                                        </div>
+                                                                        <div class="col-2" style="padding-left: 0px;">
+                                                                            <select class="form-select" name="staff[{{$index}}][suffix]">
+                                                                                <option selected disabled value="">SUFFIX</option>
+                                                                                <option @if($staff->suffix == 'Jr') selected  @endif>Jr</option>
+                                                                                <option @if($staff->suffix == 'Sr') selected  @endif>Sr</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <input class="form-control" type="text" name="staff[{{$index}}][nickname]" value="{{ $staff->nickname }}" placeholder="NICKNAME">
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+
+                                                                <div class="form-group">
+                                                                    <div class="row">
+                                                                        @if(!empty($staff->birthday))
+                                                                            @php
+                                                                                $bday = explode(' ',$staff->birthday);
+                                                                                $month = $bday[0];
+                                                                                $day = $bday[1];
+                                                                            @endphp
+                                                                        @endif
+                                                                        <div class="col-6">
+                                                                            <select class="form-select" name="staff[{{$index}}][gender]" required>
+                                                                                <option selected disabled value="0">GENDER</option>
+                                                                                @if(!empty($staff->gender))
+                                                                                    @foreach($genders as $gender)
+                                                                                        <option @if($staff->gender == $gender->id) selected @endif value="{{ $gender->id }}" >{{$gender->name}}</option>
+                                                                                    @endforeach
+                                                                                @else
+                                                                                    @foreach($genders as $gender)
+                                                                                        <option value="{{ $gender->id }}" >{{$gender->name}}</option>
+                                                                                    @endforeach
+                                                                                @endif
+                                                                            </select>
+                                                                        </div>
+                                                                        <div class="col-6" style="padding-left: 0px;">
+                                                                            <div class="d-flex">
+                                                                                <select class="form-select" aria-label="select month" name="staff[{{$index}}][month]" style="width: 70%" required>
+                                                                                    <option @if($month == 0) selected @endif value="0">BIRTHMONTH</option>
+                                                                                    @if(!empty($staff->birthday))
+                                                                                        @foreach(Config::get('months') as $key => $month)
+                                                                                            <option @if($month == $month) selected @endif value="{{ $key }}">{{ $month }}</option>
+                                                                                        @endforeach
+                                                                                    @else
+                                                                                        @foreach(Config::get('months') as $key => $month)
+                                                                                            <option value="{{ $key }}">{{ $month }}</option>
+                                                                                        @endforeach
+                                                                                    @endif
+                                                                                </select>
+                                                                                &nbsp;
+                                                                                <select class="form-select" aria-label="select day" name="staff[{{$index}}][day]" style="width: 30%" >
+                                                                                    <option value="0">BIRTHDAY</option>
+                                                                                    @if(!empty($staff->birthday))
+                                                                                        @for($d = 1; $d <= 31; $d++)
+                                                                                            <option @if($day == $d) selected @endif value="{{ $d }}">{{ $d }}</option>
+                                                                                        @endfor
+                                                                                    @else
+                                                                                        @for($d = 1; $d <= 31; $d++)
+                                                                                            <option value="{{ $d }}">{{ $d }}</option>
+                                                                                        @endfor
+                                                                                    @endif
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-12 col-md-5">
+
+                                                                <input class="form-control" type="text" name="staff[{{$index}}][email]" value="{{ $staff->email }}" placeholder="EMAIL">
+                                                                <div class="row mb-3">
+                                                                    <div class="col-12 d-flex align-items-center justify-content-start gap-2">
+                                                                        <input type="checkbox" name="staff[{{$index}}][agree_email]" @if($staff->agree_email) checked @endif>
+                                                                        <small class="my-2">Agree to show email in <span class="text-primary ">Directory</span></small>
+                                                                    </div>
+                                                                </div>
+
+                                                                <input class="form-control" type="text" name="staff[{{$index}}][contact_number]" value="{{ $staff->contact_number }}" placeholder="CONTACT NUMBER">
+                                                                <div class="row mb-3">
+                                                                    <div class="col-12 d-flex align-items-center justify-content-start gap-2">
+                                                                        <input type="checkbox" name="staff[{{$index}}][agree_contact_number]" @if($staff->agree_contact_number) checked @endif>
+                                                                        <small class="my-2">Agree to show contact number in <span class="text-primary ">Directory</span></small>
+                                                                    </div>
+                                                                </div>
+
+                                                                @if(!empty($staff->other_number))
+                                                                    @php
+                                                                        $type_arrs = explode('::', $staff->type_number);
+                                                                        $number_arrs = explode('::', $staff->other_number);
+                                                                        $type_number_name = config('numbertype.'.$staff->type_number);
+                                                                        $count = count($number_arrs);
+                                                                    @endphp
+
+                                                                    @for($ar = 0; $ar < $count; $ar++)
+                                                                    <div class="row form-group">
+                                                                        <div class="col-12 relative">
+                                                                            <select id="select_number_solo{{$index}}" class="form-select select-type-number" aria-label="select type of number" name="staff[{{$index}}][type_number][]">
+                                                                                <option @if($type_arrs[$ar] == 1) selected @endif value="1">Viber</option>
+                                                                                <option @if($type_arrs[$ar] == 2) selected @endif value="2">WhatsApp</option>
+                                                                                <option @if($type_arrs[$ar] == 3) selected @endif value="3">Telegram</option>
+                                                                                <option @if($type_arrs[$ar] == 4) selected @endif value="4">Signal</option>
+                                                                                <option @if($type_arrs[$ar] == 5) selected @endif value="5">WeChat</option>
+                                                                            </select>
+                                                                            <input class="form-control" type="text" name="staff[{{$index}}][other_number][]" required style="padding-left: 140px;" value="{{$number_arrs[$ar]}}">
+                                                                            <div id="messaging_container{{$index}}">
+                                                                                <!-- area for additional fields -->
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    @endfor
+                                                                @else
+                                                                <div class="row form-group">
+                                                                    <div class="col-12 relative">
+                                                                        <select id="select_number_solo{{$index}}" class="form-select select-type-number" aria-label="select type of number" name="staff[{{$index}}][type_number][]">
+                                                                            <option value="1">Viber</option>
+                                                                            <option value="2">WhatsApp</option>
+                                                                            <option value="3">Telegram</option>
+                                                                            <option value="4">Signal</option>
+                                                                            <option value="5">WeChat</option>
+                                                                        </select>
+                                                                        <input class="form-control" type="text" name="staff[{{$index}}][other_number][]" required style="padding-left: 140px;">
+                                                                        <div id="messaging_container{{$index}}">
+                                                                            <!-- area for additional fields -->
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                @endif
+                                                                <small onclick="add_messaging({{$index}})" id="add_messaging" class="primary-text-color float-end pt-1 cursor-pointer">Add Instant Messaging Number</small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            @else
+                                            <p>No staff for this old user.</p>
+                                            @endif
+                                        @endif
+                                        <!-- End Edit Senators Staff and HoR Staff only -->
+
                                     </div>
                                 </form>
+
+                                
                             </div>
                         </div>
 
@@ -676,14 +997,14 @@
                                     <table class="table-dotted table-striped">
                                         <tr>
                                             <td><span class="profile-label"><small>Nickname:</small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_nickname }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->nickname }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Office Email Addres:</small></span></td>
                                             <td>
                                                 <span>
-                                                    @if($memberDetails->senator->sen_email_agree)
-                                                        <small class="form-title"><b>{{ $memberDetails->senator->sen_email }}</b></small>
+                                                    @if($memberDetails->senatorOfficial->email_agree)
+                                                        <small class="form-title"><b>{{ $memberDetails->senatorOfficial->email }}</b></small>
                                                     @else
                                                         <small class="form-title">
                                                             <i disabled>(<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
@@ -700,8 +1021,8 @@
                                             <td><span class="profile-label"><small>Office Landline Number:</small></span></td>
                                             <td>
                                                 <span>
-                                                    @if($memberDetails->senator->sen_landline_agree)
-                                                        <small>{{ $memberDetails->senator->sen_landline }}</small>
+                                                    @if($memberDetails->senatorOfficial->landline_agree)
+                                                        <small>{{ $memberDetails->senatorOfficial->landline }}</small>
                                                     @else
                                                         <small class="form-title">
                                                             <i disabled>(<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
@@ -718,8 +1039,8 @@
                                             <td><span class="profile-label"><small>Office Cellphone Number:</small></span></td>
                                             <td>
                                                 <span>
-                                                    @if($memberDetails->senator->sen_office_cellphone_agree)
-                                                        <small>{{ $memberDetails->senator->sen_office_cellphone }}</small>
+                                                    @if($memberDetails->senatorOfficial->office_cellphone_agree)
+                                                        <small>{{ $memberDetails->senatorOfficial->office_cellphone }}</small>
                                                     @else
                                                         <small class="form-title">
                                                             <i disabled>(<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
@@ -738,39 +1059,39 @@
                                     <table class="table-dotted table-striped mt-2">
                                         <tr>
                                             <td><span class="profile-label"><small>Room Number: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_main_room_number }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->main_room_number }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Direct Line: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_main_direct_line }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->main_direct_line }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Fax Number: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_main_fax_number }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->main_fax_number }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Trunk Local Number: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_main_trunk_local_number }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->main_trunk_local_number }}</small></span></td>
                                         </tr>
                                     </table>
 
                                     <small class="form-title"><b class="text-uppercase">Social Media</b></small>
                                     <table class="table-dotted table-striped mt-2">
                                         <tr>
-                                            <td><span class="profile-label"><small>Faceebook: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_facebook }}</small></span></td>
+                                            <td><span class="profile-label"><small>Facebook: </small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->facebook }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Twitter: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_twitter }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->twitter }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Instagram: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_instagram }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->instagram }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Youtube: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_youtube }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->youtube }}</small></span></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -778,28 +1099,23 @@
                                     <table class="table-dotted table-striped">
                                         <tr>
                                             <td><span class="profile-label"><small>Senate Group:</small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_group }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->group }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Political Party:</small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_party }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->party }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Gender: </small></span></td>
-                                            <td><span><small>@if(!empty($memberDetails->senator->senGender->name)){{ $memberDetails->senator->senGender->name }}@endif</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->gender }}</small></span></td>
                                         </tr>
-                                        @if(!empty($memberDetails->senator->sen_birthday))
+                                        @if(!empty($memberDetails->senatorOfficial->month) && !empty($memberDetails->senatorOfficial->day))
                                         <tr>
-                                            @php
-                                                $sen_bday = explode('::',$memberDetails->senator->sen_birthday);
-                                                $sen_month = $sen_bday[0];
-                                                $sen_day = $sen_bday[1];
-                                            @endphp
                                             <td><span class="profile-label"><small>BirthDate: </small></span></td>
                                             <td>
                                                 <span>
                                                     <small>
-                                                        {{ config('months.'.$sen_month) }} &nbsp; {{ $sen_day }}
+                                                        {{ config('months.'.$memberDetails->senatorOfficial->month) }} &nbsp; {{ $memberDetails->senatorOfficial->day }}
                                                     </small>
                                                 </span>
                                             </td>
@@ -811,19 +1127,19 @@
                                     <table class="table-dotted table-striped mt-2">
                                         <tr>
                                             <td><span class="profile-label"><small>Room Number: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_extension_room_number }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->extension_room_number }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Direct Line: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_extension_direct_line }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->extension_direct_line }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Fax Number: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_extension_fax_number }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->extension_fax_number }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Trunk Local Number: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->senator->sen_extension_trunk_local_number }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->senatorOfficial->extension_trunk_local_number }}</small></span></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -842,10 +1158,10 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="sen_firstname" value="{{ $memberDetails->senator->sen_firstname }}" placeholder="FIRST NAME">
+                                                            <input class="form-control text-uppercase" type="text" name="firstname" value="{{ $memberDetails->senatorOfficial->firstname }}" placeholder="FIRST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
-                                                            <input class="form-control" type="text" name="sen_middle_initial" value="{{ $memberDetails->senator->sen_middle_initial }}" placeholder="M.I.">
+                                                            <input class="form-control" type="text" name="middle_initial" value="{{ $memberDetails->senatorOfficial->middle_initial }}" placeholder="M.I.">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -853,13 +1169,13 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="sen_lastname" value="{{ $memberDetails->senator->sen_lastname }}" placeholder="LAST NAME">
+                                                            <input class="form-control text-uppercase" type="text" name="lastname" value="{{ $memberDetails->senatorOfficial->lastname }}" placeholder="LAST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
-                                                            <select class="form-select" name="sen_suffix">
+                                                            <select class="form-select" name="suffix">
                                                                 <option selected disabled>SUFFIX</option>
-                                                                <option @if($memberDetails->senator->sen_nickname == 'Jr') selected  @endif>Jr</option>
-                                                                <option @if($memberDetails->senator->sen_nickname == 'Sr') selected  @endif>Sr</option>
+                                                                <option @if($memberDetails-> senatorOfficial->suffix == 'Jr') selected  @endif>Jr</option>
+                                                                <option @if($memberDetails-> senatorOfficial->suffix == 'Sr') selected  @endif>Sr</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -868,7 +1184,7 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_nickname" value="{{ $memberDetails->senator->sen_nickname }}" placeholder="NICKNAME">
+                                                            <input class="form-control" type="text" name="nickname" value="{{ $memberDetails->senatorOfficial->nickname }}" placeholder="NICKNAME">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -876,36 +1192,36 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_email" value="{{ $memberDetails->senator->sen_email }}" placeholder="EMAIL ADDRESS*" required>
+                                                            <input class="form-control" type="text" name="email" value="{{ $memberDetails->senatorOfficial->email }}" placeholder="EMAIL ADDRESS*" required>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-12 d-flex align-items-center justify-content-start gap-2">
-                                                            <input type="checkbox" name="sen_email_agree" @if($memberDetails->senator->sen_email_agree) checked @endif>
+                                                            <input type="checkbox" name="email_agree" @if($memberDetails->senatorOfficial->email_agree) checked @endif>
                                                             <small class="my-2">Agree to show in <span class="text-primary ">Senator's Directory</span></small>
                                                         </div>
                                                     </div>
                                                     
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_landline" value="{{ $memberDetails->senator->sen_landline }}" placeholder="OFFICE LANDLINE NUMBER*" required>
+                                                            <input class="form-control" type="text" name="landline" value="{{ $memberDetails->senatorOfficial->landline }}" placeholder="OFFICE LANDLINE NUMBER*" required>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-12 d-flex align-items-center justify-content-start gap-2">
-                                                            <input type="checkbox" name="sen_landline_agree" @if($memberDetails->senator->sen_landline_agree) checked @endif>
+                                                            <input type="checkbox" name="landline_agree" @if($memberDetails->senatorOfficial->sen_landline_agree) checked @endif>
                                                             <small class="my-2">Agree to show in <span class="text-primary ">Senator's Directory</span></small>
                                                         </div>
                                                     </div>
 
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_office_cellphone" value="{{ $memberDetails->senator->sen_office_cellphone }}" placeholder="OFFICE CELLPHONE NUMBER">
+                                                            <input class="form-control" type="text" name="office_cellphone" value="{{ $memberDetails->senatorOfficial->office_cellphone }}" placeholder="OFFICE CELLPHONE NUMBER">
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-12 d-flex align-items-center justify-content-start gap-2">
-                                                            <input type="checkbox" name="sen_office_cellphone_agree" @if($memberDetails->senator->sen_office_cellphone_agree) checked @endif>
+                                                            <input type="checkbox" name="office_cellphone_agree" @if($memberDetails->senatorOfficial->office_cellphone_agree) checked @endif>
                                                             <small class="my-2">Agree to show in <span class="text-primary ">Senator's Directory</span></small>
                                                         </div>
                                                     </div>
@@ -914,49 +1230,44 @@
 
                                             <div class="col-6 px-4">
                                                 <div class="form-group">
-                                                    <select class="form-select" name="sen_group">
+                                                    <select class="form-select" name="group">
                                                         <option selected disabled>MAJORITY/MINORITY/INDEPENDENT</option>
-                                                        <option @if($memberDetails->senator->sen_group == 'MAJORITY') selected  @endif>MAJORITY</option>
-                                                        <option @if($memberDetails->senator->sen_group == 'MINORITY') selected  @endif>MINORITY</option>
-                                                        <option @if($memberDetails->senator->sen_group == 'INDEPENDENT') selected  @endif>INDEPENDENT</option>
+                                                        <option @if($memberDetails->senatorOfficial->group == 'MAJORITY') selected  @endif>MAJORITY</option>
+                                                        <option @if($memberDetails->senatorOfficial->group == 'MINORITY') selected  @endif>MINORITY</option>
+                                                        <option @if($memberDetails->senatorOfficial->group == 'INDEPENDENT') selected  @endif>INDEPENDENT</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <select class="form-select" name="sen_party">
+                                                    <select class="form-select" name="party">
                                                         <option selected disabled>POLITICAL PARTY</option>
-                                                        <option>PDP</option>
-                                                        <option>LIBERAL</option>
+                                                        <option @if($memberDetails->senatorOfficial->party == 'PDP') selected  @endif>PDP</option>
+                                                        <option @if($memberDetails->senatorOfficial->party == 'LIBERAL') selected  @endif>LIBERAL</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-6">
-                                                            <select class="form-select" name="sen_gender">
+                                                            <select class="form-select" name="gender">
                                                                 <option selected disabled>GENDER</option>
                                                                 @foreach($genders as $gender)
-                                                                    <option @if($memberDetails->senator->sen_gender == $gender->id) selected @endif value="{{ $gender->id }}" >{{$gender->name}}</option>
+                                                                    <option @if($memberDetails->senatorOfficial->gender == $gender->name) selected @endif value="{{ $gender->name }}" >{{$gender->name}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
-                                                        @if(!empty($memberDetails->senator->sen_birthday))
-                                                        @php
-                                                            $sen_bday = explode('::',$memberDetails->senator->sen_birthday);
-                                                            $sen_month = $sen_bday[0];
-                                                            $sen_day = $sen_bday[1];
-                                                        @endphp
+                                                        @if(!empty($memberDetails->senatorOfficial->month))
                                                         <div class="col-6" style="padding-left: 0px;">
                                                             <div class="d-flex">
-                                                                <select class="form-select" aria-label="select month" name="sen_month" style="width: 70%">
+                                                                <select class="form-select" aria-label="select month" name="month" style="width: 70%">
                                                                     <option value="0">BIRTHMONTH</option>
-                                                                    @foreach(Config::get('months') as $key => $month)
-                                                                    <option @if($sen_month == $key) selected @endif value="{{ $month }}">{{ $month }}</option>
+                                                                    @foreach(Config::get('months') as $key => $cmonth)
+                                                                    <option @if($month == $cmonth) selected @endif value="{{ $month }}">{{ $cmonth }}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 &nbsp;
-                                                                <select class="form-select" aria-label="select day" name="sen_day" style="width: 30%">
+                                                                <select class="form-select" aria-label="select day" name="day" style="width: 30%">
                                                                     <option value="0">BIRTHDAY</option>
                                                                     @for($d = 1; $d <= 31; $d++)
-                                                                    <option @if($sen_day == $d) selected @endif value="{{ $d }}">{{ $d }}</option>
+                                                                    <option @if($day == $d) selected @endif value="{{ $d }}">{{ $d }}</option>
                                                                     @endfor
                                                                 </select>
                                                             </div>
@@ -976,14 +1287,14 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_facebook" value="{{ $memberDetails->senator->sen_facebook }}" placeholder="FACEBOOK">
+                                                            <input class="form-control" type="text" name="facebook" value="{{ $memberDetails->senatorOfficial->facebook }}" placeholder="FACEBOOK">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_twitter" value="{{ $memberDetails->senator->sen_twitter }}" placeholder="TWITTER">
+                                                            <input class="form-control" type="text" name="twitter" value="{{ $memberDetails->senatorOfficial->twitter }}" placeholder="TWITTER">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -992,14 +1303,14 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_instagram" value="{{ $memberDetails->senator->sen_instagram }}" placeholder="INSTAGRAM">
+                                                            <input class="form-control" type="text" name="instagram" value="{{ $memberDetails->senatorOfficial->instagram }}" placeholder="INSTAGRAM">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_youtube" value="{{ $memberDetails->senator->sen_youtube }}" placeholder="YOUTUBE">
+                                                            <input class="form-control" type="text" name="youtube" value="{{ $memberDetails->senatorOfficial->youtube }}" placeholder="YOUTUBE">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1014,28 +1325,28 @@
                                                 <div class="form-group mt-2">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_main_room_number" value="{{ $memberDetails->senator->sen_main_room_number }}" placeholder="ROOM NUMBER">
+                                                            <input class="form-control" type="text" name="main_room_number" value="{{ $memberDetails->senatorOfficial->main_room_number }}" placeholder="ROOM NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_main_direct_line" value="{{ $memberDetails->senator->sen_main_direct_line }}" placeholder="DIRECT LINE">
+                                                            <input class="form-control" type="text" name="main_direct_line" value="{{ $memberDetails->senatorOfficial->main_direct_line }}" placeholder="DIRECT LINE">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_main_fax_number" value="{{ $memberDetails->senator->sen_main_fax_number }}" placeholder="FAX NUMBER">
+                                                            <input class="form-control" type="text" name="main_fax_number" value="{{ $memberDetails->senatorOfficial->main_fax_number }}" placeholder="FAX NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_main_trunk_local_number" value="{{ $memberDetails->senator->sen_main_trunk_local_number }}" placeholder="TRUNK LOCAL NUMBER">
+                                                            <input class="form-control" type="text" name="main_trunk_local_number" value="{{ $memberDetails->senatorOfficial->main_trunk_local_number }}" placeholder="TRUNK LOCAL NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1046,28 +1357,28 @@
                                                 <div class="form-group mt-2">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_extension_room_number" value="{{ $memberDetails->senator->sen_extension_room_number }}" placeholder="ROOM NUMBER">
+                                                            <input class="form-control" type="text" name="extension_room_number" value="{{ $memberDetails->senatorOfficial->extension_room_number }}" placeholder="ROOM NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_extension_direct_line" value="{{ $memberDetails->senator->sen_extension_direct_line }}" placeholder="DIRECT LINE">
+                                                            <input class="form-control" type="text" name="extension_direct_line" value="{{ $memberDetails->senatorOfficial->extension_direct_line }}" placeholder="DIRECT LINE">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_extension_fax_number" value="{{ $memberDetails->senator->sen_extension_fax_number }}" placeholder="FAX NUMBER">
+                                                            <input class="form-control" type="text" name="extension_fax_number" value="{{ $memberDetails->senatorOfficial->extension_fax_number }}" placeholder="FAX NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_extension_trunk_local_number" value="{{ $memberDetails->senator->sen_extension_trunk_local_number }}" placeholder="TRUNK LOCAL NUMBER">
+                                                            <input class="form-control" type="text" name="extension_trunk_local_number" value="{{ $memberDetails->senatorOfficial->extension_trunk_local_number }}" placeholder="TRUNK LOCAL NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1085,10 +1396,10 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="sen_spouse_firstname" value="{{ $memberDetails->senator->sen_spouse_firstname }}" placeholder="FIRST NAME">
+                                                            <input class="form-control text-uppercase" type="text" name="spouse_firstname" value="{{ $memberDetails->senatorOfficial->spouse_firstname }}" placeholder="FIRST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
-                                                            <input class="form-control" type="text" name="sen_spouse_middle_initial" value="{{ $memberDetails->senator->sen_spouse_middle_initial }}" placeholder="M.I.">
+                                                            <input class="form-control" type="text" name="spouse_middle_initial" value="{{ $memberDetails->senatorOfficial->spouse_middle_initial }}" placeholder="M.I.">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1096,7 +1407,7 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="sen_spouse_lastname" value="{{ $memberDetails->senator->sen_spouse_lastname }}" placeholder="LAST NAME">
+                                                            <input class="form-control text-uppercase" type="text" name="spouse_lastname" value="{{ $memberDetails->senatorOfficial->spouse_lastname }}" placeholder="LAST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
                                                             <select class="form-select" name="sen_spouse_suffix">
@@ -1111,26 +1422,26 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-6">
-                                                            <select class="form-select" name="sen_spouse_gender">
+                                                            <select class="form-select" name="spouse_gender">
                                                                 <option selected disabled>GENDER</option>
                                                                 @foreach($genders as $gender)
-                                                                    <option @if($memberDetails->senator->sen_spouse_gender == $gender->id) selected @endif value="{{ $gender->id }}" >{{$gender->name}}</option>
+                                                                    <option @if($memberDetails->senatorOfficial->spouse_gender == $gender->name) selected @endif value="{{ $gender->name }}" >{{$gender->name}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
                                                         <div class="col-6" style="padding-left: 0px;">
-                                                            <input class="form-control" type="text" name="sen_spouse_birthday" value="{{ $memberDetails->senator->sen_spouse_birthday }}" placeholder="BIRTHDAY">
+                                                            <input class="form-control" type="text" name="spouse_birthday" value="{{ $memberDetails->senatorOfficial->spouse_birthday }}" placeholder="BIRTHDAY">
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <!-- need changes here soon -->
                                                 <div class="form-group">
-                                                    <select class="form-select" name="sen_spouse_profession">
+                                                    <select class="form-select" name="spouse_profession">
                                                         <option selected disabled>PROFESSION</option>
-                                                        <option>TEACHER</option>
-                                                        <option>TECHNOLOGY</option>
-                                                        <option>GOVERNMENT</option>
+                                                        <option value="TEACHE">TEACHER</option>
+                                                        <option value="TECHNOLOG">TECHNOLOGY</option>
+                                                        <option value="GOVERNMEN">GOVERNMENT</option>
                                                     </select>
                                                 </div>
                                                
@@ -1140,28 +1451,28 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_spouse_office_address" value="{{ $memberDetails->senator->sen_spouse_office_address }}" placeholder="OFFICE ADDRESS*" required>
+                                                            <input class="form-control" type="text" name="spouse_office_address" value="{{ $memberDetails->senatorOfficial->spouse_office_address }}" placeholder="OFFICE ADDRESS*" required>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_spouse_email_address" value="{{ $memberDetails->senator->sen_spouse_email_address }}" placeholder="EMAIL ADDRESS*" required>
+                                                            <input class="form-control" type="text" name="spouse_email_address" value="{{ $memberDetails->senatorOfficial->spouse_email_address }}" placeholder="EMAIL ADDRESS*" required>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_spouse_landline_number" value="{{ $memberDetails->senator->sen_spouse_landline_number }}" placeholder="LANDLINE NUMBER*" required>
+                                                            <input class="form-control" type="text" name="spouse_landline_number" value="{{ $memberDetails->senatorOfficial->spouse_landline_number }}" placeholder="LANDLINE NUMBER*" required>
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="sen_spouse_cellphone_number" value="{{ $memberDetails->senator->sen_spouse_cellphone_number }}" placeholder="CELLPHONE NUMBER*" required>
+                                                            <input class="form-control" type="text" name="spouse_cellphone_number" value="{{ $memberDetails->senatorOfficial->spouse_cellphone_number }}" placeholder="CELLPHONE NUMBER*" required>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1182,14 +1493,14 @@
                                     <table class="table-dotted table-striped">
                                         <tr>
                                             <td><span class="profile-label"><small>Nickname:</small></span></td>
-                                            <td><span><small>{{ $memberDetails->hor->hor_nickname }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->nickname }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Office Email Addres:</small></span></td>
                                             <td>
                                                 <span>
-                                                    @if($memberDetails->hor->hor_email_agree)
-                                                        <small class="form-title"><b>{{ $memberDetails->hor->hor_email }}</b></small>
+                                                    @if($memberDetails->horOfficial->email_agree)
+                                                        <small class="form-title"><b>{{ $memberDetails->horOfficial->email }}</b></small>
                                                     @else
                                                         <small class="form-title">
                                                             <i disabled>(<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
@@ -1206,8 +1517,8 @@
                                             <td><span class="profile-label"><small>Office Landline Number:</small></span></td>
                                             <td>
                                                 <span>
-                                                    @if($memberDetails->hor->hor_landline_agree)
-                                                        <small>{{ $memberDetails->hor->hor_landline }}</small>
+                                                    @if($memberDetails->horOfficial->landline_agree)
+                                                        <small>{{ $memberDetails->horOfficial->landline }}</small>
                                                     @else
                                                         <small class="form-title">
                                                             <i disabled>(<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
@@ -1224,8 +1535,8 @@
                                             <td><span class="profile-label"><small>Office Cellphone Number:</small></span></td>
                                             <td>
                                                 <span>
-                                                    @if($memberDetails->hor->hor_office_cellphone_agree)
-                                                        <small>{{ $memberDetails->hor->hor_office_cellphone }}</small>
+                                                    @if($memberDetails->horOfficial->office_cellphone_agree)
+                                                        <small>{{ $memberDetails->horOfficial->office_cellphone }}</small>
                                                     @else
                                                         <small class="form-title">
                                                             <i disabled>(<svg aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="18" height="18" fill="none" viewBox="0 0 24 24">
@@ -1244,19 +1555,19 @@
                                     <table class="table-dotted table-striped mt-2">
                                         <tr>
                                             <td><span class="profile-label"><small>Faceebook: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->hor->hor_facebook }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->facebook }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Twitter: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->hor->hor_twitter }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->twitter }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Instagram: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->hor->hor_instagram }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->instagram }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Youtube: </small></span></td>
-                                            <td><span><small>{{ $memberDetails->hor->hor_youtube }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->youtube }}</small></span></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -1265,36 +1576,31 @@
                                     <table class="table-dotted table-striped">
                                         <tr>
                                             <td><span class="profile-label"><small>Province | Partylist:</small></span></td>
-                                            <td><span><small>{{ $memberDetails->hor->hor_province }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->province }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>District:</small></span></td>
-                                            <td><span><small>{{ $memberDetails->hor->hor_district }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->district }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Region:</small></span></td>
-                                            <td><span><small>{{ $memberDetails->hor->hor_region }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->region }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Senate Group:</small></span></td>
-                                            <td><span><small>{{ $memberDetails->hor->hor_group }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->group }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Political Party:</small></span></td>
-                                            <td><span><small>{{ $memberDetails->hor->hor_party }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->party }}</small></span></td>
                                         </tr>
                                         <tr>
                                             <td><span class="profile-label"><small>Gender: </small></span></td>
-                                            <td><span><small>@if(!empty($memberDetails->hor->gender->name)){{ $memberDetails->hor->gender->name }}@endif</small></span></td>
+                                            <td><span><small>@if(!empty($memberDetails->horOfficial->gender)){{ $memberDetails->horOfficial->gender}}@endif</small></span></td>
                                         </tr>
                                         <tr>
-                                            @php
-                                                $hor_bday = explode('::',$memberDetails->hor->hor_birthday);
-                                                $hor_month = $hor_bday[0];
-                                                $hor_day = $hor_bday[1];
-                                            @endphp
                                             <td><span class="profile-label"><small>BirthDate: </small></span></td>
-                                            <td><span><small>{{ $hor_month }} &nbsp; {{ $hor_day }}</small></span></td>
+                                            <td><span><small>{{ $memberDetails->horOfficial->month }} &nbsp; {{ $memberDetails->horOfficial->day }}</small></span></td>
                                         </tr>
                                     </table>
                                 </div>
@@ -1302,7 +1608,7 @@
                             </div>
 
                             <div class="row" id="edit_hor_panel" style="display: none;">
-                                <form id="hor_update_form" action="{{ route('member.profile.hor.update', $memberDetails->hor->id ) }}" method="post" enctype="multipart/form-data">
+                                <form id="hor_update_form" action="{{ route('member.profile.hor.update', $memberDetails->horOfficial->id ) }}" method="post" enctype="multipart/form-data">
                                     @csrf
                                     <div class="row">
                                         <small class="form-title"><b>DETAILS THAT ARE VISIBLE IN DIRECTORY</b></small>
@@ -1314,10 +1620,10 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="hor_firstname" value="{{ $memberDetails->hor->hor_firstname }}" placeholder="FIRST NAME">
+                                                            <input class="form-control text-uppercase" type="text" name="firstname" value="{{ $memberDetails->horOfficial->firstname }}" placeholder="FIRST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
-                                                            <input class="form-control" type="text" name="hor_middle_initial" value="{{ $memberDetails->hor->hor_middle_initial }}" placeholder="M.I.">
+                                                            <input class="form-control" type="text" name="middle_initial" value="{{ $memberDetails->horOfficial->middle_initial }}" placeholder="M.I.">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1325,13 +1631,13 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="hor_lastname" value="{{ $memberDetails->hor->hor_lastname }}" placeholder="LAST NAME">
+                                                            <input class="form-control text-uppercase" type="text" name="lastname" value="{{ $memberDetails->horOfficial->lastname }}" placeholder="LAST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
-                                                            <select class="form-select" name="hor_suffix">
+                                                            <select class="form-select" name="suffix">
                                                                 <option selected disabled>SUFFIX</option>
-                                                                <option @if($memberDetails->hor->sen_nickname == 'Jr') selected  @endif>Jr</option>
-                                                                <option @if($memberDetails->hor->sen_nickname == 'Sr') selected  @endif>Sr</option>
+                                                                <option @if($memberDetails->horOfficial->suffix == 'Jr') selected  @endif>Jr</option>
+                                                                <option @if($memberDetails->horOfficial->suffix == 'Sr') selected  @endif>Sr</option>
                                                             </select>
                                                         </div>
                                                     </div>
@@ -1340,7 +1646,7 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_nickname" value="{{ $memberDetails->hor->hor_nickname }}" placeholder="NICKNAME">
+                                                            <input class="form-control" type="text" name="nickname" value="{{ $memberDetails->horOfficial->nickname }}" placeholder="NICKNAME">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1348,36 +1654,36 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_email" value="{{ $memberDetails->hor->hor_email }}" placeholder="EMAIL ADDRESS*" required>
+                                                            <input class="form-control" type="text" name="email" value="{{ $memberDetails->horOfficial->email }}" placeholder="EMAIL ADDRESS*" required>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-12 d-flex align-items-center justify-content-start gap-2">
-                                                            <input type="checkbox" name="hor_email_agree" @if($memberDetails->hor->hor_email_agree) checked @endif>
+                                                            <input type="checkbox" name="email_agree" @if($memberDetails->horOfficial->email_agree) checked @endif>
                                                             <small class="my-2">Agree to show in <span class="text-primary ">Senator's Directory</span></small>
                                                         </div>
                                                     </div>
                                                     
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_landline" value="{{ $memberDetails->hor->hor_landline }}" placeholder="OFFICE LANDLINE NUMBER*" required>
+                                                            <input class="form-control" type="text" name="landline" value="{{ $memberDetails->horOfficial->landline }}" placeholder="OFFICE LANDLINE NUMBER*" required>
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-12 d-flex align-items-center justify-content-start gap-2">
-                                                            <input type="checkbox" name="hor_landline_agree" @if($memberDetails->hor->hor_landline_agree) checked @endif>
+                                                            <input type="checkbox" name="landline_agree" @if($memberDetails->horOfficial->landline_agree) checked @endif>
                                                             <small class="my-2">Agree to show in <span class="text-primary ">Senator's Directory</span></small>
                                                         </div>
                                                     </div>
 
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_office_cellphone" value="{{ $memberDetails->hor->hor_office_cellphone }}" placeholder="OFFICE CELLPHONE NUMBER">
+                                                            <input class="form-control" type="text" name="office_cellphone" value="{{ $memberDetails->horOfficial->office_cellphone }}" placeholder="OFFICE CELLPHONE NUMBER">
                                                         </div>
                                                     </div>
                                                     <div class="row">
                                                         <div class="col-12 d-flex align-items-center justify-content-start gap-2">
-                                                            <input type="checkbox" name="hor_office_cellphone_agree" @if($memberDetails->hor->hor_office_cellphone_agree) checked @endif>
+                                                            <input type="checkbox" name="office_cellphone_agree" @if($memberDetails->horOfficial->office_cellphone_agree) checked @endif>
                                                             <small class="my-2">Agree to show in <span class="text-primary ">Senator's Directory</span></small>
                                                         </div>
                                                     </div>
@@ -1386,48 +1692,43 @@
 
                                             <div class="col-6 px-4">
                                                 <div class="form-group">
-                                                    <select class="form-select" name="hor_group">
+                                                    <select class="form-select" name="group">
                                                         <option selected disabled>MAJORITY/MINORITY/INDEPENDENT</option>
-                                                        <option @if($memberDetails->hor->sen_group == 'MAJORITY') selected  @endif>MAJORITY</option>
-                                                        <option @if($memberDetails->hor->sen_group == 'MINORITY') selected  @endif>MINORITY</option>
-                                                        <option @if($memberDetails->hor->sen_group == 'INDEPENDENT') selected  @endif>INDEPENDENT</option>
+                                                        <option @if($memberDetails->horOfficial->group == 'MAJORITY') selected  @endif>MAJORITY</option>
+                                                        <option @if($memberDetails->horOfficial->group == 'MINORITY') selected  @endif>MINORITY</option>
+                                                        <option @if($memberDetails->horOfficial->group == 'INDEPENDENT') selected  @endif>INDEPENDENT</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
-                                                    <select class="form-select" name="hor_party">
+                                                    <select class="form-select" name="party">
                                                         <option selected disabled>POLITICAL PARTY</option>
-                                                        <option>PDP</option>
-                                                        <option>LIBERAL</option>
+                                                        <option value="PDP">PDP</option>
+                                                        <option value="LIBERAL">LIBERAL</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
-                                                        @php
-                                                            $hor_bday = explode('::',$memberDetails->hor->hor_birthday);
-                                                            $hor_month = $hor_bday[0];
-                                                            $hor_day = $hor_bday[1];
-                                                        @endphp
                                                         <div class="col-6">
-                                                            <select class="form-select" name="hor_gender">
+                                                            <select class="form-select" name="gender">
                                                                 <option selected disabled>GENDER</option>
                                                                 @foreach($genders as $gender)
-                                                                    <option @if($memberDetails->hor->hor_gender == $gender->id) selected @endif value="{{ $gender->id }}" >{{$gender->name}}</option>
+                                                                    <option @if($memberDetails->horOfficial->gender == $gender->name) selected @endif value="{{ $gender->name }}" >{{$gender->name}}</option>
                                                                 @endforeach
                                                             </select>
                                                         </div>
                                                         <div class="col-6" style="padding-left: 0px;">
                                                             <div class="d-flex">
-                                                                <select class="form-select" aria-label="select month" name="hor_month" style="width: 70%">
+                                                                <select class="form-select" aria-label="select month" name="month" style="width: 70%">
                                                                     <option value="0">BIRTHMONTH</option>
-                                                                    @foreach(Config::get('months') as $month)
-                                                                    <option @if($hor_month == $month) selected @endif value="{{ $month }}">{{ $month }}</option>
+                                                                    @foreach(Config::get('months') as $cmonth)
+                                                                    <option @if($memberDetails->horOfficial->$month == $cmonth) selected @endif value="{{ $cmonth }}">{{ $cmonth }}</option>
                                                                     @endforeach
                                                                 </select>
                                                                 &nbsp;
-                                                                <select class="form-select" aria-label="select day" name="hor_day" style="width: 30%">
+                                                                <select class="form-select" aria-label="select day" name="day" style="width: 30%">
                                                                     <option value="0">BIRTHDAY</option>
                                                                     @for($d = 1; $d <= 31; $d++)
-                                                                    <option @if($hor_day == $d) selected @endif value="{{ $d }}">{{ $d }}</option>
+                                                                    <option @if($memberDetails->horOfficial->$day == $d) selected @endif value="{{ $d }}">{{ $d }}</option>
                                                                     @endfor
                                                                 </select>
                                                             </div>
@@ -1446,14 +1747,14 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_facebook" value="{{ $memberDetails->hor->hor_facebook }}" placeholder="FACEBOOK">
+                                                            <input class="form-control" type="text" name="facebook" value="{{ $memberDetails->horOfficial->facebook }}" placeholder="FACEBOOK">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_twitter" value="{{ $memberDetails->hor->hor_twitter }}" placeholder="TWITTER">
+                                                            <input class="form-control" type="text" name="twitter" value="{{ $memberDetails->horOfficial->twitter }}" placeholder="TWITTER">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1462,14 +1763,14 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_instagram" value="{{ $memberDetails->hor->hor_instagram }}" placeholder="INSTAGRAM">
+                                                            <input class="form-control" type="text" name="instagram" value="{{ $memberDetails->horOfficial->instagram }}" placeholder="INSTAGRAM">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_youtube" value="{{ $memberDetails->hor->hor_youtube }}" placeholder="YOUTUBE">
+                                                            <input class="form-control" type="text" name="youtube" value="{{ $memberDetails->horOfficial->youtube }}" placeholder="YOUTUBE">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1484,28 +1785,28 @@
                                                 <div class="form-group mt-2">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_resident_adress" value="{{ $memberDetails->hor->hor_resident_adress }}" placeholder="ADDRESS">
+                                                            <input class="form-control" type="text" name="resident_address" value="{{ $memberDetails->horOfficial->resident_address }}" placeholder="ADDRESS">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_resident_email" value="{{ $memberDetails->hor->hor_resident_email }}" placeholder="EMAIL ADDRESS">
+                                                            <input class="form-control" type="text" name="resident_email" value="{{ $memberDetails->horOfficial->resident_email }}" placeholder="EMAIL ADDRESS">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_resident_landline" value="{{ $memberDetails->hor->hor_resident_landline }}" placeholder="LANDLINE NUMBER">
+                                                            <input class="form-control" type="text" name="resident_landline" value="{{ $memberDetails->horOfficial->resident_landline }}" placeholder="LANDLINE NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_resident_cellphone" value="{{ $memberDetails->hor->hor_resident_cellphone }}" placeholder="CELLPHONE NUMBER">
+                                                            <input class="form-control" type="text" name="resident_cellphone" value="{{ $memberDetails->horOfficial->resident_cellphone }}" placeholder="CELLPHONE NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1516,28 +1817,28 @@
                                                 <div class="form-group mt-2">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_province_address" value="{{ $memberDetails->hor->hor_province_address }}" placeholder="ADDRESS">
+                                                            <input class="form-control" type="text" name="province_address" value="{{ $memberDetails->horOfficial->province_address }}" placeholder="ADDRESS">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_province_email" value="{{ $memberDetails->hor->hor_province_email }}" placeholder="EMAIL ADDRESS">
+                                                            <input class="form-control" type="text" name="province_email" value="{{ $memberDetails->horOfficial->province_email }}" placeholder="EMAIL ADDRESS">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_province_landline" value="{{ $memberDetails->hor->hor_province_landline }}" placeholder="LANDLINE NUMBER">
+                                                            <input class="form-control" type="text" name="province_landline" value="{{ $memberDetails->horOfficial->province_landline }}" placeholder="LANDLINE NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_province_cellphone" value="{{ $memberDetails->hor->hor_province_cellphone }}" placeholder="CELLPHONE NUMBER">
+                                                            <input class="form-control" type="text" name="province_cellphone" value="{{ $memberDetails->horOfficial->province_cellphone }}" placeholder="CELLPHONE NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1551,14 +1852,14 @@
                                                 <div class="form-group mt-2">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_resident_adress" value="{{ $memberDetails->hor->hor_resident_adress }}" placeholder="ADDRESS">
+                                                            <input class="form-control" type="text" name="resident_address" value="{{ $memberDetails->horOfficial->resident_address }}" placeholder="ADDRESS">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_resident_email" value="{{ $memberDetails->hor->hor_resident_email }}" placeholder="EMAIL ADDRESS">
+                                                            <input class="form-control" type="text" name="resident_email" value="{{ $memberDetails->horOfficial->resident_email }}" placeholder="EMAIL ADDRESS">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1567,14 +1868,14 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_province_landline" value="{{ $memberDetails->hor->hor_province_landline }}" placeholder="LANDLINE NUMBER">
+                                                            <input class="form-control" type="text" name="province_landline" value="{{ $memberDetails->horOfficial->province_landline }}" placeholder="LANDLINE NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_province_cellphone" value="{{ $memberDetails->hor->hor_province_cellphone }}" placeholder="CELLPHONE NUMBER">
+                                                            <input class="form-control" type="text" name="province_cellphone" value="{{ $memberDetails->horOfficial->province_cellphone }}" placeholder="CELLPHONE NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1588,42 +1889,42 @@
                                                 <div class="form-group mt-2">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_highest_education" value="{{ $memberDetails->hor->hor_highest_education }}" placeholder="HIGHEST EDUCATIONAL ATTAINMENT COURSE">
+                                                            <input class="form-control" type="text" name="highest_education" value="{{ $memberDetails->horOfficial->highest_education }}" placeholder="HIGHEST EDUCATIONAL ATTAINMENT COURSE">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_school" value="{{ $memberDetails->hor->hor_school }}" placeholder="SCHOOL">
+                                                            <input class="form-control" type="text" name="school" value="{{ $memberDetails->horOfficial->school }}" placeholder="SCHOOL">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_prev_work_gov" value="{{ $memberDetails->hor->hor_prev_work_gov }}" placeholder="PREVIOUS WORK: GOVERNMENT">
+                                                            <input class="form-control" type="text" name="prev_work_gov" value="{{ $memberDetails->horOfficial->prev_work_gov }}" placeholder="PREVIOUS WORK: GOVERNMENT">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_prev_work_private" value="{{ $memberDetails->hor->hor_prev_work_private }}" placeholder="PREVIOUS WORK: PRIVATE">
+                                                            <input class="form-control" type="text" name="prev_work_private" value="{{ $memberDetails->horOfficial->prev_work_private }}" placeholder="PREVIOUS WORK: PRIVATE">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_religion" value="{{ $memberDetails->hor->hor_religion }}" placeholder="RELIGION">
+                                                            <input class="form-control" type="text" name="religion" value="{{ $memberDetails->horOfficial->religion }}" placeholder="RELIGION">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_civic" value="{{ $memberDetails->hor->hor_civic }}" placeholder="CIVIC ORGANIZATIONAL AFFILIATION">
+                                                            <input class="form-control" type="text" name="civic" value="{{ $memberDetails->horOfficial->civic }}" placeholder="CIVIC ORGANIZATIONAL AFFILIATION">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1634,10 +1935,10 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="hor_spouse_firstname" value="{{ $memberDetails->hor->hor_spouse_firstname }}" placeholder="FIRST NAME">
+                                                            <input class="form-control text-uppercase" type="text" name="spouse_firstname" value="{{ $memberDetails->horOfficial->spouse_firstname }}" placeholder="FIRST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
-                                                            <input class="form-control" type="text" name="hor_spouse_middle_initial" value="{{ $memberDetails->hor->hor_spouse_middle_initial }}" placeholder="M.I.">
+                                                            <input class="form-control" type="text" name="spouse_middle_initial" value="{{ $memberDetails->horOfficial->spouse_middle_initial }}" placeholder="M.I.">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1645,10 +1946,10 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-10">
-                                                            <input class="form-control" type="text" name="hor_spouse_lastname" value="{{ $memberDetails->hor->hor_spouse_lastname }}" placeholder="LAST NAME">
+                                                            <input class="form-control text-uppercase" type="text" name="spouse_lastname" value="{{ $memberDetails->horOfficial->spouse_lastname }}" placeholder="LAST NAME">
                                                         </div>
                                                         <div class="col-2" style="padding-left: 0px;">
-                                                            <select class="form-select" name="hor_spouse_suffix">
+                                                            <select class="form-select" name="spouse_suffix">
                                                                 <option selected disabled>SUFFIX</option>
                                                                 <option>Jr</option>
                                                                 <option>Sr</option>
@@ -1658,12 +1959,13 @@
                                                 </div>
 
                                                 <div class="form-group">
+                                                    <small><i>Wedding Aniversary</i></small>
                                                     <div class="row">
                                                         <div class="col-6">
-                                                            <input class="form-control" type="date" name="hor_spouse_wedding_aniv" value="{{ $memberDetails->hor->hor_spouse_wedding_aniv }}" placeholder="WEDDING ANNIVERSARY">
+                                                            <input class="form-control" type="date" name="spouse_wedding_aniv" value="{{ $memberDetails->horOfficial->spouse_wedding_aniv }}" placeholder="WEDDING ANNIVERSARY">
                                                         </div>
                                                         <div class="col-6" style="padding-left: 0px;">
-                                                            <input class="form-control" type="text" name="hor_spouse_birthday" value="{{ $memberDetails->hor->hor_spouse_birthday }}" placeholder="BIRTHDAY">
+                                                            <input class="form-control" type="text" name="spouse_birthday" value="{{ $memberDetails->horOfficial->spouse_birthday }}" placeholder="BIRTHDAY">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1671,13 +1973,13 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_spouse_civic" value="{{ $memberDetails->hor->hor_spouse_civic }}" placeholder="CIVIC ORGANIZATIONAL AFFILIATION">
+                                                            <input class="form-control" type="text" name="spouse_civic" value="{{ $memberDetails->horOfficial->spouse_civic }}" placeholder="CIVIC ORGANIZATIONAL AFFILIATION">
                                                         </div>
                                                     </div>
                                                 </div>
 
                                                 <div class="form-group">
-                                                   <input class="form-control" type="text" name="hor_spouse_profession" value="{{ $memberDetails->hor->hor_spouse_profession }}" placeholder="PROFESSION">
+                                                   <input class="form-control" type="text" name="spouse_profession" value="{{ $memberDetails->horOfficial->spouse_profession }}" placeholder="PROFESSION">
                                                 </div>
                                                
                                             </div>
@@ -1691,35 +1993,35 @@
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_child_name" value="{{ $memberDetails->hor->hor_child_name }}" placeholder="NAME">
+                                                            <input class="form-control" type="text" name="child_name" value="{{ $memberDetails->horOfficial->child_name }}" placeholder="NAME">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_child_email" value="{{ $memberDetails->hor->hor_child_email }}" placeholder="EMAIL ADDRESS">
+                                                            <input class="form-control" type="text" name="child_email" value="{{ $memberDetails->horOfficial->child_email }}" placeholder="EMAIL ADDRESS">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_child_landline" value="{{ $memberDetails->hor->hor_child_landline }}" placeholder="LANDLINE NUMBER">
+                                                            <input class="form-control" type="text" name="child_landline" value="{{ $memberDetails->horOfficial->child_landline }}" placeholder="LANDLINE NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_child_cellphone" value="{{ $memberDetails->hor->hor_child_cellphone }}" placeholder="CELLPHONE NUMBER">
+                                                            <input class="form-control" type="text" name="child_cellphone" value="{{ $memberDetails->horOfficial->child_cellphone }}" placeholder="CELLPHONE NUMBER">
                                                         </div>
                                                     </div>
                                                 </div>
                                                 <div class="form-group">
                                                     <div class="row">
                                                         <div class="col-12">
-                                                            <input class="form-control" type="text" name="hor_child_profession" value="{{ $memberDetails->hor->hor_child_profession }}" placeholder="PROFESSION">
+                                                            <input class="form-control" type="text" name="child_profession" value="{{ $memberDetails->horOfficial->child_profession }}" placeholder="PROFESSION">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -1727,7 +2029,7 @@
                                         </div>
                                         <br />
                                         <div class="col-12 d-flex">
-                                            <button class="w-100 btn btn-secondary rounded shadow text-center"> ADD CHILDREN </button>
+                                            <button type="button" class="w-100 btn btn-secondary rounded shadow text-center"> ADD CHILDREN </button>
                                         </div>
                                     </div>
                                 </form>
@@ -1747,10 +2049,16 @@
                                             &nbsp;
                                         </small>
                                     </tr>
-                                    @forelse($events as $event)
+                                    @forelse($events as $eventAttended)
                                     <tr>
-                                        <td><span><small>{{ $event->event->date }}</small></span></td>
-                                        <td><span class="primary-text-color"><small>{{ $event->event->title }}</small></span></td>
+                                        <td><span><small>{{ $eventAttended->date }}</small></span></td>
+                                        <td>
+                                            <span class="primary-text-color">
+                                                <small>
+                                                    <a href="{{ route('events.view', $eventAttended->id) }}">{{ $eventAttended->title }}</a>
+                                                </small>
+                                            </span>
+                                        </td>
                                     </tr>
                                     @empty
                                     <tr>
@@ -1774,39 +2082,18 @@
                                         &nbsp;
                                         </small>
                                     </tr>
-                                    
+                                    @forelse($references as $reference)
                                     <tr>
-                                        <td><span><small>March 3, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">SSS Position on House Joint Resolution (HJR) No. 1 Mandating the implementat ion of the second tranche increase in pension</a></small></span></td>
+                                        <td><span><small>{{ date('F d, Y', strtotime($reference->created_at)) }}</small></span></td>
+                                        <td><span class="primary-text-color"><small class="primary-text-color">{{ $reference->subject }}</small></span></td>
                                     </tr>
+                                    @empty
                                     <tr>
-                                        <td><span><small>March 11, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">Department of Finance-Bureau of Local Government Finance Real Property Valuaঞon Bil</a></small></span></td>
+                                        <td>
+                                            <small><i>No reference materials for now.</i></small>
+                                        </td>
                                     </tr>
-                                    <tr>
-                                        <td><span><small>March 29, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">Act Requiring Local Government Units to Allocate Land for the Establishment of Muslim Filipino Public Cemetery</a></small></span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span><small>June 5, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">New Emancipation Act / New Agrarian Emancipation Act / Agrarian Reform Emancipation and Condonation of Land Amortization act</a></small></span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span><small>June 19, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">Expand the purposes and application of the Special Education Fund (SEF)</a></small></span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span><small>June 26, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">Postponement of the December 2022 Barangay and Sangguniang Kabataan Election</a></small></span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span><small>July 15, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">Unified System of Separation, Retirement and Pension - Military and Uniformed Personnel (MUP</a></small></span></td>
-                                    </tr>
-                                    <tr>
-                                        <td><span><small>July 30, 2023</small></span></td>
-                                        <td><span class="primary-text-color"><small><a href="#" class="primary-text-color">BSP Proposed Amendment to Section 3 of the Consolidated Common Dra[ E-Governance / EGovernment Legislative Measures</a></small></span></td>
-                                    </tr>
+                                    @endforelse
                                 </table>
                             </div>
                         </div>
@@ -1829,19 +2116,16 @@
                                         <td>
                                             <span class="primary-text-color">
                                                 <small>
-                                                    <a href="news/{{ $policy_reform->slug }}" class="primary-text-color">
-                                                        {{ $policy_reform->name }}
+                                                    <a href="{{ env('APP_URL') }}/policy-reform-view/{{ $policy_reform->policyReform->id }}" class="primary-text-color">
+                                                        {{ $policy_reform->policyReform->title }}
                                                     </a>
                                                 </small>
                                             </span>
                                         </td>
                                     </tr>
                                     @empty
-                                    <tr>
-                                        <td>
-                                            <span class="primary-text-color"><small><a href="#" class="primary-text-color">Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicab</a></small></span>
-                                        </td>
-                                    </tr>
+                                    <br />
+                                    <small><i style="opacity: .7;">No saved bill/s for now.</i></small>
                                     @endforelse
                                 </table>
                             </div>
@@ -1855,19 +2139,23 @@
                                 <br>
                                 </small>
                                 <div class="my-2 d-flex flex-wrap">
+
+                                    <!-- Members normal users list of contacts -->
                                     @forelse($saved_contacts as $saved_contact)
                                         <div class="col-6">
                                             <div class="saved-container">
                                                 <div class="card border-0 card-saved-contacts cursor-pointer">
                                                     <div class="card-body">
-                                                        <!-- <div class="row mb-2">
-                                                            <small><b class="primary-text-color">CONGRESS COMMITTEE SECRETARY</b></small>
-                                                        </div> -->
                                                         <div class="col-12 d-flex">
                                                             <div class="col-3 text-center">
-                                                                <img class="rounded"
-                                                                src="{{ $saved_contact->member->photo ? asset('/' . $saved_contact->member->photo) : asset('images/user.png') }}"
-                                                                width="120px">
+                                                                <img class="rounded border-none shadow" width="120" style="border-radius: 100%;
+                                                                                    min-width: 120px;
+                                                                                    height: 120px;
+                                                                                    background-image: url('{{ $saved_contact->member->photo ? asset('/' . $saved_contact->member->photo) : asset('images/user.png') }}');
+                                                                                    background-size: cover;
+                                                                                    background-repeat: no-repeat;
+                                                                                    background-position: center;
+                                                                                    ">
                                                             </div>
                                                             <div class="col-9">
                                                                 <ul class="list-unstyled">
@@ -1902,8 +2190,8 @@
                                                                 </ul>
 
                                                                 <div class="utility-btns align-items-center gap-2">
-                                                                    <a href="#" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a>
-                                                                    <a href="#" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
+                                                                    <!-- <a data-bs-toggle="modal" data-bs-target="#sendMessageModal" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a> -->
+                                                                    <a href="tel:{{$saved_contact->member->contact_number}}" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
                                                                     <a class="cursor-pointer trash-contact-btn" data-bs-toggle="modal" data-bs-target="#removeContactModal" data-id="{{ $saved_contact->member->id }}" title="Remove" style="color: #ff4d4d !important;"><i class="icon-trash"></i></a>
                                                                 </div>
                                                             </div>
@@ -1913,38 +2201,149 @@
                                             </div>
                                         </div>
                                     @empty
-                                        <p>No saved contacts for now.</p>
+                                        <!-- nothing for now -->
                                     @endforelse
+
+                                    <!-- Officials list of cantacts-->
+                                    @forelse($saved_contacts_official as $saved_contact_official)
+                                        <div class="col-6">
+                                            <div class="saved-container">
+                                                <div class="card border-0 card-saved-contacts cursor-pointer">
+                                                    <div class="card-body">
+                                                        <div class="col-12 d-flex">
+                                                            <div class="col-3 text-center">
+                                                                <img class="rounded border-none shadow" width="120" style="border-radius: 100%;
+                                                                                    min-width: 120px;
+                                                                                    height: 120px;
+                                                                                    background-image: url('{{ $saved_contact_official->official->image_url ? asset('/' . $saved_contact_official->official->image_url) : asset('images/user.png') }}');
+                                                                                    background-size: cover;
+                                                                                    background-repeat: no-repeat;
+                                                                                    background-position: center;
+                                                                                    ">
+                                                            </div>
+                                                            <div class="col-9">
+                                                                <ul class="list-unstyled">
+                                                                    <li>
+                                                                        <small>
+                                                                            <b class="primary-text-color text-uppercase">{{ $saved_contact_official->official->position }}</b>
+                                                                        </small>
+                                                                    </li>
+                                                                    <li>
+                                                                        <i class="icon-user" style="font-size: 14px; color: gray;"></i>
+                                                                        &nbsp; <small class="primary-text-color text-capitalize">{{ $saved_contact_official->official->FullName }}</small>
+                                                                    </li>
+                                                                    <li>
+                                                                        <i class="icon-call" style="font-size: 14px; color: gray;"></i>
+                                                                        &nbsp;<small>{{ $saved_contact_official->official->office_cellphone }}</small>
+                                                                    </li>
+                                                                    <li>
+                                                                        <i class="icon-envelope" style="font-size: 14px; color: gray;"></i>
+                                                                        &nbsp; <small class="primary-text-color">{{ $saved_contact_official->official->email }}</small>
+                                                                    </li>
+                                                                </ul>
+
+                                                                <div class="utility-btns align-items-center gap-2">
+                                                                    <!-- <a data-bs-toggle="modal" data-bs-target="#sendMessageModal" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a> -->
+                                                                    <a href="tel:{{$saved_contact_official->official->office_cellphone}}" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
+                                                                    <a class="cursor-pointer trash-contact-official-btn" data-bs-toggle="modal" data-bs-target="#removeContactOfficialModal" data-id="{{ $saved_contact_official->official->id }}" title="Remove" style="color: #ff4d4d !important;"><i class="icon-trash"></i></a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @empty
+                                        <!-- nothing for now -->
+                                    @endforelse
+
+                                    <!-- Staffs list of contacts -->
+                                    @forelse($saved_contacts_staff as $saved_contact_staff)
+                                        <div class="col-6">
+                                            <div class="saved-container">
+                                                <div class="card border-0 card-saved-contacts cursor-pointer">
+                                                    <div class="card-body">
+                                                        <div class="col-12 d-flex">
+                                                            <div class="col-3 text-center">
+                                                                <img class="rounded border-none shadow" width="120" style="border-radius: 100%;
+                                                                                    min-width: 120px;
+                                                                                    height: 120px;
+                                                                                    background-image: url('{{ $saved_contacts_staff->staff->image_url ? asset('/' . $saved_contacts_staff->staff->image_url) : asset('images/user.png') }}');
+                                                                                    background-size: cover;
+                                                                                    background-repeat: no-repeat;
+                                                                                    background-position: center;
+                                                                                    ">
+                                                            </div>
+                                                            <div class="col-9">
+                                                                <ul class="list-unstyled">
+                                                                    <li>
+                                                                        <small>
+                                                                            <b class="primary-text-color text-uppercase">{{ saved_contacts_staff->staff->position }}</b>
+                                                                        </small>
+                                                                    </li>
+                                                                    <li>
+                                                                        <i class="icon-user" style="font-size: 14px; color: gray;"></i>
+                                                                        &nbsp; <small class="primary-text-color text-capitalize">{{ saved_contacts_staff->staff->FullName }}</small>
+                                                                    </li>
+                                                                    <li>
+                                                                        <i class="icon-call" style="font-size: 14px; color: gray;"></i>
+                                                                        &nbsp;<small>{{ saved_contacts_staff->staff->office_cellphone }}</small>
+                                                                    </li>
+                                                                    <li>
+                                                                        <i class="icon-envelope" style="font-size: 14px; color: gray;"></i>
+                                                                        &nbsp; <small class="primary-text-color">{{ saved_contacts_staff->staff->email }}</small>
+                                                                    </li>
+                                                                </ul>
+
+                                                                <div class="utility-btns align-items-center gap-2">
+                                                                    <!-- <a data-bs-toggle="modal" data-bs-target="#sendMessageModal" title="Message" style="color: gray !important;"><i class="icon-chat"></i></a> -->
+                                                                    <a href="tel:{{saved_contacts_staff->staff->office_cellphone}}" title="Call" style="color: gray !important;"><i class="icon-mobile"></i></a>
+                                                                    <a class="cursor-pointer trash-contact-official-btn" data-bs-toggle="modal" data-bs-target="#removeContactStaffModal" data-id="{{ saved_contacts_staff->staff->id }}" title="Remove" style="color: #ff4d4d !important;"><i class="icon-trash"></i></a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    @empty
+                                        <!-- nothing for now -->
+                                    @endforelse
+
+                                    @if(count($saved_contacts) < 1 && count($saved_contacts_official) < 1 && count($saved_contacts_staff) < 1)
+                                        <p>No contacts saved for now.</p>
+                                    @endif
                                 </div>
                             </div>
                         </div>
 
                     </div>
 
-                    <div class="row">
-                        <small><i><span class="text-danger">Disclaimer for Data Privacy: </span>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</i></small>
-                    </div>
-
-                    <!-- Action buttons -->
-                    <div class="row">
-                        <div class="button-group d-flex justify-content-end mt-4">
-                            <button class="btn btn-secondary text-white" id="edit_profile_btn"><small class="text-uppercase">edit profile</small></button>
-                            &nbsp;
-                            &nbsp;
-                            <div id="save_cancel_pane" style="display: none;">
-                                <button class="btn btn-primary text-white" id="save_profile_btn" onclick="submitProfileUpdate()"><small class="text-uppercase">SAVE</small></button>
-                                &nbsp;
-                                &nbsp;
-                                <button class="btn btn-secondary text-white" id="cancel_profile_btn"><small class="text-uppercase">CANCEL</small></button>
-                                &nbsp;
-                                &nbsp;
-                            </div>
-                            <button class="btn btn-danger text-white" data-bs-toggle="modal" data-bs-target="#deleteAccountModal"><small class="text-uppercase">delete account</small></button>
+                    <div id="profile-control-btns">
+                        <div class="row">
+                            <small><i><span class="text-danger">Disclaimer for Data Privacy: </span>All personal data collected will be handled in accordance with applicable data privacy laws and will be used solely for legitimate and authorized purposes.</i></small>
                         </div>
+
+                        <!-- Action buttons -->
+                        <div class="row">
+                            <div class="button-group d-flex justify-content-end mt-4">
+                                <button class="btn btn-secondary text-white" id="edit_profile_btn"><small class="text-uppercase">edit profile</small></button>
+                                &nbsp;
+                                &nbsp;
+                                <div id="save_cancel_pane" style="display: none;">
+                                    <button class="btn btn-primary text-white" id="save_profile_btn" onclick="submitProfileUpdate()"><small class="text-uppercase">SAVE</small></button>
+                                    &nbsp;
+                                    &nbsp;
+                                    <button class="btn btn-secondary text-white" id="cancel_profile_btn"><small class="text-uppercase">CANCEL</small></button>
+                                    &nbsp;
+                                    &nbsp;
+                                </div>
+                                <button class="btn btn-danger text-white" data-bs-toggle="modal" data-bs-target="#deleteAccountModal"><small class="text-uppercase">delete account</small></button>
+                            </div>
+                        </div>
+
+                        <input type="hidden" id="current-tab" value="1">
                     </div>
-
-                    <input type="hidden" id="current-tab" value="1">
-
                     <!-- Delete Account Modal -->
                     <div class="modal fade" id="deleteAccountModal" tabindex="-1" aria-labelledby="deleteAccountLabel" aria-hidden="true">
                       <div class="modal-dialog modal-dialog-centered">
@@ -1988,6 +2387,66 @@
                                 <input type="hidden" name="contact_id" id="trash-contact-id">
                                 <button type="submit" class="btn btn-danger">Remove</button>
                             </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Trash Contact Official -->
+                    <div class="modal fade" id="removeContactOfficialModal" tabindex="-1" aria-labelledby="removeContactOfficialLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="removeContactOfficialModalLabel">Remove Contact</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            Are you sure you want to remove this contact?
+                          </div>
+                          <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <form method="post" action="{{ route('member.profile.remove.contact.official') }}" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="user_id" id="trash-user-id" value="{{ auth()->user()->id }}">
+                                <input type="hidden" name="official_id" id="trash-contact-official-id">
+                                <button type="submit" class="btn btn-danger">Remove</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Trash Contact Staff -->
+                    <div class="modal fade" id="removeContactStaffModal" tabindex="-1" aria-labelledby="removeContactStaffLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="removeContactStaffModalLabel">Remove Contact</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            Are you sure you want to remove this contact?
+                          </div>
+                          <div class="modal-footer">
+                            <button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            <form method="post" action="{{ route('member.profile.remove.contact.official') }}" enctype="multipart/form-data">
+                                @csrf
+                                <input type="hidden" name="user_id" id="trash-user-id" value="{{ auth()->user()->id }}">
+                                <input type="hidden" name="staff_id" id="trash-contact-staff-id">
+                                <button type="submit" class="btn btn-danger">Remove</button>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Send Message Modal -->
+                    <div class="modal fade" id="sendMessageModal" tabindex="-1" aria-labelledby="sendMessageModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                          <div class="modal-header">
+                            <h5 class="modal-title" id="sendMessageModalLabel">Coming Soon..</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                         </div>
                       </div>
@@ -2037,7 +2496,7 @@
                 }
             });
 
-                    // Listen for changes on the file input on Logo
+            // Listen for changes on the file input on Logo
             photoInput.on('change', function() {
                 // Get the selected file
                 const file = this.files[0];
@@ -2058,6 +2517,11 @@
                     // If no file is selected, revert to default or placeholder image
                     imagePreviewPhoto.attr('src', '{{ Auth::user()->photo ? asset('storage/' . Auth::user()->photo) : 'https://placehold.co/150x150/e9ebee/333333?text=No+Image' }}');
                 }
+            });
+
+            $('body').on('click', '#remove_new_field', function(e){
+                e.preventDefault();
+                $(this).parent('div').remove();
             });
         });
 
@@ -2102,6 +2566,7 @@
         // tab switch determinant
         function tabSwitch(num) {
             $('#current-tab').val(num);
+            this.showProfileControlBtns();
         }
 
         // submit condition before process
@@ -2128,6 +2593,91 @@
             $('#trash-contact-id').val(num);
         });
 
+        // trash a contact official
+        $('.trash-contact-official-btn').on('click', function() {
+            let num = $(this).attr('data-id');
+            $('#trash-contact-official-id').val(num);
+        });
+
+        // trash a contact official
+        $('.trash-contact-staff-btn').on('click', function() {
+            let num = $(this).attr('data-id');
+            $('#trash-contact-staff-id').val(num);
+        });
+
+        // add new field for dynamic staff
+        function add_messaging(id) {
+                var newFieldHtml = `<div style="position: relative; margin-top: 4px;"><select id="select_number" class="form-select select-type-number" aria-label="select type of number" name="staff[`+id+`][type_number][]" style="left: 0px;">
+                                        <option value="1">Viber</option>
+                                        <option value="2">WhatsApp</option>
+                                        <option value="3">Telegram</option>
+                                        <option value="4">Signal</option>
+                                        <option value="5">WeChat</option>
+                                    </select>
+                                    <input class="form-control" type="text" name="staff[`+id+`][other_number][]" placeholder="" required style="padding-left: 140px;">
+                                    <svg id="remove_new_field" style="position: absolute;right: 12px; top: 12px; cursor: pointer;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24">
+                                      <path stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+                                    </svg>
+                                    </div>
+                                    `;
+            $("#messaging_container"+id).append(newFieldHtml);
+        }
+
+        // dynamic change profipic for staff --- pak this code takes too much brain cells!
+        document.querySelectorAll('.staff-prof-pic').forEach(input => {
+            input.addEventListener('change', function () {
+                const index = this.dataset.index;
+                const file = this.files[0];
+                const preview = document.getElementById('imagePreviewPhoto' + index);
+
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        preview.src = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    preview.src = '/images/user.png'; // fallback image
+                }
+            });
+        });
+
+        $('#togglePasswordHide').click(function() {
+            var passwordField = $('#password');
+            var toggleButton = $('#togglePasswordHide i');
+
+            if (passwordField.attr('type') === 'password') {
+                passwordField.attr('type', 'text');
+                toggleButton.removeClass('icon-eye-slash');
+                toggleButton.addClass('icon-eye');
+            } else {
+                passwordField.attr('type', 'password');
+                toggleButton.addClass('icon-eye-slash');
+                toggleButton.removeClass('icon-eye');
+            }
+        });
+
+        $('#togglePasswordConfirmHide').click(function() {
+            var confirm_passwordField = $('#confirm_password');
+            var confirm_toggleButton = $('#togglePasswordConfirmHide i');
+
+            if (confirm_passwordField.attr('type') === 'password') {
+                confirm_passwordField.attr('type', 'text');
+                confirm_toggleButton.removeClass('icon-eye-slash');
+                confirm_toggleButton.addClass('icon-eye');
+            } else {
+                confirm_passwordField.attr('type', 'password');
+                confirm_toggleButton.addClass('icon-eye-slash');
+                confirm_toggleButton.removeClass('icon-eye');
+            }
+        });
+
+        function hideProfileControlBtns() {
+            $('#profile-control-btns').hide();
+        }
+        function showProfileControlBtns() {
+            $('#profile-control-btns').show();
+        }
 
 	</script>
 @endsection

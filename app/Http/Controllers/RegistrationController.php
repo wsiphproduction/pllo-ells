@@ -21,11 +21,13 @@ use App\Models\Page;
 use App\Models\Gender;
 use App\Models\Agency;
 use App\Models\Senator;
+use App\Models\Official;
 use App\Models\SubAgency;
 use App\Models\UserType;
 use App\Models\Cluster;
 use App\Models\Designation;
 use App\Models\Member;
+use App\Models\MemberStaff;
 use App\Models\MessagingNumber;
 use App\Models\Custom\EventParticipant;
 use App\Models\Custom\Event;
@@ -35,6 +37,7 @@ use Auth;
 use Session;
 use Storage;
 use Image;
+use Carbon\Carbon;
 
 class RegistrationController extends Controller
 {
@@ -49,8 +52,8 @@ class RegistrationController extends Controller
         $genders = Gender::all();
         $designations = Designation::all();
         $messaging_numbers = MessagingNumber::all();
-        $senators = Senator::all();
-        $hors = Hor::all();
+        $senators = Official::where('position', 'senator')->get();
+        $hors = Official::where('position', 'hor')->get();
 
         $designations_lls = Designation::where('user_type_id', 1)->get();
         $designations_senators = Designation::where('user_type_id', 2)->get();
@@ -89,21 +92,15 @@ class RegistrationController extends Controller
         // Validate email //
         $validator = $request->validate([
             'email' => 'required|email|unique:users',
+            'agency_logo' => 'required|file|max:5120',
+            'office_id' => 'required|file|max:5120',
         ]);
 
         if(!$validator) {
             return Redirect::back()->withInput()->withErrors($validator);
         }
 
-        if ($request->month == 0) {
-            return redirect()->back()->withInput()->with('error', 'Invalid birthdate.');
-        }
-
-        if ($request->day == 0) {
-            return redirect()->back()->withInput()->with('error', 'Invalid birthdate.');
-        }
-
-        if ($request->gender == 0) {
+        if ($request->gender < 1) {
             return redirect()->back()->withInput()->with('error', 'Please select Gender.');
         }
 
@@ -120,6 +117,19 @@ class RegistrationController extends Controller
                 return redirect()->back()->withInput()->with('error', 'Please select Agency.');
             } 
         }
+        if ($request->birthdate == null) {
+            return redirect()->back()->withInput()->with('error', 'Invalid birthday.');
+        } else {
+            $birthdate = explode('/', $request->birthdate);
+            $month = $birthdate[0];
+            $day = $birthdate[1];
+
+            foreach(config('months') as $key => $month_name) {
+                if ( $key == $month) {
+                    $month = $month_name;
+                }
+            }
+        }
         // End validation //
 
         if ($request->user_type != 2) { $request['senator_id'] = null; }
@@ -127,6 +137,9 @@ class RegistrationController extends Controller
         if ($request->user_type != 4) { $request['congsec_type'] = null; }
 
         // Parallel saving users to members table //
+        $request['firstname'] = strtoupper($request['firstname']);
+        $request['lastname'] = strtoupper($request['lastname']);
+        $request['middle_initial'] = strtoupper($request['middle_initial']);
         $requests = $request->all();
         $requests['name'] = $request['firstname'] . " " . $request['middle_initial'] . ". " . $request['lastname'] . " " . $request['suffix'];
         $requests['mobile'] = $requests['contact_number'];
@@ -139,18 +152,78 @@ class RegistrationController extends Controller
 
         // Create new member //
         if ($request->user_type == 1 || $request->user_type == 6) {
-            $requests['cluster'] = implode("::", $request['cluster']);
+            if(!empty($request['cluster'])) {
+                $requests['cluster'] = implode("::", $request['cluster']);
+            } else {
+                return redirect()->back()->withInput()->with('error', 'Please select Cluster/s.');
+            }
         }
 
         $requests['user_id'] = $user->id;
         $requests['type_number'] = implode("::", $request['type_number']);
         $requests['other_number'] = implode("::", $request['other_number']);
-        $requests['birthdate'] = $requests['month'] ." ". $requests['day'];
+        $requests['birthdate'] = $month ." ". $day;
         $requests['photo'] = $request->hasFile('office_id') ? FileHelper::move_to_folder($request->file('office_id'), 'photo')['url'] : null;
         $requests['logo'] = $request->hasFile('agency_logo') ? FileHelper::move_to_folder($request->file('agency_logo'), 'logo')['url'] : null;
 
-        Member::create($requests);
-        
+        $member = Member::create($requests);
+
+        // Prallel saving on members staff table if registered as senator staff
+        // LLS Member
+        if($request->user_type == 1) {
+            for ($i=1; $i<5; $i++) { 
+                $staff = new MemberStaff();
+                if ($i == 1) {
+                    $staff->designation = 'APPOINTMENT SECRETARY';
+                } else if($i == 2) {
+                    $staff->designation = 'DLLO: DEPARTMENT LEGISLATIVE LIASION OFFICER';
+                } else if($i == 3) {
+                    $staff->designation = 'DLLS-SENATE: DEPARTMENT LEGISLATIVE LIAISON STAFF';
+                } else {
+                    $staff->designation = 'DLLS-HREP: DEPARTMENT LEGISLATIVE LIAISON STAFF';
+                }
+                $staff->member_id = $member->id;
+                $staff->save();
+            }
+        }
+        // Senators Staff
+        if($request->user_type == 2) {
+            for ($i=1; $i<4; $i++) { 
+                $staff = new MemberStaff();
+                if ($i == 1) {
+                    $staff->designation = 'CHIEF OF STAFF';
+                } else if($i == 2) {
+                    $staff->designation = 'APPOINTMENT SECRETARY';
+                } else {
+                    $staff->designation = 'CHIEF LEGIS OFFICER';
+                }
+                $staff->member_id = $member->id;
+                $staff->save();
+            }
+        }
+        // HoR Staff
+        if($request->user_type == 3) {
+            for ($i=1; $i<4; $i++) { 
+                $staff = new MemberStaff();
+                if ($i == 1) {
+                    $staff->designation = 'CHIEF OF STAFF';
+                } else if($i == 2) { 
+                    $staff->designation = 'APPOINTMENT SECRETARY';
+                } else {
+                    $staff->designation = 'STAFF';
+                }
+                $staff->member_id = $member->id;
+                $staff->save();
+            }
+        }
+        // OP Proper
+        if($request->user_type == 4) {
+                $staff = new MemberStaff();
+                $staff->designation = 'APPOINTMENT SECRETARY';
+                $staff->member_id = $member->id;
+                $staff->save();
+        }
+
         // Email condition //
         Mail::to($requests['email'])->send(new RegisterMail(Setting::info(), $user));
 
@@ -289,7 +362,10 @@ class RegistrationController extends Controller
             $page = new Page();
             $page->name = 'Member Dashboard';
 
-            return redirect(route('member.dashboard'));
+            $url = session()->pull('url.intended', '/member-dashboard'); // fallback if none
+            return redirect($url);
+            // return redirect()->intended('/member-dashboard');
+            // return redirect(route('member.dashboard'));
 
         } else {
             return back()->with('error', 'Incorrect username or password. Please try again.'); 
@@ -304,52 +380,16 @@ class RegistrationController extends Controller
          return view('theme.pages.login-error', compact('page'));
     }
 
-    public function memberProfileUpdate(Request $request) {
-
-        $member = Member::where('user_id', auth()->user()->id)->first();
-        $user = User::find(auth()->user()->id);
-        
-        if(auth()->user()->password == $request->password) {
-            $requests['password'] = auth()->user()->password;
-        } else {
-            $member->password = Hash::make($request->password);
-            $user->password = $member->password;
-            if($request->password != $request->alt_password) {
-                return back()->with('error', ('Password and Confirm Password do not match.'));
-            }
-        }
-
-        if ($request->hasFile('photo')) {
-
-            $image = $request->file('photo');
-            $filename = time() . '.' . $image->getClientOriginalExtension();
-            $path = 'storage/photo/' . $filename;
-
-            Storage::disk('public')->putFileAs('photo', $image, $filename);
-
-            $member->photo = $path;
-            $user->avatar = $path;
-
-        }
-
-        $member->email = $request['email'];
-        $member->alt_email = $request['alt_email'];
-        $member->cluster = implode('::', $request['cluster']);
-
-        $user->email = $request['email'];
-
-        $member->save();
-        $user->save();
-        
-        return back()->with('success', ('Profile updated successfully.'));
-    }
-
     public function logout() {
         Auth::logout();
         return redirect(route('home'));   
     }
 
     public function adminDashboard() {
+
+        if(!auth::user()) {
+            return redirect()->route('home');
+        }
 
         $page = new Page();
         $page->name = 'Admin Dashboard';
@@ -372,7 +412,22 @@ class RegistrationController extends Controller
                         ->where('users.is_active', '<>', 1)
                         ->get();
 
-        return view('theme.pages.admin.dashboard', compact('page', 'registrations_pending', 'registrations_approve', 'registrations_process'));
+        $upcoming_events = Event::whereDate('date', '>=', Carbon::today())
+                        ->where(function ($query) {
+                            $query->whereDate('date', '>', Carbon::today())
+                                ->orWhere(function ($q) {
+                                    $q->whereDate('date', Carbon::today())
+                                        ->whereTime('end_time', '>=', Carbon::now()->toTimeString());
+                                });
+                        })
+                        ->orderBy('created_at', 'desc')
+                        ->get()
+                        ->take(5);
+
+        $month = date('F');
+        $celebrants = Member::where('birthdate', 'like', "%$month%" )->get();
+// dd($celebrants);
+        return view('theme.pages.admin.dashboard', compact('page', 'registrations_pending', 'registrations_approve', 'registrations_process', 'upcoming_events', 'celebrants'));
 
     }
 
@@ -397,167 +452,6 @@ class RegistrationController extends Controller
         $member->delete();
 
         return back()->with('success', 'Registration Deleted!');
-    }
-
-    // Agency
-    public function maintenanceDashboard() {
-
-        $page = new Page;
-        $page->name = "Maintenance Dashboard";
-
-        $genders = Gender::all();
-        $agencies = Agency::all();
-
-        return view('theme.pages.maintenance.agency.index', compact('page', 'agencies', 'genders'));
-    }
-
-    public function maintenanceAgencyStore(Request $request) {
-
-        $requests = $request->all();
-        Agency::create($requests);
-
-        return back()->with('success', 'Agency added successfully.');
-    }
-
-    public function maintenanceAgencyEdit($id) {
-
-        $page = new Page;
-        $page->name = 'Edit Agency';
-        $agency = Agency::find($id);
-        $genders = Gender::all();
-
-        return view('theme.pages.maintenance.agency.edit', compact('page', 'agency', 'genders'));
-    }
-
-    public function maintenanceAgencyUpdate(Request $request, $id) {
-
-        $agency = Agency::find($id);
-        $agency->agency_name = $request['agency_name'];
-        $agency->agency_address = $request['agency_address'];
-        $agency->agency_email = $request['agency_email'];
-        $agency->agency_landline = $request['agency_landline'];
-        $agency->agency_cellphone = $request['agency_cellphone'];
-        $agency->head_name = $request['head_name'];
-        $agency->head_nickname = $request['head_nickname'];
-        $agency->head_gender = $request['head_gender'];
-        $agency->head_address = $request['head_address'];
-        $agency->head_alt_address = $request['head_alt_address'];
-        $agency->head_email = $request['head_email'];
-        $agency->head_office_email = $request['head_office_email'];
-        $agency->head_cellphone = $request['head_cellphone'];
-        $agency->save();
-
-        return redirect()->route('maintenance.dashboard')->with('success', 'Agency updated successfully.');
-    }
-
-    public function maintenanceAgencyDelete(Request $request) {
-
-        $agency = Agency::find($request->agency_id);
-        $agency->delete();
-
-        return redirect()->route('maintenance.dashboard')->with('success', 'Agency deleted.');
-    }
-
-    public function maintenanceAgencyView($id) {
-
-        $page = new Page;
-        $page->name = "View Agency Details";
-        $agency = Agency::find($id);
-
-        return view('theme.pages.maintenance.agency.view', compact('page', 'agency'));
-    }
-
-    // Designation
-    public function maintenanceDesignation() {
-
-        $page = new Page();
-        $page->name = "Manage Designations";
-
-        $designations = Designation::all();
-        $user_types = UserType::all();
-    
-        return view('theme.pages.maintenance.designation.index', compact('page', 'designations', 'user_types'));
-    }
-
-    public function maintenanceDesignationStore(Request $request) {
-
-        $requests = $request->all();
-        Designation::create($requests);
-
-        return back()->with('success', 'Designation added successfully.');
-    }
-
-    public function maintenanceDesignationEdit($id) {
-
-        $page = new Page;
-        $page->name = 'Edit Designation';
-        $designation = Designation::find($id);
-        $user_types = UserType::all();
-
-        return view('theme.pages.maintenance.designation.edit', compact('page', 'designation', 'user_types'));
-    }
-
-    public function maintenanceDesignationUpdate(Request $request, $id) {
-
-        $designation = Designation::find($id);
-        $designation->name = $request['name'];
-        $designation->name = $request['user_type_id'];
-        $designation->save();
-
-        return redirect()->route('maintenance.designation')->with('success', 'Designation updated successfully.');
-    }
-
-    public function maintenanceDesignationDelete(Request $request) {
-
-        $designation = Designation::find($request->designation_id);
-        $designation->delete();
-
-        return redirect()->route('maintenance.designation')->with('success', 'Designation deleted.');
-    }
-
-    // Cluster
-    public function maintenanceCluster() {
-
-        $page = new Page();
-        $page->name = "Manage Designations";
-
-        $clusters = Cluster::all();
-    
-        return view('theme.pages.maintenance.cluster.index', compact('page', 'clusters'));
-    }
-
-    public function maintenanceClusterStore(Request $request) {
-
-        $requests = $request->all();
-        Cluster::create($requests);
-
-        return back()->with('success', 'Cluster added successfully.');
-    }
-
-    public function maintenanceClusterEdit($id) {
-
-        $page = new Page;
-        $page->name = 'Edit Cluster';
-        $cluster = Cluster::find($id);
-
-        return view('theme.pages.maintenance.cluster.edit', compact('page', 'cluster'));
-    }
-
-    public function maintenanceClusterUpdate(Request $request, $id) {
-
-        $cluster = Cluster::find($id);
-        $cluster->name = $request['name'];
-        $cluster->save();
-
-        return redirect()->route('maintenance.cluster')->with('success', 'Cluster updated successfully.');
-    }
-
-    public function maintenanceClusterDelete(Request $request) {
-
-        $cluster = Cluster::find($request->cluster_id);
-        $cluster->delete();
-
-        return redirect()->route('maintenance.cluster')->with('success', 'Cluster deleted.');
     }
 
     // Email confirmation
@@ -609,6 +503,15 @@ class RegistrationController extends Controller
 
         return back()->with('success', 'New logo uploaded.');
     
+    }
+
+    public function registerViewMember($id)
+    {   
+        $page = new Page;
+        $page->name = 'Member Details';
+        $memberDetails = Member::find($id);
+
+        return view('theme.pages.registration.register-view-member', compact('page', 'memberDetails'));
     }
 
 

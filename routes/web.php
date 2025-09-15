@@ -6,7 +6,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\SocialiteController;
 
 // CMS Controllers
-use App\Http\Controllers\{FileDownloadCategoryController, FileDownloadController, MemberController, PageModalController, SitemapController, FacebookDataDeletionController, GoogleDataDeletionController, FacebookController, QrCodeController, ResourceCategoryController, ResourceController, RegistrationController,MemberProfileController};
+use App\Http\Controllers\{FileDownloadCategoryController, FileDownloadController, MemberController, PageModalController, SitemapController, FacebookDataDeletionController, GoogleDataDeletionController, FacebookController, QrCodeController, ResourceCategoryController, ResourceController, RegistrationController,MemberProfileController,PolicyReformController,MaintenanceController};
 
 use App\Http\Controllers\Cms4Controllers\{
     ArticleCategoryController, ArticleFrontController, ArticleController, AlbumController, MobileAlbumController, PageController, MenuController, FileManagerController
@@ -25,7 +25,7 @@ use App\Http\Controllers\Ecommerce\{
 
 // Ecommerce Controller
 use App\Http\Controllers\Custom\{
-    EventController, ReferenceMaterialController
+    EventController, ReferenceMaterialController, DownloadableController
 };
 
 use App\Http\Controllers\MailingList\{SubscriberController, GroupController, CampaignController, SubscriberFrontController};
@@ -57,7 +57,7 @@ Route::get('/phpinfo', function () {
 // CMS4 Front Pages
     Route::get('/', [FrontController::class, 'home'])->name('home');
 
-    Route::get('/downloads', [FrontController::class, 'downloads'])->name('downloads');
+    Route::get('/event-downloadables', [FrontController::class, 'downloads'])->name('event-downloadables');
 
     // Route::get('/reference-materials', [FrontController::class, 'reference_materials'])->name('reference-materials');
 
@@ -65,13 +65,37 @@ Route::get('/phpinfo', function () {
     Route::post('/contact-us', [FrontController::class, 'contact_us'])->name('contact-us');
 
     Route::get('/search', [FrontController::class, 'search'])->name('search');
+    
 
+    // Events
+        Route::resource('/events', EventController::class)->except('show');
+        Route::get('/events/previous', [EventController::class, 'previous'])->name('events.previous');
+        Route::get('/events/view/{id}', [EventController::class, 'view'])->name('events.view');
+        Route::get('/events/invitees/{id}', [EventController::class, 'invitees'])->name('events.invitees');
+        Route::post('/events/cancel-event/{id}', [EventController::class, 'cancel_event'])->name('events.cancel-event');
+        Route::post('/events/register-event/{id}', [EventController::class, 'register_event'])->name('events.register-event');
+        Route::post('/events/decline-event/{id}', [EventController::class, 'decline_event'])->name('events.decline-event');
+        Route::post('/events/submit-feedback/{id}', [EventController::class, 'submit_feedback'])->name('events.submit-feedback');
+        Route::get('/events/feedbacks/{event}', [EventController::class, 'feedbacks'])->name('events.feedbacks');
+        Route::post('/events/upload-downloadables/{id}', [EventController::class, 'upload_downloadables'])->name('events.upload-downloadables');
+        Route::post('/events/update-certificate/{id}', [EventController::class, 'update_certificate'])->name('events.update-certificate');
+        Route::post('/events/update-downloadable/{id}', [EventController::class, 'update_downloadable'])->name('events.update-downloadable');
+        Route::get('/events/invitation/{event}', [EventController::class, 'invitation'])->name('events.invitation');
+        Route::post('/events/invitation/update/{event}', [EventController::class, 'invitation_update'])->name('events.invitation-update');
+    //
 
     // Reference Materials
-    Route::resource('/reference-materials', ReferenceMaterialController::class)->except('show');
-    Route::post('/reference-materials/single-delete/{id}', [ReferenceMaterialController::class, 'single_delete'])->name('reference-materials.single-delete');
-
-
+        Route::resource('/reference-materials', ReferenceMaterialController::class)->except('show');
+        Route::post('/reference-materials/single-delete/{id}', [ReferenceMaterialController::class, 'single_delete'])->name('reference-materials.single-delete');
+    //
+    
+    // Downloads
+        Route::resource('/downloads', DownloadableController::class)->except('show');
+        Route::get('/downloads/republic-acts', [DownloadableController::class, 'republic_acts'])->name('downloads.republic-acts');
+        Route::get('/downloads/bills-certified', [DownloadableController::class, 'bills_certified'])->name('downloads.bills-certified');
+        Route::get('/downloads/legislative-priorities', [DownloadableController::class, 'legislative_priorities'])->name('downloads.legislative-priorities');
+    //
+    
     //News Frontend
         Route::get('/news/', [ArticleFrontController::class, 'news_list'])->name('news.front.index');
         Route::get('/news/{slug}', [ArticleFrontController::class, 'news_view'])->name('news.front.show');
@@ -82,21 +106,10 @@ Route::get('/phpinfo', function () {
         Route::get('/search-result', [FrontController::class, 'seach_result'])->name('search.result');
     //
 
-    // Events
-        Route::resource('/events', EventController::class)->except('show');
-        Route::get('/events/previous', [EventController::class, 'previous'])->name('events.previous');
-        Route::get('/events/view/{id}', [EventController::class, 'view'])->name('events.view');
-        Route::get('/events/invitees/{id}', [EventController::class, 'invitees'])->name('events.invitees');
-        Route::post('/events/cancel-event/{id}', [EventController::class, 'cancel_event'])->name('events.cancel-event');
-        Route::post('/events/register-event/{id}', [EventController::class, 'register_event'])->name('events.register-event');
-        Route::post('/events/decline-event/{id}', [EventController::class, 'decline_event'])->name('events.decline-event');
-    //
-
     // Sitemap
         Route::get('/sitemap', [FrontController::class, 'sitemap'])->name('sitemap');
         // Route::get('/sitemap', [SitemapController::class, 'index'])->name('sitemap');
     // 
-
 
     // Resources
         Route::get('/case-details/{slug}', [FrontController::class, 'resource_details'])->name('resource-details.front.show');
@@ -401,6 +414,7 @@ Route::group(['prefix' => 'admin-panel'], function (){
 // USER REGISTRAION
 Route::get('/register', [RegistrationController::class, 'register'])->name('register');
 Route::post('/register/register-store', [RegistrationController::class, 'registerStore'])->name('register-store');
+Route::get('/register/register-view-member/{id}', [RegistrationController::class, 'registerViewMember'])->name('register.view.member');
     
     // Agency
         Route::get('/registration/agency-list', [RegistrationController::class, 'agencyList'])->name('registration.agency-list');
@@ -417,7 +431,6 @@ Route::post('/register/register-store', [RegistrationController::class, 'registe
 Route::get('/member-login', [RegistrationController::class, 'login'])->name('member.login');
 Route::post('/member-online', [RegistrationController::class, 'online'])->name('member.online');
 Route::get('/member-logout', [RegistrationController::class, 'logout'])->name('member.logout');
-Route::post('/member-profile-update', [RegistrationController::class, 'memberProfileUpdate'])->name('member.profile.update');
 Route::post('/member-resend-email', [RegistrationController::class, 'resendRegisterConfirmation'])->name('member.resend.email');
 Route::post('/member-upload-logo', [RegistrationController::class, 'uploadMemberLogo'])->name('member.upload.logo');
 Route::get('/member-login-error', [RegistrationController::class, 'loginError'])->name('member.login.error');
@@ -428,53 +441,81 @@ Route::post('/admin-registration-approve', [RegistrationController::class, 'admi
 Route::post('/admin-registration-delete', [RegistrationController::class, 'adminRegistrationDelete'])->name('admin.registration.delete');
 
 // MAINTENANCE
-Route::get('/maintenance-dashboard', [RegistrationController::class, 'maintenanceDashboard'])->name('maintenance.dashboard');
+Route::get('/maintenance-dashboard', [MaintenanceController::class, 'maintenanceDashboard'])->name('maintenance.dashboard');
 
     // Agency Maintenance
-    Route::post('/maintenance-agency-store', [RegistrationController::class, 'maintenanceAgencyStore'])->name('maintenance.agency.store');
-    Route::get('/maintenance-agency-edit/{id}', [RegistrationController::class, 'maintenanceAgencyEdit'])->name('maintenance.agency.edit');
-    Route::post('/maintenance-agency-update/{id}', [RegistrationController::class, 'maintenanceAgencyUpdate'])->name('maintenance.agency.update');
-    Route::post('/maintenance-agency-delete', [RegistrationController::class, 'maintenanceAgencyDelete'])->name('maintenance.agency.delete');
-    Route::get('/maintenance-agency-view/{id}', [RegistrationController::class, 'maintenanceAgencyView'])->name('maintenance.agency.view');
+    Route::post('/maintenance-agency-store', [MaintenanceController::class, 'maintenanceAgencyStore'])->name('maintenance.agency.store');
+    Route::get('/maintenance-agency-edit/{id}', [MaintenanceController::class, 'maintenanceAgencyEdit'])->name('maintenance.agency.edit');
+    Route::post('/maintenance-agency-update/{id}', [MaintenanceController::class, 'maintenanceAgencyUpdate'])->name('maintenance.agency.update');
+    Route::post('/maintenance-agency-delete', [MaintenanceController::class, 'maintenanceAgencyDelete'])->name('maintenance.agency.delete');
+    Route::get('/maintenance-agency-view/{id}', [MaintenanceController::class, 'maintenanceAgencyView'])->name('maintenance.agency.view');
 
     // Designation Maintenance
-    Route::get('/maintenance-designation', [RegistrationController::class, 'maintenanceDesignation'])->name('maintenance.designation');
-    Route::post('/maintenance-designation-store', [RegistrationController::class, 'maintenanceDesignationStore'])->name('maintenance.designation.store');
-    Route::get('/maintenance-designation-edit/{id}', [RegistrationController::class, 'maintenanceDesignationEdit'])->name('maintenance.designation.edit');
-    Route::post('/maintenance-designation-update/{id}', [RegistrationController::class, 'maintenanceDesignationUpdate'])->name('maintenance.designation.update');
-    Route::post('/maintenance-designation-delete', [RegistrationController::class, 'maintenanceDesignationDelete'])->name('maintenance.designation.delete');
+    Route::get('/maintenance-designation', [MaintenanceController::class, 'maintenanceDesignation'])->name('maintenance.designation');
+    Route::post('/maintenance-designation-store', [MaintenanceController::class, 'maintenanceDesignationStore'])->name('maintenance.designation.store');
+    Route::get('/maintenance-designation-edit/{id}', [MaintenanceController::class, 'maintenanceDesignationEdit'])->name('maintenance.designation.edit');
+    Route::post('/maintenance-designation-update/{id}', [MaintenanceController::class, 'maintenanceDesignationUpdate'])->name('maintenance.designation.update');
+    Route::post('/maintenance-designation-delete', [MaintenanceController::class, 'maintenanceDesignationDelete'])->name('maintenance.designation.delete');
 
     // Cluster Maintenance
-    Route::get('/maintenance-cluster', [RegistrationController::class, 'maintenanceCluster'])->name('maintenance.cluster');
-    Route::post('/maintenance-cluster-store', [RegistrationController::class, 'maintenanceClusterStore'])->name('maintenance.cluster.store');
-    Route::get('/maintenance-cluster-edit/{id}', [RegistrationController::class, 'maintenanceClusterEdit'])->name('maintenance.cluster.edit');
-    Route::post('/maintenance-cluster-update/{id}', [RegistrationController::class, 'maintenanceClusterUpdate'])->name('maintenance.cluster.update');
-    Route::post('/maintenance-cluster-delete', [RegistrationController::class, 'maintenanceClusterDelete'])->name('maintenance.cluster.delete');
+    Route::get('/maintenance-cluster', [MaintenanceController::class, 'maintenanceCluster'])->name('maintenance.cluster');
+    Route::post('/maintenance-cluster-store', [MaintenanceController::class, 'maintenanceClusterStore'])->name('maintenance.cluster.store');
+    Route::get('/maintenance-cluster-edit/{id}', [MaintenanceController::class, 'maintenanceClusterEdit'])->name('maintenance.cluster.edit');
+    Route::post('/maintenance-cluster-update/{id}', [MaintenanceController::class, 'maintenanceClusterUpdate'])->name('maintenance.cluster.update');
+    Route::post('/maintenance-cluster-delete', [MaintenanceController::class, 'maintenanceClusterDelete'])->name('maintenance.cluster.delete');
+
+    // Policy Reform Maintenance
+    Route::get('/maintenance-policy-reform', [MaintenanceController::class, 'maintenancePolicyReform'])->name('maintenance.policy.reform');
+    Route::post('/maintenance-policy-reform-store', [MaintenanceController::class, 'maintenancePolicyReformStore'])->name('maintenance.policy.reform.store');
+    Route::get('/maintenance-policy-reform-edit/{id}', [MaintenanceController::class, 'maintenancePolicyReformEdit'])->name('maintenance.policy.reform.edit');
+    Route::post('/maintenance-policy-reform-update/{id}', [MaintenanceController::class, 'maintenancePolicyReformUpdate'])->name('maintenance.policy.reform.update');
+    Route::post('/maintenance-policy-reform-delete', [MaintenanceController::class, 'maintenancePolicyReformDelete'])->name('maintenance.policy.reform.delete');
+    
 
 // Member Profile Routes
-    Route::get('/member-dashboard', [MemberProfileController::class, 'memberDashboard'])->name('member.dashboard');
+Route::get('/member-dashboard', [MemberProfileController::class, 'memberDashboard'])->name('member.dashboard');
+Route::post('/member-profile-update', [MemberProfileController::class, 'memberProfileUpdate'])->name('member.profile.update');
+Route::post('/member-profile-account-delete', [MemberProfileController::class, 'memberDelete'])->name('member.profile.account.delete');
 
-    Route::post('/member-profile-account-delete', [MemberProfileController::class, 'memberDelete'])->name('member.profile.account.delete');
+Route::post('/member-profile-senator-update/{id}', [MemberProfileController::class, 'senatorProfileUpdate'])->name('member.profile.senator.update');
+Route::post('/member-profile-hor-update/{id}', [MemberProfileController::class, 'horProfileUpdate'])->name('member.profile.hor.update');
 
-    Route::post('/member-profile-senator-update/{id}', [MemberProfileController::class, 'senatorProfileUpdate'])->name('member.profile.senator.update');
-    Route::post('/member-profile-hor-update/{id}', [MemberProfileController::class, 'horProfileUpdate'])->name('member.profile.hor.update');
+Route::post('/member-profile-add-contact', [MemberProfileController::class, 'profileAddContact'])->name('member.profile.add.contact');
+Route::post('/member-profile-add-contact-official', [MemberProfileController::class, 'profileAddContactOfficial'])->name('member.profile.add.contact.official');
+Route::post('/member-profile-add-contact-staff', [MemberProfileController::class, 'profileAddContactStaff'])->name('member.profile.add.contact.staff');
 
-    Route::post('/member-profile-remove-contact', [MemberProfileController::class, 'profileRemoveContact'])->name('member.profile.remove.contact');
-    Route::post('/member-profile-add-contact', [MemberProfileController::class, 'profileAddContact'])->name('member.profile.add.contact');
+Route::post('/member-profile-remove-contact', [MemberProfileController::class, 'profileRemoveContact'])->name('member.profile.remove.contact');
+Route::post('/member-profile-remove-contact-official', [MemberProfileController::class, 'profileRemoveContactOfficial'])->name('member.profile.remove.contact.official');
+Route::post('/member-profile-remove-contact-staff', [MemberProfileController::class, 'profileRemoveContactStaff'])->name('member.profile.remove.contact.staff');
+
+Route::post('/member-staff-update/{id}', [MemberProfileController::class, 'profileStaffUpdate'])->name('member.staff.update');
+
 
 
 // Directory Routes
-    Route::get('/directory', [MemberProfileController::class, 'directory'])->name('directory');
-    Route::get('/directory/lls', [MemberProfileController::class, 'llsDirectory'])->name('directory.lls');
-    Route::get('/directory/pllo', [MemberProfileController::class, 'plloDirectory'])->name('directory.pllo');
+Route::get('/directory', [MemberProfileController::class, 'directory'])->name('directory');
+Route::get('/directory/lls', [MemberProfileController::class, 'llsDirectory'])->name('directory.lls');
+Route::get('/directory/pllo', [MemberProfileController::class, 'plloDirectory'])->name('directory.pllo');
 
-    Route::get('/directory/senators', [MemberProfileController::class, 'senartorsDirectory'])->name('directory.senators');
-    Route::get('/directory/senator-staff', [MemberProfileController::class, 'senartorStaffDirectory'])->name('directory.senator.staff');
-    Route::get('/directory/senators-committee-secretary', [MemberProfileController::class, 'senartorComSecDirectory'])->name('directory.senator.comsec');
+Route::get('/directory/senators', [MemberProfileController::class, 'senartorsDirectory'])->name('directory.senators');
+Route::get('/directory/senator-staff', [MemberProfileController::class, 'senartorStaffDirectory'])->name('directory.senator.staff');
+Route::get('/directory/senators-committee-secretary', [MemberProfileController::class, 'senartorComSecDirectory'])->name('directory.senator.comsec');
 
-    Route::get('/directory/house-of-representatives', [MemberProfileController::class, 'horsDirectory'])->name('directory.hors');
-    Route::get('/directory/house-of-representatives-staff', [MemberProfileController::class, 'horStaffDirectory'])->name('directory.hor.staff');
-    Route::get('/directory/house-of-representatives-committee-secretary', [MemberProfileController::class, 'horComSecDirectory'])->name('directory.hor.comsec');
+Route::get('/directory/house-of-representatives', [MemberProfileController::class, 'horsDirectory'])->name('directory.hors');
+Route::get('/directory/house-of-representatives-staff', [MemberProfileController::class, 'horStaffDirectory'])->name('directory.hor.staff');
+Route::get('/directory/house-of-representatives-committee-secretary', [MemberProfileController::class, 'horComSecDirectory'])->name('directory.hor.comsec');
+
+// Policy Reform
+Route::get('/policy-reform', [PolicyReformController::class, 'index'])->name('policyreform.index');
+Route::get('/policy-reform-view/{id}', [PolicyReformController::class, 'view'])->name('policyreform.view');
+Route::get('/policy-reform-create', [PolicyReformController::class, 'create'])->name('policyreform.create');
+Route::post('/policy-reform-store', [PolicyReformController::class, 'store'])->name('policyreform.store');
+
+Route::post('/policy-reform-bookmark', [PolicyReformController::class, 'bookmark'])->name('policyreform.bookmark');
+Route::post('/policy-reform-unbookmark', [PolicyReformController::class, 'unbookmark'])->name('policyreform.unbookmark');
+Route::post('/policy-reform-like', [PolicyReformController::class, 'like'])->name('policyreform.like');
+Route::post('/policy-reform-dislike', [PolicyReformController::class, 'dislike'])->name('policyreform.dislike');
+Route::post('/policy-reform-comment', [PolicyReformController::class, 'comment'])->name('policyreform.comment');
 
 // Pages Frontend
 Route::get('/{any}', [FrontController::class, 'page'])->where('any', '.*');

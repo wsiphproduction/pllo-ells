@@ -22,10 +22,10 @@ Manage News
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb breadcrumb-style1 mg-b-5">
                         <li class="breadcrumb-item" aria-current="page"><a href="{{route('dashboard')}}">CMS</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">News</li>
+                        <li class="breadcrumb-item active" aria-current="page">Policy Reforms</li>
                     </ol>
                 </nav>
-                <h4 class="mg-b-0 tx-spacing--1">Manage News</h4>
+                <h4 class="mg-b-0 tx-spacing--1">Manage Policy Reforms</h4>
             </div>
         </div>
 
@@ -109,12 +109,12 @@ Manage News
                                     <input name="search" type="search" id="search" class="form-control" placeholder="Search by Title" value="{{ $filter->search }}">
                                     <button class="btn filter" id="btnSearch"><i data-feather="search"></i></button>
                                 </div>
-                                <a class="btn btn-success btn-sm mg-b-5 mt-lg-0 mt-md-0 mt-sm-0 mt-1" href="javascript:void(0)" data-toggle="modal" data-target="#advanceSearchModal">{{__('common.advance_search')}}</a>
+                                {{-- <a class="btn btn-success btn-sm mg-b-5 mt-lg-0 mt-md-0 mt-sm-0 mt-1" href="javascript:void(0)" data-toggle="modal" data-target="#advanceSearchModal">{{__('common.advance_search')}}</a> --}}
                             </form>
                         </div>
                         <div class="mg-t-10">
                             @if(auth()->user()->has_access_to_route('news.create'))
-                                <a class="btn btn-primary btn-sm mg-b-20" href="{{ route('news.create') }}">{{__('standard.news.article.create')}}</a>
+                                <a class="btn btn-primary btn-sm mg-b-20" href="{{ route('news.create') }}">Create Policy Reform</a>
                             @endif
                         </div>
                     </div>

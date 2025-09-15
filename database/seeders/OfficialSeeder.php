@@ -21,7 +21,9 @@ class OfficialSeeder extends Seeder
                 'lastname' => 'Marcos Jr.',
                 'nickname' => 'BBM',
                 'gender' => 'Male',
-                'image_url' => 'https://source.unsplash.com/featured/200x200?president',
+                'image_url' => 'storage/photo/bbm.jpg',
+                'office_cellphone' => '09876673798',
+                'email' => 'president.info@gmail.com',
             ],
             [
                 'position' => 'vice-president',
@@ -29,13 +31,15 @@ class OfficialSeeder extends Seeder
                 'lastname' => 'Duterte',
                 'nickname' => 'Inday',
                 'gender' => 'Female',
-                'image_url' => 'https://source.unsplash.com/featured/200x200?vice-president',
+                'image_url' => 'storage/photo/vp.jpg',
+                'office_cellphone' => '09876673798',
+                'email' => 'vp.info@gmail.com',
             ],
 
             // CABINET MEMBERS (sample list)
-            ['position'=>'cabinet-member','firstname'=>'Enrique','lastname'=>'Manalo','nickname'=>'Ricky','gender'=>'Male','image_url'=>'https://source.unsplash.com/featured/200x200?minister'],
-            ['position'=>'cabinet-member','firstname'=>'Benjamin','lastname'=>'Diokno','nickname'=>'Ben','gender'=>'Male','image_url'=>'https://source.unsplash.com/featured/200x200?finance'],
-            ['position'=>'cabinet-member','firstname'=>'Jesus Crispin','lastname'=>'Remulla','gender'=>'Male','image_url'=>'https://source.unsplash.com/featured/200x200?justice'],
+            ['position'=>'cabinet-member','firstname'=>'Enrique','lastname'=>'Manalo','nickname'=>'Ricky','gender'=>'Male','image_url'=>'storage/photo/enm.jpg','office_cellphone'=>'09108872162', 'email'=>'enrique@mail.com'],
+            ['position'=>'cabinet-member','firstname'=>'Benjamin','lastname'=>'Diokno','nickname'=>'Ben','gender'=>'Male','image_url'=>'storage/photo/bnj.jpg','office_cellphone'=>'09108872162', 'email'=>'diokno@mail.com'],
+            ['position'=>'cabinet-member','firstname'=>'Jesus Crispin','lastname'=>'Remulla','gender'=>'Male','image_url'=>'storage/photo/rem.jpg','office_cellphone'=>'09108872162', 'email'=>'jess@mail.com'],
 
             // SENATORS (sample set)
             ['position'=>'senator','firstname'=>'Francis','middle_initial'=>'G','lastname'=>'Escudero','nickname'=>'Chiz','gender'=>'Male','party'=>'PDP–Laban','image_url'=>'https://source.unsplash.com/featured/200x200?senator'],

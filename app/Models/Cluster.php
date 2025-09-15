@@ -13,7 +13,7 @@ class Cluster extends Model
 
     public $table = 'cluster';
 
-    protected $fillable = [ 'name', 'description'];
+    protected $fillable = [ 'user_type_id', 'name', 'approver'];
 
 
     public function events(){

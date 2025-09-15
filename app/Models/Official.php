@@ -5,6 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
+use App\Models\Gender;
+use App\Models\SavedContactOfficial;
+
+
 class Official extends Model
 {
     use HasFactory;
@@ -83,4 +87,23 @@ class Official extends Model
         'child_profession',
 
     ];
+
+    public function getFullNameAttribute()
+    {
+        return $this->firstname . ' ' . $this->middle_initial . '. ' . $this->lastname;
+    }
+
+    public function is_contact_exist($official) {
+
+        $is_exist = SavedContactOfficial::where('user_id', Auth()->user()->id)
+                                ->where('official_id', $official)
+                                ->first();
+        if ($is_exist) {
+            return true;
+        } return false;
+    }
+
+    public function genderName() {
+        return $this->belongsTo(Gender::class, 'gender');
+    }
 }

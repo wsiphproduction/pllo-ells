@@ -1,6 +1,24 @@
 @extends('theme.main')
 
 @section('pagecss')
+
+<!-- 7/14/2025 -->
+<!-- Style for new date picker on registration -->
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- jQuery UI CSS for the datepicker -->
+    <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+    <style>
+      /* Customize datepicker appearance */
+      .ui-datepicker-year, .ui-datepicker-day {
+        display: none;
+      }
+      .ui-datepicker-month {
+        font-weight: bold;
+      }
+    </style>
+<!-- End 7/14/2025 Style for new date picker on registration -->
+
 <style>
 	div#custom-alert {
 		width: 99%;
@@ -68,9 +86,9 @@
 	<section id="registration-form">
 		<div class="container">
 			<div class="row p-4 mb-4">
-				<div class="col-2"></div>
-				<div class="col-8">
-					<h3 class="form-title">REGISTRATION</h3>
+				<div class="col"></div>
+				<div class="col-5">
+					<h3 class="form-title" style="font-family: Segoe UI, sans-serif !important;font-weight: 600;font-size: 20px;">REGISTRATION</h3>
 
 					@if($errors->any())
 					    <div class="text-danger mb-2">*{{ implode('', $errors->all(':message')) }}</div>
@@ -80,19 +98,19 @@
 						
 						<div class="row form-group">
 							<div class="col-10">
-								<input class="form-control" type="text" name="firstname" placeholder="FIRST NAME" value="{{ old('firstname') }}" required>
+								<input class="form-control shadow-sm" type="text" name="firstname" placeholder="FIRST NAME" value="{{ old('firstname') }}" required>
 							</div>
 							<div class="col-2">
-								<input class="form-control" type="text" name="middle_initial" placeholder="M.I." value="{{ old('middle_initial') }}" maxlength="1" required>
+								<input class="form-control shadow-sm" type="text" name="middle_initial" placeholder="M.I." value="{{ old('middle_initial') }}" maxlength="1" required>
 							</div>
 						</div>
 
 						<div class="row form-group">
 							<div class="col-10">
-								<input class="form-control" type="text" name="lastname" placeholder="LAST NAME" value="{{ old('lastname') }}" required>
+								<input class="form-control shadow-sm" type="text" name="lastname" placeholder="LAST NAME" value="{{ old('lastname') }}" required>
 							</div>
 							<div class="col-2">
-								<select class="form-select" aria-label="select suffix" name="suffix">
+								<select class="form-select shadow-sm" aria-label="select suffix" name="suffix">
 								  <option value="" selected>SUFFIX</option>
 								  <option value="Jr">Jr</option>
 								  <option value="Sr">Sr</option>
@@ -102,33 +120,33 @@
 
 						<div class="row form-group">
 							<div class="col-12">
-								<input class="form-control" type="email" name="email" placeholder="EMAIL ADDRESS" value="{{ old('email') }}" required autocomplete="off">
+								<input class="form-control shadow-sm" type="email" name="email" placeholder="EMAIL ADDRESS" value="{{ old('email') }}" required autocomplete="off">
 							</div>
 						</div>
 
 						<div class="row form-group">
 							<div class="col-12">
-								<input class="form-control" type="email" name="alt_email" placeholder="ALTERNATIVE EMAIL ADDRESS" value="{{ old('alt_email') }}" required autocomplete="off">
+								<input class="form-control shadow-sm" type="email" name="alt_email" placeholder="ALTERNATIVE EMAIL ADDRESS" value="{{ old('alt_email') }}" required autocomplete="off" required>
 							</div>
 						</div>
 
 						<div class="row form-group">
 							<div class="col-12 show_hide_password" id="show_hide_password">
-								<input class="form-control" id="password" type="password" name="password" placeholder="PASSWORD" required>
+								<input class="form-control shadow-sm" id="password" type="password" name="password" placeholder="PASSWORD" required>
 								<a id="togglePassword" class="hide-password" style="color: gray; cursor: pointer;"><i class="icon icon-eye-slash" aria-hidden="true"></i></a>
 							</div>
 						</div>
 
 						<div class="row form-group">
 							<div class="col-12 show_hide_confirm_password" id="show_hide_confirm_password">
-								<input class="form-control"  id="confirmPassword" type="password" name="confrim_password" placeholder="CONFIRM PASSWORD" required>
+								<input class="form-control shadow-sm"  id="confirmPassword" type="password" name="confrim_password" placeholder="CONFIRM PASSWORD" required>
 								<a id="toggleConfirmPassword" class="hide-password" style="color: gray; cursor: pointer;"><i class="icon icon-eye-slash" aria-hidden="true"></i></a>
 							</div>
 						</div>
 
 						<div class="row form-group">
 							<div class="col-12">
-								<input class="form-control" type="text" name="contact_number" placeholder="MOBILE NUMBER" value="{{ old('contact_number') }}" required>
+								<input class="form-control shadow-sm" type="number" name="contact_number" placeholder="MOBILE NUMBER" value="{{ old('contact_number') }}" required max="99999999999" oninput="if(this.value.length > 11) this.value = this.value.slice(0,11)">
 							</div>
 						</div>
 
@@ -141,7 +159,7 @@
 								  	<option value="4">Signal</option>
 								  	<option value="5">WeChat</option>
 								</select>
-								<input class="form-control" type="text" name="other_number[]" required style="padding-left: 140px;">
+								<input class="form-control shadow-sm" type="number" name="other_number[]" required style="padding-left: 140px;" max="99999999999" oninput="if(this.value.length > 11) this.value = this.value.slice(0,11)">
 								<div id="messaging_container">
 									<!-- area for additional fields -->
 								</div>
@@ -151,15 +169,22 @@
 
 						<div class="row form-group">
 							<div class="col-6">
-								<select class="form-select" aria-label="select gender" name="gender">
+								<select class="form-select shadow-sm" aria-label="select gender" name="gender">
 								  	<option value="0">GENDER</option>
 									@foreach($genders as $gender)
 								  	<option value="{{ $gender->id }}">{{ $gender->name }}</option>
 									@endforeach
 								</select>
 							</div>
+
 							<div class="col-6 d-flex">
-								<select class="form-select" aria-label="select month" name="month" style="width: 70%">
+								<!-- Birthday -->
+
+									<!-- new birthday -->
+									<input type="text" id="datepicker" name="birthdate" class="form-control cursor-pointer shadow-sm" placeholder="BIRTHDAY" autocomplete="off">
+									<!-- end new birthday -->
+
+								{{-- <select class="form-select" aria-label="select month" name="month" style="width: 70%">
 								  	<option value="0">BIRTHMONTH</option>
 									@foreach(Config::get('months') as $month)
 								  	<option value="{{ $month }}">{{ $month }}</option>
@@ -171,13 +196,15 @@
 									@for($d = 1; $d <= 31; $d++)
 								  	<option value="{{ $d }}">{{ $d }}</option>
 									@endfor
-								</select>
+								</select> --}}
+
+								<!-- End Birthday -->
 							</div>
 						</div>
 
 						<div class="row form-group">
 							<div class="col-12">
-								<select class="form-select" aria-label="select user type" name="user_type" id="user_type">
+								<select class="form-select shadow-sm" aria-label="select user type" name="user_type" id="user_type">
 									@foreach($user_types as $user_type)
 								  	<option value="{{ $user_type->id }}">{{ $user_type->name }}</option>
 									@endforeach
@@ -187,7 +214,7 @@
 
 						<div class="row form-group" id="reg_agency_dropdown">
 							<div class="col-12">
-								<select class="form-select" aria-label="select agency" name="agency" id="agency">
+								<select class="form-select shadow-sm" aria-label="select agency" name="agency" id="agency">
 									<option value="0" selected disabled>GOVERNMENT AGENCY</option>
 
 									<div id="pllo_lls_agency_dropdown">
@@ -208,7 +235,7 @@
 
 						<div class="row form-group" id="reg_sub_agency_dropdown">
 							<div class="col-12">
-								<select class="form-select" aria-label="select sub agency" name="sub_agency">
+								<select class="form-select shadow-sm" aria-label="select sub agency" name="sub_agency">
 
 									<div id="op_subagency_dropdown">
 										@foreach($op_subagencies as $agency)
@@ -226,9 +253,39 @@
 							</div>
 						</div>
 
+						<!-- if op proper under op proper chosen then need to select an official -->
+						{{-- <div class="row form-group" id="op_proper_official_dropdown">
+							<div class="col-12">
+								<select class="form-select shadow-sm" aria-label="select sub agency" name="sub_agency">
+
+									<div id="op_proper_official_dropdown">
+										@foreach($op_subagencies as $agency)
+									  	<option value="{{ $agency->id }}">{{ $agency->name }}</option>
+										@endforeach
+									</div>
+
+								</select>
+							</div>
+						</div> --}}
+
+						<!-- if cabinet member under op proper chosen then need to select an official -->
+						{{-- <div class="row form-group" id="cabinet_member_official_dropdown">
+							<div class="col-12">
+								<select class="form-select shadow-sm" aria-label="select sub agency" name="sub_agency">
+
+									<div id="cabinet_member_official_dropdown">
+										@foreach($op_subagencies as $agency)
+									  	<option value="{{ $agency->id }}">{{ $agency->name }}</option>
+										@endforeach
+									</div>
+
+								</select>
+							</div>
+						</div> --}}
+
 						<div class="row form-group" id="reg_designation_dropdown">
 							<div class="col-12">
-								<select class="form-select" aria-label="select designation" name="designation">
+								<select class="form-select shadow-sm" aria-label="select designation" name="designation">
 									<option value="0" selected disabled>DESIGNATION</option>
 
 									<div id="designation_lls_dropdown">
@@ -262,9 +319,9 @@
 
 						<div class="row form-group" id="reg_senators_dropdown">
 							<div class="col-12">
-								<select class="form-select" aria-label="select senator" name="senator_id">
+								<select class="form-select shadow-sm" aria-label="select senator" name="senator_id">
 									@foreach($senators as $senator)
-								  	<option value="{{ $senator->id }}">{{ $senator->sen_firstname }} @if($senator->sen_middle_initial) {{ $senator->sen_middle_initial }}. @endif {{ $senator->sen_lastname }} {{ $senator->sen_suffix }}</option>
+								  	<option value="{{ $senator->id }}">Sen. {{ $senator->FullName }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -272,9 +329,9 @@
 
 						<div class="row form-group" id="reg_hor_dropdown">
 							<div class="col-12">
-								<select class="form-select" aria-label="select hor" name="hor_id">
+								<select class="form-select shadow-sm" aria-label="select hor" name="hor_id">
 									@foreach($hors as $hor)
-								  	<option value="{{ $hor->id }}">{{ $hor->hor_firstname }} {{ $hor->hor_middle_initial }}@if($hor->hor_middle_initial). @endif {{ $hor->hor_lastname }}</option>
+								  	<option value="{{ $hor->id }}">{{ $hor->firstname }} {{ $hor->middle_initial }}@if($hor->middle_initial). @endif {{ $hor->lastname }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -282,7 +339,7 @@
 
 						<div class="row form-group" id="reg_congsec_type_dropdown">
 							<div class="col-12">
-								<select class="form-select" aria-label="select congsec type" name="congsec_type" id="congsec_type">
+								<select class="form-select shadow-sm" aria-label="select congsec type" name="congsec_type" id="congsec_type">
 								  	<option value="Senate Committee Secretary">Senate Committee Secretary</option>
 								  	<option value="House of Representatives Committee Secretary">House of Representatives Committee Secretary</option>
 								</select>
@@ -291,7 +348,7 @@
 
 						<div class="row form-group" id="reg_committee_type_dropdown">
 							<div class="col-12">
-								<select class="form-select" aria-label="select congsec committee type" name="committee_type" id="committee_type">
+								<select class="form-select shadow-sm" aria-label="select congsec committee type" name="committee_type" id="committee_type">
 								  	<option value="Standing Committee">Standing Committee</option>
 								  	<option value="Special Committee">Special Committee</option>
 								</select>
@@ -300,7 +357,7 @@
 
 						<div class="row form-group" id="reg_standing_committee_dropdown">
 							<div class="col-12">
-								<select class="form-select" aria-label="select standing type" name="committee_standing" id="standing_committee_type">
+								<select class="form-select shadow-sm" aria-label="select standing type" name="committee_standing" id="standing_committee_type">
 								  	<option value="1">Agrarian Reform</option>
 								  	<option value="2">Agriculture and Food</option>
 								  	<option value="3">Appropriations</option>
@@ -310,7 +367,7 @@
 
 						<div class="row form-group" id="reg_special_committee_dropdown">
 							<div class="col-12">
-								<select class="form-select" aria-label="select special type" name="committee_special" id="special_committee_type">
+								<select class="form-select shadow-sm" aria-label="select special type" name="committee_special" id="special_committee_type">
 								  	<option value="1">Bases Conversion</option>
 								  	<option value="2">Food Security</option>
 								  	<option value="3">Land Use</option>
@@ -320,9 +377,9 @@
 
 						<div class="row form-group" id="reg_chairperson_dropdown">
 							<div class="col-12">
-								<select class="form-select" aria-label="select hor member" name="chairperson" id="chairperson">
+								<select class="form-select shadow-sm" aria-label="select hor member" name="chairperson" id="chairperson">
 									@foreach($hors as $hor)
-								  	<option value="{{ $hor->id }}">{{ $hor->hor_firstname }} {{ $hor->hor_middle_initial }}@if($hor->hor_middle_initial). @endif {{ $hor->hor_lastname }}</option>
+								  	<option value="{{ $hor->id }}">{{ $hor->firstname }} {{ $hor->middle_initial }}@if($hor->middle_initial). @endif {{ $hor->lastname }}</option>
 									@endforeach
 								</select>
 							</div>
@@ -330,7 +387,7 @@
 
 						<div class="row form-group" id="reg_cluster_dropdown">
 							<div class="col-12">
-								<select class="form-select" multiple aria-label="multiple select example" name="cluster[]">
+								<select class="form-select shadow-sm" multiple aria-label="multiple select example" name="cluster[]">
 									@foreach($clusters as $cluster)
 								  	<option value="{{ $cluster->id }}">{{ $cluster->name }}</option>
 								  	@endforeach
@@ -342,16 +399,16 @@
 						<div class="row form-group">
 							<div class="col-12">
 
-								<input type="text" class="form-control" name="agency_logo_holder" id="agency_logo_holder" placeholder="UPLOAD GOVERNMENT AGENCY LOGO" style="cursor: pointer;">
+								<input type="text" class="form-control shadow-sm" name="agency_logo_holder" id="agency_logo_holder" placeholder="UPLOAD GOVERNMENT AGENCY LOGO" style="cursor: pointer;">
 
-								<div class="form-control" id="agency_logo_file_container" style="display: none;">
+								<div class="form-control shadow-sm" id="agency_logo_file_container" style="display: none;">
 									<span id="agency_logo_file_holder_name">No File.</span>
 									<span id="close_agency_logo_file" class="close-file" style="float: right; cursor: pointer;">
 										<i class="uil uil-x"></i>
 									</span>
 								</div>
 
-								<input id="agency_logo" name="agency_logo" type="file" accept=".png, .jpg, .gif" style="display:none;"/>
+								<input id="agency_logo" name="agency_logo" type="file" accept=".png, .jpg, .gif" style="display:none;">
 
 							</div>
 						</div>
@@ -359,7 +416,7 @@
 						<div class="row form-group">
 							<div class="col-12">
 
-								<input type="text" class="form-control" name="office_id_holder" id="office_id_holder" placeholder="UPLOAD OFFICE ID" style="cursor: pointer;">
+								<input type="text" class="form-control shadow-sm" name="office_id_holder" id="office_id_holder" placeholder="UPLOAD OFFICE ID" style="cursor: pointer;">
 
 								<div class="form-control" id="office_id_file_container" style="display: none;">
 									<span id="office_id_file_holder_name">No File.</span>
@@ -373,14 +430,17 @@
 							</div>
 						</div>
 
-						<small>By clicking "Register", you agree to the <span class="primary-text-color" style="cursor: pointer;">Terms and Privacy Policy.</span></small>
+						<div class="d-flex justify-content-start align-items-center gap-1">
+							<input type="checkbox" name="agree_terms" id="agree_terms" class="shadow-sm">
+							<small><span id="by_click" style="cursor: pointer;">By clicking "Register"</span>, you agree to the <a href="#" class="primary-text-color" style="cursor: pointer;">Terms and Privacy Policy.</a></small>
+						</div>
 
-						<button type="submit" class="form-control primary-button-color text-white my-3" id="register-submit">REGISTER</button>
-						<a href="#" class="btn form-control bg-secondary text-white">LOGIN</a>
+						<button type="submit" class="form-control primary-button-color text-white my-3 shadow-sm" id="register-submit" disabled style="opacity: .7;">REGISTER</button>
+						<a href="#" class="btn form-control bg-secondary text-white shadow-sm">LOGIN</a>
 						@csrf
 					</form>
 				</div>
-				<div class="col-2"></div>
+				<div class="col"></div>
 			</div>
 		</div>
 
@@ -425,21 +485,21 @@
 			$("#agency_logo").click();
 		});
 
-	  	$("#add_messaging").click(function() {
-		    var newFieldHtml = `<div style="position: relative; margin-top: 4px;"><select id="select_number" class="form-select select-type-number" aria-label="select type of number" name="type_number[]" style="left: 0px;">
-									<option value="1">Viber</option>
-								  	<option value="2">WhatsApp</option>
-								  	<option value="3">Telegram</option>
-								  	<option value="4">Signal</option>
-								  	<option value="5">WeChat</option>
-								</select>
-								<input class="form-control" type="text" name="other_number[]" placeholder="" required style="padding-left: 140px;">
-		    					<svg id="remove_new_field" style="position: absolute;right: 12px; top: 12px; cursor: pointer;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24">
-		    					  <path stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
-		    					</svg>
-								</div>
-								`;
-		    $("#messaging_container").append(newFieldHtml);
+  	$("#add_messaging").click(function() {
+	    var newFieldHtml = `<div style="position: relative; margin-top: 4px;"><select id="select_number" class="form-select select-type-number" aria-label="select type of number" name="type_number[]" style="left: 0px;">
+								<option value="1">Viber</option>
+							  	<option value="2">WhatsApp</option>
+							  	<option value="3">Telegram</option>
+							  	<option value="4">Signal</option>
+							  	<option value="5">WeChat</option>
+							</select>
+							<input class="form-control shadow-sm" type="number" name="other_number[]" placeholder="" required style="padding-left: 140px;" max="999999999" oninput="if(this.value.length > 9) this.value = this.value.slice(0,9)">
+	    					<svg id="remove_new_field" style="position: absolute;right: 30px; top: 12px; cursor: pointer;" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="none" viewBox="0 0 24 24">
+	    					  <path stroke="red" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7.757 12h8.486M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"/>
+	    					</svg>
+							</div>
+							`;
+	    $("#messaging_container").append(newFieldHtml);
 		});
 
 		$('body').on('click', '#remove_new_field', function(e){
@@ -476,6 +536,21 @@
                 toggleButton.removeClass('icon-eye');
             }
         });
+
+  	  // Initialize the datepicker
+  	  $('#datepicker').datepicker({
+  	    dateFormat: 'mm/dd', // Format to show month and day
+  	    changeMonth: true,    // Allow the month to be changed
+  	    changeYear: false,    // Disable the year change
+  	    showButtonPanel: true, // Show button panel to close the calendar
+  	    minDate: null,        // Remove the minimum date restriction (allow previous months)
+  	    maxDate: null,        // No maximum date restriction
+  	    beforeShow: function(input, inst) {
+  	      // Hide the day of the month and year
+  	      $(inst.dpDiv).find('.ui-datepicker-year').hide();
+  	      $(inst.dpDiv).find('.ui-datepicker-day').hide();
+  	    }
+  	  });
 
     	// hide elements on first load of the registration page
         $("#designation_senator_dropdown").hide();
@@ -672,18 +747,21 @@
     $('#agency').on('change', function(){
         let agency_type = $(this).val();
 
+        // op proper
         if (agency_type == 9) {
-			$("#reg_sub_agency_dropdown").show();
+					$("#reg_sub_agency_dropdown").show();
         	$("#op_subagency_dropdown").show();
         	$("#cabinet_subagency_dropdown").hide();
         }
 
+        // cabinet member
         if (agency_type == 10) {
         	$("#reg_sub_agency_dropdown").show();
         	$("#op_subagency_dropdown").hide();
         	$("#cabinet_subagency_dropdown").show();
         }
 
+        // other government agency
         if (agency_type == 11) {
         	$("#reg_sub_agency_dropdown").val('0');
         	$("#reg_sub_agency_dropdown").hide();
@@ -710,5 +788,43 @@
 
     });
 
+    const agreeChk = document.getElementById("agree_terms");
+    const registerBtn = document.getElementById("register-submit");
+
+    agreeChk.addEventListener("change", function () {
+      registerBtn.disabled = !this.checked;
+
+      if(agreeChk.checked) {
+      	registerBtn.style.opacity = "1";
+      } else {
+      	registerBtn.style.opacity = ".7";
+      }
+    });
+
+    const byClick = document.getElementById("by_click");
+
+    byClick.addEventListener("click", function () {
+    	agreeChk.checked = !agreeChk.checked;
+
+    	registerBtn.disabled = !registerBtn.disabled;
+
+      if(agreeChk.checked) {
+      	registerBtn.style.opacity = "1";
+      } else {
+      	registerBtn.style.opacity = ".7";
+      }
+    });
+
+    // js condition for register
+    document.querySelector("[name='agency_logo_holder']").removeAttribute("required");
+
 </script>
+
+<!-- 7/14/2025 script for custom datepicker-->
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- jQuery UI JS for the datepicker -->
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"></script>
+<!-- End 7/14/2025 script for custom datepicker -->
+
 @endsection

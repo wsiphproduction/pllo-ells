@@ -122,12 +122,33 @@
 									<input class="form-control" type="text" name="location" value="{{ $event->location }}" required>
 								</div>
 							</div>
-							<div class="row form-group">
+
+							<div id="attachments_input" class="row form-group" @if(!is_null($event->attachments)) style="display: none" @endif>
 								<small class="col-12 text-uppercase">UPLOAD OTHER MATERIALS</small>
 								<div class="col-12">
 									<input class="form-control" type="file" name="attachments[]" multiple>
 								</div>
 							</div>
+
+							<div id="attachments_display" class="form-group row" @if(is_null($event->attachments)) style="display: none" @endif>
+								<small class="col-12 text-uppercase">UPLOAD OTHER MATERIALS</small>
+								<div class="col-12">
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">
+												<i class="bi-paperclip"></i>
+											</span>
+										</div>
+										<input type="text" value="{{ count(json_decode($event->attachments ?? '[]', true)) }} file(s)" class="form-control" readonly>
+										<div class="input-group-append">
+											<button type="button" class="btn btn-outline-danger" onclick="remove_file('#attachments_display', '#attachments_input')">
+												<i class="bi-trash"></i>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+
 							<div class="form-group row">
 								<small class="col-sm-12 text-uppercase">LINK FOR OTHER MATERIALS</small>
 								<div class="col-sm-12">
@@ -142,10 +163,30 @@
 									</select>
 								</div>
 							</div>
-							<div class="row form-group" style="margin-top: -57px;">
+
+							<div id="event_img_input" class="row form-group" style="margin-top: -57px; @if(!is_null($event->event_img)) display: none; @endif">
 								<small class="col-12 text-uppercase">UPLOAD IMAGE</small>
 								<div class="col-12">
-									<input class="form-control" type="file" name="event_img">
+									<input class="form-control" type="file" name="event_img" accept=".png, .jpg, .jpeg">
+								</div>
+							</div>
+
+							<div id="event_img_display" class="form-group row" style="margin-top: -57px; @if(is_null($event->event_img)) display: none; @endif">
+								<small class="col-12 text-uppercase">UPLOAD IMAGE</small>
+								<div class="col-12">
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text">
+												<i class="bi-image"></i>
+											</span>
+										</div>
+										<input type="text" value="{{ basename($event->event_img) }}" class="form-control" readonly>
+										<div class="input-group-append">
+											<button type="button" class="btn btn-outline-danger" onclick="remove_file('#event_img_display', '#event_img_input')">
+												<i class="bi-trash"></i>
+											</button>
+										</div>
+									</div>
 								</div>
 							</div>
 
@@ -167,7 +208,7 @@
 														{{ $cluster->name }}
 													</option>
 												@endforeach
-											</select>
+											</select>                                                                                                                                                  
 										</div>
 									</div>
 
@@ -252,10 +293,39 @@
 									</div>
 									
 									<div class="form-group" style="margin-top: -57px;">
-										<small class="col-12 text-uppercase">UPLOAD INVITATION FILE </small>
+										{{-- <small class="col-12 text-uppercase">UPLOAD INVITATION FILE </small>
 										<div class="col-12">
 											<input class="form-control" type="file" name="invitation_file" required>
+										</div> --}}
+
+										<div id="invitation_file_input" @if(!is_null($event->invitation_file)) style="display: none;" @endif>
+											<small class="col-12 text-uppercase">UPLOAD INVITATION FILE </small>
+											<div class="col-12">
+												<input class="form-control" type="file" name="invitation_file" >
+											</div>
 										</div>
+
+										<div id="invitation_file_display" class="form-group row" @if(is_null($event->invitation_file)) style="display: none;" @endif>
+											<small class="col-12 text-uppercase">UPLOAD INVITATION FILE </small>
+											<div class="col-12">
+												<div class="input-group">
+													<div class="input-group-prepend">
+														<span class="input-group-text">
+															<i class="bi-envelope"></i>
+														</span>
+													</div>
+													<input type="text" value="{{ basename($event->invitation_file) }}" class="form-control" readonly>
+													<div class="input-group-append">
+														<button type="button" class="btn btn-outline-danger" onclick="remove_file('#invitation_file_display', '#invitation_file_input')">
+															<i class="bi-trash"></i>
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+
+
+
 										<small class="col-12" style="font-size:12px;"><span class="text-primary" style="cursor:pointer;" id="open-agency-modal">Click here</span> for different invitation letter per agency (Select first the participants before uploading invitation letter per agency)</small>
 										<p class="text-danger mt-2" style="font-size:12px;">Note: You need to reupload the invitation file/s upon updating</p>
 
@@ -280,7 +350,7 @@
 						</div>
 
 						<div class="col-12 text-end mt-2">
-							<button class="btn btn-primary">SAVE</button>
+							<button class="btn btn-primary">UPDATE</button>
 						</div>
 
 					</div>
@@ -430,6 +500,12 @@
 			const modal = new bootstrap.Modal(document.getElementById('agencyModal'));
 			modal.show();
 		});
+	</script>
+	<script>
+		function remove_file(remove_div, show_div){
+			$(remove_div).hide();
+			$(show_div).show();
+		}
 	</script>
 
 @endsection

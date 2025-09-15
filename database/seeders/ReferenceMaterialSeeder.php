@@ -36,6 +36,7 @@ class ReferenceMaterialSeeder extends Seeder
                 'agency_id' => rand(2, 4),
                 'attachments' => '["storage\/reference-materials\/1\/attachments\/1st Sample Forms 3-12-2025 (4).pdf","storage\/reference-materials\/1\/attachments\/PA PRINT KO GAW PALIHUG LAMAAATS (5).pdf","storage\/reference-materials\/1\/attachments\/FSI Book Inventory System Memo (2).pdf"]', 
                 'remarks' => 'Auto-generated test entry.',
+                'status' => ['APPROVED', 'FOR APPROVAL'][rand(0, 1)],
                 'created_by' => 1 
             ]);
         }

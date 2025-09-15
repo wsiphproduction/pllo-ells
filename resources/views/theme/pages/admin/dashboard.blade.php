@@ -85,7 +85,14 @@
 												<tbody>
 													@forelse($registrations_pending as $registration_pending)
 														<tr>
-															<td>{{ $registration_pending->email }}</td>
+															<td>
+																<a href="{{ route('register.view.member', $registration_pending->id ) }}" class="cursor-pointer">
+																	{{ $registration_pending->email }}
+																</a>
+																{{-- <a type="button" class="cursor-pointer" data-bs-target="#showDetailsModal{{$registration_pending->user_id}}" data-bs-toggle="modal">
+																	{{ $registration_pending->email }}
+																</a> --}}
+															</td>
 															{{-- <td>{{ $registration_pending->is_active ? 'Approved' : 'Pending' }}</td> --}}
 															<td>{{ $registration_pending->created_at }}</td>
 															<td>
@@ -93,6 +100,49 @@
 																<button class="btn btn-danger text-white mx-2 text-uppercase delete-register-btn" data-id="{{ $registration_pending->user_id }}" data-bs-toggle="modal" data-bs-target="#regDeleteModal" title="Delete this Registration" {{ $registration_pending->is_active ? 'disabled' : '' }}><small>delete</small></button>
 															</td>
 														</tr>
+
+														<!-- Show Member Details Modal -->
+														<div class="modal fade" id="showDetailsModal{{$registration_pending->user_id}}" tabindex="-1" aria-labelledby="showDetailsModalLabel{{$registration_pending->user_id}}" aria-hidden="true">
+															<div class="modal-dialog modal-dialog-centered">
+																<div class="modal-content">
+																	<div class="modal-header">
+																		<h5 class="modal-title" id="showDetailsModalLabel{{$registration_pending->user_id}}">Member Details</h5>
+																		<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+																	</div>
+																	<div class="modal-body">
+																		<div class="d-flex flex-column">
+																			<small class="my-2">
+																				<b>Registering As:</b> {{ $registration_pending->userType->name }}	
+																			</small>
+																			@if(!empty( $registration_pending->designationDetails ))
+																				<small class="my-2">
+																					<b>For Designation:</b> {{ $registration_pending->designationDetails->name }}
+																				</small>
+																			@endif
+																			<small class="my-2">
+																				<b>Name:</b> {{ $registration_pending->name }}	
+																			</small>
+																			<small class="my-2">
+																				<b>Email Address:</b> {{ $registration_pending->email }}	
+																			</small>
+																			<small class="my-2">
+																				<b>Contact Number:</b> {{ $registration_pending->contact_number }}	
+																			</small>
+																			<small class="my-2">
+																				<b>Birthdate:</b> {{ $registration_pending->birthdate }}	
+																			</small>
+																			<small class="my-2">
+																				<b>Gender:</b> @if($registration_pending->gender == 1) Male @elseif($registration_pending->gender == 2) Female @else Others @endif	
+																			</small>
+																			<br />
+																		</div>
+																	<div class="modal-footer">
+																		<button class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+																	</div>
+																</div>
+															</div>
+														</div>
+
 													@empty
 														<tr>
 															<td colspan="4">No pending registrations found.</td>
@@ -214,50 +264,28 @@
 
 									<div class="card-body">
 
-										<div class="d-flex justify-content-between align-items-start mb-4 p-3 border-bottom">
-											<div class="d-flex">
-												<div class="me-3">
-													<i class="bi-calendar-event-fill fs-3 text-dark"></i>
-												</div>
-												<div>
-													<h6 class="mb-1 fw-semibold">NCAP Deployment</h6>
-													<small class="text-muted">July 5, 2025 · 9:00AM - 4:00PM<br>Luneta Park</small>
-												</div>
-											</div>
-											<a href="#" class="text-decoration-none text-muted">
-												<i class="bi-arrow-right-circle fs-5"></i>
-											</a>
-										</div>
+										@forelse($upcoming_events as $upcoming_event)
 
-										<div class="d-flex justify-content-between align-items-start mb-4 p-3 border-bottom">
-											<div class="d-flex">
-												<div class="me-3">
-													<i class="bi-calendar-event-fill fs-3 text-dark"></i>
+											<div class="d-flex justify-content-between align-items-start mb-4 p-3 border-bottom">
+												<div class="d-flex">
+													<div class="me-3">
+														<i class="bi-calendar-event-fill fs-3 text-dark"></i>
+													</div>
+													<div>
+														<h6 class="mb-1 fw-semibold text-start">{{ $upcoming_event->title }}</h6>
+														<small class="text-muted">
+															{{ \Carbon\Carbon::parse($upcoming_event->date)->format('F d, Y') }} | {{ $upcoming_event->start_time }} - {{ $upcoming_event->end_time }}
+															<br>{{ $upcoming_event->location }}
+														</small>
+													</div>
 												</div>
-												<div>
-													<h6 class="mb-1 fw-semibold">Anti Illegal Parking</h6>
-													<small class="text-muted">July 5, 2025 · 9:00AM - 4:00PM<br>Tondo, Manila</small>
-												</div>
+												<a href="events/view/{{ $upcoming_event->id }}" class="text-decoration-none text-muted">
+													<i class="bi-arrow-right-circle fs-5"></i>
+												</a>
 											</div>
-											<a href="#" class="text-decoration-none text-muted">
-												<i class="bi-arrow-right-circle fs-5"></i>
-											</a>
-										</div>
-
-										<div class="d-flex justify-content-between align-items-start mb-4 p-3 border-bottom">
-											<div class="d-flex">
-												<div class="me-3">
-													<i class="bi-calendar-event-fill fs-3 text-dark"></i>
-												</div>
-												<div>
-													<h6 class="mb-1 fw-semibold">Agricultural Development</h6>
-													<small class="text-muted">July 5, 2025 · 9:00AM - 4:00PM<br>GT-Toyota Asian Center, UP Diliman</small>
-												</div>
-											</div>
-											<a href="#" class="text-decoration-none text-muted">
-												<i class="bi-arrow-right-circle fs-5"></i>
-											</a>
-										</div>
+										@empty
+											<p>No upcoming events for now.</p>
+										@endforelse
 
 									</div>
 								</div>
@@ -270,31 +298,17 @@
 										BIRTHDAY CELEBRANTS THIS MONTH
 									</div>
 									<div class="card-body">
-
-										<div class="d-flex align-items-center mb-4">
-											<img src="{{ asset('theme/images/icons/avatar.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';" class="rounded-circle me-3 border" alt="Avatar" width="50" height="50">
-											<div>
-												<h6 class="mb-1 fw-semibold">Mark Valencia</h6>
-												<small class="text-muted">July 22 · Procurement</small>
+										@forelse($celebrants as $celebrant)
+											<div class="d-flex align-items-center mb-4">
+												<img src="{{ asset('/') . $celebrant->photo }}" onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';" class="rounded-circle me-3 border" alt="Avatar" width="50" height="50">
+												<div>
+													<h6 class="mb-1 fw-semibold text-capitalize">{{ $celebrant->fullName }}</h6>
+													<small class="text-muted">{{ $celebrant->birthdate }}</small>
+												</div>
 											</div>
-										</div>
-
-										<div class="d-flex align-items-center mb-4">
-											<img src="{{ asset('theme/images/icons/avatar.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';" class="rounded-circle me-3 border" alt="Avatar" width="50" height="50">
-											<div>
-												<h6 class="mb-1 fw-semibold">Ferdinand Palaspas</h6>
-												<small class="text-muted">July 28 · Procurement</small>
-											</div>
-										</div>
-
-										<div class="d-flex align-items-center mb-4">
-											<img src="{{ asset('theme/images/icons/avatar.jpg') }}" onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';" class="rounded-circle me-3 border" alt="Avatar" width="50" height="50">
-											<div>
-												<h6 class="mb-1 fw-semibold">Martin Nieverra</h6>
-												<small class="text-muted">July 30 · Procurement</small>
-											</div>
-										</div>
-
+										@empty
+											<p>No celebrants for this month.</p>
+										@endforelse
 									</div>
 								</div>
 							</div>

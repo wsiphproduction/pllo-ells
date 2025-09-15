@@ -8,6 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use App\Models\ActivityLog;
 use App\Models\Cluster;
 use App\Models\Gender;
+use App\Models\UserType;
+use App\Models\Official;
+use App\Models\Designation;
+use App\Models\MemberStaff;
 use App\Models\User;
 use App\Models\Hor;
 
@@ -104,8 +108,13 @@ class Member extends Model
         return $member;
     }
 
+    public static function getMemberName($id) {
+        $member = Member::find($id);
+        return $member->firstname . ' ' . $member->middle_initial . '. ' . $member->lastname;
+    }
+
     public function userType() {
-        return $this->belongsTo(userType::class, 'user_type');
+        return $this->belongsTo(UserType::class, 'user_type');
     }
 
     public function senator() {
@@ -136,5 +145,17 @@ class Member extends Model
         if ($is_exist) {
             return true;
         } return false;
+    }
+
+    public function memberStaff() {
+        return $this->hasMany(MemberStaff::class, 'member_id' , 'id');
+    }
+
+    public function senatorOfficial() {
+        return $this->belongsTo(Official::class, 'senator_id');
+    }
+
+    public function horOfficial() {
+        return $this->belongsTo(Official::class, 'hor_id');
     }
 }

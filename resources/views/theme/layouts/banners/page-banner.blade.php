@@ -36,7 +36,7 @@
     </div>
 </section> --}}
 
-<section id="slider" class="slick-wrapper clearfix include-header">{{-- .include-header --}}
+<section id="slider" class="slick-wrapper clearfix">{{-- .include-header --}}
     <div class="banner-wrapper">
         <div class="container-fluid">
             <div class="row">

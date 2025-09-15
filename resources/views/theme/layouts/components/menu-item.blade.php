@@ -1,7 +1,20 @@
-@php $page = $item->page; @endphp
+@php 
+$page = $item->page;
+$is_officer = false;
+
+if(auth()->user()) {
+    if(auth()->user()->is_not_an_admin()) {
+        $member = \App\Models\Member::where('user_id', auth()->user()->id)->first();
+        if($member->user_type == 1 || $member->user_type == 6) {
+            $is_officer = true;
+        }
+    }
+}
+@endphp
+
 @if (!empty($page) && $item->is_page_type() && $page->is_published())
     <li class="menu-item @if( url()->current() == $page->get_url() || ($page->id == 1 && url()->current() == env('APP_URL')) ) current @endif @if($item->has_sub_menus()) @endif @if(Str::contains(url()->current(), $page->get_url())) current @endif">
-        <a href="/{{$page->get_url()}}" class="menu-link">
+        <a href="{{env('APP_URL') .'/'. $page->get_url()}}" class="menu-link">
             <div>
                 @if (!empty($page->label))
                     {{ $page->label }} 
@@ -42,16 +55,23 @@
 
             </ul>
         @endif
-
     </li>
+
 
 @elseif ($item->is_external_type())
     <li class="menu-item {{ Str::contains(url()->current(), $item->uri) ? 'current' : '' }}">
-
         {{-- <a href="{{ env('APP_URL')."/".$item->uri }}" class="menu-link" target="{{ $item->target }}"><div>{{ $item->label }}</div></a> --}}
 
         @if(auth()->user())
-            <a href="{{ url($item->uri) }}" class="menu-link" target="{{ $item->target }}" @if( str_contains($item->uri, '/create') && auth()->user()->is_not_an_admin() ) style="display: none !important;" @endif><div>{{ $item->label }}</div></a>
+            <a href="{{ url($item->uri) }}" class="menu-link" target="{{ $item->target }}" 
+                @if( str_contains($item->uri, '/create') && auth()->user()->is_not_an_admin() ) style="display: none !important;" @endif 
+                @if( str_contains($item->uri, 'events') && !$is_officer && auth()->user()->is_not_an_admin()) style="display: none !important;" @endif
+                @if( str_contains($item->uri, 'reference-materials') && !$is_officer && auth()->user()->is_not_an_admin()) style="display: none !important;" @endif
+                >
+                <div>
+                    {{ $item->label }}
+                </div>
+            </a>
         @else
             <a href="{{ url($item->uri) }}" class="menu-link" target="{{ $item->target }}" @if( str_contains($item->uri, '/create') ) style="display: none !important;" @endif><div>{{ $item->label }}</div></a>
         @endif
@@ -63,6 +83,5 @@
                 @endforeach
             </ul>
         @endif
-         
     </li>
 @endif
