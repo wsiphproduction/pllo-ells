@@ -408,7 +408,7 @@
 									</span>
 								</div>
 
-								<input id="agency_logo" name="agency_logo" type="file" accept=".png, .jpg, .gif" style="display:none;" required>
+								<input id="agency_logo" name="agency_logo" type="file" accept=".png, .jpg, .gif" style="display:none;">
 
 							</div>
 						</div>

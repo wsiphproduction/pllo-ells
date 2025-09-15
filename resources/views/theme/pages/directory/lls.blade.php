@@ -26,8 +26,14 @@
 
             <div class="d-flex align-items-centerl">
 
-                <div class="row mx-2">
-                    <select class="form-select lh-1" id="filter-designation" style="height: 38px;">
+                <div class="row mx-1">
+                    <form method="get" action="{{ route('directory.lls') }}">
+                        <input class="form-control mx-2" placeholder="SEARCH" name="member_name" value="{{ request('member_name') }}"/>
+                    </form>
+                </div>
+
+                <div class="row mx-1">
+                    <select class="form-select lh-1" id="filter-designation" style="height: 38px; width: 180px;">
                         <option selected disabled>DESIGNATION</option>
                         @foreach($designations as $designation)
                         <option value="{{ $designation->id }}">{{ $designation->name }}</option>
@@ -36,7 +42,27 @@
                     </select>
                 </div>
 
-                <div class="row mx-2">
+                <div class="row mx-1">
+                    <select class="form-select lh-1" id="filter-agency" style="height: 38px; width: 180px;">
+                        <option selected disabled>AGENCY</option>
+                        @foreach($agencies as $agency)
+                        <option value="{{ $agency->id }}">{{ $agency->agency_name }}</option>
+                        @endforeach
+                        <option value="0">ALL</option>
+                    </select>
+                </div>
+
+                <div class="row mx-1">
+                    <select class="form-select lh-1 text-truncate" id="filter-cluster" style="height: 38px; width: 180px;">
+                        <option selected disabled>CLUSTER</option>
+                        @foreach($clusters as $cluster)
+                        <option value="{{ $cluster->id }}" class="text-truncate" style="width: 180px">{{ $cluster->name }}</option>
+                        @endforeach
+                        <option value="0">ALL</option>
+                    </select>
+                </div>
+
+                {{-- <div class="row mx-2">
                     <select class="form-select lh-1" id="filter-birthmonth" style="height: 38px;">
                         <option selected disabled>BIRTHMONTH</option>
                         @foreach(config('months') as $month)
@@ -44,16 +70,15 @@
                         @endforeach
                         <option value="0">ALL</option>
                     </select>
-                </div>
-                
-                <form method="get" action="{{ route('directory.lls') }}">
-                    <div class="d-flex justify-content-between align-items-center">
-                        <input class="form-control mx-2" placeholder="Search Member Name" name="member_name" value="{{ request('member_name') }}"/>
+                </div> --}}
+
+                <div class="row">
+                    <div class="d-flex justify-content-between align-items-center" style="height: fit-content;">
                         <button type="button" class="btn btn-transparent p-1" id="grid-view-btn" title="Grid View"><i class="bi-grid-fill fa-1x custom-text-primary"></i></button>
                         <button type="button" class="btn btn-transparent p-1" id="list-view-btn" title="List View"><i class="bi-list-ul fa-1x custom-text-primary"></i></button>
                         <a onclick="window.print()" type="button" class="btn btn-transparent p-1" title="Print"><i class="fa-solid fa-print fa-1x custom-text-primary"></i></a>
                     </div>
-                </form>
+                </div>
             </div>
 
         </div>
@@ -61,14 +86,14 @@
         <div id="portfolio" class="row g-4">
             
             @foreach($members as $member)
-                <article class="portfolio-item col-md-6 col-12 member-grid-view">
+                <article class="portfolio-item col-md-4 col-12 member-grid-view">
                     <div class="card mb-4 p-3 border-0">
                         <div class="row g-0 relative">
                             <div class="col-md-4" style="height: 200px;">
                                 <img src="{{ asset($member->photo) }}"
                                     onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';"
                                     class="img-fluid rounded"
-                                    style="height: 100%; width: 100%; object-fit: cover;"
+                                    style="height: 100%; width: 100%; object-fit: cover; max-width: 146px; max-height: 146px; margin-top: 10px;"
                                     alt="Proposed Bill">
                             </div>
                             <div class="col-md-8">
@@ -149,6 +174,7 @@
                         <tr>
                             <td>
                                 <img id="userPhotoDirectory"
+                                     onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';"
                                      src="{{ $member->photo ? asset('/' . $member->photo) : asset('images/user.png') }}"
                                      class="profile-pic-directory" alt="Profile Picture"
                                      style="border-radius: 12px; width: 80px;">
@@ -250,6 +276,11 @@
     <!-- form filter by designation -->
     <form action="{{ route('directory.lls') }}"  method="get" id="filter-designation-form">
         <input type="hidden" name="designation" id="designation-value-holder">
+    </form>
+
+    <!-- form filter by agency -->
+    <form action="{{ route('directory.lls') }}"  method="get" id="filter-agency-form">
+        <input type="hidden" name="agency" id="agency-value-holder">
     </form>
 
     <!-- form filter by birthmonth -->
@@ -420,7 +451,14 @@
         $('#filter-designation-form').submit();
     });
 
-    // filter by designation
+    // filter by agency
+    $('#filter-agency').on('change', function() {
+        let val = $(this).val();
+        $('#agency-value-holder').val(val);
+        $('#filter-agency-form').submit();
+    });
+
+    // filter by birthmonth
     $('#filter-birthmonth').on('change', function() {
         let val = $(this).val();
         $('#birthmonth-value-holder').val(val);

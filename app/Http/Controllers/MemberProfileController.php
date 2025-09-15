@@ -53,6 +53,10 @@ class MemberProfileController extends Controller
 
 	public function memberDashboard() {
 
+		if(!auth::user()) {
+		    return redirect()->route('home');
+		}
+		
 	    $page = new Page();
 	    $page->name = 'Member Dashboard';
 
@@ -371,6 +375,8 @@ class MemberProfileController extends Controller
 	    
 	    $birthmonth = 0;
 	    $designations = Designation::where('user_type_id', 1)->get();
+	    $agencies = Agency::where('user_type_id', 1)->get();
+	    $clusters = Cluster::all();
 	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id)
 	    						  ->where('is_verified', 1)
 	    						  ->where('user_type', 1);
@@ -397,6 +403,27 @@ class MemberProfileController extends Controller
 		        				->where('user_type', 1)
 		        				->get();
 	    	}
+	    }
+
+	    if (request('agency')) {
+	    	$agency = request('agency');
+	        $members = Member::where('user_id', '<>', Auth()->user()->id)
+	        				->where('user_type', 1)
+	        				->join('agency', 'agency.id', 'members.agency')
+	        				->where('agency.id', $agency)
+	        				->get();
+	    }
+
+	    if (request('cluster')) {
+	    	$cluster = request('cluster');
+	        $members = Member::where('user_id', '<>', Auth()->user()->id)
+	        				->where('user_type', 1)
+	        				->where(function ($query) use ($cluster) {
+        				        foreach ($cluster as $cl) {
+        				            $query->orWhere('members.cluster', 'like', "%$cl%");
+        				        }
+        				    })
+        				    ->get();
 	    }
 
 	    if (request('birthmonth')) {
@@ -441,7 +468,7 @@ class MemberProfileController extends Controller
     	    }
         }
 
-		return view('theme.pages.directory.lls', compact('page', 'members', 'designations'));
+		return view('theme.pages.directory.lls', compact('page', 'members', 'designations', 'agencies', 'clusters'));
 	}
 
 	public function plloDirectory(Request $request)
