@@ -39,14 +39,14 @@
         <div id="portfolio" class="row g-4">
             
             @foreach($members as $member)
-                <article class="portfolio-item col-md-6 col-12 member-grid-view">
+                <article class="portfolio-item col-md-4 col-12 member-grid-view">
                     <div class="card mb-4 p-3 border-0">
                         <div class="row g-0 relative">
                             <div class="col-md-4" style="height: 200px;">
                                 <img src="{{ asset($member->photo) }}"
                                     onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';"
                                     class="img-fluid rounded"
-                                    style="height: 100%; width: 100%; object-fit: cover;"
+                                    style="height: 100%; width: 100%; object-fit: cover; max-width: 146px; max-height: 146px; margin-top: 10px;"
                                     alt="Proposed Bill">
                             </div>
                             <div class="col-md-8">
@@ -102,9 +102,9 @@
                     <thead>
                         <tr class="border-0">
                             <th class="py-3 px-2 custom-primary-bg rounded-start"><small class="text-white">PICTURE</small></th>
-                            <th class="py-3 custom-primary-bg"><small class="text-white">NAME / POSITION</small></th>
-                            <th class="py-3 custom-primary-bg"><small class="text-white">AGENCY</small></th>
-                            <th class="py-3 custom-primary-bg"><small class="text-white">CLUSTER</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">NAME</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">POSITION</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">OUTPOST</small></th>
                             <th class="py-3 custom-primary-bg"><small class="text-white">NUMBER</small></th>
                             <th class="py-3 custom-primary-bg rounded-end"><small class="text-white">EMAIL ADD</small></th>
                         </tr>
@@ -114,13 +114,14 @@
                         <tr>
                             <td>
                                 <img id="userPhotoDirectory"
+                                     onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';"
                                      src="{{ $member->photo ? asset('/' . $member->photo) : asset('images/user.png') }}"
                                      class="profile-pic-directory" alt="Profile Picture"
                                      style="border-radius: 12px; width: 80px;">
                             </td>
                             <td>
                                 <span class="d-flex flex-column">
-                                    <small class="lh-1"><b class="text-capitalize cursor-pointer view-info-btn"
+                                    <small class="lh-1"><b class="text-capitalize cursor-pointer view-info-btn custom-text-primary"
                                         data-bs-toggle="modal" 
                                         data-bs-target="#viewInfoModal" 
                                         data-name="{{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }}"
@@ -132,27 +133,20 @@
                                         data-snumber="{{ $member->staff_number }}"
                                         data-semail="{{ $member->staff_email }}"
                                         >{{ $member->FullName }}</b></small>
-                                    <small class="lh-1"><i>{{ $member->designationDetails->name }}</i></small>
                                 </span>
                             </td>
                             <td>
                                 <span>
-                                    <small>{{ $member->agency }}</small>
+                                    <small>{{ $member->designationDetails->name }}</small>
                                 </span>
                             </td>
                             <td>
-                                @if(!empty($member->cluster))
-                                    @php
-                                        $cluster_arr = [];
-                                        $cluster_arr = explode('::', $member->cluster);
-                                    @endphp
-                                      
-                                    @forelse($cluster_arr as $cluster)
-                                        <span><small>{{ $member->getClusterName($cluster)->name }} <br /></small></span>
-                                    @empty
-                                        <span><small>No Cluster Details.</small></span>
-                                    @endforelse
-                                @endif
+                                <span>
+                                    <small>
+                                        PLLO
+                                        <!-- PLLO for now.. -->
+                                    </small>
+                                </span>
                             </td>
                             <td>
                                 <span>

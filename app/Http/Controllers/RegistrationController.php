@@ -92,10 +92,16 @@ class RegistrationController extends Controller
         // Validate email //
         $validator = $request->validate([
             'email' => 'required|email|unique:users',
+            'agency_logo' => 'required|file|max:5120',
+            'office_id' => 'required|file|max:5120',
         ]);
 
         if(!$validator) {
             return Redirect::back()->withInput()->withErrors($validator);
+        }
+
+        if ($request->gender < 1) {
+            return redirect()->back()->withInput()->with('error', 'Please select Gender.');
         }
 
         if ($request->password != $request->confrim_password) {
@@ -146,7 +152,11 @@ class RegistrationController extends Controller
 
         // Create new member //
         if ($request->user_type == 1 || $request->user_type == 6) {
-            $requests['cluster'] = implode("::", $request['cluster']);
+            if(!empty($request['cluster'])) {
+                $requests['cluster'] = implode("::", $request['cluster']);
+            } else {
+                return redirect()->back()->withInput()->with('error', 'Please select Cluster/s.');
+            }
         }
 
         $requests['user_id'] = $user->id;
@@ -376,6 +386,10 @@ class RegistrationController extends Controller
     }
 
     public function adminDashboard() {
+
+        if(!auth::user()) {
+            return redirect()->route('home');
+        }
 
         $page = new Page();
         $page->name = 'Admin Dashboard';
