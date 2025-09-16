@@ -33576,3 +33576,13 @@ nav.primary-menu ul.menu-container .menu-item.menu-item.sub-menu ul.sub-menu-con
   scale: 1.05;
   transition: all ease 0.2s;
 }
+
+/* Print styles */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+  section#website-content {
+    margin-top: -120px;
+  }
+}

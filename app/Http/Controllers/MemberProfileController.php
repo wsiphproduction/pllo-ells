@@ -480,7 +480,9 @@ class MemberProfileController extends Controller
 
 	    $page = new Page();
 	    $page->name = 'PLLO';
-	    
+
+	    $birthmonth = 0;
+	    $designations = Designation::where('user_type_id', 2)->get();
 	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id)
 	    					->where('is_verified', 1)
 	    					->where('user_type', 6);
@@ -492,6 +494,39 @@ class MemberProfileController extends Controller
 	                ->orWhere('lastname', 'like', "%{$name}%");
 	        });
 	    }
+
+	    if (request('gender')) {
+        		$gender = request('gender');
+        		if ($gender) {
+			        $members->where('gender', $gender)
+			            ->get();
+			    };
+	    }
+
+	    if (request('birthmonth')) {
+	    	$birthmonth = request('birthmonth');
+	    	if ($birthmonth) {
+	    		$members = Member::where('user_id', '<>', Auth()->user()->id)
+	    						->where('user_type', 6)
+		        				->where('birthdate', 'like', "%{$birthmonth}%")
+		        				->get();
+	    	}
+	    }
+
+        if (request('designation')) {
+        	$designation = request('designation');
+        	if ($designation) {
+    	        $members = Member::where('user_id', '<>', Auth()->user()->id)
+    	        				->where('user_type', 6)
+    	        				->join('designation', 'designation.id', 'members.designation')
+    	        				->where('designation.id', $designation)
+    	        				->get();
+        	} else {
+        		$members = Member::where('user_id', '<>', Auth()->user()->id)
+    	        				->where('user_type', 6)
+    	        				->get();
+        	}
+        }
 
 	    $members = $members->paginate($this->page_limit);
 
@@ -506,7 +541,7 @@ class MemberProfileController extends Controller
 		    }
 	    }
 
-		return view('theme.pages.directory.pllo', compact('page', 'members'));
+		return view('theme.pages.directory.pllo', compact('page', 'members', 'designations'));
 	}
 
 	public function senartorsDirectory(Request $request)
