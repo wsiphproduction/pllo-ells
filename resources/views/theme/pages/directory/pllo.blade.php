@@ -25,14 +25,54 @@
         <div class="col-12 mb-3 d-flex justify-content-between align-items-center">
             <h3 class="form-title text-uppercase">{{ $page->name }}</h3>
 
-            <form method="get" action="{{ route('directory.pllo') }}">
-                <div class="d-flex justify-content-between align-items-center">
-                    <input class="form-control mx-2" placeholder="Search Member Name" name="member_name" value="{{ request('member_name') }}"/>
-                    <button type="button" class="btn btn-transparent p-1" id="grid-view-btn" title="Grid View"><i class="bi-grid-fill fa-1x custom-text-primary"></i></button>
-                    <button type="button" class="btn btn-transparent p-1" id="list-view-btn" title="List View"><i class="bi-list-ul fa-1x custom-text-primary"></i></button>
-                    <a onclick="window.print()" type="button" class="btn btn-transparent p-1" title="Print"><i class="fa-solid fa-print fa-1x custom-text-primary"></i></a>
+            {{-- <form method="get" action="{{ route('directory.pllo') }}">
+                <input class="form-control mx-2" placeholder="Search Member Name" name="member_name" value="{{ request('member_name') }}"/>
+            </form> --}}
+
+            <div class="d-flex justify-content-between align-items-center no-print">
+
+                <div class="row mx-2">
+                    <select class="form-select lh-1" id="filter-outpost" style="height: 38px;">
+                        <option selected disabled>OUTPOST</option>
+                        <option>---</option>
+                    </select>
                 </div>
-            </form>
+
+                <div class="row mx-1">
+                    <select class="form-select lh-1" id="filter-designation" style="height: 38px; width: 180px;">
+                        <option selected disabled>DESIGNATION</option>
+                        @foreach($designations as $designation)
+                        <option value="{{ $designation->id }}">{{ $designation->name }}</option>
+                        @endforeach
+                        <option value="0">ALL</option>
+                    </select>
+                </div>
+
+                <div class="row mx-2">
+                    <select class="form-select lh-1" id="filter-birthmonth" style="height: 38px;">
+                        <option selected disabled>BIRTHMONTH</option>
+                        @foreach(config('months') as $month)
+                        <option value="{{ $month }}">{{ $month }}</option>
+                        @endforeach
+                        <option value="0">ALL</option>
+                    </select>
+                </div>
+
+                <div class="row mx-2">
+                    <select class="form-select lh-1" id="filter-gender" style="height: 38px;">
+                        <option selected disabled>GENDER</option>
+                        <option value="1">MALE</option>
+                        <option value="2">FEMALE</option>
+                        <option value="3">OTHERS</option>
+                        <option value="4">PREFER NOT TO SAY</option>
+                        <option value="0">ALL</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn btn-transparent p-1" id="grid-view-btn" title="Grid View"><i class="bi-grid-fill fa-1x custom-text-primary"></i></button>
+                <button type="button" class="btn btn-transparent p-1" id="list-view-btn" title="List View"><i class="bi-list-ul fa-1x custom-text-primary"></i></button>
+                <a onclick="window.print()" type="button" class="btn btn-transparent p-1" title="Print"><i class="fa-solid fa-print fa-1x custom-text-primary"></i></a>
+            </div>
 
         </div>
 
@@ -191,6 +231,21 @@
       </div>
     </div>
 
+    <!-- form filter by designation -->
+    <form action="{{ route('directory.pllo') }}" method="get" id="filter-designation-form">
+        <input type="hidden" name="designation" id="designation-value-holder">
+    </form>
+
+    <!-- form filter by designation -->
+    <form action="{{ route('directory.pllo') }}" method="get" id="filter-gender-form">
+        <input type="hidden" name="gender" id="gender-value-holder">
+    </form>
+
+    <!-- form filter by designation -->
+    <form action="{{ route('directory.pllo') }}" method="get" id="filter-birthmonth-form">
+        <input type="hidden" name="birthmonth" id="birthmonth-value-holder">
+    </form>
+
     <!-- View Information -->
     <div class="modal fade" id="viewInfoModal" tabindex="-1" aria-labelledby="viewInfoModalLabel">
       <div class="modal-dialog modal-dialog-centered">
@@ -283,6 +338,27 @@
     $('#list-view-btn').on('click', function() {
         $('.member-grid-view').hide();
         $('.member-list-view').show();
+    });
+
+    // filter by designation
+    $('#filter-designation').on('change', function() {
+        let val = $(this).val();
+        $('#designation-value-holder').val(val);
+        $('#filter-designation-form').submit();
+    });
+
+    // filter by gender
+    $('#filter-gender').on('change', function() {
+        let val = $(this).val();
+        $('#gender-value-holder').val(val);
+        $('#filter-gender-form').submit();
+    });
+
+    // filter by birthmonth
+    $('#filter-birthmonth').on('change', function() {
+        let val = $(this).val();
+        $('#birthmonth-value-holder').val(val);
+        $('#filter-birthmonth-form').submit();
     });
 
     // view info

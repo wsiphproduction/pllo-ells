@@ -24,7 +24,7 @@
         <div class="col-12 mb-3 d-flex justify-content-between align-items-center">
             <h3 class="form-title text-uppercase">{{ $page->name }}</h3>
 
-            <div class="d-flex align-items-centerl">
+            <div class="d-flex align-items-centerl no-print">
 
                 <div class="row mx-1">
                     <form method="get" action="{{ route('directory.lls') }}">
@@ -213,7 +213,7 @@
                             </td>
                             <td>
                                 <span>
-                                    <small>{{ $member->agency }}</small>
+                                    <small>{{ $member->full_agency_name }}</small>
                                 </span>
                             </td>
                             <td>

@@ -23,7 +23,7 @@
 
 @endphp
 
-<section id="footer-header" style="background-color: #f7f7f7 !important; border-top: 1px solid #e7e7e7; padding-top: 40px; padding-bottom: 25px;">
+<section id="footer-header" style="background-color: #f7f7f7 !important; border-top: 1px solid #e7e7e7; padding-top: 40px; padding-bottom: 25px;" class="no-print">
 	<div class="wrapper" style="margin-left: 7%; margin-right: 7%;">
 		<div class="row">
 			<div class="col-12 col-md-6">
@@ -31,11 +31,12 @@
 					<img src="{{ asset('theme/addons/images/logos/pllo-bp.png') }}" width="160" style="height: 100%; margin-right: 14px;">
 					<div>
 						<p class="text-fade">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat
+							Our office serves as a bridge between government agencies and stakeholders, ensuring smooth communication and efficient coordination. We are committed to providing transparent, reliable, and timely assistance in addressing government-related concerns.
 						</p>
+						<br />
 						<p class="text-fade">
-							<img src="theme/addons/images/logos/fb.png" width="20" style="height: 100%; margin-right: 5px;">
-							Lorem ipsum dolor sit amet, consectetur adipiscing elit
+							<img src="{{ asset('theme/addons/images/logos/fb.png') }}" width="20" style="height: 100%; margin-right: 5px;">
+							Stay connected with us for updates and announcements — follow our official Facebook page for the latest news and information.
 						</p>
 					</div>
 				</div>
@@ -169,8 +170,9 @@
 	</div>
 </section>
 	
-
+<div class="no-print">
 {!! $footerContents !!}
+</div>
 
 
 <!-- Subscribe Form modal

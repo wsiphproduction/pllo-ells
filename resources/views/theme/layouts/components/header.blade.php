@@ -1,6 +1,6 @@
 <!-- Utility Bar
 ============================================= -->
-<div id="utility-bar" class="w-100">
+<div id="utility-bar" class="w-100 no-print">
     <div class="container">
         <div class="d-flex justify-content-between align-items-center">
             <ul class="navbar-nav d-flex flex-row">
@@ -112,7 +112,7 @@
 
 <!-- Header
 ============================================= -->
-<header id="header" class="header-size-sm transparent-header floating-header" data-sticky-shrink="false">
+<header id="header" class="header-size-sm transparent-header floating-header no-print" data-sticky-shrink="false">
 	<div id="header-wrap">
 
 
