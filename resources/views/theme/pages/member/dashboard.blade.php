@@ -2151,7 +2151,7 @@
                                                                 <img class="rounded border-none shadow" width="120" style="border-radius: 100%;
                                                                                     min-width: 120px;
                                                                                     height: 120px;
-                                                                                    background-image: url('{{ $saved_contact->member->photo ? asset('/' . $saved_contact->member->photo) : asset('images/user.png') }}');
+                                                                                    background-image: url('{{ !empty($saved_contact->member->photo) ? asset('/' . $saved_contact->member->photo) : asset('images/user.png') }}');
                                                                                     background-size: cover;
                                                                                     background-repeat: no-repeat;
                                                                                     background-position: center;
@@ -2215,7 +2215,7 @@
                                                                 <img class="rounded border-none shadow" width="120" style="border-radius: 100%;
                                                                                     min-width: 120px;
                                                                                     height: 120px;
-                                                                                    background-image: url('{{ $saved_contact_official->official->image_url ? asset('/' . $saved_contact_official->official->image_url) : asset('images/user.png') }}');
+                                                                                    background-image: url('{{ !empty($saved_contact_official->official->image_url) ? asset('/' . $saved_contact_official->official->image_url) : asset('images/user.png') }}');
                                                                                     background-size: cover;
                                                                                     background-repeat: no-repeat;
                                                                                     background-position: center;
