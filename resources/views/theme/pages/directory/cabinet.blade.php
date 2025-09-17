@@ -37,14 +37,14 @@
         <div id="portfolio" class="row g-4">
             
             @foreach($members as $member)
-                <article class="portfolio-item col-md-6 col-12 member-grid-view">
+                <article class="portfolio-item col-md-4 col-12 member-grid-view">
                     <div class="card mb-4 p-3 border-0">
                         <div class="row g-0 relative">
                             <div class="col-md-4" style="height: 200px;">
                                 <img src="{{ asset($member->image_url) }}"
                                     onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';"
                                     class="img-fluid rounded"
-                                    style="height: 100%; width: 100%; object-fit: cover;"
+                                    style="height: 100%; width: 100%; object-fit: cover; max-width: 146px; max-height: 146px; margin-top: 10px"
                                     alt="Proposed Bill">
                             </div>
                             <div class="col-md-8">
@@ -54,6 +54,7 @@
                                         data-bs-target="#viewInfoModal" 
                                         data-name="{{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }}"
                                         data-position="{{ $member->position }}"
+                                        data-address="{{ $member->resident_address }}"
                                         data-number="{{ $member->office_cellphone }}"
                                         data-email="{{ $member->email }}"
                                         data-has_staff="{{ $member->has_staff }}"
@@ -93,7 +94,10 @@
                     <thead>
                         <tr class="border-0">
                             <th class="py-3 px-2 custom-primary-bg rounded-start"><small class="text-white">PICTURE</small></th>
-                            <th class="py-3 custom-primary-bg"><small class="text-white">NAME / POSITION</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">NAME</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">AGENCY</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">APPOINTMENT SECRETARY</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">ADDRESS</small></th>
                             <th class="py-3 custom-primary-bg"><small class="text-white">NUMBER</small></th>
                             <th class="py-3 custom-primary-bg rounded-end"><small class="text-white">EMAIL ADD</small></th>
                         </tr>
@@ -114,6 +118,7 @@
                                         data-bs-target="#viewInfoModal" 
                                         data-name="{{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }}"
                                         data-position="{{ $member->position }}"
+                                        data-address="{{ $member->resident_address }}"
                                         data-number="{{ $member->office_cellphone }}"
                                         data-email="{{ $member->email }}"
                                         data-has_staff="{{ $member->has_staff }}"
@@ -123,6 +128,23 @@
                                         >{{ $member->FullName }}</b></small>
                                     @if(!empty($member->position))
                                     <small class="lh-1"><i>{{ $member->position }}</i></small>
+                                    @endif
+                                </span>
+                            </td>
+                            <td>
+                                <span>
+                                    <small>PH</small>
+                                </span>
+                            </td>
+                            <td>
+                                <span>
+                                    <small>Jake U. Gordon</small>
+                                </span>
+                            </td>
+                            <td>
+                                <span>
+                                    @if($member->resident_address)
+                                    <small>{{ $member->resident_address }}</small>
                                     @endif
                                 </span>
                             </td>
@@ -210,7 +232,11 @@
                                 <td><span class="view-info-position text-capitalize"></span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Contact Number:</span></td>
+                                <td><span class="profile-label" style="text-wrap-mode: nowrap;">Office Address:</span></td>
+                                <td><small id="view-info-address"></small></td>
+                            </tr>
+                            <tr>
+                                <td><span class="profile-label" style="text-wrap-mode: nowrap;">Contact Number:</span></td>
                                 <td><span id="view-info-number"></span></td>
                             </tr>
                             <tr>
@@ -226,6 +252,10 @@
                             <tr>
                                 <td><span class="profile-label">Name:</span></td>
                                 <td><span class="view-info-sname"></span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="profile-label">Landline No. :</span></td>
+                                <td><span id="view-info-slandline"></span></td>
                             </tr>
                             <tr>
                                 <td><span class="profile-label">Contact Number:</span></td>
@@ -272,6 +302,7 @@
 
         let name = $(this).attr('data-name');
         let position = $(this).attr('data-position');
+        let address = $(this).attr('data-address');
         let number = $(this).attr('data-number');
         let email = $(this).attr('data-email');
 
@@ -292,6 +323,7 @@
         $('.view-info-name').text(name);
         $('.view-info-position').text(position);
         $('#view-info-number').text(number);
+        $('#view-info-address').text(address);
         $('#view-info-email').text(email);
 
         $('.view-info-sname').text(sname);

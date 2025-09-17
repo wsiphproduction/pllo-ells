@@ -34,7 +34,9 @@
                 <div class="row mx-2">
                     <select class="form-select lh-1" id="filter-outpost" style="height: 38px;">
                         <option selected disabled>OUTPOST</option>
-                        <option>---</option>
+                        <option>OSEC</option>
+                        <option>HREP</option>
+                        <option>SENATE</option>
                     </select>
                 </div>
 
@@ -338,6 +340,11 @@
     $('#list-view-btn').on('click', function() {
         $('.member-grid-view').hide();
         $('.member-list-view').show();
+    });
+
+    // filter by designation
+    $('#filter-outpost').on('change', function() {
+        location.reload();
     });
 
     // filter by designation
