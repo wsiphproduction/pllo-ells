@@ -66,6 +66,9 @@
 										<li class="nav-item" role="presentation">
 											<button class="nav-link" id="tab-confirmation-border-tab" data-bs-toggle="pill" data-bs-target="#confirmation-border" type="button" role="tab" aria-controls="tab-confirmation-border" aria-selected="false"><small><b>EMAIL CONFIRMATION</b></small></button>
 										</li>
+										<li class="nav-item" role="presentation">
+											<button class="nav-link" id="tab-update-border-tab" data-bs-toggle="pill" data-bs-target="#update-border" type="button" role="tab" aria-controls="tab-update-border" aria-selected="false"><small><b>UPDATE REQUESTS</b></small></button>
+										</li>
 									</ul>
 
 									<div class="tab-content mb-3 relative">
@@ -239,6 +242,61 @@
 											</table>	
 
 										</div>
+
+										{{-- UPDATE REQUESTS TAB --}}
+										<div class="tab-pane fade" id="update-border" role="tabpanel" aria-labelledby="tab-update-border-tab" tabindex="0">
+											<table id="updateRequestTable" class="table table-hover table-striped table-bordered">
+												<thead class="bg-dark text-white">
+												<tr>
+													<th width="20%"><b>Name</b></th>
+													<th width="45%"><b>Modify To</b></th>
+													<th width="20%"><b>Date/Time Requested</b></th>
+													<th width="15%"><b>Action</b></th>
+												</tr>
+												</thead>
+												<tbody>
+													@forelse($cluster_updates as $cluster_update)
+														<tr>
+															<td>
+																<small>{{ $cluster_update->firstname .' '. $cluster_update->lastname }}</small>
+															</td>
+															@php
+																$clusters = explode('::',$cluster_update->cluster );
+															@endphp
+															<td>
+																@foreach($clusters as $cluster)
+																<small>
+																	{{ \App\Models\ClusterUpdateHolder::getClusterName($cluster)->name }}
+																</small>
+																<br />
+																@endforeach
+															</td>
+															<td>
+																<small>{{ $cluster_update->cls_created_at }}</small>
+															</td>
+															<td>
+																<form action="{{ route('admin.update-request-approve', $cluster_update->member_id) }}" method="post" >
+																	@csrf
+																	<button class="btn btn-sm btn-success">
+																		Approve
+																	</button>
+
+																	<input type="hidden" name="data_holder_id" value="{{ $cluster_update->cls_id }}">
+																	<input type="hidden" name="cluster" value="{{ $cluster_update->cls_cluster }}">
+																	<input type="hidden" name="member_id" value="{{ $cluster_update->member_id }}">
+
+																</form>
+															</td>
+														</tr>
+													@empty
+														<tr>
+															<td colspan="4">No update request found.</td>
+														</tr>
+													@endforelse
+												</tbody>
+											</table>
+										</div>
+
 									</div>
 
 								</div>
@@ -386,6 +444,10 @@
 	    });
 
 	    $('#registrationsProcessingTable').DataTable({
+			// addons here
+	    });
+
+	    $('#updateRequestTable').DataTable({
 			// addons here
 	    });
 	} );

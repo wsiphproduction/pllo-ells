@@ -10,9 +10,10 @@ use Illuminate\Support\Facades\Http;
 
 use App\Helpers\Setting;
 
+use App\Mail\RegisterMail;
+use App\Mail\ClusterModifyMail;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
-use App\Mail\RegisterMail;
 use App\Mail\RegisterConfirmationMail;
 
 use App\Models\Hor;
@@ -33,6 +34,7 @@ use App\Models\SavedContact;
 use App\Models\Custom\Event;
 use App\Models\MessagingNumber;
 use App\Models\SavedContactStaff;
+use App\Models\ClusterUpdateHolder;
 use App\Models\SavedContactOfficial;
 use App\Models\PolicyReformBookmark;
 use App\Models\Custom\EventParticipant;
@@ -117,11 +119,6 @@ class MemberProfileController extends Controller
 
 	    $user->email = $request['email'];
 
-	    // Cluster Algo //
-	    if ($member->user_type == 1 || $member->user_type == 6) {
-	         $member->cluster = implode("::", $request['cluster']);
-	    }
-
 	    $member->email = $request['email'];
 	    $member->alt_email = $request['alt_email'];
 	    $member->firstname = $request['firstname'];
@@ -183,6 +180,26 @@ class MemberProfileController extends Controller
                     $memberStaff->photo = $staff['photo'] ?? $memberStaff->photo;
 	    	        $memberStaff->save();
 	    	    }
+	    }
+
+	    // Cluster Algo //
+	    if($member->user_type == 1 || $member->user_type == 6) {
+
+	    	if($member->cluster != $request['cluster']) {
+	    		// email send condition
+	    		$admin = User::find(1);
+	    		Mail::to($admin->email)->send(new ClusterModifyMail(Setting::info(), $admin));
+
+	    		// store temp data
+	    		$cluste_data = new ClusterUpdateHolder;
+	    		$cluste_data->member_id = $member->id;
+	    		$cluste_data->cluster = implode("::", $request['cluster']);
+	    		$cluste_data->save();
+
+	    	} else {
+	         	$member->cluster = implode("::", $request['cluster']);
+	    	}
+
 	    }
 
 	    $member->save();

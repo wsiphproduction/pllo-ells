@@ -440,6 +440,9 @@ Route::get('/admin-dashboard', [RegistrationController::class, 'adminDashboard']
 Route::post('/admin-registration-approve', [RegistrationController::class, 'adminRegistrationApprove'])->name('admin.registration.approve');
 Route::post('/admin-registration-delete', [RegistrationController::class, 'adminRegistrationDelete'])->name('admin.registration.delete');
 
+// Update Requests Approval
+Route::post('/update-request-approval', [MaintenanceController::class, 'UpdateRequstApprove'])->name('admin.update-request-approve');
+
 // MAINTENANCE
 Route::get('/maintenance-dashboard', [MaintenanceController::class, 'maintenanceDashboard'])->name('maintenance.dashboard');
 

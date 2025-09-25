@@ -210,7 +210,7 @@
                         <!-- agency trigger tab -->
                         @if(!empty($memberDetails->agency) && $memberDetails->user_type != 2)
                         <li class="nav-item" role="presentation">
-                            <button class="nav-link" id="tab-agency-border-tab" data-bs-toggle="pill" data-bs-target="#agency-border" type="button" role="tab" aria-controls="tab-agency-border" aria-selected="false" onclick="showProfileControlBtns()"><small><b>AGENCY PROFILE</b></small></button>
+                            <button class="nav-link" id="tab-agency-border-tab" data-bs-toggle="pill" data-bs-target="#agency-border" type="button" role="tab" aria-controls="tab-agency-border" aria-selected="false" onclick="hideProfileControlBtns()"><small><b>AGENCY PROFILE</b></small></button>
                         </li>
                         @endif 
 
@@ -687,8 +687,10 @@
                                             <div class="mb-2">
                                                 @php
                                                     $cluster_arr = explode('::', $memberDetails->cluster);
+                                                    $cluster_arr_old = implode(',', $cluster_arr);
                                                 @endphp
-                                                <select class="form-select" multiple aria-label="multiple select example" name="cluster[]">
+                                                <input type="hidden" id="cluster_old_value_holder" name="cluster_old_value_holder" value="{{$cluster_arr_old}}">
+                                                <select class="form-select" id="cluster_drp" multiple aria-label="multiple select example" name="cluster[]">
                                                     @foreach($clustersList as $clusterItem)
                                                     <option value="{{ $clusterItem->id }}" @if(in_array($clusterItem->id, $cluster_arr)) selected @endif>{{ $clusterItem->name }}</option>
                                                     @endforeach
@@ -2440,13 +2442,22 @@
                       </div>
                     </div>
 
-                    <!-- Send Message Modal -->
-                    <div class="modal fade" id="sendMessageModal" tabindex="-1" aria-labelledby="sendMessageModalLabel" aria-hidden="true">
+                    <!-- Popup for edit cluster Modal -->
+                    <div class="modal fade" id="editClusterMessageModal" tabindex="-1" aria-labelledby="editClusterMessageModalLabel">
                       <div class="modal-dialog modal-dialog-centered">
                         <div class="modal-content">
                           <div class="modal-header">
-                            <h5 class="modal-title" id="sendMessageModalLabel">Coming Soon..</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5 class="modal-title" id="editClusterMessageModalLabel">Cluster Modification Detected</h5>
+                            <button type="button" class="btn-close clusterModifyClose" data-bs-dismiss="modal" aria-label="Close"></button>
+                          </div>
+                          <div class="modal-body">
+                            <p>
+                              You have modify yor Cluster, it will <b class="text-success">require admin approval</b> before being updated if data saving process is verified. Please wait for confirmation on your email if data saving is success. Thank you.
+                            </p>
+                            <br />
+                          </div>
+                          <div class="modal-footer d-flex justify-content-center">
+                              <button class="btn btn-success clusterModifyClose" data-bs-dismiss="modal">Got it!</button>
                           </div>
                         </div>
                       </div>
@@ -2470,6 +2481,9 @@
             const photoInput = $('#photo');
             const imagePreviewLogo = $('#imagePreviewLogo');
             const imagePreviewPhoto = $('#imagePreviewPhoto');
+
+            // for cluster modal
+            let shouldSubmit = false;
 
             // Listen for changes on the file input on Logo
             logoInput.on('change', function() {
@@ -2575,16 +2589,51 @@
             // catch tab hidden value
             let tab = $('#current-tab').val();
 
-            if(tab == 1) {
-                $('#profile_update_form').submit();
-            } else if(tab == 3) {
-                $('#senator_update_form').submit();
-            } else if(tab == 4) {
-                $('#hor_update_form').submit();
-            } else {
-                // nothing for now.
-            }
+            // check if cluster modified then popup
+            let pop = this.popupMessageEditCluster();
 
+            // If user clicks confirm button
+            $(".clusterModifyClose").on("click", function () {
+                shouldSubmit = true;
+            });
+
+            // process popup
+            if(pop) {
+                $("#editClusterMessageModal").on("hidden.bs.modal", function () {
+                    if(tab == 1) {
+                        $('#profile_update_form').submit();
+                    } else if(tab == 3) {
+                        $('#senator_update_form').submit();
+                    } else if(tab == 4) {
+                        $('#hor_update_form').submit();
+                    } else {
+                        // nothing for now.
+                    }
+                });
+            } else {
+                if(tab == 1) {
+                    $('#profile_update_form').submit();
+                } else if(tab == 3) {
+                    $('#senator_update_form').submit();
+                } else if(tab == 4) {
+                    $('#hor_update_form').submit();
+                } else {
+                    // nothing for now.
+                }
+            }
+        }
+
+        function popupMessageEditCluster() {
+            let tabclusterold = $('#cluster_old_value_holder').val();
+            let tabcluster = $('#cluster_drp').val();
+
+            if (tabclusterold != tabcluster) {
+                let editclustermodal = $('#editClusterMessageModal');
+                editclustermodal.modal('show');
+                return true;
+            } else {
+                return false;
+            }
         }
 
         // trash a contact
