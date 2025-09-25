@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Hash;
 use App\Mail\RegisterMail;
 use App\Mail\RegisterConfirmationMail;
+use App\Mail\UpdateRequestApproveMail;
 
 use App\Models\Hor;
 use App\Models\User;
@@ -28,6 +29,7 @@ use App\Models\SubAgency;
 use App\Models\Designation;
 use App\Models\Custom\Event;
 use App\Models\MessagingNumber;
+use App\Models\ClusterUpdateHolder;
 use App\Models\PolicyReformCategory;
 use App\Models\Custom\EventParticipant;
 
@@ -251,5 +253,21 @@ class MaintenanceController extends Controller
 	    $category->delete();
 
 	    return redirect()->route('maintenance.policy.reform')->with('error', 'Category deleted.');
+	}
+
+	public function UpdateRequstApprove(Request $request) {
+
+		$member = Member::find($request->member_id);
+		$member->cluster = $request->cluster;
+		$member->save();
+
+		$cluster_update_holder = ClusterUpdateHolder::find($request->data_holder_id);
+		$cluster_update_holder->status = 1;
+		$cluster_update_holder->save();
+
+		// send email to user for approved notification
+		Mail::to($member->email)->send(new UpdateRequestApproveMail(Setting::info(), $member));
+
+		return back()->with('success', 'Cluster update request has been approved. Email sent to user for notification. ');
 	}
 }

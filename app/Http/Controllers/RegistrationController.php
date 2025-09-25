@@ -20,17 +20,18 @@ use App\Models\User;
 use App\Models\Page;
 use App\Models\Gender;
 use App\Models\Agency;
+use App\Models\Member;
+use App\Models\Cluster;
 use App\Models\Senator;
 use App\Models\Official;
-use App\Models\SubAgency;
 use App\Models\UserType;
-use App\Models\Cluster;
+use App\Models\SubAgency;
 use App\Models\Designation;
-use App\Models\Member;
 use App\Models\MemberStaff;
-use App\Models\MessagingNumber;
-use App\Models\Custom\EventParticipant;
 use App\Models\Custom\Event;
+use App\Models\MessagingNumber;
+use App\Models\ClusterUpdateHolder;
+use App\Models\Custom\EventParticipant;
 
 use DB;
 use Auth;
@@ -387,7 +388,7 @@ class RegistrationController extends Controller
 
     public function adminDashboard() {
 
-        if(!auth::user()) {
+        if(!auth::user() || auth::user()->is_not_an_admin()) {
             return redirect()->route('home');
         }
 
@@ -424,10 +425,15 @@ class RegistrationController extends Controller
                         ->get()
                         ->take(5);
 
+        $cluster_updates = ClusterUpdateHolder::join('members as m', 'cluster_update_holder.member_id', '=', 'm.id')
+                            ->where('cluster_update_holder.status', 0)
+                            ->select('cluster_update_holder.id as cls_id','cluster_update_holder.cluster as cls_cluster','cluster_update_holder.created_at as cls_created_at', 'cluster_update_holder.*', 'm.*')
+                            ->get();
+
         $month = date('F');
         $celebrants = Member::where('birthdate', 'like', "%$month%" )->get();
-// dd($celebrants);
-        return view('theme.pages.admin.dashboard', compact('page', 'registrations_pending', 'registrations_approve', 'registrations_process', 'upcoming_events', 'celebrants'));
+        // dd($celebrants);
+        return view('theme.pages.admin.dashboard', compact('page', 'registrations_pending', 'registrations_approve', 'registrations_process', 'upcoming_events', 'celebrants', 'cluster_updates'));
 
     }
 
