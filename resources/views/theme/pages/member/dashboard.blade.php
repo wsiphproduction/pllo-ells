@@ -2452,7 +2452,7 @@
                           </div>
                           <div class="modal-body">
                             <p>
-                              You have modify yor Cluster, it will <b class="text-success">require admin approval</b> before being updated if data saving process is verified. Please wait for confirmation on your email if data saving is success. Thank you.
+                              You have modify your Cluster, it will <b class="text-success">require admin approval</b> before being updated if data saving process is verified. Please wait for confirmation on your email if data saving is success. Thank you.
                             </p>
                             <br />
                           </div>
