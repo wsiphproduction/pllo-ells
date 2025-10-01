@@ -25,6 +25,16 @@
 				<div class="col-12 mb-3 d-flex justify-content-between align-items-center">
 					<h3 class="form-title text-uppercase">{{ $page->name }}</h3>
 					<a href="{{ route('events.create') }}" class="btn btn-success" @if(Auth::user()->role_id != 1) hidden @endif><i class="fa fa-plus">&nbsp;</i> Create New Event</a>
+
+					<!-- filter cluster -->
+					<select class="form-select lh-1" id="filter-cluster" style="height: 38px; width: 180px;">
+					    <option selected disabled>CLUSTER</option>
+					    @foreach($clusters as $cluster)
+					    <option value="{{ $cluster->id }}">{{ $cluster->name }}</option>
+					    @endforeach
+					    <option value="0">ALL</option>
+					</select>
+
 				</div>
 
 				<div class="col-12 mb-3">
@@ -124,7 +134,23 @@
 		</div>
 
 	</section>
+
+	<!-- form filter by designation -->
+    <form action="{{ route('events.index') }}" method="get" id="filter-cluster-form">
+        <input type="hidden" name="cluster" id="cluster-value-holder">
+    </form>
+
 @endsection
 
 @section('pagejs')
+
+<script>
+	// filter by designation
+	$('#filter-cluster').on('change', function() {
+	    let val = $(this).val();
+	    $('#cluster-value-holder').val(val);
+	    $('#filter-cluster-form').submit();
+	});
+</script>
+
 @endsection

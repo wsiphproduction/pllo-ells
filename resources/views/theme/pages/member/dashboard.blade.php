@@ -809,15 +809,20 @@
                                                                         </div>
                                                                         <div class="col-6" style="padding-left: 0px;">
                                                                             <div class="d-flex">
+
+                                                                                @php
+                                                                                    $monthCurrent = explode(' ', $staff->birthday);
+                                                                                @endphp
+
                                                                                 <select class="form-select" aria-label="select month" name="staff[{{$index}}][month]" style="width: 70%" required>
                                                                                     <option @if($month == 0) selected @endif value="0">BIRTHMONTH</option>
                                                                                     @if(!empty($staff->birthday))
                                                                                         @foreach(Config::get('months') as $key => $month)
-                                                                                            <option @if($month == $month) selected @endif value="{{ $key }}">{{ $month }}</option>
+                                                                                            <option @if($month == $monthCurrent[0]) selected @endif value="{{ $month }}">{{ $month }}</option>
                                                                                         @endforeach
                                                                                     @else
                                                                                         @foreach(Config::get('months') as $key => $month)
-                                                                                            <option value="{{ $key }}">{{ $month }}</option>
+                                                                                            <option value="{{ $month }}">{{ $month }}</option>
                                                                                         @endforeach
                                                                                     @endif
                                                                                 </select>

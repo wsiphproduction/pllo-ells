@@ -463,9 +463,10 @@ class RegistrationController extends Controller
     // Email confirmation
     public function resendRegisterConfirmation(Request $request) {
 
-        $member = Member::find($request->reg_id);
-        $user = User::find($member->user_id);
+        // find user
+        $user = User::find($request->reg_id);
 
+        // resend email
         Mail::to($user->email)->send(new RegisterConfirmationMail(Setting::info(), $user));
 
         return back()->with('success', 'Email Confirmation Resent.');
