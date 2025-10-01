@@ -30,6 +30,8 @@ class EventController extends Controller
         $page = new Page();
         $page->name = 'Upcoming Events';
 
+        $clusters = Cluster::all();
+
         // $events = Event::whereDate('date', '>=', Carbon::today())->orderBy('created_at', 'desc')->paginate($this->page_limit);
 
         $events = Event::whereDate('date', '>=', Carbon::today())
@@ -40,11 +42,20 @@ class EventController extends Controller
                             ->whereTime('end_time', '>=', Carbon::now()->toTimeString());
                     });
             })
-            ->orderBy('created_at', 'desc')
-            ->paginate($this->page_limit);
+            ->orderBy('created_at', 'desc');
+
+        if (request('cluster')) {
+            $cluster = request('cluster');
+            $events->where(function ($query) {
+                $cluster = request('cluster');
+                $query->where('event_cluster_id', $cluster);
+            });
+        }
+
+        $events = $events->paginate($this->page_limit);
 
 
-        return view('theme.pages.events.index', compact('page', 'events'));
+        return view('theme.pages.events.index', compact('page', 'events', 'clusters'));
     }
 
     public function previous(){
@@ -70,11 +81,13 @@ class EventController extends Controller
         //     ->orderBy('created_at', 'desc')
         //     ->paginate($this->page_limit);
 
+        $clusters = Cluster::all();
+
         $memberId = Auth::check()
             ? \App\Models\Member::where('user_id', Auth::id())->value('id')
             : 0;
 
-        $events = Event::whereDate('date', '<=', Carbon::today())
+        $events = Event::query()->whereDate('date', '<=', Carbon::today())
             ->where(function ($query) {
                 $query->whereDate('date', '<', Carbon::today())
                     ->orWhere(function ($q) {
@@ -91,11 +104,20 @@ class EventController extends Controller
                         ->where('status', 1); // or match your condition
                 });
             })
-            ->orderBy('created_at', 'desc')
-            ->paginate($this->page_limit);
+            ->orderBy('created_at', 'desc');
+            
+        if (request('cluster')) {
+            $cluster = request('cluster');
+            $events->where(function ($query) {
+                $cluster = request('cluster');
+                $query->where('event_cluster_id', $cluster);
+            });
+        }
+
+        $events = $events->paginate($this->page_limit);
 
 
-        return view('theme.pages.events.previous', compact('page', 'events'));
+        return view('theme.pages.events.previous', compact('page', 'events', 'clusters'));
     }
 
     public function create(){

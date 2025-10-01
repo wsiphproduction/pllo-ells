@@ -132,8 +132,9 @@ class MemberProfileController extends Controller
 
 	    if($member->user_type < 5) {
 	    	foreach ($request->staff as $index => $staff) {
-
-	    			if(empty($staff['firstname']) || empty($staff['lastname']) || empty($staff['day']) == 0) {
+	    		// $test = empty($staff['firstname']);
+	    			// dd($request->staff);
+	    			if(empty($staff['firstname']) || empty($staff['lastname']) || $staff['day'] == 0) {
 	    				return back()->with('error', ('Staff details must be completed.'));
 	    			}
 
