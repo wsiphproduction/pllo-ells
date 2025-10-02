@@ -122,14 +122,12 @@
                                         data-sname4="{{ $member->staff_name4 }}"
                                         data-snumber4="{{ $member->staff_number4 }}"
                                         data-semail4="{{ $member->staff_email4 }}"
-                                    >{{ $member->fullName }}</h6>
+                                    >{{ $member->full_agency_name }}</h6>
                                     <ul class="list-unstyled mb-2 small">
-                                        <li><i class="bi-person me-2"></i>{{ $member->full_designation_name }}</li>
-                                        <li><i class="bi-building me-2"></i>{{ $member->full_agency_name }}</li>
-                                        <li><i class="bi-phone me-2"></i>{{ $member->contact_number }}</li>
-                                        <li><i class="bi-envelope me-2"></i>{{ $member->email }}</li>
+                                        <li class="text-capitalize"><i class="bi-person me-2"></i>{{ $member->fullName }}</li>
+                                        <li><i class="bi-briefcase me-2"></i>{{ $member->full_designation_name }}</li>
                                         <li>
-                                            <i class="bi-x-diamond me-2"></i>
+                                            <i class="bi-building me-2"></i>
                                             <a class="text-decoration-none" data-bs-toggle="collapse" href="#cluster-{{ $member->id }}" role="button" aria-expanded="false" aria-controls="cluster-{{ $member->id }}">
                                                 Show Clusters
                                             </a>
@@ -140,6 +138,8 @@
                                                 </div>
                                             </div>
                                         </li>
+                                        <li><i class="bi-phone me-2"></i>{{ $member->contact_number }}</li>
+                                        <li><i class="bi-envelope me-2"></i>{{ $member->email }}</li>
                                     </ul>
                                 </div>
                             </div>
