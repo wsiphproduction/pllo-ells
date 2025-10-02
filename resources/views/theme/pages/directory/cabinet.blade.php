@@ -61,16 +61,28 @@
                                         data-sname="{{ $member->staff_name }}"
                                         data-snumber="{{ $member->staff_number }}"
                                         data-semail="{{ $member->staff_email }}"
-                                    >
+                                    >{{ ($member->position == 'president') ? 'Pres.' : '' }}
+                                    {{ ($member->position == 'vice-president') ? 'Vice Pres.' : '' }}
                                         {{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }} 
                                     </h6>
                                     <ul class="list-unstyled mb-2 small">
-                                        <li class="text-capitalize"><i class="bi-person me-2"></i>{{ $member->position }}</li>
+                                        <li class="text-capitalize"><i class="bi-buildings-fill me-2" style="opacity: .7;"></i>
+                                            {{ ($member->position == 'president') ? 'President of the Phillipines' : '' }}
+                                            {{ ($member->position == 'vice-president') ? 'Vice President of the Phillipines' : '' }}
+                                            {{ ($member->position != 'vice-president' && $member->position != 'president') ? $member->position : '' }}
+                                        </li>
+                                        @if($member->position == 'president')
+                                        <li class="text-start d-flex flex-row">
+                                            <i class="bi-person-fill me-2" style="opacity: .7;"></i>Appointed Secretary: Karla Joyce Tajonera
+                                            <!-- No Data to fetch, static for now.. -->
+                                        </li>
+                                        @endif
+                                        <li class="text-start d-flex flex-row"><i class="bi-geo-alt-fill me-2" style="opacity: .7;"></i>{{$member->resident_address}}</li>
                                         @if($member->office_cellphone_agree)
-                                        <li><i class="bi-phone me-2"></i>{{ $member->office_cellphone }}</li>
+                                        <li><i class="bi-telephone-fill me-2" style="opacity: .7;"></i>{{ $member->office_cellphone }}</li>
                                         @endif
                                         @if($member->email_agree)
-                                        <li><i class="bi-envelope me-2"></i>{{ $member->email }}</li>
+                                        <li><i class="bi-chat-dots-fill me-2" style="opacity: .7;"></i>{{ $member->email }}</li>
                                         @endif
                                     </ul>
                                 </div>

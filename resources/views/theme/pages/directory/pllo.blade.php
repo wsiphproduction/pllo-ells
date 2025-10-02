@@ -37,6 +37,7 @@
                         <option>OSEC</option>
                         <option>HREP</option>
                         <option>SENATE</option>
+                        <option>PLLO</option>
                     </select>
                 </div>
 
@@ -93,7 +94,7 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body ">
-                                    <h6 class="card-title mb-2 custom-text-primary fw-bold text-uppercase cursor-pointer view-info-btn"
+                                    <h6 class="card-title mb-2 custom-text-primary fw-bold text-capitalize cursor-pointer view-info-btn"
                                         data-bs-toggle="modal" 
                                         data-bs-target="#viewInfoModal" 
                                         data-name="{{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }}"
@@ -106,11 +107,13 @@
                                         data-semail="{{ $member->staff_email }}"
                                     >{{ $member->fullName }}</h6>
                                     <ul class="list-unstyled mb-2 small">
-                                        <li><i class="bi-person me-2"></i>{{ $member->full_designation_name }}</li>
-                                        <li><i class="bi-building me-2"></i>{{ $member->full_agency_name }}</li>
-                                        <li><i class="bi-phone me-2"></i>{{ $member->contact_number }}</li>
-                                        <li><i class="bi-envelope me-2"></i>{{ $member->email }}</li>
-                                        <li>
+                                        <li><i style="opacity: .7" class="bi-person-fill me-2"></i>{{ $member->full_designation_name }}</li>
+                                        {{-- <li><i class="bi-buildings-fill me-2"></i>{{ $member->full_agency_name }}</li> --}}
+                                        <li><i style="opacity: .7" class="bi-buildings-fill me-2"></i>OSEC</li>
+                                        <!-- No Data to fetch, static for now.. -->
+                                        <li><i style="opacity: .7" class="bi-telephone-fill me-2"></i>{{ $member->contact_number }}</li>
+                                        <li><i style="opacity: .7" class="bi-chat-dots-fill me-2"></i>{{ $member->email }}</li>
+                                        {{-- <li>
                                             <i class="bi-x-diamond me-2"></i>
                                             <a class="text-decoration-none" data-bs-toggle="collapse" href="#cluster-{{ $member->id }}" role="button" aria-expanded="false" aria-controls="cluster-{{ $member->id }}">
                                                 Show Clusters
@@ -121,7 +124,7 @@
                                                     {{ $member->full_cluster_name }}
                                                 </div>
                                             </div>
-                                        </li>
+                                        </li> --}}
                                     </ul>
                                 </div>
                             </div>
