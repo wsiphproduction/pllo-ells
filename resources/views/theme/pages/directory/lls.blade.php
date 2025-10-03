@@ -104,8 +104,10 @@
                                         data-name="{{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }}"
                                         data-has_staff="{{ $member->has_staff }}"
                                         data-position="{{ $member->designationDetails->name }}"
+                                        data-agency="{{ $member->full_agency_name }}"
                                         data-number="{{ $member->contact_number }}"
                                         data-email="{{ $member->email }}"
+                                        data-address="{{ $member->full_agency_details->agency_address }}"
 
                                         data-sname1="{{ $member->staff_name1 }}"
                                         data-snumber1="{{ $member->staff_number1 }}"
@@ -187,8 +189,10 @@
                                         data-name="{{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }}"
                                         data-has_staff="{{ $member->has_staff }}"
                                         data-position="{{ $member->designationDetails->name }}"
+                                        data-agency="{{ $member->full_agency_name }}"
                                         data-number="{{ $member->contact_number }}"
                                         data-email="{{ $member->email }}"
+                                        data-address="{{ $member->full_agency_details->agency_address }}"
 
                                         data-sname1="{{ $member->staff_name1 }}"
                                         data-snumber1="{{ $member->staff_number1 }}"
@@ -293,7 +297,7 @@
       <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title"><span class="text-capitalize"></span>&nbsp;<span>Information</span></h5>
+            <h5 class="modal-title"><span class="text-capitalize"></span>&nbsp;<span id="view-info-agency">Information</span></h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
@@ -317,20 +321,24 @@
                     <div class="tab-pane fade show active" id="profile-tab" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
                         <table class="table-dotted table-striped">
                             <tr>
-                                <td><span class="profile-label">Name:</span></td>
-                                <td><span class="view-info-name"></span></td>
+                                <td><span class="profile-label"><small>Name:</small></span></td>
+                                <td><small><span class="view-info-name"></span></small></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Designation:</span></td>
-                                <td><span class="view-info-position text-capitalize"></span></td>
+                                <td><span class="profile-label"><small>Designation:</small></span></td>
+                                <td><small><span class="view-info-position text-capitalize"></span></small></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Contact Number:</span></td>
-                                <td><span id="view-info-number"></span></td>
+                                <td><span class="profile-label"><small>Office Address:</small></span></td>
+                                <td><small><span class="view-info-address text-capitalize"></span></small></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Email Address:</span></td>
-                                <td><span id="view-info-email"></span></td>
+                                <td><span class="profile-label"><small>Contact Number:</small></span></td>
+                                <td><small><span id="view-info-number"></span></small></td>
+                            </tr>
+                            <tr>
+                                <td><span class="profile-label"><small>Email Address:</small></span></td>
+                                <td><small><span id="view-info-email"></span></small></td>
                             </tr>
                         </table>
                     </div>
@@ -338,14 +346,15 @@
                     <!-- Staff Tab -->
                     <div class="tab-pane fade" id="staff-tab" role="tabpanel" aria-labelledby="staff-tab" tabindex="0">
                         <small class="alert-empty" style="display: none;"><i>Please update staff details on profile.</i></small>
+                        <span class="view-info-default custom-text-primary" id="view-info-designation1"><b>Appointment Secretary</b></span>
                         <table class="table-dotted table-striped lls-info-1 mt-2">
                             <tr>
-                                <td><span class="profile-label">Position:</span></td>
-                                <td><span class="view-info-default custom-text-primary"><b>Appointment Secretary</b></span></td>
+                                <td><span class="profile-label">Name:</span></td>
+                                <td><span class="view-info-sname1 text-capitalize"></span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Name:</span></td>
-                                <td><span class="view-info-sname1"></span></td>
+                                <td><span class="profile-label">Landline No.:</span></td>
+                                <td><span id="view-info-slandline1">---</span></td>
                             </tr>
                             <tr>
                                 <td><span class="profile-label">Contact Number:</span></td>
@@ -357,60 +366,63 @@
                             </tr>
                         </table>
 
+                        <span class="view-info-default custom-text-primary" id="view-info-designation2"><b>DLLO: Department Legislative Liaison Officer</b></span>
                         <table class="table-dotted table-striped lls-info-2">
                             <tr>
-                                <td><span class="profile-label">Position:</span></td>
-                                <td><span class="view-info-default custom-text-primary"><b>DLLO</b></span></td>
+                                <td><span class="profile-label">Name:</span></td>
+                                <td><span class="view-info-sname2"></span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Name:</span></td>
-                                <td><span class="view-info-sname1"></span></td>
+                                <td><span class="profile-label">Landline No.:</span></td>
+                                <td><span id="view-info-slandline2">---</span></td>
                             </tr>
                             <tr>
                                 <td><span class="profile-label">Contact Number:</span></td>
-                                <td><span id="view-info-snumber1"></span></td>
+                                <td><span id="view-info-snumber2"></span></td>
                             </tr>
                             <tr>
                                 <td><span class="profile-label">Email Address:</span></td>
-                                <td><span id="view-info-semail1"></span></td>
+                                <td><span id="view-info-semail2"></span></td>
                             </tr>
                         </table>
 
+                        <span class="view-info-default custom-text-primary" id="view-info-designation3"><b>DLLS-Senate: Department Legislative Liaison Officer</b></span>
                         <table class="table-dotted table-striped lls-info-3">
                             <tr>
-                                <td><span class="profile-label">Position:</span></td>
-                                <td><span class="view-info-default custom-text-primary"><b>DLLS- Senate</b></span></td>
+                                <td><span class="profile-label">Name:</span></td>
+                                <td><span class="view-info-sname3"></span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Name:</span></td>
-                                <td><span class="view-info-sname1"></span></td>
+                                <td><span class="profile-label">Landline No.:</span></td>
+                                <td><span id="view-info-slandline3">---</span></td>
                             </tr>
                             <tr>
                                 <td><span class="profile-label">Contact Number:</span></td>
-                                <td><span id="view-info-snumber1"></span></td>
+                                <td><span id="view-info-snumber3"></span></td>
                             </tr>
                             <tr>
                                 <td><span class="profile-label">Email Address:</span></td>
-                                <td><span id="view-info-semail1"></span></td>
+                                <td><span id="view-info-semail3"></span></td>
                             </tr>
                         </table>
 
+                        <span class="view-info-default custom-text-primary" id="view-info-designation4"><b>DLLS-HREP: Department Legislative Liaison Officer</b></span>
                         <table class="table-dotted table-striped lls-info-4">
                             <tr>
-                                <td><span class="profile-label">Position:</span></td>
-                                <td><span class="view-info-default custom-text-primary"><b>DLLS- FREP</b></span></td>
+                                <td><span class="profile-label">Name:</span></td>
+                                <td><span class="view-info-sname4"></span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Name:</span></td>
-                                <td><span class="view-info-sname1"></span></td>
+                                <td><span class="profile-label">Landline No.:</span></td>
+                                <td><span id="view-info-slandline4">---</span></td>
                             </tr>
                             <tr>
                                 <td><span class="profile-label">Contact Number:</span></td>
-                                <td><span id="view-info-snumber1"></span></td>
+                                <td><span id="view-info-snumber4"></span></td>
                             </tr>
                             <tr>
                                 <td><span class="profile-label">Email Address:</span></td>
-                                <td><span id="view-info-semail1"></span></td>
+                                <td><span id="view-info-semail4"></span></td>
                             </tr>
                         </table>
                     </div>
@@ -471,22 +483,31 @@
         let position = $(this).attr('data-position');
         let number = $(this).attr('data-number');
         let email = $(this).attr('data-email');
+        let agency = $(this).attr('data-agency');
+        let address = $(this).attr('data-address');
 
         let sname1 = $(this).attr('data-sname1');
         let snumber1 = $(this).attr('data-snumber1');
         let semail1 = $(this).attr('data-semail1');
+        let designation1 = $(this).attr('data-designation1');
 
         let sname2 = $(this).attr('data-sname2');
         let snumber2 = $(this).attr('data-snumber2');
         let semail2 = $(this).attr('data-semail2');
+        let designation2 = $(this).attr('data-designation2');
+
 
         let sname3 = $(this).attr('data-sname3');
         let snumber3 = $(this).attr('data-snumber3');
         let semail3 = $(this).attr('data-semail3');
+        let designation3 = $(this).attr('data-designation3');
+
 
         let sname4 = $(this).attr('data-sname4');
         let snumber4 = $(this).attr('data-snumber4');
         let semail4 = $(this).attr('data-semail4');
+        let designation4 = $(this).attr('data-designation4');
+
 
         let has_staff = $(this).attr('data-has_staff');
         
@@ -505,22 +526,28 @@
         $('.view-info-position').text(position);
         $('#view-info-number').text(number);
         $('#view-info-email').text(email);
+        $('#view-info-agency').text(agency);
+        $('.view-info-address').text(address);
 
         $('.view-info-sname1').text(sname1);
         $('#view-info-snumber1').text(snumber1);
         $('#view-info-semail1').text(semail1);
+        $('#view-info-designation1').text(designation1);
 
         $('.view-info-sname2').text(sname2);
         $('#view-info-snumber2').text(snumber2);
         $('#view-info-semail2').text(semail2);
+        $('#view-info-designation2').text(designation2);
 
         $('.view-info-sname3').text(sname3);
         $('#view-info-snumber3').text(snumber3);
         $('#view-info-semail3').text(semail3);
+        $('#view-info-designation3').text(designation3);
 
         $('.view-info-sname4').text(sname4);
         $('#view-info-snumber4').text(snumber4);
         $('#view-info-semail4').text(semail4);
+        $('#view-info-designation4').text(designation4);
     });
 </script>
 @endsection
