@@ -479,12 +479,19 @@ class MemberProfileController extends Controller
     		   	$member->staff_number2 = $staff[1]->contact_number;
     		   	$member->staff_number3 = $staff[2]->contact_number;
     		   	$member->staff_number4 = $staff[3]->contact_number;
+    		   	
     		   	$member->staff_email1 = $staff[0]->email;
     		   	$member->staff_email2 = $staff[1]->email;
     		   	$member->staff_email3 = $staff[2]->email;
     		   	$member->staff_email4 = $staff[3]->email;
+
+    		   	$member->staff_designation1 = $staff[0]->designation;
+    		   	$member->staff_designation2 = $staff[1]->designation;
+    		   	$member->staff_designation3 = $staff[2]->designation;
+    		   	$member->staff_designation4 = $staff[3]->designation;
     	    }
         }
+        // dd($member);
 
 		return view('theme.pages.directory.lls', compact('page', 'members', 'designations', 'agencies', 'clusters'));
 	}

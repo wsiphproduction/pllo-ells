@@ -86,6 +86,11 @@ class Member extends Model
         return Agency::find($this->agency)?->agency_name ?? 'No Agency';
     }
 
+    public function getFullAgencyDetailsAttribute()
+    {
+        return Agency::find($this->agency);
+    }
+
     public function getFullClusterNameAttribute()
     {
         if (!$this->cluster) {
