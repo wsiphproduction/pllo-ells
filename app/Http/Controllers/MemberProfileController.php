@@ -91,10 +91,12 @@ class MemberProfileController extends Controller
 	}
 
 	public function memberProfileUpdate(Request $request) {
+		
 	    $member = Member::where('user_id', auth()->user()->id)->first();
 	    $user = User::find(auth()->user()->id);
+    	// dd($member);
 
-	    if($request['password'] === '') {
+	    if($request['password'] === '' || empty($request['password'])) {
 	    	$request['password'] = auth()->user()->password;
 	    } else {
 	        $member->password = Hash::make($request['password']);
