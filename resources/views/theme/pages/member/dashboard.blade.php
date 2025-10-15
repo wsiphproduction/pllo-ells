@@ -2149,7 +2149,7 @@
 
                                     <!-- Members normal users list of contacts -->
                                     @forelse($saved_contacts as $saved_contact)
-                                        @if(!empty($saved_contact))
+                                        @if(!empty($saved_contact->member))
                                         <div class="col-6">
                                             <div class="saved-container">
                                                 <div class="card border-0 card-saved-contacts cursor-pointer">
