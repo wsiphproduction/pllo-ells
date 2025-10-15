@@ -2149,6 +2149,7 @@
 
                                     <!-- Members normal users list of contacts -->
                                     @forelse($saved_contacts as $saved_contact)
+                                        @if(!empty($saved_contact))
                                         <div class="col-6">
                                             <div class="saved-container">
                                                 <div class="card border-0 card-saved-contacts cursor-pointer">
@@ -2168,7 +2169,7 @@
                                                                 <ul class="list-unstyled">
                                                                     <li>
                                                                         <small>
-                                                                            <b class="primary-text-color">{{ !empty($saved_contact->member->userType->name) ? $saved_contact->member->userType->name : 'PLLO-ELLS USER' }}</b>
+                                                                            <b class="primary-text-color">{{ $saved_contact->member->userType->name }}</b>
                                                                         </small>
                                                                     </li>
                                                                     <li>
@@ -2207,6 +2208,7 @@
                                                 </div>
                                             </div>
                                         </div>
+                                        @endif
                                     @empty
                                         <!-- nothing for now -->
                                     @endforelse
