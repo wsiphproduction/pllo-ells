@@ -13,7 +13,9 @@ if(auth()->user()) {
 @endphp
 
 @if (!empty($page) && $item->is_page_type() && $page->is_published())
+
     <li class="menu-item @if( url()->current() == $page->get_url() || ($page->id == 1 && url()->current() == env('APP_URL')) ) current @endif @if($item->has_sub_menus()) @endif @if(Str::contains(url()->current(), $page->get_url())) current @endif">
+
         <a href="{{env('APP_URL') .'/'. $page->get_url()}}" class="menu-link">
             <div>
                 @if (!empty($page->label))
@@ -59,29 +61,36 @@ if(auth()->user()) {
 
 
 @elseif ($item->is_external_type())
-    <li class="menu-item {{ Str::contains(url()->current(), $item->uri) ? 'current' : '' }}">
-        {{-- <a href="{{ env('APP_URL')."/".$item->uri }}" class="menu-link" target="{{ $item->target }}"><div>{{ $item->label }}</div></a> --}}
 
-        @if(auth()->user())
-            <a href="{{ url($item->uri) }}" class="menu-link" target="{{ $item->target }}" 
-                @if( str_contains($item->uri, '/create') && auth()->user()->is_not_an_admin() ) style="display: none !important;" @endif 
-                @if( str_contains($item->uri, 'events') && !$is_officer && auth()->user()->is_not_an_admin()) style="display: none !important;" @endif
-                @if( str_contains($item->uri, 'reference-materials') && !$is_officer && auth()->user()->is_not_an_admin()) style="display: none !important;" @endif
-                >
-                <div>
-                    {{ $item->label }}
-                </div>
-            </a>
-        @else
-            <a href="{{ url($item->uri) }}" class="menu-link" target="{{ $item->target }}" @if( str_contains($item->uri, '/create') ) style="display: none !important;" @endif><div>{{ $item->label }}</div></a>
-        @endif
+    @if(auth()->user() || str_contains($item->uri, 'policy-reform'))
 
-        @if ($item->has_sub_menus())
-            <ul class="sub-menu-container" style="border: none !important;">
-                @foreach ($item->sub_pages as $subItem)
-                    @include('theme.layouts.components.menu-item', ['item' => $subItem])
-                @endforeach
-            </ul>
-        @endif
-    </li>
+        <li class="menu-item {{ Str::contains(url()->current(), $item->uri) ? 'current' : '' }}">
+
+            {{-- <a href="{{ env('APP_URL')."/".$item->uri }}" class="menu-link" target="{{ $item->target }}"><div>{{ $item->label }}</div></a> --}}
+
+            @if(auth()->user())
+                <a href="{{ url($item->uri) }}" class="menu-link" target="{{ $item->target }}" 
+                    @if( str_contains($item->uri, '/create') && auth()->user()->is_not_an_admin() ) style="display: none !important;" @endif 
+                    @if( str_contains($item->uri, 'events') && !$is_officer && auth()->user()->is_not_an_admin()) style="display: none !important;" @endif
+                    @if( str_contains($item->uri, 'reference-materials') && !$is_officer && auth()->user()->is_not_an_admin()) style="display: none !important;" @endif
+                    >
+                    <div>
+                        {{ $item->label }}
+                    </div>
+                </a>
+            @else
+                <a href="{{ url($item->uri) }}" class="menu-link" target="{{ $item->target }}" @if( str_contains($item->uri, '/create') ) style="display: none !important;" @endif><div>{{ $item->label }}</div></a>
+            @endif
+
+            @if ($item->has_sub_menus())
+                <ul class="sub-menu-container" style="border: none !important;">
+                    @foreach ($item->sub_pages as $subItem)
+                        @include('theme.layouts.components.menu-item', ['item' => $subItem])
+                    @endforeach
+                </ul>
+            @endif
+        </li>
+
+    @endif
+
 @endif

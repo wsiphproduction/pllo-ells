@@ -34,7 +34,7 @@
 
                 <div class="row mx-1">
                     <select class="form-select lh-1" id="filter-designation" style="height: 38px; width: 180px;">
-                        <option selected disabled>DESIGNATION</option>
+                        <option selected disabled>SELECT DESIGNATION</option>
                         @foreach($designations as $designation)
                         <option value="{{ $designation->id }}">{{ $designation->name }}</option>
                         @endforeach
@@ -44,7 +44,7 @@
 
                 <div class="row mx-1">
                     <select class="form-select lh-1" id="filter-agency" style="height: 38px; width: 180px;">
-                        <option selected disabled>AGENCY</option>
+                        <option selected disabled>SELECT AGENCY</option>
                         @foreach($agencies as $agency)
                         <option value="{{ $agency->id }}">{{ $agency->agency_name }}</option>
                         @endforeach
@@ -54,7 +54,7 @@
 
                 <div class="row mx-1">
                     <select class="form-select lh-1 text-truncate" id="filter-cluster" style="height: 38px; width: 180px;">
-                        <option selected disabled>CLUSTER</option>
+                        <option selected disabled>SELECT CLUSTER</option>
                         @foreach($clusters as $cluster)
                         <option value="{{ $cluster->id }}" class="text-truncate" style="width: 180px">{{ $cluster->name }}</option>
                         @endforeach
