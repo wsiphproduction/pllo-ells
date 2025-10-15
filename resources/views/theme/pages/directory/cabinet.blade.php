@@ -110,8 +110,7 @@
                             <th class="py-3 custom-primary-bg"><small class="text-white">AGENCY</small></th>
                             <th class="py-3 custom-primary-bg"><small class="text-white">APPOINTMENT SECRETARY</small></th>
                             <th class="py-3 custom-primary-bg"><small class="text-white">ADDRESS</small></th>
-                            <th class="py-3 custom-primary-bg"><small class="text-white">NUMBER</small></th>
-                            <th class="py-3 custom-primary-bg rounded-end"><small class="text-white">EMAIL ADD</small></th>
+                            <th class="py-3 custom-primary-bg rounded-end"><small class="text-white">NUMBER/EMAIL ADD</small></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -165,12 +164,9 @@
                                     @if($member->office_cellphone_agree)
                                     <small>{{ $member->office_cellphone }}</small>
                                     @endif
-                                </span>
-                            </td>
-                            <td>
-                                <span>
+                                    <br />
                                     @if($member->email_agree)
-                                    <small>{{ $member->email }}</small>
+                                    <small class="custom-text-primary">{{ $member->email }}</small>
                                     @endif
                                 </span>
                             </td>
