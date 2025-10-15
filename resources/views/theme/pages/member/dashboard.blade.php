@@ -2168,7 +2168,7 @@
                                                                 <ul class="list-unstyled">
                                                                     <li>
                                                                         <small>
-                                                                            <b class="primary-text-color">{{ $saved_contact->member->userType->name ? $saved_contact->member->userType->name : 'PLLO-ELLS USER' }}</b>
+                                                                            <b class="primary-text-color">{{ !empty($saved_contact->member->userType->name) ? $saved_contact->member->userType->name : 'PLLO-ELLS USER' }}</b>
                                                                         </small>
                                                                     </li>
                                                                     <li>
