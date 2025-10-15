@@ -2170,7 +2170,7 @@
                                                                     <li>
                                                                         <small>
                                                                             <b class="primary-text-color">
-                                                                                {{ $saved_contact->member->userType->name ? $saved_contact->member->userType->name : 'PLLO-ELLS USER' }}
+                                                                                {{ !empty($saved_contact->member->userType->name) ? $saved_contact->member->userType->name : 'PLLO-ELLS USER' }}
                                                                             </b>
                                                                         </small>
                                                                     </li>
@@ -2178,14 +2178,14 @@
                                                                         <i class="icon-user" style="font-size: 14px; color: gray;"></i>
                                                                         &nbsp; 
                                                                         <small class="primary-text-color text-capitalize">
-                                                                            {{ $saved_contact->member->FullName ? $saved_contact->member->FullName : '' }}
+                                                                            {{ !empty($saved_contact->member->FullName) ? $saved_contact->member->FullName : '' }}
                                                                         </small>
                                                                     </li>
                                                                     <li>
                                                                         <i class="icon-users" style="font-size: 14px; color: gray;"></i>
                                                                         &nbsp;
                                                                         <small style="display: inline-grid;" class="text-uppercase">
-                                                                            {{ $saved_contact->member->FullAgencyName ? $saved_contact->member->FullAgencyName : '' }}
+                                                                            {{ !empty($saved_contact->member->FullAgencyName) ? $saved_contact->member->FullAgencyName : '' }}
                                                                             @if($saved_contact->member->subAgency)
                                                                             <br>
                                                                             <p style="font-size: 10px;">{{ $saved_contact->member->subAgency->name }}</p>
@@ -2196,14 +2196,14 @@
                                                                         <i class="icon-call" style="font-size: 14px; color: gray;"></i>
                                                                         &nbsp;
                                                                         <small>
-                                                                            {{ $saved_contact->member->contact_number ? $saved_contact->member->contact_number : '' }}
+                                                                            {{ !empty($saved_contact->member->contact_number) ? $saved_contact->member->contact_number : '' }}
                                                                         </small>
                                                                     </li>
                                                                     <li>
                                                                         <i class="icon-envelope" style="font-size: 14px; color: gray;"></i>
                                                                         &nbsp; 
                                                                         <small class="primary-text-color">
-                                                                            {{ $saved_contact->member->email ? $saved_contact->member->email : '' }}
+                                                                            {{ !empty($saved_contact->member->email) ? $saved_contact->member->email : '' }}
                                                                          </small>
                                                                     </li>
                                                                 </ul>
