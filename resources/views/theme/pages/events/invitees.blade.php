@@ -98,7 +98,7 @@
 													onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';">
 											</td>
 											<td><strong class="text-custom-primary">{{ $member->fullName }}</strong></td>
-											<td>{{ App\Models\Agency::getAgencyName($member->agency)->agency_name }}</td>
+											<td>{{ App\Models\Agency::getAgencyName($member->agency)->agency_name  ?? '' }}</td>
 											<td>
 												{{ $member->contact_number }}<br>
 												{!! $member->other_number ? $member->other_number . '<br>' : '' !!}
