@@ -34,6 +34,7 @@ use App\Models\SavedContact;
 use App\Models\Custom\Event;
 use App\Models\MessagingNumber;
 use App\Models\SavedContactStaff;
+use App\Models\ComSecCommitteeTab;
 use App\Models\ClusterUpdateHolder;
 use App\Models\SavedContactOfficial;
 use App\Models\PolicyReformBookmark;
@@ -667,6 +668,7 @@ class MemberProfileController extends Controller
 
 	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id)
 	    					->join('designation', 'designation.id', 'members.designation')
+	    					->join('senators', 'senators.id', 'members.senator_id')
 	    					->where('members.is_verified', 1)
 	    					->where('members.user_type', 2)
 	    					->where('designation.name', '=', 'Appointment Secretary');
@@ -679,10 +681,27 @@ class MemberProfileController extends Controller
 	        });
 	    }
 
+	    if (request('gender')) {
+        		$gender = request('gender');
+        		if ($gender) {
+			        $members->where('gender', $gender)
+			            ->get();
+			    };
+	    }
+
+	    if (request('birthmonth')) {
+	    	$birthmonth = request('birthmonth');
+	    	if ($birthmonth) {
+	    		$members->where('birthdate', 'like', "%{$birthmonth}%")
+		        				->get();
+	    	}
+	    }
+
 	    $members = $members->paginate($this->page_limit);
 
+	    $committees = ComSecCommitteeTab::all();
 
-		return view('theme.pages.directory.senator-com-sec', compact('page', 'members'));
+		return view('theme.pages.directory.senator-com-sec', compact('page', 'members', 'committees'));
 	}
 
 	public function horsDirectory(Request $request)

@@ -241,7 +241,7 @@
         <input type="hidden" name="designation" id="designation-value-holder">
     </form>
 
-    <!-- form filter by designation -->
+    <!-- form filter by gender -->
     <form action="{{ route('directory.pllo') }}" method="get" id="filter-gender-form">
         <input type="hidden" name="gender" id="gender-value-holder">
     </form>
