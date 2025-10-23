@@ -36,14 +36,14 @@
         <div id="portfolio" class="row g-4">
             
             @foreach($members as $member)
-                <article class="portfolio-item col-md-6 col-12 member-grid-view">
+                <article class="portfolio-item col-md-4 col-12 member-grid-view">
                     <div class="card mb-4 p-3 border-0">
                         <div class="row g-0 relative">
                             <div class="col-md-4" style="height: 200px;">
                                 <img src="{{ asset($member->image_url) }}"
                                     onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';"
                                     class="img-fluid rounded"
-                                    style="height: 100%; width: 100%; object-fit: cover;"
+                                    style="height: 100%; width: 100%; object-fit: cover; max-width: 146px; max-height: 146px; margin-top: 10px;"
                                     alt="Proposed Bill">
                             </div>
                             <div class="col-md-8">
@@ -113,8 +113,9 @@
                             <td>
                                 <img id="userPhotoDirectory"
                                      src="{{ $member->image_url ? asset('/' . $member->image_url) : asset('images/user.png') }}"
+                                     onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';"
                                      class="profile-pic-directory" alt="Profile Picture"
-                                     style="border-radius: 12px; width: 80px;">
+                                     style="height: 100%; width: 100%; object-fit: cover; max-width: 146px; max-height: 146px; margin-top: 10px;">
                             </td>
                             <td>
                                 <span class="d-flex flex-column">

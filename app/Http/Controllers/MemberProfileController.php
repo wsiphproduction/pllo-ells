@@ -637,9 +637,10 @@ class MemberProfileController extends Controller
 	    }
 
 	    $page = new Page();
-	    $page->name = 'Senators Staff';
+	    $page->name = 'Senate Chief of Staff';
 
 	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id)
+	    					->join('senators', 'senators.id', 'members.senator_id')
 	    					->where('is_verified', 1)
 	    					->where('user_type', 2);
 
@@ -651,9 +652,26 @@ class MemberProfileController extends Controller
 	        });
 	    }
 
-	    $members = $members->paginate($this->page_limit);
+	    if (request('gender')) {
+        		$gender = request('gender');
+        		if ($gender) {
+			        $members->where('gender', $gender)
+			            ->get();
+			    };
+	    }
 
-		return view('theme.pages.directory.senator-staff', compact('page', 'members'));
+	    if (request('birthmonth')) {
+	    	$birthmonth = request('birthmonth');
+	    	if ($birthmonth) {
+	    		$members->where('birthdate', 'like', "%{$birthmonth}%")
+		        				->get();
+	    	}
+	    }
+
+	    $members = $members->paginate($this->page_limit);
+	    $committees = ComSecCommitteeTab::all();
+
+		return view('theme.pages.directory.senator-staff', compact('page', 'members', 'committees'));
 	}
 
 	public function senartorComSecDirectory(Request $request)
@@ -664,7 +682,7 @@ class MemberProfileController extends Controller
 	    }
 
 	    $page = new Page();
-	    $page->name = 'Senators Committee Secretary';
+	    $page->name = 'Senate - Committee Secretary';
 
 	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id)
 	    					->join('designation', 'designation.id', 'members.designation')

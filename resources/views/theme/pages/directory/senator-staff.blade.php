@@ -15,6 +15,19 @@
     .member-list-view {
         display: none;
     }
+
+    #viewInfoModal .social-icons-tab {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+    }
+    #viewInfoModal .social-icons-tab i {
+        font-size: 22px;
+        opacity: .6;
+        margin: 0px;
+    }
 </style>
 @endsection
 
@@ -23,27 +36,64 @@
                 
         <div class="col-12 mb-3 d-flex justify-content-between align-items-center">
             <h3 class="form-title text-uppercase">{{ $page->name }}</h3>
-            <form method="get" action="{{ route('directory.senator.staff') }}">
-                <div class="d-flex justify-content-between align-items-center">
-                    <input class="form-control" placeholder="Search Member Name" name="member_name" value="{{ request('member_name') }}"/>
-                    <button type="button" class="btn btn-transparent p-1" id="grid-view-btn" title="Grid View"><i class="bi-grid-fill fa-1x custom-text-primary"></i></button>
-                    <button type="button" class="btn btn-transparent p-1" id="list-view-btn" title="List View"><i class="bi-list-ul fa-1x custom-text-primary"></i></button>
-                    <a href="{{ route('directory.senator.staff') }}" type="button" class="btn btn-transparent p-1"><i class="fa-solid fa-refresh fa-1x custom-text-primary"></i></a>
+
+            <div class="d-flex justify-content-end align-items-center">
+
+                <div class="row mx-1">
+                    <form method="get" action="{{ route('directory.senator.staff') }}" class="mb-0">
+                        <input class="form-control mx-2" placeholder="SEARCH" name="member_name" value="{{ request('member_name') }}"/>
+                    </form>
                 </div>
-            </form>
+
+                <div class="row mx-2">
+                    <select class="form-select lh-1" id="filter-birthmonth" style="height: 38px;">
+                        <option selected disabled>BIRTHMONTH</option>
+                        @foreach(config('months') as $month)
+                        <option value="{{ $month }}">{{ $month }}</option>
+                        @endforeach
+                        <option value="0">ALL</option>
+                    </select>
+                </div>
+
+                <div class="row mx-2">
+                    <select class="form-select lh-1" id="filter-gender" style="height: 38px;">
+                        <option selected disabled>GENDER</option>
+                        <option value="1">MALE</option>
+                        <option value="2">FEMALE</option>
+                        <option value="3">OTHERS</option>
+                        <option value="4">PREFER NOT TO SAY</option>
+                        <option value="0">ALL</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn btn-transparent p-1" id="grid-view-btn" title="Grid View"><i class="bi-grid-fill fa-1x custom-text-primary"></i></button>
+                <button type="button" class="btn btn-transparent p-1" id="list-view-btn" title="List View"><i class="bi-list-ul fa-1x custom-text-primary"></i></button>
+                <a onclick="window.print()" type="button" class="btn btn-transparent p-1" title="Print"><i class="fa-solid fa-print fa-1x custom-text-primary"></i></a>
+                <a href="{{ route('directory.senator.staff') }}" type="button" class="btn btn-transparent p-1"><i class="fa-solid fa-refresh fa-1x custom-text-primary"></i></a>
+            </div>
+
         </div>
 
         <div id="portfolio" class="row g-4">
             
             @forelse($members as $member)
-                <article class="portfolio-item col-md-6 col-12 member-grid-view">
+            @php
+                $party = \App\Models\Party::where('id', $member->sen_party)->first();
+
+                if(empty($party)){
+                    $party = '---';
+                } else {
+                    $party = $party->name;
+                }
+            @endphp
+                <article class="portfolio-item col-md-4 col-12 member-grid-view">
                     <div class="card mb-4 p-3 border-0">
                         <div class="row g-0 relative">
                             <div class="col-md-4" style="height: 200px;">
                                 <img src="{{ asset($member->photo) }}"
                                     onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';"
                                     class="img-fluid rounded"
-                                    style="height: 100%; width: 100%; object-fit: cover;"
+                                    style="height: 100%; width: 100%; object-fit: cover; max-width: 146px; max-height: 146px; margin-top: 10px;"
                                     alt="Proposed Bill">
                             </div>
                             <div class="col-md-8">
@@ -51,40 +101,34 @@
                                     <h6 class="card-title mb-2 custom-text-primary fw-bold text-uppercase cursor-pointer view-info-btn"
                                         data-bs-toggle="modal" 
                                         data-bs-target="#viewInfoModal" 
-                                        data-name="{{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }}"
-                                        data-has_staff="{{ $member->has_staff }}"
-                                        data-position="{{ $member->designationDetails->name }}"
-                                        data-number="{{ $member->office_cellphone }}"
-                                        data-email="{{ $member->email }}"
-                                        data-party="{{ $member->party }}"
-                                        data-province="{{ $member->province_address }}"
+
+                                        data-name="{{ $member->sen_firstname }} {{ $member->sen_middle_initial }}@if($member->sen_middle_initial).@endif {{ $member->sen_lastname }}"
+                                        data-office="{{ $member->sen_spouse_office_address }}"
+                                        data-trunk="{{ $member->sen_main_trunk_local_number }}"
+                                        data-line="{{ $member->sen_main_direct_line }}"
+                                        data-fax="{{ $member->sen_main_fax_number }}"
+                                        data-email="{{ $member->sen_email }}"
+                                        data-party="{{ $party }}"
 
                                         data-sname="{{ $member->staff_name }}"
                                         data-snumber="{{ $member->staff_number }}"
-                                        data-semail="{{ $member->staff_email }}">
+                                        data-semail="{{ $member->staff_email }}"
+
+                                        data-committee = '@json($committees)'
+                                    >
                                         {{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }} 
                                     </h6>
                                     <ul class="list-unstyled mb-2 small">
-                                        <li><i class="bi-person me-2"></i>{{ $member->full_designation_name }}</li>
-                                        <li><i class="bi-building me-2"></i>{{ $member->full_agency_name }}</li>
-                                        @if($member->contact_number_agree)
-                                        <li><i class="bi-phone me-2"></i>{{ $member->contact_number }}</li>
-                                        @endif
-                                        @if($member->email_agree)
-                                        <li><i class="bi-envelope me-2"></i>{{ $member->email }}</li>
-                                        @endif
+                                        <!-- No Data for now.. -->
                                         <li>
-                                            <i class="bi-x-diamond me-2"></i>
-                                            <a class="text-decoration-none" data-bs-toggle="collapse" href="#cluster-{{ $member->id }}" role="button" aria-expanded="false" aria-controls="cluster-{{ $member->id }}">
-                                                Show Clusters
-                                            </a>
-
-                                            <div class="collapse mt-2" id="cluster-{{ $member->id }}">
-                                                <div class="text-muted small">
-                                                    {{ $member->full_cluster_name }}
-                                                </div>
-                                            </div>
+                                            <i style="opacity: .7" class="bi-buildings-fill me-2"></i> 
+                                            <a href="#">{{ $member->senator->sen_firstname }} {{ $member->senator->sen_middle_initial }}@if($member->senator->sen_middle_initial).@endif {{ $member->senator->sen_lastname }}</a>
                                         </li>
+                                        <li><i style="opacity: .7" class="bi-telephone-fill me-2"></i>{{ $member->contact_number }}</li>
+                                        <li><i style="opacity: .7" class="bi-chat-dots-fill me-2"></i>
+                                            <span class="custom-text-primary"><a href="mailto:{{ $member->email }}">{{ $member->email }}</a></span>
+                                        </li>
+
                                     </ul>
                                 </div>
                             </div>
@@ -111,55 +155,69 @@
                     <thead>
                         <tr class="border-0">
                             <th class="py-3 px-2 custom-primary-bg rounded-start"><small class="text-white">PICTURE</small></th>
-                            <th class="py-3 custom-primary-bg"><small class="text-white">NAME / POSITION</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">NAME</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">SENATOR</small></th>
                             <th class="py-3 custom-primary-bg"><small class="text-white">NUMBER</small></th>
                             <th class="py-3 custom-primary-bg rounded-end"><small class="text-white">EMAIL ADD</small></th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach($members as $member)
+                        @php
+                            $party = \App\Models\Party::where('id', $member->sen_party)->first();
+
+                            if(empty($party)){
+                                $party = '---';
+                            } else {
+                                $party = $party->name;
+                            }
+                        @endphp
                         <tr>
                             <td>
                                 <img id="userPhotoDirectory"
                                      src="{{ $member->photo ? asset('/' . $member->photo) : asset('images/user.png') }}"
                                      class="profile-pic-directory" alt="Profile Picture"
-                                     style="border-radius: 12px; width: 80px;">
+                                     onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';"
+                                     style="height: 100%; width: 100%; object-fit: cover; max-width: 146px; max-height: 146px; margin-top: 10px;">
                             </td>
                             <td>
                                 <span class="d-flex flex-column">
                                     <small class="lh-1"><b class="text-capitalize cursor-pointer view-info-btn"
                                         data-bs-toggle="modal" 
-                                        data-bs-target="#viewInfoModal" 
-                                        data-name="{{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }}"
-                                        data-has_staff="{{ $member->has_staff }}"
-                                        data-position="{{ $member->designationDetails->name }}"
-                                        data-number="{{ $member->office_cellphone }}"
-                                        data-email="{{ $member->email }}"
-                                        data-party="{{ $member->party }}"
-                                        data-province="{{ $member->province_address }}"
+                                        data-bs-target="#viewInfoModal"
+
+                                        data-name="{{ $member->sen_firstname }} {{ $member->sen_middle_initial }}@if($member->sen_middle_initial).@endif {{ $member->sen_lastname }}"
+                                        data-office="{{ $member->sen_spouse_office_address }}"
+                                        data-trunk="{{ $member->sen_main_trunk_local_number }}"
+                                        data-line="{{ $member->sen_main_direct_line }}"
+                                        data-fax="{{ $member->sen_main_fax_number }}"
+                                        data-email="{{ $member->sen_email }}"
+                                        data-party="{{ $party }}"
 
                                         data-sname="{{ $member->staff_name }}"
                                         data-snumber="{{ $member->staff_number }}"
-                                        data-semail="{{ $member->staff_email }}">
-                                        {{ $member->FullName }}</b></small>
-                                    @if(!empty($member->designation))
-                                    <small class="lh-1"><i>{{ $member->designationDetails->name }}</i></small>
-                                    @endif
+                                        data-semail="{{ $member->staff_email }}"
+
+                                        data-committee = '@json($committees)'
+                                    >
+                                        {{ $member->FullName }}</b>
+                                    </small>
+                                </span>
+                            </td>
+                            <td>
+                                <span class="custom-text-primary">
+                                    {{ $member->senator->sen_firstname }} {{ $member->senator->sen_middle_initial }}@if($member->senator->sen_middle_initial).@endif {{ $member->senator->sen_lastname }}
                                 </span>
                             </td>
                             <td>
                                 <span>
-                                    @if($member->contact_number_agree)
                                     <small>{{ $member->contact_number }}</small>
-                                    @endif
                                 </span>
                             </td>
                             <td>
-                                <span>
-                                    @if($member->email_agree)
-                                    <small>{{ $member->email }}</small>
-                                    @endif
-                                </span>
+                                <small>
+                                    <a href="mailto:{{ $member->email }}">{{ $member->email }}</a>
+                                </small>
                             </td>
                         </tr>
                         @endforeach
@@ -170,6 +228,16 @@
         </div>
 
     </div>
+
+    <!-- form filter by birthmonth -->
+    <form action="{{ route('directory.senator.staff') }}" method="get" id="filter-birthmonth-form">
+        <input type="hidden" name="birthmonth" id="birthmonth-value-holder">
+    </form>
+
+    <!-- form filter by gender -->
+    <form action="{{ route('directory.senator.staff') }}" method="get" id="filter-gender-form">
+        <input type="hidden" name="gender" id="gender-value-holder">
+    </form>
 
     <!-- Add Contact -->
     <div class="modal fade" id="addContactModal" tabindex="-1" aria-labelledby="addContactLabel" aria-hidden="true">
@@ -197,7 +265,7 @@
 
     <!-- View Information -->
     <div class="modal fade" id="viewInfoModal" tabindex="-1" aria-labelledby="viewInfoModalLabel">
-      <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-dialog modal-dialog-centered" style="min-width: fit-content;">
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title"><span class="text-capitalize view-info-name"></span>&nbsp;<span></span></h5>
@@ -205,6 +273,12 @@
           </div>
           <div class="modal-body">
             <div class="p-1">
+                <!-- <div class="social-icons-tab pt-0 mt-0">
+                    <i class="bi-facebook"></i>
+                    <i class="uil-instagram-alt"></i>
+                    <i class="bi-twitter"></i>
+                    <i class="bi-youtube"></i>
+                </div> -->
                 <ul class="nav canvas-tabs tabs-bordered canvas-tabs tabs nav-tabs mb-3" id="canvas-tab-border" role="tablist">
 
                     <!-- profile trigger tab -->
@@ -213,37 +287,100 @@
                         </button>
                     </li>
                     <!-- staff trigger tab -->
-                    <!-- <li class="nav-item" role="presentation" id="staff-tab-container" style="display: none;">
-                        <button class="nav-link" id="staff-tab-trigger" data-bs-toggle="pill" data-bs-target="#staff-tab" type="button" role="tab" aria-controls="staff-tab" aria-selected="true"><small>CoS| CLO | AS</small>
+                    <li class="nav-item" role="presentation" id="staff-tab-container">
+                        <button class="nav-link" id="staff-tab-trigger" data-bs-toggle="pill" data-bs-target="#staff-tab" type="button" role="tab" aria-controls="staff-tab" aria-selected="true"><small>CoS | CLO | AS</small>
                         </button>
-                    </li> -->
+                    </li>
+                    <!-- committee tab -->
+                    <li class="nav-item" role="presentation" id="committee-tab-container">
+                        <button class="nav-link" id="committee-tab-trigger" data-bs-toggle="pill" data-bs-target="#committee-tab" type="button" role="tab" aria-controls="staff-tab" aria-selected="true"><small>Committee</small>
+                        </button>
+                    </li>
+
                 </ul>
                 <div class="tab-content mb-3 relative">
 
                     <!-- Profile Tab -->
                     <div class="tab-pane fade show active" id="profile-tab" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
                         <table class="table-dotted table-striped">
-                            <tr>
-                                <td><span class="profile-label">Designation:</span></td>
-                                <td><span class="view-info-position text-capitalize"></span></td>
+                             <tr>
+                                <td><span class="profile-label">Senate Office:</span></td>
+                                <td><span class="text-capitalize" id="view-info-office">---</span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Contact Number:</span></td>
-                                <td><span id="view-info-number"></span></td>
+                                <td><span class="profile-label">Trunk Lines:</span></td>
+                                <td><span class="text-capitalize" id="view-info-trunk">---</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="profile-label">Direct Line/s:</span></td>
+                                <td><span class="text-capitalize" id="view-info-line">---</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="profile-label">Telefax No.</span></td>
+                                <td><span class="text-capitalize" id="view-info-fax">---</span></td>
                             </tr>
                             <tr>
                                 <td><span class="profile-label">Email Address:</span></td>
-                                <td><span id="view-info-email"></span></td>
+                                <td><span class="text-capitalize" id="view-info-email"></span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="profile-label">Party Affiliation:</span></td>
+                                <td><span class="text-capitalize" id="view-info-party">---</span></td>
                             </tr>
                         </table>
                     </div>
 
                     <!-- Staff Tab -->
-                    <div class="tab-pane fade" id="staff-tab" role="tabpanel" aria-labelledby="staff-tab" tabindex="0">
-                        <table class="table-dotted table-striped">
+                    <div class="tab-pane fade" id="staff-tab" role="tabpanel" aria-labelledby="staff-tab" tabindex="1">
+                         <h5 class="custom-text-primary mb-0">Chief of Staff</h5>
+                         <table class="table-dotted table-striped">
                             <tr>
                                 <td><span class="profile-label">Name:</span></td>
                                 <td><span class="view-info-sname"></span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="profile-label">Landline No:</span></td>
+                                <td><span>---</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="profile-label">Contact Number:</span></td>
+                                <td><span id="view-info-snumber"></span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="profile-label">Email Address:</span></td>
+                                <td><span id="view-info-semail"></span></td>
+                            </tr>
+                        </table>
+
+                        <h5 class="custom-text-primary mb-0">Chief of Legis Officer</h5>
+                         <table class="table-dotted table-striped">
+                            <tr>
+                                <td><span class="profile-label">Name:</span></td>
+                                <td><span class="view-info-sname"></span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="profile-label">Landline No:</span></td>
+                                <td><span>---</span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="profile-label">Contact Number:</span></td>
+                                <td><span id="view-info-snumber"></span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="profile-label">Email Address:</span></td>
+                                <td><span id="view-info-semail"></span></td>
+                            </tr>
+                        </table>
+
+                        <h5 class="custom-text-primary mb-0">Appointment Secretary</h5>
+                         <table class="table-dotted table-striped">
+                            <tr>
+                                <td><span class="profile-label">Name:</span></td>
+                                <td><span class="view-info-sname"></span></td>
+                            </tr>
+                            <tr>
+                                <td><span class="profile-label">Landline No:</span></td>
+                                <td><span>---</span></td>
                             </tr>
                             <tr>
                                 <td><span class="profile-label">Contact Number:</span></td>
@@ -255,6 +392,16 @@
                             </tr>
                         </table>
                     </div>
+
+                    <!-- committee Tab -->
+                    <div class="tab-pane fade" id="committee-tab" role="tabpanel" aria-labelledby="committee-tab" tabindex="2">
+                     <table class="table-dotted table-striped" id="committeeTable">
+                         <tbody>
+                             <!-- dynamic data -->
+                         </tbody>
+                     </table>
+                    </div>
+
                 </div>
             </div>
           </div>
@@ -287,36 +434,83 @@
 
   // view info
   $('.view-info-btn').on('click', function() {
-      let name = $(this).attr('data-name');
-      let position = $(this).attr('data-position');
-      let number = $(this).attr('data-number');
-      let email = $(this).attr('data-email');
-      let party = $(this).attr('data-party');
-      let province = $(this).attr('data-province');
+      let name = $(this).data('name');
+      let office = $(this).data('office');
+      let line = $(this).data('line');
+      let email = $(this).data('email');
+      let party = $(this).data('party');
+      let trunk = $(this).data('trunk');
+      let fax = $(this).data('fax');
 
-      let sname = $(this).attr('data-sname');
-      let snumber = $(this).attr('data-snumber');
-      let semail = $(this).attr('data-semail');
+      let sname = $(this).data('sname');
+      let snumber = $(this).data('snumber');
+      let semail = $(this).data('semail');
 
-      let has_staff = $(this).attr('data-has_staff');
-      
-      if (has_staff)
-      {
-          $('#staff-tab-container').show();
-      } else {
-          $('#staff-tab-container').hide();
-      }
+      let committees = $(this).data('committee'); // array of user objects
+      console.log('Committees raw:', committees);
 
       $('.view-info-name').text(name);
-      $('.view-info-position').text(position);
-      $('#view-info-number').text(number);
+      $('#view-info-office').text(office);
       $('#view-info-email').text(email);
       $('#view-info-party').text(party);
-      $('#view-info-province').text(province);
+      $('#view-info-fax').text(fax);
+      $('#view-info-trunk').text(trunk);
+      $('#view-info-line').text(line);
 
       $('.view-info-sname').text(sname);
       $('#view-info-snumber').text(snumber);
       $('#view-info-semail').text(semail);
+
+        if (typeof committees === 'string') {
+            try {
+                committees = JSON.parse(committees);
+            } catch (e) {
+                console.error('Failed to parse committees JSON:', e);
+                committees = [];
+            }
+        }
+
+        if (!Array.isArray(committees)) committees = [];
+
+        // Clear previous rows
+        var tbody = $('#committeeTable tbody');
+        tbody.empty();
+
+        // Loop and append rows dynamically
+        committees.forEach((committee, index) => {
+            tbody.append(`
+                <tr>
+                    <td style="max-width: 300px"><span class="profile-label"><small style="white-space: normal;word-wrap: break-word;overflow-wrap: break-word;">${committee.title}</small></span></td>
+                    <td><span class="profile-label px-4"><small>${committee.position}</small></span></td>
+                    <td>
+                        <span class="text-capitalize">
+                            <small>${committee.personel}</small>
+                            <br />
+                            <small>${committee.contact ?? ''}</small>
+                            <br />
+                            <small>${committee.email ?? ''}</small>
+                            <br />
+                            <small>${committee.email2 ?? ''}</small>
+                        </span>
+                    </td> 
+                </tr>
+            `);
+        });
+
+  });
+
+  // filter by birthmonth
+  $('#filter-birthmonth').on('change', function() {
+      let val = $(this).val();
+      $('#birthmonth-value-holder').val(val);
+      $('#filter-birthmonth-form').submit();
+  });
+
+  // filter by gender
+  $('#filter-gender').on('change', function() {
+      let val = $(this).val();
+      $('#gender-value-holder').val(val);
+      $('#filter-gender-form').submit();
   });
 </script>
 @endsection
