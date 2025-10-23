@@ -243,6 +243,9 @@
 													<div class="modal-body" id="agency-modal-body">
 														<!-- Dynamic content will be inserted here -->
 													</div>
+													<div class="modal-footer">
+														<button class="btn btn-sm btn-primary" data-bs-dismiss="modal">SAVE</button>
+													</div>
 												</div>
 											</div>
 										</div>
