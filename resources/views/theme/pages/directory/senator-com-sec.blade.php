@@ -23,42 +23,42 @@
                 
         <div class="col-12 mb-3 d-flex justify-content-between align-items-center">
             <h3 class="form-title text-uppercase">{{ $page->name }}</h3>
-            <form method="get" action="{{ route('directory.senator.comsec') }}">
-                <div class="d-flex justify-content-between align-items-center">
 
-                    <div class="row mx-1">
-                        <form method="get" action="{{ route('directory.senator.comsec') }}">
-                            <input class="form-control mx-2" placeholder="SEARCH" name="member_name" value="{{ request('member_name') }}"/>
-                        </form>
-                    </div>
+            <div class="d-flex justify-content-end align-items-center">
 
-                    <div class="row mx-2">
-                        <select class="form-select lh-1" id="filter-birthmonth" style="height: 38px;">
-                            <option selected disabled>BIRTHMONTH</option>
-                            @foreach(config('months') as $month)
-                            <option value="{{ $month }}">{{ $month }}</option>
-                            @endforeach
-                            <option value="0">ALL</option>
-                        </select>
-                    </div>
-
-                    <div class="row mx-2">
-                        <select class="form-select lh-1" id="filter-gender" style="height: 38px;">
-                            <option selected disabled>GENDER</option>
-                            <option value="1">MALE</option>
-                            <option value="2">FEMALE</option>
-                            <option value="3">OTHERS</option>
-                            <option value="4">PREFER NOT TO SAY</option>
-                            <option value="0">ALL</option>
-                        </select>
-                    </div>
-
-                    <button type="button" class="btn btn-transparent p-1" id="grid-view-btn" title="Grid View"><i class="bi-grid-fill fa-1x custom-text-primary"></i></button>
-                    <button type="button" class="btn btn-transparent p-1" id="list-view-btn" title="List View"><i class="bi-list-ul fa-1x custom-text-primary"></i></button>
-                    <a onclick="window.print()" type="button" class="btn btn-transparent p-1" title="Print"><i class="fa-solid fa-print fa-1x custom-text-primary"></i></a>
-                    <a href="{{ route('directory.senator.comsec') }}" type="button" class="btn btn-transparent p-1"><i class="fa-solid fa-refresh fa-1x custom-text-primary"></i></a>
+                <div class="row mx-1">
+                    <form method="get" action="{{ route('directory.senator.comsec') }}" class="mb-0">
+                        <input class="form-control mx-2" placeholder="SEARCH" name="member_name" value="{{ request('member_name') }}"/>
+                    </form>
                 </div>
-            </form>
+
+                <div class="row mx-2">
+                    <select class="form-select lh-1" id="filter-birthmonth" style="height: 38px;">
+                        <option selected disabled>BIRTHMONTH</option>
+                        @foreach(config('months') as $month)
+                        <option value="{{ $month }}">{{ $month }}</option>
+                        @endforeach
+                        <option value="0">ALL</option>
+                    </select>
+                </div>
+
+                <div class="row mx-2">
+                    <select class="form-select lh-1" id="filter-gender" style="height: 38px;">
+                        <option selected disabled>GENDER</option>
+                        <option value="1">MALE</option>
+                        <option value="2">FEMALE</option>
+                        <option value="3">OTHERS</option>
+                        <option value="4">PREFER NOT TO SAY</option>
+                        <option value="0">ALL</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn btn-transparent p-1" id="grid-view-btn" title="Grid View"><i class="bi-grid-fill fa-1x custom-text-primary"></i></button>
+                <button type="button" class="btn btn-transparent p-1" id="list-view-btn" title="List View"><i class="bi-list-ul fa-1x custom-text-primary"></i></button>
+                <a onclick="window.print()" type="button" class="btn btn-transparent p-1" title="Print"><i class="fa-solid fa-print fa-1x custom-text-primary"></i></a>
+                <a href="{{ route('directory.senator.comsec') }}" type="button" class="btn btn-transparent p-1"><i class="fa-solid fa-refresh fa-1x custom-text-primary"></i></a>
+            </div>
+
         </div>
 
         <div id="portfolio" class="row g-4">
@@ -84,7 +84,6 @@
                                         } else {
                                             $party = $party->name;
                                         }
-
                                     @endphp
                                     <h6 class="card-title mb-2 custom-text-primary fw-bold text-uppercase cursor-pointer view-info-btn"    data-bs-toggle="modal" 
                                         data-bs-target="#viewInfoModal" 
