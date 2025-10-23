@@ -22,11 +22,18 @@
         gap: 8px;
         justify-content: flex-end;
         margin-bottom: 10px;
+        position: absolute;
+        right: 14px;
+        z-index: 9;
     }
     #viewInfoModal .social-icons-tab i {
         font-size: 22px;
-        opacity: .6;
+        opacity: .7;
         margin: 0px;
+        color: gray !important;
+    }
+    #viewInfoModal .social-icons-tab i:hover {
+        opacity: 1;
     }
 </style>
 @endsection
@@ -70,6 +77,7 @@
                 <button type="button" class="btn btn-transparent p-1" id="list-view-btn" title="List View"><i class="bi-list-ul fa-1x custom-text-primary"></i></button>
                 <a onclick="window.print()" type="button" class="btn btn-transparent p-1" title="Print"><i class="fa-solid fa-print fa-1x custom-text-primary"></i></a>
                 <a href="{{ route('directory.senator.staff') }}" type="button" class="btn btn-transparent p-1"><i class="fa-solid fa-refresh fa-1x custom-text-primary"></i></a>
+
             </div>
 
         </div>
@@ -266,19 +274,19 @@
     <!-- View Information -->
     <div class="modal fade" id="viewInfoModal" tabindex="-1" aria-labelledby="viewInfoModalLabel">
       <div class="modal-dialog modal-dialog-centered" style="min-width: fit-content;">
-        <div class="modal-content">
+        <div class="modal-content" style="min-width: 780px">
           <div class="modal-header">
             <h5 class="modal-title"><span class="text-capitalize view-info-name"></span>&nbsp;<span></span></h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div class="p-1">
-                <!-- <div class="social-icons-tab pt-0 mt-0">
-                    <i class="bi-facebook"></i>
-                    <i class="uil-instagram-alt"></i>
-                    <i class="bi-twitter"></i>
-                    <i class="bi-youtube"></i>
-                </div> -->
+            <div class="p-1 position-relative">
+                <div class="social-icons-tab pt-0 mt-0">
+                    <a href="#"><i class="bi-facebook"></i></a>
+                    <a href="#"><i class="uil-instagram-alt"></i></a>
+                    <a href="#"><i class="bi-twitter"></i></a>
+                    <a href="#"><i class="bi-youtube"></i></a>
+                </div>
                 <ul class="nav canvas-tabs tabs-bordered canvas-tabs tabs nav-tabs mb-3" id="canvas-tab-border" role="tablist">
 
                     <!-- profile trigger tab -->
@@ -303,7 +311,7 @@
                     <!-- Profile Tab -->
                     <div class="tab-pane fade show active" id="profile-tab" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
                         <table class="table-dotted table-striped">
-                             <tr>
+                            <tr>
                                 <td><span class="profile-label">Senate Office:</span></td>
                                 <td><span class="text-capitalize" id="view-info-office">---</span></td>
                             </tr>
@@ -335,19 +343,19 @@
                          <h5 class="custom-text-primary mb-0">Chief of Staff</h5>
                          <table class="table-dotted table-striped">
                             <tr>
-                                <td><span class="profile-label">Name:</span></td>
+                                <td width="30%"><span class="profile-label">Name:</span></td>
                                 <td><span class="view-info-sname"></span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Landline No:</span></td>
+                                <td width="30%"><span class="profile-label">Landline No:</span></td>
                                 <td><span>---</span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Contact Number:</span></td>
+                                <td width="30%"><span class="profile-label">Contact Number:</span></td>
                                 <td><span id="view-info-snumber"></span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Email Address:</span></td>
+                                <td width="30%"><span class="profile-label">Email Address:</span></td>
                                 <td><span id="view-info-semail"></span></td>
                             </tr>
                         </table>
@@ -355,19 +363,19 @@
                         <h5 class="custom-text-primary mb-0">Chief of Legis Officer</h5>
                          <table class="table-dotted table-striped">
                             <tr>
-                                <td><span class="profile-label">Name:</span></td>
+                                <td width="30%"><span class="profile-label">Name:</span></td>
                                 <td><span class="view-info-sname"></span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Landline No:</span></td>
+                                <td width="30%"><span class="profile-label">Landline No:</span></td>
                                 <td><span>---</span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Contact Number:</span></td>
+                                <td width="30%"><span class="profile-label">Contact Number:</span></td>
                                 <td><span id="view-info-snumber"></span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Email Address:</span></td>
+                                <td width="30%"><span class="profile-label">Email Address:</span></td>
                                 <td><span id="view-info-semail"></span></td>
                             </tr>
                         </table>
@@ -375,19 +383,19 @@
                         <h5 class="custom-text-primary mb-0">Appointment Secretary</h5>
                          <table class="table-dotted table-striped">
                             <tr>
-                                <td><span class="profile-label">Name:</span></td>
+                                <td width="30%"><span class="profile-label">Name:</span></td>
                                 <td><span class="view-info-sname"></span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Landline No:</span></td>
+                                <td width="30%"><span class="profile-label">Landline No:</span></td>
                                 <td><span>---</span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Contact Number:</span></td>
+                                <td width="30%"><span class="profile-label">Contact Number:</span></td>
                                 <td><span id="view-info-snumber"></span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Email Address:</span></td>
+                                <td width="30%"><span class="profile-label">Email Address:</span></td>
                                 <td><span id="view-info-semail"></span></td>
                             </tr>
                         </table>
@@ -512,5 +520,6 @@
       $('#gender-value-holder').val(val);
       $('#filter-gender-form').submit();
   });
+
 </script>
 @endsection

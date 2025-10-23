@@ -15,6 +15,26 @@
     .member-list-view {
         display: none;
     }
+
+    #viewInfoModal .social-icons-tab {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+        position: absolute;
+        right: 14px;
+        z-index: 9;
+    }
+    #viewInfoModal .social-icons-tab i {
+        font-size: 22px;
+        opacity: .7;
+        margin: 0px;
+        color: gray !important;
+    }
+    #viewInfoModal .social-icons-tab i:hover {
+        opacity: 1;
+    }
 </style>
 @endsection
 
@@ -262,13 +282,19 @@
    <!-- View Information -->
    <div class="modal fade" id="viewInfoModal" tabindex="-1" aria-labelledby="viewInfoModalLabel">
      <div class="modal-dialog modal-dialog-centered" style="min-width: fit-content;">
-       <div class="modal-content">
+       <div class="modal-content" style="min-width: 780px">
          <div class="modal-header">
            <h5 class="modal-title"><span class="text-capitalize view-info-name"></span>&nbsp;<span></span></h5>
            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
          </div>
          <div class="modal-body">
-           <div class="p-1">
+           <div class="p-1 position-relative">
+                <div class="social-icons-tab pt-0 mt-0">
+                    <a href="#"><i class="bi-facebook"></i></a>
+                    <a href="#"><i class="uil-instagram-alt"></i></a>
+                    <a href="#"><i class="bi-twitter"></i></a>
+                    <a href="#"><i class="bi-youtube"></i></a>
+                </div>
                <ul class="nav canvas-tabs tabs-bordered canvas-tabs tabs nav-tabs mb-3" id="canvas-tab-border" role="tablist">
 
                    <!-- profile trigger tab -->
@@ -293,27 +319,27 @@
                    <div class="tab-pane fade show active" id="profile-tab" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
                        <table class="table-dotted table-striped">
                             <tr>
-                               <td><span class="profile-label">Senate Office:</span></td>
+                               <td width="30%"><span class="profile-label">Senate Office:</span></td>
                                <td><span class="text-capitalize" id="view-info-office">---</span></td>
                            </tr>
                            <tr>
-                               <td><span class="profile-label">Trunk Lines:</span></td>
+                               <td width="30%"><span class="profile-label">Trunk Lines:</span></td>
                                <td><span class="text-capitalize" id="view-info-trunk">---</span></td>
                            </tr>
                            <tr>
-                               <td><span class="profile-label">Direct Line/s:</span></td>
+                               <td width="30%"><span class="profile-label">Direct Line/s:</span></td>
                                <td><span class="text-capitalize" id="view-info-line">---</span></td>
                            </tr>
                            <tr>
-                               <td><span class="profile-label">Telefax No.</span></td>
+                               <td width="30%"><span class="profile-label">Telefax No.</span></td>
                                <td><span class="text-capitalize" id="view-info-fax">---</span></td>
                            </tr>
                            <tr>
-                               <td><span class="profile-label">Email Address:</span></td>
+                               <td width="30%"><span class="profile-label">Email Address:</span></td>
                                <td><span class="text-capitalize" id="view-info-email"></span></td>
                            </tr>
                            <tr>
-                               <td><span class="profile-label">Party Affiliation:</span></td>
+                               <td width="30%"><span class="profile-label">Party Affiliation:</span></td>
                                <td><span class="text-capitalize" id="view-info-party">---</span></td>
                            </tr>
                        </table>
@@ -324,19 +350,19 @@
                         <h5 class="custom-text-primary mb-0">Chief of Staff</h5>
                         <table class="table-dotted table-striped">
                            <tr>
-                               <td><span class="profile-label">Name:</span></td>
+                               <td width="30%"><span class="profile-label">Name:</span></td>
                                <td><span class="view-info-sname"></span></td>
                            </tr>
                            <tr>
-                               <td><span class="profile-label">Landline No:</span></td>
+                               <td width="30%"><span class="profile-label">Landline No:</span></td>
                                <td><span>---</span></td>
                            </tr>
                            <tr>
-                               <td><span class="profile-label">Contact Number:</span></td>
+                               <td width="30%"><span class="profile-label">Contact Number:</span></td>
                                <td><span id="view-info-snumber"></span></td>
                            </tr>
                            <tr>
-                               <td><span class="profile-label">Email Address:</span></td>
+                               <td width="30%"><span class="profile-label">Email Address:</span></td>
                                <td><span id="view-info-semail"></span></td>
                            </tr>
                        </table>
@@ -344,19 +370,19 @@
                        <h5 class="custom-text-primary mb-0">Chief of Legis Officer</h5>
                         <table class="table-dotted table-striped">
                            <tr>
-                               <td><span class="profile-label">Name:</span></td>
+                               <td width="30%"><span class="profile-label">Name:</span></td>
                                <td><span class="view-info-sname"></span></td>
                            </tr>
                            <tr>
-                               <td><span class="profile-label">Landline No:</span></td>
+                               <td width="30%"><span class="profile-label">Landline No:</span></td>
                                <td><span>---</span></td>
                            </tr>
                            <tr>
-                               <td><span class="profile-label">Contact Number:</span></td>
+                               <td width="30%"><span class="profile-label">Contact Number:</span></td>
                                <td><span id="view-info-snumber"></span></td>
                            </tr>
                            <tr>
-                               <td><span class="profile-label">Email Address:</span></td>
+                               <td width="30%"><span class="profile-label">Email Address:</span></td>
                                <td><span id="view-info-semail"></span></td>
                            </tr>
                        </table>
@@ -364,19 +390,19 @@
                        <h5 class="custom-text-primary mb-0">Appointment Secretary</h5>
                         <table class="table-dotted table-striped">
                            <tr>
-                               <td><span class="profile-label">Name:</span></td>
+                               <td width="30%"><span class="profile-label">Name:</span></td>
                                <td><span class="view-info-sname"></span></td>
                            </tr>
                            <tr>
-                               <td><span class="profile-label">Landline No:</span></td>
+                               <td width="30%"><span class="profile-label">Landline No:</span></td>
                                <td><span>---</span></td>
                            </tr>
                            <tr>
-                               <td><span class="profile-label">Contact Number:</span></td>
+                               <td width="30%"><span class="profile-label">Contact Number:</span></td>
                                <td><span id="view-info-snumber"></span></td>
                            </tr>
                            <tr>
-                               <td><span class="profile-label">Email Address:</span></td>
+                               <td width="30%"><span class="profile-label">Email Address:</span></td>
                                <td><span id="view-info-semail"></span></td>
                            </tr>
                        </table>
