@@ -15,6 +15,26 @@
     .member-list-view {
         display: none;
     }
+
+    #viewInfoModal .social-icons-tab {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+        position: absolute;
+        right: 14px;
+        z-index: 9;
+    }
+    #viewInfoModal .social-icons-tab i {
+        font-size: 22px;
+        opacity: .7;
+        margin: 0px;
+        color: gray !important;
+    }
+    #viewInfoModal .social-icons-tab i:hover {
+        opacity: 1;
+    }
 </style>
 @endsection
 
@@ -23,14 +43,60 @@
                 
         <div class="col-12 mb-3 d-flex justify-content-between align-items-center">
             <h3 class="form-title text-uppercase">{{ $page->name }}</h3>
-            <form method="get" action="{{ route('directory.senators') }}">
-                <div class="d-flex justify-content-between align-items-center">
-                    <input class="form-control" placeholder="Search Member Name" name="member_name" value="{{ request('member_name') }}"/>
-                    <button type="button" class="btn btn-transparent p-1" id="grid-view-btn" title="Grid View"><i class="bi-grid-fill fa-1x custom-text-primary"></i></button>
-                    <button type="button" class="btn btn-transparent p-1" id="list-view-btn" title="List View"><i class="bi-list-ul fa-1x custom-text-primary"></i></button>
-                    <a href="{{ route('directory.senators') }}" type="button" class="btn btn-transparent p-1"><i class="fa-solid fa-refresh fa-1x custom-text-primary"></i></a>
+
+            <div class="d-flex justify-content-end align-items-center">
+
+                <div class="row mx-1">
+                    <form method="get" action="{{ route('directory.senators') }}" class="mb-0">
+                        <input class="form-control mx-2" placeholder="SEARCH" name="member_name" value="{{ request('member_name') }}"/>
+                    </form>
                 </div>
-            </form>
+
+                <div class="row mx-2">
+                    <select class="form-select lh-1" id="filter-minormajor" style="height: 38px;">
+                        <option selected disabled>MAJORITY | MINORITY</option>
+                        <option value="majority">MAJORITY</option>
+                        <option value="minority">MINORITY</option>
+                    </select>
+                </div>
+
+                <div class="row mx-2">
+                    <select class="form-select lh-1" id="filter-birthmonth" style="height: 38px;">
+                        <option selected disabled>BIRTHMONTH</option>
+                        @foreach(config('months') as $month)
+                        <option value="{{ $month }}">{{ $month }}</option>
+                        @endforeach
+                        <option value="0">ALL</option>
+                    </select>
+                </div>
+
+                <div class="row mx-2">
+                    <select class="form-select lh-1" id="filter-affiliation" style="height: 38px;">
+                        <option selected disabled>POLITICAL AFFILIATION</option>
+                        <option value="pdp-laban">PDP-LABAN</option>
+                        <option value="lakas-cmd">LAKAS-CMD</option>
+                        <option value="liberal">LIBERAL</option>
+                        <option value="UNA">UNA</option>
+                    </select>
+                </div>
+
+                <div class="row mx-2">
+                    <select class="form-select lh-1" id="filter-gender" style="height: 38px;">
+                        <option selected disabled>GENDER</option>
+                        <option value="male">MALE</option>
+                        <option value="female">FEMALE</option>
+                        <option value="others">OTHERS</option>
+                        <option value="prefer not to say">PREFER NOT TO SAY</option>
+                        <option value="0">ALL</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn btn-transparent p-1" id="grid-view-btn" title="Grid View"><i class="bi-grid-fill fa-1x custom-text-primary"></i></button>
+                <button type="button" class="btn btn-transparent p-1" id="list-view-btn" title="List View"><i class="bi-list-ul fa-1x custom-text-primary"></i></button>
+                <a onclick="window.print()" type="button" class="btn btn-transparent p-1" title="Print"><i class="fa-solid fa-print fa-1x custom-text-primary"></i></a>
+                <a href="{{ route('directory.senators') }}" type="button" class="btn btn-transparent p-1"><i class="fa-solid fa-refresh fa-1x custom-text-primary"></i></a>
+            </div>
+
         </div>
 
         <div id="portfolio" class="row g-4">
@@ -51,13 +117,16 @@
                                     <h6 class="card-title mb-2 custom-text-primary fw-bold text-uppercase cursor-pointer view-info-btn"
                                         data-bs-toggle="modal" 
                                         data-bs-target="#viewInfoModal" 
+
                                         data-name="{{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }}"
                                         data-has_staff="{{ $member->has_staff }}"
                                         data-position="Senator"
-                                        data-number="{{ $member->office_cellphone }}"
+                                        data-trunk="{{ $member->main_trunk_local_number }}"
+                                        data-line="{{ $member->main_direct_line }}"
+                                        data-fax="{{ $member->main_fax_number }}"
                                         data-email="{{ $member->email }}"
                                         data-party="{{ $member->party }}"
-                                        data-province="{{ $member->province_address }}"
+                                        data-room="{{ $member->main_room_number }}"
 
                                         data-sname_sen_staff="{{ $member->sen_staff_name }}"
                                         data-snumber_sen_staff="{{ $member->sen_staff_number }}"
@@ -69,7 +138,10 @@
 
                                         data-sname_sen_secretary="{{ $member->sen_secretary_name }}"
                                         data-snumber_sen_secretary="{{ $member->sen_secretary_number }}"
-                                        data-semail_sen_secretary="{{ $member->sen_secretary_email }}">
+                                        data-semail_sen_secretary="{{ $member->sen_secretary_email }}"
+
+                                        data-committee = '@json($committees)'
+                                    >
                                         {{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }} 
                                     </h6>
                                     <ul class="list-unstyled mb-2 small">
@@ -122,13 +194,16 @@
                                     <small class="lh-1"><b class="text-capitalize cursor-pointer view-info-btn"
                                         data-bs-toggle="modal" 
                                         data-bs-target="#viewInfoModal" 
+
                                         data-name="{{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }}"
                                         data-has_staff="{{ $member->has_staff }}"
                                         data-position="Senator"
-                                        data-number="{{ $member->office_cellphone }}"
+                                        data-trunk="{{ $member->main_trunk_local_number }}"
+                                        data-line="{{ $member->main_direct_line }}"
+                                        data-fax="{{ $member->main_fax_number }}"
                                         data-email="{{ $member->email }}"
                                         data-party="{{ $member->party }}"
-                                        data-province="{{ $member->province_address }}"
+                                        data-room="{{ $member->main_room_number }}"
 
                                         data-sname_sen_staff="{{ $member->sen_staff_name }}"
                                         data-snumber_sen_staff="{{ $member->sen_staff_number }}"
@@ -140,7 +215,10 @@
 
                                         data-sname_sen_secretary="{{ $member->sen_secretary_name }}"
                                         data-snumber_sen_secretary="{{ $member->sen_secretary_number }}"
-                                        data-semail_sen_secretary="{{ $member->sen_secretary_email }}">
+                                        data-semail_sen_secretary="{{ $member->sen_secretary_email }}"
+
+                                        data-committee = '@json($committees)'
+                                    >
                                         {{ $member->FullName }}</b></small>
                                     @if(!empty($member->position))
                                     <small class="lh-1"><i>{{ $member->position }}</i></small>
@@ -171,6 +249,26 @@
 
     </div>
 
+    <!-- form filter by birthmonth -->
+    <form action="{{ route('directory.senators') }}" method="get" id="filter-birthmonth-form">
+        <input type="hidden" name="birthmonth" id="birthmonth-value-holder">
+    </form>
+
+    <!-- form filter by gender -->
+    <form action="{{ route('directory.senators') }}" method="get" id="filter-gender-form">
+        <input type="hidden" name="gender" id="gender-value-holder">
+    </form>
+
+    <!-- form filter by minormajor -->
+    <form action="{{ route('directory.senators') }}" method="get" id="filter-minormajor-form">
+        <input type="hidden" name="minormajor" id="minormajor-value-holder">
+    </form>
+
+    <!-- form filter by affiliation -->
+    <form action="{{ route('directory.senators') }}" method="get" id="filter-affiliation-form">
+        <input type="hidden" name="affiliation" id="affiliation-value-holder">
+    </form>
+
     <!-- Add Contact -->
     <div class="modal fade" id="addContactModal" tabindex="-1" aria-labelledby="addContactLabel" aria-hidden="true">
       <div class="modal-dialog modal-dialog-centered">
@@ -197,16 +295,21 @@
    
     <!-- View Information -->
     <div class="modal fade" id="viewInfoModal" tabindex="-1" aria-labelledby="viewInfoModalLabel">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+      <div class="modal-dialog modal-dialog-centered" style="min-width: fit-content;">
+        <div class="modal-content" style="min-width: 780px">
           <div class="modal-header">
             <h5 class="modal-title"><span class="text-capitalize view-info-name"></span>&nbsp;<span></span></h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <div class="p-1">
+            <div class="p-1 position-relative">
+                <div class="social-icons-tab pt-0 mt-0">
+                    <a href="#"><i class="bi-facebook"></i></a>
+                    <a href="#"><i class="uil-instagram-alt"></i></a>
+                    <a href="#"><i class="bi-twitter"></i></a>
+                    <a href="#"><i class="bi-youtube"></i></a>
+                </div>
                 <ul class="nav canvas-tabs tabs-bordered canvas-tabs tabs nav-tabs mb-3" id="canvas-tab-border" role="tablist">
-
                     <!-- profile trigger tab -->
                     <li class="nav-item" role="presentation">
                         <button class="nav-link active" id="profile-tab-trigger" data-bs-toggle="pill" data-bs-target="#profile-tab" type="button" role="tab" aria-controls="profile-tab" aria-selected="true">Profile
@@ -217,10 +320,11 @@
                         <button class="nav-link" id="staff-tab-trigger" data-bs-toggle="pill" data-bs-target="#staff-tab" type="button" role="tab" aria-controls="staff-tab" aria-selected="true"><small>CoS | CLO | AS</small>
                         </button>
                     </li>
-                    <!-- <li class="nav-item" role="presentation" id="committee-tab-container">
-                        <button class="nav-link" id="committee-tab-trigger" data-bs-toggle="pill" data-bs-target="#committee-tab" type="button" role="tab" aria-controls="committee-tab" aria-selected="true">Committee
+                    <!-- committee tab -->
+                    <li class="nav-item" role="presentation" id="committee-tab-container">
+                        <button class="nav-link" id="committee-tab-trigger" data-bs-toggle="pill" data-bs-target="#committee-tab" type="button" role="tab" aria-controls="staff-tab" aria-selected="true"><small>Committee</small>
                         </button>
-                    </li> -->
+                    </li>
                 </ul>
                 <div class="tab-content mb-3 relative">
 
@@ -228,105 +332,104 @@
                     <div class="tab-pane fade show active" id="profile-tab" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
                         <table class="table-dotted table-striped">
                             <tr>
-                                <td><span class="profile-label">Designation:</span></td>
-                                <td><span class="view-info-position text-capitalize"></span></td>
+                                <td width="30%"><span class="profile-label">Senate Office:</span></td>
+                                <td><span class="text-capitalize" id="view-info-office">---</span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Party Affiliation:</span></td>
-                                <td><span id="view-info-party" class="text-capitalize"></span></td>
+                                <td width="30%"><span class="profile-label">Trunk Lines:</span></td>
+                                <td><span class="text-capitalize" id="view-info-trunk">---</span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Province:</span></td>
-                                <td><span id="view-info-province" class="text-capitalize"></span></td>
+                                <td width="30%"><span class="profile-label">Direct Line/s:</span></td>
+                                <td><span class="text-capitalize" id="view-info-line">---</span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Contact Number:</span></td>
-                                <td><span id="view-info-number"></span></td>
+                                <td width="30%"><span class="profile-label">Telefax No.</span></td>
+                                <td><span class="text-capitalize" id="view-info-fax">---</span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Email Address:</span></td>
-                                <td><span id="view-info-email"></span></td>
+                                <td width="30%"><span class="profile-label">Email Address:</span></td>
+                                <td><span class="text-capitalize" id="view-info-email"></span></td>
+                            </tr>
+                            <tr>
+                                <td width="30%"><span class="profile-label">Party Affiliation:</span></td>
+                                <td><span class="text-capitalize" id="view-info-party">---</span></td>
                             </tr>
                         </table>
                     </div>
 
                     <!-- Staff Tab -->
                     <div class="tab-pane fade" id="staff-tab" role="tabpanel" aria-labelledby="staff-tab" tabindex="0">
+                        <h5 class="custom-text-primary mb-0">Chief of Staff</h5>
                         <table class="table-dotted table-striped">
                             <tr>
-                                <td><span class="profile-label">Position:</span></td>
-                                <td><span class="view-info-default custom-text-primary"><b>Chief of Staff</b></span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="profile-label">Name:</span></td>
+                                <td width="30%"><span class="profile-label">Name:</span></td>
                                 <td><span class="view-info-sname-sen_staff"></span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Contact Number:</span></td>
+                                <td width="30%"><span class="profile-label">Landline No:</span></td>
+                                <td><span id=""></span>---</td>
+                            </tr>
+                            <tr>
+                                <td width="30%"><span class="profile-label">Cellphone Number:</span></td>
                                 <td><span id="view-info-snumber-sen_staff"></span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Email Address:</span></td>
+                                <td width="30%"><span class="profile-label">Email Address:</span></td>
                                 <td><span id="view-info-semail-sen_staff"></span></td>
                             </tr>
                         </table>
 
+                        <h5 class="custom-text-primary mb-0">Chief of Legis Officer</h5>
                         <table class="table-dotted table-striped">
                             <tr>
-                                <td><span class="profile-label">Position:</span></td>
-                                <td><span class="view-info-default custom-text-primary"><b>Chief Legis Officer</b></span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="profile-label">Name:</span></td>
+                                <td width="30%"><span class="profile-label">Name:</span></td>
                                 <td><span class="view-info-sname-sen_officer"></span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Contact Number:</span></td>
+                                <td width="30%"><span class="profile-label">Landline No:</span></td>
+                                <td><span id=""></span>---</td>
+                            </tr>
+                            <tr>
+                                <td width="30%"><span class="profile-label">Cellphone Number:</span></td>
                                 <td><span id="view-info-snumber-sen_officer"></span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Email Address:</span></td>
+                                <td width="30%"><span class="profile-label">Email Address:</span></td>
                                 <td><span id="view-info-semail-sen_officer"></span></td>
                             </tr>
                         </table>
 
+                        <h5 class="custom-text-primary mb-0">Appointment Secretary</h5>
                         <table class="table-dotted table-striped">
                             <tr>
-                                <td><span class="profile-label">Position:</span></td>
-                                <td><span class="view-info-default custom-text-primary"><b>Appointment Secretary</b></span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="profile-label">Name:</span></td>
+                                <td width="30%"><span class="profile-label">Name:</span></td>
                                 <td><span class="view-info-sname-sen_secretary"></span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Contact Number:</span></td>
+                                <td width="30%"><span class="profile-label">Landline No:</span></td>
+                                <td><span id=""></span>---</td>
+                            </tr>
+                            <tr>
+                                <td width="30%"><span class="profile-label">Cellphone Number:</span></td>
                                 <td><span id="view-info-snumber-sen_secretary"></span></td>
                             </tr>
                             <tr>
-                                <td><span class="profile-label">Email Address:</span></td>
+                                <td width="30%"><span class="profile-label">Email Address:</span></td>
                                 <td><span id="view-info-semail-sen_secretary"></span></td>
                             </tr>
                         </table>
                     </div>
 
-                    <!-- Committee Tab -->
-                    <!-- <div class="tab-pane fade" id="committee-tab" role="tabpanel" aria-labelledby="committee-tab" tabindex="0">
-                        <table class="table-dotted table-striped">
-                            <tr>
-                                <td><span class="profile-label"></span></td>
-                                <td><span class="view-info-sname"></span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="profile-label">Contact Number:</span></td>
-                                <td><span id="view-info-snumber"></span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="profile-label">Email Address:</span></td>
-                                <td><span id="view-info-semail"></span></td>
-                            </tr>
-                        </table>
-                    </div> -->
+                    <!-- committee Tab -->
+                    <div class="tab-pane fade" id="committee-tab" role="tabpanel" aria-labelledby="committee-tab" tabindex="2">
+                     <table class="table-dotted table-striped" id="committeeTable">
+                         <tbody>
+                             <!-- dynamic data -->
+                         </tbody>
+                     </table>
+                    </div>
+
                 </div>
             </div>
           </div>
@@ -361,10 +464,12 @@
   $('.view-info-btn').on('click', function() {
       let name = $(this).attr('data-name');
       let position = $(this).attr('data-position');
-      let number = $(this).attr('data-number');
+      let trunk = $(this).attr('data-trunk');
+      let line = $(this).attr('data-line');
+      let fax = $(this).attr('data-fax');
       let email = $(this).attr('data-email');
       let party = $(this).attr('data-party');
-      let province = $(this).attr('data-province');
+      let room = $(this).attr('data-room');
 
       let sname_sen_staff = $(this).attr('data-sname_sen_staff');
       let snumber_sen_staff = $(this).attr('data-snumber_sen_staff');
@@ -378,8 +483,11 @@
       let snumber_sen_secretary = $(this).attr('data-snumber_sen_secretary');
       let semail_sen_secretary = $(this).attr('data-semail_sen_secretary');
 
-      let has_staff = $(this).attr('data-has_staff');
+      let committees = $(this).data('committee'); // array of user objects
+      console.log('Committees raw:', committees);
       
+      let has_staff = $(this).attr('data-has_staff');
+
       if (has_staff)
       {
           $('#staff-tab-container').show();
@@ -391,10 +499,12 @@
 
       $('.view-info-name').text(name);
       $('.view-info-position').text(position);
-      $('#view-info-number').text(number);
+      $('#view-info-trunk').text(trunk);
+      $('#view-info-line').text(line);
+      $('#view-info-fax').text(fax);
       $('#view-info-email').text(email);
       $('#view-info-party').text(party);
-      $('#view-info-province').text(province);
+      $('#view-info-office').text(room);
 
       $('.view-info-sname-sen_staff').text(sname_sen_staff);
       $('#view-info-snumber-sen_staff').text(snumber_sen_staff);
@@ -407,6 +517,70 @@
       $('.view-info-sname-sen_secretary').text(sname_sen_secretary);
       $('#view-info-snumber-sen_secretary').text(snumber_sen_secretary);
       $('#view-info-semail-sen_secretary').text(semail_sen_secretary);
+
+      if (typeof committees === 'string') {
+          try {
+              committees = JSON.parse(committees);
+          } catch (e) {
+              console.error('Failed to parse committees JSON:', e);
+              committees = [];
+          }
+      }
+
+      if (!Array.isArray(committees)) committees = [];
+
+      // Clear previous rows
+      var tbody = $('#committeeTable tbody');
+      tbody.empty();
+
+      // Loop and append rows dynamically
+      committees.forEach((committee, index) => {
+          tbody.append(`
+              <tr>
+                  <td style="max-width: 300px"><span class="profile-label"><small style="white-space: normal;word-wrap: break-word;overflow-wrap: break-word;">${committee.title}</small></span></td>
+                  <td><span class="profile-label px-4"><small>${committee.position}</small></span></td>
+                  <td>
+                      <span class="text-capitalize">
+                          <small>${committee.personel}</small>
+                          <br />
+                          <small>${committee.contact ?? ''}</small>
+                          <br />
+                          <small>${committee.email ?? ''}</small>
+                          <br />
+                          <small>${committee.email2 ?? ''}</small>
+                      </span>
+                  </td> 
+              </tr>
+          `);
+      });
+  });
+
+  // filter by birthmonth
+  $('#filter-birthmonth').on('change', function() {
+      let val = $(this).val();
+      $('#birthmonth-value-holder').val(val);
+      $('#filter-birthmonth-form').submit();
+  });
+
+  // filter by gender
+  $('#filter-gender').on('change', function() {
+      let val = $(this).val();
+      $('#gender-value-holder').val(val);
+      $('#filter-gender-form').submit();
+  });
+
+  // filter by minority or majority
+  $('#filter-minormajor').on('change', function() {
+      let val = $(this).val();
+      $('#minormajor-value-holder').val(val);
+      $('#filter-minormajor-form').submit();
+  });
+
+  // filter by affiliation
+  $('#filter-affiliation').on('change', function() {
+      let val = $(this).val();
+      $('#affiliation-value-holder').val(val);
+      $('#filter-affiliation-form').submit();
   });
 
 </script>

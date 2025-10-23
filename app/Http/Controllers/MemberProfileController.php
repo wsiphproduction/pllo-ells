@@ -592,6 +592,39 @@ class MemberProfileController extends Controller
 	        });
 	    }
 
+	    if (request('gender')) {
+        		$gender = request('gender');
+        		if ($gender) {
+			        $members->where('gender', $gender)
+			            ->get();
+			    };
+	    }
+
+	    if (request('birthmonth')) {
+	    	$birthmonth = request('birthmonth');
+	    	if ($birthmonth) {
+	    		$members->where('birthdate', 'like', "%{$birthmonth}%")
+		        				->get();
+	    	}
+	    }
+
+	    if (request('affiliation')) {
+        		$party = request('affiliation');
+        		if ($party) {
+			        $members->where('party', $party)
+			            ->get();
+			    };
+	    }
+
+	    if (request('minormajor')) {
+        		$minormajor = request('minormajor');
+        		if ($minormajor) {
+			        $members->where('group', $minormajor)
+			            ->get();
+			    };
+	    }
+
+
 	    $members = $members->paginate($this->page_limit);
 
         foreach($members as $member) {
@@ -626,7 +659,9 @@ class MemberProfileController extends Controller
     	    }
         }
 
-		return view('theme.pages.directory.senator', compact('page', 'members'));
+        $committees = ComSecCommitteeTab::all();
+
+		return view('theme.pages.directory.senator', compact('page', 'members', 'committees'));
 	}
 
 	public function senartorStaffDirectory(Request $request)
