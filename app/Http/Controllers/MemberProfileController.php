@@ -869,8 +869,9 @@ class MemberProfileController extends Controller
 	    }
 
 	    $members = $members->paginate($this->page_limit);
+	    $committees = ComSecCommitteeTab::all();
 
-		return view('theme.pages.directory.hor-com-sec', compact('page', 'members'));
+		return view('theme.pages.directory.hor-com-sec', compact('page', 'members', 'committees'));
 	}
 
 	public function profileStaffUpdate(Request $request ,$id)
