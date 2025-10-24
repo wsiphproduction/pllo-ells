@@ -15,6 +15,27 @@
     .member-list-view {
         display: none;
     }
+
+    #viewInfoModal .social-icons-tab {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        justify-content: flex-end;
+        margin-bottom: 10px;
+        position: absolute;
+        right: 14px;
+        z-index: 9;
+    }
+    #viewInfoModal .social-icons-tab i {
+        font-size: 22px;
+        opacity: .7;
+        margin: 0px;
+        color: gray !important;
+    }
+    #viewInfoModal .social-icons-tab i:hover {
+        opacity: 1;
+    }
+
 </style>
 @endsection
 
@@ -85,17 +106,23 @@
                                 <div class="card-body ">
                                     <h6 class="card-title mb-0 custom-text-primary fw-bold text-uppercase cursor-pointer view-info-btn"    data-bs-toggle="modal" 
                                         data-bs-target="#viewInfoModal" 
-                                        data-name="{{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }}"
+
+                                        data-name="{{ $member->horOfficial->firstname }} {{ $member->horOfficial->middle_initial }}@if($member->horOfficial->middle_initial).@endif {{ $member->horOfficial->lastname }}"
                                         data-has_staff="{{ $member->has_staff }}"
                                         data-position="{{ $member->designationDetails->name }}"
-                                        data-number="{{ $member->office_cellphone }}"
-                                        data-email="{{ $member->email }}"
-                                        data-party="{{ $member->party }}"
-                                        data-province="{{ $member->province_address }}"
+                                        data-party="{{ $member->horOfficial->party }}"
+                                        data-province="{{ $member->horOfficial->province_address }}"
+                                        data-room="{{ $member->horOfficial->main_room_number }}"
+                                        data-landline ="{{ $member->horOfficial->landline }}"
+                                        data-number="{{ $member->horOfficial->office_cellphone }}"
+                                        data-email="{{ $member->horOfficial->email }}"
 
                                         data-sname="{{ $member->staff_name }}"
                                         data-snumber="{{ $member->staff_number }}"
-                                        data-semail="{{ $member->staff_email }}">
+                                        data-semail="{{ $member->staff_email }}"
+
+                                        data-committee = '@json($committees)'
+                                    >
                                         <!-- Data is dummy for now.. -->
                                         East Asean Growth Area
                                     </h6>
@@ -143,9 +170,10 @@
                     <thead>
                         <tr class="border-0">
                             <th class="py-3 px-2 custom-primary-bg rounded-start"><small class="text-white">PICTURE</small></th>
-                            <th class="py-3 custom-primary-bg"><small class="text-white">NAME / POSITION</small></th>
-                            <th class="py-3 custom-primary-bg"><small class="text-white">NUMBER</small></th>
-                            <th class="py-3 custom-primary-bg rounded-end"><small class="text-white">EMAIL ADD</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">NAME</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">REPRESENTATIVE</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">COMMITTEE</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">NUMBER/EMAIL ADDRESS</small></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -160,38 +188,44 @@
                             </td>
                             <td>
                                 <span class="d-flex flex-column">
-                                    <small class="lh-1"><b class="text-capitalize cursor-pointer view-info-btn"
+                                    <small class="lh-1 custom-text-primary"><b class="text-capitalize cursor-pointer view-info-btn"
                                         data-bs-toggle="modal" 
                                         data-bs-target="#viewInfoModal" 
-                                        data-name="{{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }}"
+
+                                        data-name="{{ $member->horOfficial->firstname }} {{ $member->horOfficial->middle_initial }}@if($member->horOfficial->middle_initial).@endif {{ $member->horOfficial->lastname }}"
                                         data-has_staff="{{ $member->has_staff }}"
                                         data-position="{{ $member->designationDetails->name }}"
-                                        data-number="{{ $member->office_cellphone }}"
-                                        data-email="{{ $member->email }}"
-                                        data-party="{{ $member->party }}"
-                                        data-province="{{ $member->province_address }}"
+                                        data-party="{{ $member->horOfficial->party }}"
+                                        data-province="{{ $member->horOfficial->province_address }}"
+                                        data-room="{{ $member->horOfficial->main_room_number }}"
+                                        data-landline ="{{ $member->horOfficial->landline }}"
+                                        data-number="{{ $member->horOfficial->office_cellphone }}"
+                                        data-email="{{ $member->horOfficial->email }}"
 
                                         data-sname="{{ $member->staff_name }}"
                                         data-snumber="{{ $member->staff_number }}"
-                                        data-semail="{{ $member->staff_email }}">
+                                        data-semail="{{ $member->staff_email }}"
+
+                                        data-committee = '@json($committees)'
+                                    >
                                         {{ $member->FullName }}</b></small>
-                                    @if(!empty($member->designation))
-                                    <small class="lh-1"><i>{{ $member->designationDetails->name }}</i></small>
-                                    @endif
+                                </span>
+                            </td>
+                            <td>
+                                <span class="custom-text-primary">
+                                    {{ $member->horOfficial->FullName}}
                                 </span>
                             </td>
                             <td>
                                 <span>
-                                    @if($member->contact_number_agree)
+                                    {{ $member->committee_type }}
+                                </span>
+                            </td>
+                            <td>
+                                <span>
                                     <small>{{ $member->contact_number }}</small>
-                                    @endif
-                                </span>
-                            </td>
-                            <td>
-                                <span>
-                                    @if($member->email_agree)
-                                    <small>{{ $member->email }}</small>
-                                    @endif
+                                    <br />
+                                    <a href="mailto:{{ $member->email }}"><small>{{ $member->email }}</small></a>
                                 </span>
                             </td>
                         </tr>
@@ -243,72 +277,163 @@
       </div>
     </div>
 
-    <!-- View Information -->
-    <div class="modal fade" id="viewInfoModal" tabindex="-1" aria-labelledby="viewInfoModalLabel">
-      <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title"><span class="text-capitalize view-info-name"></span>&nbsp;<span></span></h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <div class="p-1">
-                <ul class="nav canvas-tabs tabs-bordered canvas-tabs tabs nav-tabs mb-3" id="canvas-tab-border" role="tablist">
+   <!-- View Information -->
+   <div class="modal fade" id="viewInfoModal" tabindex="-1" aria-labelledby="viewInfoModalLabel">
+     <div class="modal-dialog modal-dialog-centered" style="min-width: fit-content;">
+       <div class="modal-content" style="min-width: 780px">
+         <div class="modal-header">
+           <h5 class="modal-title"><span class="text-capitalize view-info-name"></span>&nbsp;<span></span></h5>
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+           <div class="p-1 position-relative">
+               <div class="social-icons-tab pt-0 mt-0">
+                   <a href="#"><i class="bi-facebook"></i></a>
+                   <a href="#"><i class="uil-instagram-alt"></i></a>
+                   <a href="#"><i class="bi-twitter"></i></a>
+                   <a href="#"><i class="bi-youtube"></i></a>
+               </div>
+               <ul class="nav canvas-tabs tabs-bordered canvas-tabs tabs nav-tabs mb-3" id="canvas-tab-border" role="tablist">
+                   <!-- profile trigger tab -->
+                   <li class="nav-item" role="presentation">
+                       <button class="nav-link active" id="profile-tab-trigger" data-bs-toggle="pill" data-bs-target="#profile-tab" type="button" role="tab" aria-controls="profile-tab" aria-selected="true">Profile
+                       </button>
+                   </li>
+                   <!-- staff trigger tab -->
+                   <li class="nav-item" role="presentation" id="staff-tab-container">
+                       <button class="nav-link" id="staff-tab-trigger" data-bs-toggle="pill" data-bs-target="#staff-tab" type="button" role="tab" aria-controls="staff-tab" aria-selected="true"><small>Chief of Staff | Appointment Secretary</small>
+                       </button>
+                   </li>
+                   <!-- committee tab -->
+                   <li class="nav-item" role="presentation" id="committee-tab-container">
+                       <button class="nav-link" id="committee-tab-trigger" data-bs-toggle="pill" data-bs-target="#committee-tab" type="button" role="tab" aria-controls="staff-tab" aria-selected="true"><small>Committee</small>
+                       </button>
+                   </li>
+               </ul>
+               <div class="tab-content mb-3 relative">
 
-                    <!-- profile trigger tab -->
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="profile-tab-trigger" data-bs-toggle="pill" data-bs-target="#profile-tab" type="button" role="tab" aria-controls="profile-tab" aria-selected="true">Profile
-                        </button>
-                    </li>
-                    <!-- staff trigger tab -->
-                    <li class="nav-item" role="presentation" id="staff-tab-container" style="display: none;">
-                        <button class="nav-link" id="staff-tab-trigger" data-bs-toggle="pill" data-bs-target="#staff-tab" type="button" role="tab" aria-controls="staff-tab" aria-selected="true"><small>Chief of Staff | Appointment Secretary</small>
-                        </button>
-                    </li>
-                </ul>
-                <div class="tab-content mb-3 relative">
+                   <!-- Profile Tab -->
+                   <div class="tab-pane fade show active" id="profile-tab" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                       <table class="table-dotted table-striped">
+                           <tr>
+                               <td width="30%"><span class="profile-label">Party Affiliation:</span></td>
+                               <td><span class="text-capitalize" id="view-info-party">---</span></td>
+                           </tr>
+                           <tr>
+                               <td width="30%"><span class="profile-label">District:</span></td>
+                               <td><span class="text-capitalize" id="view-info-district">---</span></td>
+                           </tr>
+                           <tr>
+                               <td width="30%"><span class="profile-label">Province/Party List:</span></td>
+                               <td><span class="text-capitalize" id="view-info-province">---</span></td>
+                           </tr>
+                           <tr>
+                               <td width="30%"><span class="profile-label">Region:</span></td>
+                               <td><span class="text-capitalize" id="view-info-region">---</span></td>
+                           </tr>
+                           <tr>
+                               <td width="30%"><span class="profile-label">Term in Congress:</span></td>
+                               <td><span class="text-capitalize" id="view-info-term">---</span></td>
+                           </tr>
+                           <tr>
+                               <td width="30%"><span class="profile-label">Room Number:</span></td>
+                               <td><span class="text-capitalize" id="view-info-room">---</span></td>
+                           </tr>
+                           <tr>
+                               <td width="30%"><span class="profile-label">Majority/Minority:</span></td>
+                               <td><span class="text-capitalize" id="view-info-minormajor">---</span></td>
+                           </tr>
+                           <tr>
+                               <td width="30%"><span class="profile-label">Landline No.:</span></td>
+                               <td><span class="text-capitalize" id="view-info-line">---</span></td>
+                           </tr>
+                           <tr>
+                               <td width="30%"><span class="profile-label">Cellphone No.:</span></td>
+                               <td><span class="text-capitalize" id="view-info-number">---</span></td>
+                           </tr>
+                           <tr>
+                               <td width="30%"><span class="profile-label">Email Address:</span></td>
+                               <td><span class="text-capitalize" id="view-info-email"></span></td>
+                           </tr>
+                       </table>
+                   </div>
 
-                    <!-- Profile Tab -->
-                    <div class="tab-pane fade show active" id="profile-tab" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-                        <table class="table-dotted table-striped">
-                            <tr>
-                                <td><span class="profile-label">Designation:</span></td>
-                                <td><span class="view-info-position text-capitalize"></span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="profile-label">Contact Number:</span></td>
-                                <td><span id="view-info-number"></span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="profile-label">Email Address:</span></td>
-                                <td><span id="view-info-email"></span></td>
-                            </tr>
-                        </table>
-                    </div>
+                   <!-- Staff Tab -->
+                   <div class="tab-pane fade" id="staff-tab" role="tabpanel" aria-labelledby="staff-tab" tabindex="0">
+                       <h5 class="custom-text-primary mb-0">Chief of Staff</h5>
+                       <table class="table-dotted table-striped">
+                           <tr>
+                               <td width="30%"><span class="profile-label">Name:</span></td>
+                               <td><span class="view-info-sname-sen_staff"></span></td>
+                           </tr>
+                           <tr>
+                               <td width="30%"><span class="profile-label">Landline No:</span></td>
+                               <td><span id=""></span>---</td>
+                           </tr>
+                           <tr>
+                               <td width="30%"><span class="profile-label">Cellphone Number:</span></td>
+                               <td><span id="view-info-snumber-sen_staff"></span></td>
+                           </tr>
+                           <tr>
+                               <td width="30%"><span class="profile-label">Email Address:</span></td>
+                               <td><span id="view-info-semail-sen_staff"></span></td>
+                           </tr>
+                       </table>
 
-                    <!-- Staff Tab -->
-                    <div class="tab-pane fade" id="staff-tab" role="tabpanel" aria-labelledby="staff-tab" tabindex="0">
-                        <table class="table-dotted table-striped">
-                            <tr>
-                                <td><span class="profile-label">Name:</span></td>
-                                <td><span class="view-info-sname"></span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="profile-label">Contact Number:</span></td>
-                                <td><span id="view-info-snumber"></span></td>
-                            </tr>
-                            <tr>
-                                <td><span class="profile-label">Email Address:</span></td>
-                                <td><span id="view-info-semail"></span></td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+                       <h5 class="custom-text-primary mb-0">Appointment Secretary</h5>
+                       <table class="table-dotted table-striped">
+                           <tr>
+                               <td width="30%"><span class="profile-label">Name:</span></td>
+                               <td><span class="view-info-sname-sen_secretary"></span></td>
+                           </tr>
+                           <tr>
+                               <td width="30%"><span class="profile-label">Landline No:</span></td>
+                               <td><span id=""></span>---</td>
+                           </tr>
+                           <tr>
+                               <td width="30%"><span class="profile-label">Cellphone Number:</span></td>
+                               <td><span id="view-info-snumber-sen_secretary"></span></td>
+                           </tr>
+                           <tr>
+                               <td width="30%"><span class="profile-label">Email Address:</span></td>
+                               <td><span id="view-info-semail-sen_secretary"></span></td>
+                           </tr>
+                       </table>
+                   </div>
+
+                   <!-- committee Tab -->
+                   <div class="tab-pane fade" id="committee-tab" role="tabpanel" aria-labelledby="committee-tab" tabindex="2">
+                    <table class="table-dotted table-striped" id="committeeTable">
+                        <!-- dummy  data for now.. -->
+                        <tr>
+                            <td width="30%"><span class="profile-label">Standing Committee:</span></td>
+                            <td><span class="view-info-sname-sen_secretary">Indigenous Cultural Communities And Indigenous Peoples</span></td>
+                        </tr>
+                        <tr>
+                            <td width="30%"><span class="profile-label">Committee Committee:</span></td>
+                            <td><span class="view-info-sname-sen_secretary">Glenndale J. Cornelio</span></td>
+                        </tr>
+                        <tr>
+                            <td width="30%"><span class="profile-label">Contact Details:</span></td>
+                            <td>
+                                <span class="view-info-sname-sen_secretary">89513006 | 89315361</span>
+                                <br />
+                                <span class="view-info-sname-sen_secretary">(8931 - 5001): 7141</span>
+                                <br />
+                                <span class="view-info-sname-sen_secretary">0917 - 595954</span>
+                                <br />
+                                <span class="view-info-sname-sen_secretary">committee.economicaffairs@house.gov.ph</span>
+                            </td>
+                        </tr>
+                    </table>
+                   </div>
+
+               </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
 
 @endsection
 
@@ -337,10 +462,17 @@
   $('.view-info-btn').on('click', function() {
       let name = $(this).attr('data-name');
       let position = $(this).attr('data-position');
+
+      let party = $(this).attr('data-party');
+      let district = $(this).attr('data-district');
+      let province = $(this).attr('data-province');
+      let region = $(this).attr('data-region');
+      let term = $(this).attr('data-term');
+      let room = $(this).attr('data-room');
+      let minormajor = $(this).attr('data-minormajor');
+      let line = $(this).attr('data-line');
       let number = $(this).attr('data-number');
       let email = $(this).attr('data-email');
-      let party = $(this).attr('data-party');
-      let province = $(this).attr('data-province');
 
       let sname = $(this).attr('data-sname');
       let snumber = $(this).attr('data-snumber');
@@ -348,23 +480,24 @@
 
       let has_staff = $(this).attr('data-has_staff');
       
-      if (has_staff)
-      {
-          $('#staff-tab-container').show();
-      } else {
-          $('#staff-tab-container').hide();
-      }
-
       $('.view-info-name').text(name);
       $('.view-info-position').text(position);
+
+      $('#view-info-party').text(party);
+      $('#view-info-district').text(district);
+      $('#view-info-province').text(province);
+      $('#view-info-region').text(region);
+      $('#view-info-term').text(term);
+      $('#view-info-room').text(room);
+      $('#view-info-minormajor').text(minormajor);
+      $('#view-info-line').text(line);
       $('#view-info-number').text(number);
       $('#view-info-email').text(email);
-      $('#view-info-party').text(party);
-      $('#view-info-province').text(province);
 
       $('.view-info-sname').text(sname);
       $('#view-info-snumber').text(snumber);
       $('#view-info-semail').text(semail);
+
   });
 
   // filter by birthmonth
