@@ -23,20 +23,55 @@
                 
         <div class="col-12 mb-3 d-flex justify-content-between align-items-center">
             <h3 class="form-title text-uppercase">{{ $page->name }}</h3>
-            <form method="get" action="{{ route('directory.hor.comsec') }}">
-                <div class="d-flex justify-content-between align-items-center">
-                    <input class="form-control" placeholder="Search Member Name" name="member_name" value="{{ request('member_name') }}"/>
-                    <button type="button" class="btn btn-transparent p-1" id="grid-view-btn" title="Grid View"><i class="bi-grid-fill fa-1x custom-text-primary"></i></button>
-                    <button type="button" class="btn btn-transparent p-1" id="list-view-btn" title="List View"><i class="bi-list-ul fa-1x custom-text-primary"></i></button>
-                    <a href="{{ route('directory.hor.comsec') }}" type="button" class="btn btn-transparent p-1"><i class="fa-solid fa-refresh fa-1x custom-text-primary"></i></a>
+
+            <div class="d-flex justify-content-end align-items-center">
+
+                <div class="row mx-1">
+                    <form method="get" action="{{ route('directory.hor.comsec') }}" class="mb-0">
+                        <input class="form-control mx-2" placeholder="SEARCH" name="member_name" value="{{ request('member_name') }}"/>
+                    </form>
                 </div>
-            </form>
+
+                <div class="row mx-2">
+                    <select class="form-select lh-1" id="filter-committee" style="height: 38px;">
+                        <option selected disabled>COMMITTEE</option>
+                        <option value="standing committee">STANDING</option>
+                        <option value="special committee">SPECIAL</option>
+                    </select>
+                </div>
+
+                <div class="row mx-2">
+                    <select class="form-select lh-1" id="filter-birthmonth" style="height: 38px;">
+                        <option selected disabled>BIRTHMONTH</option>
+                        @foreach(config('months') as $month)
+                        <option value="{{ $month }}">{{ $month }}</option>
+                        @endforeach
+                        <option value="0">ALL</option>
+                    </select>
+                </div>
+
+                <div class="row mx-2">
+                    <select class="form-select lh-1" id="filter-gender" style="height: 38px;">
+                        <option selected disabled>GENDER</option>
+                        <option value="1">MALE</option>
+                        <option value="2">FEMALE</option>
+                        <option value="3">OTHERS</option>
+                        <option value="4">PREFER NOT TO SAY</option>
+                        <option value="0">ALL</option>
+                    </select>
+                </div>
+
+                <button type="button" class="btn btn-transparent p-1" id="grid-view-btn" title="Grid View"><i class="bi-grid-fill fa-1x custom-text-primary"></i></button>
+                <button type="button" class="btn btn-transparent p-1" id="list-view-btn" title="List View"><i class="bi-list-ul fa-1x custom-text-primary"></i></button>
+                <a onclick="window.print()" type="button" class="btn btn-transparent p-1" title="Print"><i class="fa-solid fa-print fa-1x custom-text-primary"></i></a>
+                <a href="{{ route('directory.hor.comsec') }}" type="button" class="btn btn-transparent p-1"><i class="fa-solid fa-refresh fa-1x custom-text-primary"></i></a>
+            </div>
         </div>
 
         <div id="portfolio" class="row g-4">
             
             @forelse($members as $member)
-                <article class="portfolio-item col-md-6 col-12 member-grid-view">
+                <article class="portfolio-item col-md-4 col-12 member-grid-view">
                     <div class="card mb-4 p-3 border-0">
                         <div class="row g-0 relative">
                             <div class="col-md-4" style="height: 200px;">
@@ -48,7 +83,7 @@
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body ">
-                                    <h6 class="card-title mb-2 custom-text-primary fw-bold text-uppercase cursor-pointer view-info-btn"    data-bs-toggle="modal" 
+                                    <h6 class="card-title mb-0 custom-text-primary fw-bold text-uppercase cursor-pointer view-info-btn"    data-bs-toggle="modal" 
                                         data-bs-target="#viewInfoModal" 
                                         data-name="{{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }}"
                                         data-has_staff="{{ $member->has_staff }}"
@@ -61,17 +96,27 @@
                                         data-sname="{{ $member->staff_name }}"
                                         data-snumber="{{ $member->staff_number }}"
                                         data-semail="{{ $member->staff_email }}">
-                                        {{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }} 
+                                        <!-- Data is dummy for now.. -->
+                                        East Asean Growth Area
                                     </h6>
-                                    <ul class="list-unstyled mb-2 small">
-                                        <li><i class="bi-person me-2"></i>{{ $member->full_designation_name }}</li>
-                                        <li><i class="bi-building me-2"></i>{{ $member->full_agency_name }}</li>
-                                        @if($member->contact_number_agree)
-                                        <li><i class="bi-phone me-2"></i>{{ $member->contact_number }}</li>
-                                        @endif
-                                        @if($member->email_agree)
-                                        <li><i class="bi-envelope me-2"></i>{{ $member->email }}</li>
-                                        @endif
+                                    <small class="mb-4" style="opacity: .7">{{ $member->committee_type }}</small>
+                                    <ul class="list-unstyled my-2 small">
+                                        <li>
+                                            <i style="opacity: .7" class="bi-person-fill me-2"></i>
+                                            <b class="custom-text-primary">{{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }}</b>
+                                        </li>
+                                        <li>
+                                            <i style="opacity: .7" class="bi-person-fill me-2"></i>
+                                            <span class="custom-text-primary">Cong. {{ $member->horOfficial->FullName }}</span>
+                                        </li>
+                                        <li class="text-capitalize">
+                                            <i style="opacity: .7" class="bi-telephone-fill me-2"></i>
+                                            {{ $member->contact_number }}
+                                        </li>
+                                        <li>
+                                            <i style="opacity: .7" class="bi-envelope-fill me-2"></i>
+                                            <span class="custom-text-primary">{{ $member->email }}</span>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -109,6 +154,7 @@
                             <td>
                                 <img id="userPhotoDirectory"
                                      src="{{ $member->photo ? asset('/' . $member->photo) : asset('images/user.png') }}"
+                                     onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';"
                                      class="profile-pic-directory" alt="Profile Picture"
                                      style="border-radius: 12px; width: 80px;">
                             </td>
@@ -130,7 +176,7 @@
                                         data-semail="{{ $member->staff_email }}">
                                         {{ $member->FullName }}</b></small>
                                     @if(!empty($member->designation))
-                                    <small class="lh-1"><i>{{ $member->designationDetails-name }}</i></small>
+                                    <small class="lh-1"><i>{{ $member->designationDetails->name }}</i></small>
                                     @endif
                                 </span>
                             </td>
@@ -157,6 +203,21 @@
         </div>
 
     </div>
+
+    <!-- form filter by birthmonth -->
+    <form action="{{ route('directory.hor.comsec') }}" method="get" id="filter-birthmonth-form">
+        <input type="hidden" name="birthmonth" id="birthmonth-value-holder">
+    </form>
+
+    <!-- form filter by gender -->
+    <form action="{{ route('directory.hor.comsec') }}" method="get" id="filter-gender-form">
+        <input type="hidden" name="gender" id="gender-value-holder">
+    </form>
+
+    <!-- form filter by committee -->
+    <form action="{{ route('directory.hor.comsec') }}" method="get" id="filter-committee-form">
+        <input type="hidden" name="committee" id="committee-value-holder">
+    </form>
 
     <!-- Add Contact -->
     <div class="modal fade" id="addContactModal" tabindex="-1" aria-labelledby="addContactLabel" aria-hidden="true">
@@ -305,5 +366,27 @@
       $('#view-info-snumber').text(snumber);
       $('#view-info-semail').text(semail);
   });
+
+  // filter by birthmonth
+  $('#filter-birthmonth').on('change', function() {
+      let val = $(this).val();
+      $('#birthmonth-value-holder').val(val);
+      $('#filter-birthmonth-form').submit();
+  });
+
+  // filter by gender
+  $('#filter-gender').on('change', function() {
+      let val = $(this).val();
+      $('#gender-value-holder').val(val);
+      $('#filter-gender-form').submit();
+  });
+
+  // filter by gender
+  $('#filter-committee').on('change', function() {
+      let val = $(this).val();
+      $('#committee-value-holder').val(val);
+      $('#filter-committee-form').submit();
+  });
+
 </script>
 @endsection
