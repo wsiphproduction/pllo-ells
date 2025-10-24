@@ -828,7 +828,7 @@ class MemberProfileController extends Controller
 	    }
 
 	    $page = new Page();
-	    $page->name = 'House of Representatives Committee Secretary';
+	    $page->name = 'House of Representatives - Committee Secretary';
 
 	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id)
 	    					->join('designation', 'designation.id', 'members.designation')
@@ -844,8 +844,31 @@ class MemberProfileController extends Controller
 	        });
 	    }
 
-	    $members = $members->paginate($this->page_limit);
+	    if (request('gender')) {
+        		$gender = request('gender');
+        		if ($gender) {
+			        $members->where('gender', $gender)
+			            ->get();
+			    };
+	    }
 
+	    if (request('birthmonth')) {
+	    	$birthmonth = request('birthmonth');
+	    	if ($birthmonth) {
+	    		$members->where('birthdate', 'like', "%{$birthmonth}%")
+		        				->get();
+	    	}
+	    }
+
+	    if (request('committee')) {
+	    	$committee = request('committee');
+	    	if ($committee) {
+	    		$members->where('committee_type', 'like', "%{$committee}%")
+		        				->get();
+	    	}
+	    }
+
+	    $members = $members->paginate($this->page_limit);
 
 		return view('theme.pages.directory.hor-com-sec', compact('page', 'members'));
 	}

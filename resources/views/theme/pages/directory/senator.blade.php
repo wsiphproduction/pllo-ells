@@ -35,6 +35,18 @@
     #viewInfoModal .social-icons-tab i:hover {
         opacity: 1;
     }
+    .social-icons-image.pt-2.mt-0.d-flex.align-items-center.justify-content-evenly a i {
+        font-size: 26px;
+        margin: 0px;
+        color: #040404;
+        opacity: .5;
+    }
+
+    .social-icons-image.pt-2.mt-0.d-flex.align-items-center.justify-content-evenly a i:hover {
+        opacity: 1;
+        color: #3c5d90;
+    }
+
 </style>
 @endsection
 
@@ -102,15 +114,21 @@
         <div id="portfolio" class="row g-4">
             
             @foreach($members as $member)
-                <article class="portfolio-item col-md-4 col-12 member-grid-view">
+                <article class="portfolio-item col-md-6 col-12 member-grid-view">
                     <div class="card mb-4 p-3 border-0">
                         <div class="row g-0 relative">
-                            <div class="col-md-4" style="height: 200px;">
+                            <div class="col-md-4 position-relative" style="height: 200px;">
                                 <img src="{{ asset($member->image_url) }}"
                                     onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';"
                                     class="img-fluid rounded"
-                                    style="height: 100%; width: 100%; object-fit: cover; max-width: 146px; max-height: 146px; margin-top: 10px;"
+                                    style="height: 100%; width: 100%; object-fit: cover;"
                                     alt="Proposed Bill">
+                                <div class="social-icons-image pt-2 mt-0 d-flex align-items-center justify-content-evenly">
+                                    <a href="#"><i class="bi-facebook"></i></a>
+                                    <a href="#"><i class="uil-instagram-alt"></i></a>
+                                    <a href="#"><i class="bi-twitter"></i></a>
+                                    <a href="#"><i class="bi-youtube"></i></a>
+                                </div>
                             </div>
                             <div class="col-md-8">
                                 <div class="card-body ">
@@ -145,13 +163,45 @@
                                         {{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }} 
                                     </h6>
                                     <ul class="list-unstyled mb-2 small">
-                                        <li class="text-capitalize"><i class="bi-person me-2"></i>{{ $member->position }}</li>
+                                        <li class="text-capitalize">
+                                            <i style="opacity: .7" class="fa-solid fa-location-pin me-2"></i>
+                                            Room {{ $member->main_room_number ?? '---' }}
+                                        </li>
                                         @if($member->office_cellphone_agree)
-                                        <li><i class="bi-phone me-2"></i>{{ $member->office_cellphone }}</li>
+                                        <li class="text-capitalize">
+                                            <i style="opacity: .7" class="bi-telephone-fill me-2"></i>
+                                            {{ $member->office_cellphone }}
+                                        </li>
                                         @endif
                                         @if($member->email_agree)
-                                        <li><i class="bi-envelope me-2"></i>{{ $member->email }}</li>
+                                        <li>
+                                            <i style="opacity: .7" class="bi-envelope-fill me-2"></i>
+                                            <a href="mailto:{{ $member->email }}">
+                                                {{ $member->email }}
+                                            </a>
+                                        </li>
                                         @endif
+                                        <li>
+                                            <i style="opacity: .7" class="fa-solid fa-globe me-2"></i>
+                                            <a href="mailto:{{ $member->email }}">
+                                                ---
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <i style="opacity: .7" class="fa-solid fa-user-tie me-2"></i>
+                                            <span style="opacity: .7">Chief of Staff:</span> 
+                                            <span class="text-capitalize">{{ $member->sen_staff_name ?? '---' }} </span>
+                                        </li>
+                                        <li>
+                                            <i style="opacity: .7" class="fa-solid fa-user-tie me-2"></i>
+                                            <span style="opacity: .7">Chief Legis Officer:</span> 
+                                            <span class="text-capitalize">{{ $member->sen_officer_name ?? '---' }} </span>
+                                        </li>
+                                        <li>
+                                            <i style="opacity: .7" class="fa-solid fa-user-tie me-2"></i>
+                                            <span style="opacity: .7">Appointment Secretary:</span> 
+                                            <span class="text-capitalize">{{ $member->sen_secretary_name ?? '---' }} </span>
+                                        </li>
                                     </ul>
                                 </div>
                             </div>
@@ -174,9 +224,11 @@
                     <thead>
                         <tr class="border-0">
                             <th class="py-3 px-2 custom-primary-bg rounded-start"><small class="text-white">PICTURE</small></th>
-                            <th class="py-3 custom-primary-bg"><small class="text-white">NAME / POSITION</small></th>
-                            <th class="py-3 custom-primary-bg"><small class="text-white">NUMBER</small></th>
-                            <th class="py-3 custom-primary-bg rounded-end"><small class="text-white">EMAIL ADD</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">NAME</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">STAFF</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">ROOM NO./ CONTACT NUMBER</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">EMAIL ADDRESS</small></th>
+                            <th class="py-3 custom-primary-bg rounded-end"><small class="text-white">SOCIAL MEDIA</small></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -191,7 +243,7 @@
                             </td>
                             <td>
                                 <span class="d-flex flex-column">
-                                    <small class="lh-1"><b class="text-capitalize cursor-pointer view-info-btn"
+                                    <small class="lh-1"><b class="text-capitalize cursor-pointer view-info-btn custom-text-primary"
                                         data-bs-toggle="modal" 
                                         data-bs-target="#viewInfoModal" 
 
@@ -220,13 +272,18 @@
                                         data-committee = '@json($committees)'
                                     >
                                         {{ $member->FullName }}</b></small>
-                                    @if(!empty($member->position))
-                                    <small class="lh-1"><i>{{ $member->position }}</i></small>
-                                    @endif
                                 </span>
                             </td>
                             <td>
+                                <small>COS: <span class="custom-text-primary">{{ $member->sen_staff_name ?? '---' }}</span></small>
+                                <br />
+                                <small>CLO: <span class="custom-text-primary">{{ $member->sen_officer_name ?? '---' }}</span></small>
+                                <br />
+                                <small>AS: <span class="custom-text-primary">{{ $member->sen_secretary_name ?? '---' }}</span></small>
+                            </td>
+                            <td>
                                 <span>
+                                    <span>{{ $member->main_room_number?'Room '.$member->main_room_number : ''}}</span>
                                     @if($member->office_cellphone_agree)
                                     <small>{{ $member->office_cellphone }}</small>
                                     @endif
@@ -235,9 +292,17 @@
                             <td>
                                 <span>
                                     @if($member->email_agree)
-                                    <small>{{ $member->email }}</small>
+                                    <a href="mailto:{{ $member->email }}"><small>{{ $member->email }}</small></a>
                                     @endif
                                 </span>
+                            </td>
+                            <td>
+                                <div class="social-icons-image pt-2 pe-3 mt-0 d-flex align-items-center justify-content-evenly">
+                                    <a href="#"><i class="bi-facebook"></i></a>
+                                    <a href="#"><i class="uil-instagram-alt"></i></a>
+                                    <a href="#"><i class="bi-twitter"></i></a>
+                                    <a href="#"><i class="bi-youtube"></i></a>
+                                </div>
                             </td>
                         </tr>
                         @endforeach
