@@ -186,7 +186,7 @@
                                      src="{{ $member->photo ? asset('/' . $member->photo) : asset('images/user.png') }}"
                                      class="profile-pic-directory" alt="Profile Picture"
                                      onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';"
-                                     style="height: 100%; width: 100%; object-fit: cover; max-width: 146px; max-height: 146px; margin-top: 10px;">
+                                     style="border-radius: 12px; width: 80px;">
                             </td>
                             <td>
                                 <span class="d-flex flex-column">

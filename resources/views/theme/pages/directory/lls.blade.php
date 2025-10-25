@@ -310,7 +310,7 @@
                         </button>
                     </li>
                     <!-- staff trigger tab -->
-                    <li class="nav-item" role="presentation" id="staff-tab-container" style="display: none;">
+                    <li class="nav-item" role="presentation" id="staff-tab-container">
                         <button class="nav-link" id="staff-tab-trigger" data-bs-toggle="pill" data-bs-target="#staff-tab" type="button" role="tab" aria-controls="staff-tab" aria-selected="true">Appointment Secretary
                         </button>
                     </li>
@@ -511,12 +511,6 @@
 
         let has_staff = $(this).attr('data-has_staff');
         
-        if(has_staff)
-        {
-            $('#staff-tab-container').show();
-        } else {
-            $('#staff-tab-container').hide();
-        }
 
         if(sname1 === "" && sname2 === "" && sname3 === "" && sname4 === "") {
             // $('.alert-empty').show();

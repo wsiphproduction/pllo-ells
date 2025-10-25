@@ -119,6 +119,7 @@
                             <td>
                                 <img id="userPhotoDirectory"
                                      src="{{ $member->image_url ? asset('/' . $member->image_url) : asset('images/user.png') }}"
+                                     onerror="this.onerror=null; this.src='{{ asset('theme/images/icons/avatar.jpg') }}';"
                                      class="profile-pic-directory" alt="Profile Picture"
                                      style="border-radius: 12px; width: 80px;">
                             </td>
