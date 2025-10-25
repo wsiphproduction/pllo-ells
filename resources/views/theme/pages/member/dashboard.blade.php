@@ -954,6 +954,26 @@
                                             <td><span><small>{{ $memberAgency->agency_cellphone }}</small></span></td>
                                         </tr>
                                     </table>
+                                    <br />
+                                    <table class="table-dotted table-striped">
+                                        <tr><small class="form-title"><b>SOCIAL MEDIA</b></small></tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Facebook:</small></span></td>
+                                            <td><span><small>account.facebook@mail.com</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Twitter:</small></span></td>
+                                            <td><span><small>account.twitter@mail.com</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Instagram:</small></span></td>
+                                            <td><span><small>account.instagram@mail.com</small></span></td>
+                                        </tr>
+                                        <tr>
+                                            <td><span class="profile-label"><small>Youtube:</small></span></td>
+                                            <td><span><small>account.youtube@mail.com</small></span></td>
+                                        </tr>
+                                    </table>
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <table class="table-dotted table-striped">

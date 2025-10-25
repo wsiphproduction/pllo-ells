@@ -777,6 +777,47 @@ class MemberProfileController extends Controller
 	        });
 	    }
 
+	    if (request('gender')) {
+        		$gender = request('gender');
+        		if ($gender) {
+			        $members->where('gender', $gender)
+			            ->get();
+			    };
+	    }
+
+	    if (request('birthmonth')) {
+	    	$birthmonth = request('birthmonth');
+	    	if ($birthmonth) {
+	    		$members->where('birthdate', 'like', "%{$birthmonth}%")
+		        				->get();
+	    	}
+	    }
+
+	    if (request('committee')) {
+	    	$committee = request('committee');
+	    	if ($committee) {
+	    		$members->where('committee_type', 'like', "%{$committee}%")
+		        				->get();
+	    	}
+	    }
+
+	    if (request('affiliation')) {
+        		$party = request('affiliation');
+        		if ($party) {
+			        $members->where('party', $party)
+			            ->get();
+			    };
+	    }
+
+	    // region needs data..
+	    if (request('region')) {
+        		$party = request('region');
+        		if ($party) {
+			        $members->where('party', $party)
+			            ->get();
+			    };
+	    }
+
 	    $members = $members->paginate($this->page_limit);
 
         foreach($members as $member) {
@@ -801,11 +842,12 @@ class MemberProfileController extends Controller
 	    }
 
 	    $page = new Page();
-	    $page->name = 'House of Representatives Staff';
+	    $page->name = 'House of Representatives - Chief of Staff';
 
 	    $members = Member::query()->where('user_id', '<>', Auth()->user()->id)
 	    					->where('is_verified', 1)
-	    					->where('user_type', 3);
+	    					->where('user_type', 3)
+	    					->where('designation', 13);
 
 	    if (request('member_name')) {
 	        $members->where(function ($query) {
@@ -815,9 +857,43 @@ class MemberProfileController extends Controller
 	        });
 	    }
 
-	    $members = $members->paginate($this->page_limit);
+	    if (request('gender')) {
+        		$gender = request('gender');
+        		if ($gender) {
+			        $members->where('gender', $gender)
+			            ->get();
+			    };
+	    }
 
-		return view('theme.pages.directory.hor-staff', compact('page', 'members'));
+	    if (request('birthmonth')) {
+	    	$birthmonth = request('birthmonth');
+	    	if ($birthmonth) {
+	    		$members->where('birthdate', 'like', "%{$birthmonth}%")
+		        				->get();
+	    	}
+	    }
+
+	    if (request('affiliation')) {
+        		$party = request('affiliation');
+        		if ($party) {
+			        $members->where('party', $party)
+			            ->get();
+			    };
+	    }
+
+	    // region needs data..
+	    if (request('region')) {
+        		$party = request('region');
+        		if ($party) {
+			        $members->where('party', $party)
+			            ->get();
+			    };
+	    }
+
+	    $members = $members->paginate($this->page_limit);
+	    $committees = ComSecCommitteeTab::all();
+
+		return view('theme.pages.directory.hor-staff', compact('page', 'members', 'committees'));
 	}
 
 	public function horComSecDirectory(Request $request)
