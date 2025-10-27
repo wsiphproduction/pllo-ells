@@ -5,7 +5,7 @@ $is_officer = false;
 if(auth()->user()) {
     if(auth()->user()->is_not_an_admin()) {
         $member = \App\Models\Member::where('user_id', auth()->user()->id)->first();
-        if($member->user_type == 1 || $member->user_type == 6) {
+        if($member->user_type =! 2) {
             $is_officer = true;
         }
     }
@@ -69,10 +69,23 @@ if(auth()->user()) {
             {{-- <a href="{{ env('APP_URL')."/".$item->uri }}" class="menu-link" target="{{ $item->target }}"><div>{{ $item->label }}</div></a> --}}
 
             @if(auth()->user())
+            
+                @php
+                    $user_is_op = \App\Models\Member::where('user_type', 4)
+                                                    ->where('user_id', auth()->user()->id)->first();
+                @endphp
+
                 <a href="{{ url($item->uri) }}" class="menu-link" target="{{ $item->target }}" 
+
                     @if( str_contains($item->uri, '/create') && auth()->user()->is_not_an_admin() ) style="display: none !important;" @endif 
-                    @if( str_contains($item->uri, 'events') && !$is_officer && auth()->user()->is_not_an_admin()) style="display: none !important;" @endif
-                    @if( str_contains($item->uri, 'reference-materials') && !$is_officer && auth()->user()->is_not_an_admin()) style="display: none !important;" @endif
+
+                    @if( str_contains($item->uri, 'events') && !$is_officer ) style="display: none !important;" @endif
+
+                    @if( str_contains($item->uri, 'reference-materials') && !$is_officer ) style="display: none !important;" 
+                    @endif
+
+                    @if( str_contains($item->uri, 'desr') && !$user_is_op ) style="display: none !important;" @endif
+
                     >
                     <div>
                         {{ $item->label }}

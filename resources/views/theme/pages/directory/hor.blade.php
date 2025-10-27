@@ -35,6 +35,18 @@
     #viewInfoModal .social-icons-tab i:hover {
         opacity: 1;
     }
+
+    .social-icons-image.pt-2.mt-0.d-flex.align-items-center.justify-content-start a i {
+        font-size: 26px;
+        margin: 0px;
+        color: #040404;
+        opacity: .5;
+    }
+
+    .social-icons-image.pt-2.mt-0.d-flex.align-items-center.justify-content-start a i:hover {
+        opacity: 1;
+        color: #3c5d90;
+    }
 </style>
 @endsection
 
@@ -187,9 +199,11 @@
                     <thead>
                         <tr class="border-0">
                             <th class="py-3 px-2 custom-primary-bg rounded-start"><small class="text-white">PICTURE</small></th>
-                            <th class="py-3 custom-primary-bg"><small class="text-white">NAME / POSITION</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">NAME | PROVINCE | DISTRICT</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">SECRETARIES</small></th>
                             <th class="py-3 custom-primary-bg"><small class="text-white">NUMBER</small></th>
-                            <th class="py-3 custom-primary-bg rounded-end"><small class="text-white">EMAIL ADD</small></th>
+                            <th class="py-3 custom-primary-bg"><small class="text-white">EMAIL ADD</small></th>
+                            <th class="py-3 custom-primary-bg rounded-end"><small class="text-white">SOCIAL MEDIA</small></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -204,7 +218,7 @@
                             </td>
                             <td>
                                 <span class="d-flex flex-column">
-                                    <small class="lh-1"><b class="text-capitalize cursor-pointer view-info-btn" 
+                                    <small class="lh-1 custom-text-primary"><b class="text-capitalize cursor-pointer view-info-btn" 
                                         data-bs-toggle="modal" 
                                         data-bs-target="#viewInfoModal" 
                                         data-name="{{ $member->firstname }} {{ $member->middle_initial }}@if($member->middle_initial).@endif {{ $member->lastname }}"
@@ -219,16 +233,22 @@
                                         data-snumber="{{ $member->staff_number }}"
                                         data-semail="{{ $member->staff_email }}">
                                         {{ $member->FullName }}</b></small>
-                                    @if(!empty($member->position))
-                                    <small class="lh-1"><i>{{ $member->position }}</i></small>
-                                    @endif
+                                    <small class="lh-1"><i>{{ $member->province_address ?? 'Gen. Santos, Lone District' }}</i></small>
+                                    <small class="lh-1"><i>Region X</i></small>
                                 </span>
+                            </td>
+                            <td>
+                                <small>COS: <span class="custom-text-primary">{{ $member->staff_name1 ?? '---' }}</span> </small>
+                                <br />
+                                <small>AS: <span class="custom-text-primary">{{ $member->staff_name2 ?? '---' }}</span> </small>
                             </td>
                             <td>
                                 <span>
                                     @if($member->office_cellphone_agree)
                                     <small>{{ $member->office_cellphone }}</small>
                                     @endif
+                                    <br />
+                                    <small>{{ $member->landline }}</small>
                                 </span>
                             </td>
                             <td>
@@ -237,6 +257,14 @@
                                     <small>{{ $member->email }}</small>
                                     @endif
                                 </span>
+                            </td>
+                            <td>
+                                <div class="social-icons-image pt-2 pe-3 gap-3 mt-0 d-flex align-items-center justify-content-start">
+                                    <a href="#"><i class="bi-facebook"></i></a>
+                                    <a href="#"><i class="uil-instagram-alt"></i></a>
+                                    <a href="#"><i class="bi-twitter"></i></a>
+                                    <a href="#"><i class="bi-youtube"></i></a>
+                                </div>
                             </td>
                         </tr>
                         @endforeach

@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Mail\RegisterConfirmationMail;
 
 use App\Models\Hor;
+use App\Models\Desr;
 use App\Models\User;
 use App\Models\Page;
 use App\Models\Gender;
@@ -818,20 +819,25 @@ class MemberProfileController extends Controller
 			    };
 	    }
 
-	    $members = $members->paginate($this->page_limit);
-
         foreach($members as $member) {
     	    $staff = MemberStaff::where('member_id', $member->id)
-    	    					->first();
+    	    					->get();
     	    if($staff) {
     		   	$member->has_staff = true;
-    		   	$member->staff_name = $staff->FullName;
-    		   	$member->staff_number = $staff->contact_number;
-    		   	$member->staff_email = $staff->email;
+
+    		   	$member->staff_name1 = $staff[0]->FullName;
+    		   	$member->staff_number1 = $staff[0]->contact_number;
+    		   	$member->staff_email1 = $staff[0]->email;
+
+    		   	$member->staff_name2 = $staff[1]->FullName;
+    		   	$member->staff_number2 = $staff[1]->contact_number;
+    		   	$member->staff_email2 = $staff[1]->email;
     	    }
         }
 
-		return view('theme.pages.directory.hor', compact('page', 'members'));
+	    $members = $members->paginate($this->page_limit);
+
+		return view('theme.pages.directory.hor', compact('page', 'members')); 
 	}
 
 	public function horStaffDirectory(Request $request)
@@ -966,6 +972,39 @@ class MemberProfileController extends Controller
 		MemberStaff::where('id', $id)->update($requests);
 
 		return back()->with('success', ('Profile updated successfully.'));
+	}
+
+	public function desr() {
+
+		if(!Auth::user()){
+			session(['url.intended' => url()->current()]);
+	        return redirect()->route('home')->with('error', 'Access Denied');
+	    }
+
+	    $page = new Page();
+	    $page->name = 'Daily Executive Summary Report';
+
+	    $reports = Desr::query()->where('status', 'PUBLISHED');
+
+        if (request('month')) {
+        	$month = request('month');
+        	if ($month) {
+        		$reports->where('date', 'like', "%{$month}%")
+    	        				->get();
+        	}
+        }
+
+        if (request('year')) {
+        	$year = request('year');
+        	if ($year) {
+        		$reports->where('date', 'like', "%{$year}%")
+    	        				->get();
+        	}
+        }
+
+        $reports = $reports->paginate($this->page_limit);
+
+		return view('theme.pages.desr.index', compact('page', 'reports'));
 	}
 
 }

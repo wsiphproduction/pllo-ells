@@ -508,6 +508,9 @@ Route::get('/directory/house-of-representatives', [MemberProfileController::clas
 Route::get('/directory/house-of-representatives-staff', [MemberProfileController::class, 'horStaffDirectory'])->name('directory.hor.staff');
 Route::get('/directory/house-of-representatives-committee-secretary', [MemberProfileController::class, 'horComSecDirectory'])->name('directory.hor.comsec');
 
+// DESR Routes
+Route::get('/desr', [MemberProfileController::class, 'desr'])->name('desr.index');
+
 // Policy Reform
 Route::get('/policy-reform', [PolicyReformController::class, 'index'])->name('policyreform.index');
 Route::get('/policy-reform-view/{id}', [PolicyReformController::class, 'view'])->name('policyreform.view');
