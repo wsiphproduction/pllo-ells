@@ -5,7 +5,7 @@ $is_officer = false;
 if(auth()->user()) {
     if(auth()->user()->is_not_an_admin()) {
         $member = \App\Models\Member::where('user_id', auth()->user()->id)->first();
-        if($member->user_type =! 2) {
+        if($member->user_type != 2) {
             $is_officer = true;
         }
     }
