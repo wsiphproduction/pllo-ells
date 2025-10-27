@@ -44,6 +44,7 @@ class Official extends Model
         'province_email',
         'province_landline',
         'province_cellphone',
+        'region',
         'highest_education',
         'school',
         'prev_work_gov',
